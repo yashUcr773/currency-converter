@@ -9,7 +9,8 @@ export const useCurrencyConverter = () => {
     pinnedCurrencies: [],
     exchangeRates: null,
     isOnline: navigator.onLine,
-    lastSync: 0
+    lastSync: 0,
+    baseCurrency: 'USD' // Default base currency
   });
 
   const [loading, setLoading] = useState(true);
@@ -48,7 +49,8 @@ export const useCurrencyConverter = () => {
         pinnedCurrencies,
         exchangeRates,
         isOnline: api.isOnline(),
-        lastSync: exchangeRates?.timestamp || 0
+        lastSync: exchangeRates?.timestamp || 0,
+        baseCurrency: 'USD'
       });
 
       setLoading(false);
@@ -158,6 +160,39 @@ export const useCurrencyConverter = () => {
     return state.exchangeRates ? storage.areRatesExpired(state.exchangeRates.timestamp) : true;
   }, [state.exchangeRates]);
 
+  // Get conversion rate for a currency relative to the base currency
+  const getConversionRate = useCallback((currencyCode: string) => {
+    if (!state.exchangeRates || currencyCode === state.baseCurrency) {
+      return null;
+    }
+
+    const { rates, base } = state.exchangeRates;
+    
+    // If base currency is USD (which is typically the case from the API)
+    if (base === 'USD') {
+      if (state.baseCurrency === 'USD') {
+        // Simple case: USD to other currency
+        return rates[currencyCode] || null;
+      } else {
+        // Complex case: Convert from base currency to target currency
+        const baseRate = rates[state.baseCurrency];
+        const targetRate = rates[currencyCode];
+        if (baseRate && targetRate) {
+          // Formula: (1 / baseRate) * targetRate
+          // This gives us how many target units = 1 base unit
+          return targetRate / baseRate;
+        }
+      }
+    }
+    
+    return null;
+  }, [state.exchangeRates, state.baseCurrency]);
+
+  // Set the base currency for conversion rates
+  const setBaseCurrency = useCallback((currencyCode: string) => {
+    setState(prev => ({ ...prev, baseCurrency: currencyCode }));
+  }, []);
+
   return {
     ...state,
     loading,
@@ -167,6 +202,8 @@ export const useCurrencyConverter = () => {
     unpinCurrency,
     refreshRates,
     getAvailableCurrencies,
-    areRatesExpired
+    areRatesExpired,
+    getConversionRate,
+    setBaseCurrency
   };
 };

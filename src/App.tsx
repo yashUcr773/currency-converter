@@ -16,12 +16,15 @@ function App() {
     lastSync,
     loading,
     syncing,
+    baseCurrency,
     updateCurrencyAmount,
     pinCurrency,
     unpinCurrency,
     refreshRates,
     getAvailableCurrencies,
-    areRatesExpired
+    areRatesExpired,
+    getConversionRate,
+    setBaseCurrency
   } = useCurrencyConverter();
 
   if (loading) {
@@ -65,14 +68,23 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       {/* Header */}
-      <header className="bg-card shadow-sm border-b">
-        <div className="max-w-6xl mx-auto px-4 py-6">
+      <header className="bg-white/80 backdrop-blur-sm shadow-lg border-b border-slate-200">
+        <div className="max-w-6xl mx-auto px-4 py-8">
           <div className="text-center">
-            <h1 className="text-3xl font-bold tracking-tight">Currency Converter</h1>
-            <p className="text-muted-foreground mt-2">
-              Convert currencies with real-time rates • Pin your favorites
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="p-3 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl shadow-lg">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                </svg>
+              </div>
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Currency Converter
+              </h1>
+            </div>
+            <p className="text-slate-600 text-lg font-medium">
+              Real-time currency conversion with beautiful formatting • Pin your favorites
             </p>
           </div>
         </div>
@@ -88,8 +100,19 @@ function App() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-6xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <main className="max-w-7xl mx-auto px-6 py-12">
+        {/* Base Currency Indicator */}
+        {exchangeRates && (
+          <div className="mb-8 text-center">
+            <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/80 backdrop-blur-sm rounded-xl border border-slate-200 shadow-lg">
+              <span className="text-slate-600 font-medium">Conversion rates shown relative to:</span>
+              <span className="font-bold text-lg text-blue-600">{baseCurrency}</span>
+              <span className="text-slate-400 text-sm">• Click any rate to change base currency</span>
+            </div>
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {/* Pinned Currencies */}
           {pinnedCurrencies.map((pinnedCurrency) => (
             <CurrencyInput
@@ -98,6 +121,9 @@ function App() {
               onAmountChange={(amount: number) => updateCurrencyAmount(pinnedCurrency.currency.code, amount)}
               onUnpin={() => unpinCurrency(pinnedCurrency.currency.code)}
               disabled={!exchangeRates}
+              conversionRate={getConversionRate(pinnedCurrency.currency.code)}
+              baseCurrency={baseCurrency}
+              onSetBaseCurrency={() => setBaseCurrency(pinnedCurrency.currency.code)}
             />
           ))}
 
@@ -109,10 +135,15 @@ function App() {
         </div>
 
         {/* Footer Info */}
-        <div className="mt-12 text-center text-muted-foreground text-sm space-y-1">
-          <p>Exchange rates provided by ExchangeRate-API</p>
-          <p>
-            Rates are cached locally and updated automatically when online
+        <div className="mt-16 text-center">
+          <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/80 backdrop-blur-sm rounded-full border border-slate-200 shadow-lg">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <span className="text-slate-600 text-sm font-medium">
+              Live rates from ExchangeRate-API
+            </span>
+          </div>
+          <p className="mt-4 text-slate-500 text-sm">
+            Rates cached locally • Auto-updates when online • 5-decimal precision
           </p>
         </div>
       </main>

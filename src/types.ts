@@ -22,6 +22,7 @@ export interface AppState {
   exchangeRates: ExchangeRates | null;
   isOnline: boolean;
   lastSync: number;
+  baseCurrency: string; // Currency code for showing conversion rates
 }
 
 export interface StorageData {
