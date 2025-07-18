@@ -10,6 +10,7 @@ export interface ExchangeRates {
   rates: Record<string, number>;
   timestamp: number;
   lastUpdated: string;
+  cached?: boolean; // Indicates if data came from service worker cache
 }
 
 export interface PinnedCurrency {
@@ -20,7 +21,6 @@ export interface PinnedCurrency {
 export interface AppState {
   pinnedCurrencies: PinnedCurrency[];
   exchangeRates: ExchangeRates | null;
-  isOnline: boolean;
   lastSync: number;
   baseCurrency: string; // Currency code for showing conversion rates
 }

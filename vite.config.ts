@@ -11,4 +11,20 @@ export default defineConfig({
             "@": resolve(import.meta.dirname || ".", "./src"),
         },
     },
+    // PWA configuration for service worker
+    build: {
+        rollupOptions: {
+            input: {
+                main: resolve(__dirname, 'index.html'),
+                sw: resolve(__dirname, 'public/sw.js')
+            },
+            output: {
+                entryFileNames: (chunkInfo) => {
+                    return chunkInfo.name === 'sw' ? 'sw.js' : '[name]-[hash].js'
+                }
+            }
+        }
+    },
+    // Ensure manifest.json and service worker are properly served
+    publicDir: 'public',
 })

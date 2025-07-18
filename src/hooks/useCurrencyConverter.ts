@@ -8,7 +8,6 @@ export const useCurrencyConverter = () => {
   const [state, setState] = useState<AppState>({
     pinnedCurrencies: [],
     exchangeRates: null,
-    isOnline: navigator.onLine,
     lastSync: 0,
     baseCurrency: 'USD' // Default base currency
   });
@@ -48,7 +47,6 @@ export const useCurrencyConverter = () => {
       setState({
         pinnedCurrencies,
         exchangeRates,
-        isOnline: api.isOnline(),
         lastSync: exchangeRates?.timestamp || 0,
         baseCurrency: 'USD'
       });
@@ -57,20 +55,6 @@ export const useCurrencyConverter = () => {
     };
 
     initializeApp();
-  }, []);
-
-  // Listen for online/offline events
-  useEffect(() => {
-    const handleOnline = () => setState(prev => ({ ...prev, isOnline: true }));
-    const handleOffline = () => setState(prev => ({ ...prev, isOnline: false }));
-
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
   }, []);
 
   // Update currency amount and sync all other currencies

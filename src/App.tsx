@@ -3,16 +3,18 @@ import { CurrencyInput } from './components/CurrencyInput';
 import { CurrencySelector } from './components/CurrencySelector';
 import { StatusBar } from './components/StatusBar';
 import { LoadingSpinner } from './components/LoadingSpinner';
+import { PWAStatus, OfflineNotice } from './components/PWAStatus';
+import { usePWA } from './hooks/usePWA';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { AlertTriangle } from 'lucide-react';
 import './App.css';
 
 function App() {
+  const [pwaStatus] = usePWA();
   const {
     pinnedCurrencies,
     exchangeRates,
-    isOnline,
     lastSync,
     loading,
     syncing,
@@ -53,7 +55,7 @@ function App() {
             <p className="text-muted-foreground mb-4">
               Unable to load exchange rates. Please check your internet connection and try again.
             </p>
-            {isOnline && (
+            {pwaStatus.isOnline && (
               <Button
                 onClick={refreshRates}
                 disabled={syncing}
@@ -91,16 +93,26 @@ function App() {
         
         {/* Status Bar */}
         <StatusBar
-          isOnline={isOnline}
+          isOnline={pwaStatus.isOnline}
           lastSync={lastSync}
           areRatesExpired={areRatesExpired()}
           syncing={syncing}
           onRefresh={refreshRates}
         />
+        
+        {/* PWA Status */}
+        <div className="px-6 py-3 bg-white/60 backdrop-blur-sm border-t border-slate-200">
+          <div className="max-w-6xl mx-auto flex justify-between items-center">
+            <PWAStatus />
+          </div>
+        </div>
       </header>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-12">
+        {/* Offline Notice */}
+        <OfflineNotice />
+        
         {/* Base Currency Indicator */}
         {exchangeRates && (
           <div className="mb-8 text-center">
