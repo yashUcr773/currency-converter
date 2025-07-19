@@ -5,16 +5,17 @@ export function PWAStatus() {
   const [status, actions] = usePWA();
 
   return (
-    <div className="flex flex-wrap items-center gap-2 text-sm">
+    <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs sm:text-sm">
       {/* Install App Button */}
       {status.canInstall && !status.isInstalled && (
         <button
           onClick={actions.installApp}
-          className="flex items-center gap-1 px-3 py-1 text-blue-600 bg-blue-100 hover:bg-blue-200 rounded-full transition-colors dark:bg-blue-900/20 dark:text-blue-400 dark:hover:bg-blue-900/30"
+          className="flex items-center gap-1 px-2 sm:px-3 py-1 text-blue-600 bg-blue-100 hover:bg-blue-200 rounded-full transition-colors dark:bg-blue-900/20 dark:text-blue-400 dark:hover:bg-blue-900/30 touch-manipulation"
           title="Install this app for quick access"
         >
           <Download className="w-3 h-3" />
-          <span>Install App</span>
+          <span className="hidden sm:inline">Install App</span>
+          <span className="sm:hidden">Install</span>
         </button>
       )}
 
@@ -25,7 +26,8 @@ export function PWAStatus() {
           title="This app can be installed! Look for 'Install' or 'Add to Home Screen' in your browser menu."
         >
           <Download className="w-3 h-3" />
-          <span>Installable</span>
+          <span className="hidden sm:inline">Installable</span>
+          <span className="sm:hidden">📱</span>
         </div>
       )}
 
@@ -33,10 +35,11 @@ export function PWAStatus() {
       {status.updateAvailable && (
         <button
           onClick={actions.updateApp}
-          className="flex items-center gap-1 px-3 py-1 text-orange-600 bg-orange-100 hover:bg-orange-200 rounded-full transition-colors dark:bg-orange-900/20 dark:text-orange-400 dark:hover:bg-orange-900/30"
+          className="flex items-center gap-1 px-2 sm:px-3 py-1 text-orange-600 bg-orange-100 hover:bg-orange-200 rounded-full transition-colors dark:bg-orange-900/20 dark:text-orange-400 dark:hover:bg-orange-900/30 touch-manipulation"
         >
           <RefreshCw className="w-3 h-3" />
-          <span>Update Available</span>
+          <span className="hidden sm:inline">Update Available</span>
+          <span className="sm:hidden">Update</span>
         </button>
       )}
 
@@ -45,21 +48,23 @@ export function PWAStatus() {
         <div className="flex items-center gap-1">
           <button
             onClick={actions.refreshData}
-            className="flex items-center gap-1 px-2 py-1 text-gray-600 hover:text-blue-600 rounded transition-colors dark:text-gray-400 dark:hover:text-blue-400"
+            className="flex items-center gap-1 px-2 py-1 text-gray-600 hover:text-blue-600 rounded transition-colors dark:text-gray-400 dark:hover:text-blue-400 touch-manipulation"
             title="Refresh Data"
           >
             <RefreshCw className="w-3 h-3" />
+            <span className="hidden sm:inline text-xs">Refresh</span>
           </button>
           
           <button
             onClick={actions.clearCache}
-            className="flex items-center gap-1 px-2 py-1 text-gray-600 hover:text-red-600 rounded transition-colors dark:text-gray-400 dark:hover:text-red-400"
+            className="flex items-center gap-1 px-2 py-1 text-gray-600 hover:text-red-600 rounded transition-colors dark:text-gray-400 dark:hover:text-red-400 touch-manipulation"
             title="Clear Cache"
           >
             <Trash2 className="w-3 h-3" />
+            <span className="hidden sm:inline text-xs">Clear</span>
           </button>
           
-          <span className="text-xs text-gray-500 dark:text-gray-400">
+          <span className="text-xs text-gray-500 dark:text-gray-400 hidden sm:inline">
             {Object.values(status.cacheStatus).reduce((total, cache) => total + cache.size, 0) > 0 && 
               formatCacheSize(Object.values(status.cacheStatus).reduce((total, cache) => total + cache.size, 0))
             }
@@ -71,7 +76,8 @@ export function PWAStatus() {
       {status.isInstalled && (
         <div className="flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded-full dark:bg-green-900/20 dark:text-green-400">
           <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-          <span>Installed</span>
+          <span className="hidden sm:inline">Installed</span>
+          <span className="sm:hidden">✓</span>
         </div>
       )}
 

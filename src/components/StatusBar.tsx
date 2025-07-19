@@ -53,10 +53,10 @@ export const StatusBar = ({
   };
 
   return (
-    <div className="flex items-center justify-between p-4 bg-white/80 backdrop-blur-sm border-t border-slate-200">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 p-2 sm:p-3 lg:p-4 bg-white/80 backdrop-blur-sm border-t border-slate-200">
       {/* Status indicator */}
       <div className={cn(
-        'flex items-center gap-3 px-4 py-2 rounded-full border text-sm font-bold shadow-sm',
+        'flex items-center gap-1.5 sm:gap-2 lg:gap-3 px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 rounded-full border text-xs sm:text-sm font-bold shadow-sm',
         getStatusColor()
       )}>
         {getStatusIcon()}
@@ -64,9 +64,11 @@ export const StatusBar = ({
       </div>
 
       {/* Last sync and refresh */}
-      <div className="flex items-center gap-4 text-sm text-slate-600">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-2 lg:gap-4 text-xs sm:text-sm text-slate-600 w-full sm:w-auto">
         <span className="font-medium">
-          Last updated: <span className="text-slate-500 font-medium">{formatLastSync(lastSync)}</span>
+          <span className="hidden sm:inline">Last updated: </span>
+          <span className="sm:hidden">Updated: </span>
+          <span className="text-slate-500 font-medium">{formatLastSync(lastSync)}</span>
         </span>
         
         {/* Always show refresh button, but with different states */}
@@ -76,7 +78,7 @@ export const StatusBar = ({
           onClick={onRefresh}
           disabled={syncing}
           className={cn(
-            "h-auto px-3 py-2 text-sm flex items-center gap-2 transition-all duration-200 rounded-lg border border-transparent font-medium",
+            "h-auto px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm flex items-center gap-1 sm:gap-2 transition-all duration-200 rounded-md sm:rounded-lg border border-transparent font-medium touch-manipulation",
             isOnline 
               ? "hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-700 hover:border-blue-200 text-slate-600"
               : "hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-700 hover:border-orange-200 text-slate-500"
@@ -84,10 +86,11 @@ export const StatusBar = ({
           title={isOnline ? "Refresh exchange rates" : "Try to refresh (you appear offline)"}
         >
           <RefreshCw 
-            size={14} 
-            className={syncing ? 'animate-spin' : ''} 
+            size={12} 
+            className={`sm:w-3.5 sm:h-3.5 ${syncing ? 'animate-spin' : ''}`} 
           />
-          {syncing ? 'Syncing...' : isOnline ? 'Refresh' : 'Try Refresh'}
+          <span className="hidden sm:inline">{syncing ? 'Syncing...' : isOnline ? 'Refresh' : 'Try Refresh'}</span>
+          <span className="sm:hidden">{syncing ? 'Sync' : '🔄'}</span>
         </Button>
       </div>
     </div>

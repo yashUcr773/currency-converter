@@ -13,4 +13,88 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  /* Prevent horizontal scroll on mobile */
+  overflow-x: hidden;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  /* Improve touch interactions */
+  * {
+    -webkit-tap-highlight-color: rgba(59, 130, 246, 0.1);
+  }
+  
+  /* Prevent zoom on input focus on iOS */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+  
+  /* Better scrolling on mobile */
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Reduce default margins and padding */
+  .mobile-compact {
+    margin: 0.25rem !important;
+    padding: 0.25rem !important;
+  }
+  
+  /* Optimize card spacing */
+  .card-mobile {
+    padding: 0.5rem !important;
+    margin: 0.25rem !important;
+  }
+  
+  /* Compact header spacing */
+  .header-mobile {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+  }
+}
+
+/* Touch-friendly interactive elements */
+.touch-manipulation {
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Ensure proper button sizing for accessibility */
+button, [role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+@media (max-width: 640px) {
+  .mobile-compact button, 
+  .mobile-compact [role="button"] {
+    min-height: 36px;
+    min-width: 36px;
+  }
+}
+
+/* Ultra-compact mode for very small screens */
+@media (max-width: 380px) {
+  /* Further reduce spacing */
+  .ultra-compact {
+    padding: 0.125rem !important;
+    margin: 0.125rem !important;
+  }
+  
+  /* Smaller text for very small screens */
+  .ultra-compact-text {
+    font-size: 0.75rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  /* Minimal button sizes */
+  .ultra-compact button,
+  .ultra-compact [role="button"] {
+    min-height: 32px;
+    min-width: 32px;
+    padding: 0.25rem !important;
+  }
 }
