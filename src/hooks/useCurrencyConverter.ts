@@ -34,12 +34,17 @@ export const useCurrencyConverter = () => {
       let exchangeRates = storedData?.exchangeRates || null;
 
       // Try to fetch fresh rates if online and rates are expired or missing
-      if (api.isOnline() && (!exchangeRates || storage.areRatesExpired(exchangeRates.timestamp))) {
+      const isOnline = await api.isOnline();
+      if (isOnline && (!exchangeRates || storage.areRatesExpired(exchangeRates.timestamp))) {
         setSyncing(true);
-        const freshRates = await api.fetchExchangeRates();
-        if (freshRates) {
-          exchangeRates = freshRates;
-          storage.saveExchangeRates(freshRates);
+        try {
+          const freshRates = await api.fetchExchangeRates();
+          if (freshRates) {
+            exchangeRates = freshRates;
+            storage.saveExchangeRates(freshRates);
+          }
+        } catch (error) {
+          console.error('Failed to fetch fresh rates on load:', error);
         }
         setSyncing(false);
       }
@@ -113,20 +118,46 @@ export const useCurrencyConverter = () => {
 
   // Manually refresh exchange rates
   const refreshRates = useCallback(async () => {
-    if (!api.isOnline()) return false;
-
     setSyncing(true);
-    const freshRates = await api.fetchExchangeRates();
     
-    if (freshRates) {
-      storage.saveExchangeRates(freshRates);
-      setState(prev => ({
-        ...prev,
-        exchangeRates: freshRates,
-        lastSync: freshRates.timestamp
-      }));
-      setSyncing(false);
-      return true;
+    try {
+      const freshRates = await api.fetchExchangeRates();
+      
+      if (freshRates) {
+        storage.saveExchangeRates(freshRates);
+        setState(prev => ({
+          ...prev,
+          exchangeRates: freshRates,
+          lastSync: freshRates.timestamp
+        }));
+        setSyncing(false);
+        return true;
+      }
+    } catch (error) {
+      // Handle the error object with better user feedback
+      console.error('Failed to refresh rates:', error);
+      
+      // Try to load cached data as fallback
+      const cachedRates = storage.getExchangeRates();
+      if (cachedRates && cachedRates.rates) {
+        setState(prev => ({
+          ...prev,
+          exchangeRates: cachedRates,
+          lastSync: cachedRates.timestamp
+        }));
+        setSyncing(false);
+        
+        // Show user that we're using cached data
+        if (typeof error === 'object' && error !== null && 'offline' in error) {
+          console.log('Using cached data due to offline status');
+        }
+        return true; // Successfully loaded cached data
+      }
+      
+      // If no cached data and we're offline, show a message
+      if (typeof error === 'object' && error !== null && 'offline' in error && 'message' in error) {
+        console.warn('Offline with no cached data:', error.message);
+      }
     }
     
     setSyncing(false);

@@ -13,6 +13,12 @@ export const storage = {
     }
   },
 
+  // Get exchange rates only
+  getExchangeRates(): ExchangeRates | null {
+    const data = this.getData();
+    return data?.exchangeRates || null;
+  },
+
   // Save exchange rates
   saveExchangeRates(rates: ExchangeRates): void {
     try {

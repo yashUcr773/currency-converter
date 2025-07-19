@@ -69,21 +69,26 @@ export const StatusBar = ({
           Last updated: <span className="text-slate-500 font-medium">{formatLastSync(lastSync)}</span>
         </span>
         
-        {isOnline && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onRefresh}
-            disabled={syncing}
-            className="h-auto px-3 py-2 text-sm flex items-center gap-2 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-700 transition-all duration-200 rounded-lg border border-transparent hover:border-blue-200 text-slate-600 font-medium"
-          >
-            <RefreshCw 
-              size={14} 
-              className={syncing ? 'animate-spin' : ''} 
-            />
-            {syncing ? 'Syncing...' : 'Refresh'}
-          </Button>
-        )}
+        {/* Always show refresh button, but with different states */}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onRefresh}
+          disabled={syncing}
+          className={cn(
+            "h-auto px-3 py-2 text-sm flex items-center gap-2 transition-all duration-200 rounded-lg border border-transparent font-medium",
+            isOnline 
+              ? "hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-700 hover:border-blue-200 text-slate-600"
+              : "hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-700 hover:border-orange-200 text-slate-500"
+          )}
+          title={isOnline ? "Refresh exchange rates" : "Try to refresh (you appear offline)"}
+        >
+          <RefreshCw 
+            size={14} 
+            className={syncing ? 'animate-spin' : ''} 
+          />
+          {syncing ? 'Syncing...' : isOnline ? 'Refresh' : 'Try Refresh'}
+        </Button>
       </div>
     </div>
   );

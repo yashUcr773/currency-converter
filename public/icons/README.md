@@ -1,23 +1,37 @@
-# PWA Icons Placeholder
+# PWA Icons
 
-This directory should contain the following PWA icons:
+This directory contains the PWA icons for Currency Converter Pro.
 
-## Required Icon Sizes:
-- `icon-72x72.png` - For Windows tiles and small displays
-- `icon-96x96.png` - Standard Android icon
-- `icon-128x128.png` - Chrome Web Store icon
-- `icon-144x144.png` - Windows tile icon
-- `icon-152x152.png` - iPad icon
-- `icon-192x192.png` - Android homescreen icon
-- `icon-384x384.png` - Splash screen icon
-- `icon-512x512.png` - Large Android icon and splash screen
+## Available Icon Sizes:
+✅ `icon-72x72.svg` - For Windows tiles and small displays
+✅ `icon-96x96.svg` - Standard Android icon
+✅ `icon-128x128.svg` - Chrome Web Store icon
+✅ `icon-144x144.svg` - Windows tile icon
+✅ `icon-152x152.svg` - iPad icon
+✅ `icon-192x192.svg` - Android homescreen icon
+✅ `icon-384x384.svg` - Splash screen icon
+✅ `icon-512x512.svg` - Large Android icon and splash screen
+
+## Icon Design:
+- Base gradient background from blue (#3b82f6) to indigo (#6366f1)
+- Currency conversion arrows and symbols ($, €)
+- Scalable SVG format for crisp display at any size
+- Consistent design across all sizes
 
 ## Generation Instructions:
-1. Create a base icon design (preferably 512x512px)
-2. Use an online icon generator like:
+The icons are provided as SVG files for optimal scalability and quality.
+If PNG versions are needed for specific platforms, you can:
+
+1. Use an online SVG to PNG converter
+2. Use tools like:
    - https://realfavicongenerator.net/
    - https://favicon.io/favicon-generator/
    - https://www.pwabuilder.com/imageGenerator
+
+## Production Notes:
+✅ All required PWA icon sizes are included
+✅ Icons follow Material Design guidelines for adaptive icons
+✅ SVG format ensures crisp display on all devices and screen densities
 
 ## Icon Design Guidelines:
 - Use the app's color scheme (blue-purple gradient)

@@ -32,18 +32,40 @@ export const api = {
     } catch (error) {
       console.error('Error fetching exchange rates:', error);
       
-      // Check if we have an offline response from service worker
-      if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
-        console.log('Network request failed, service worker should handle offline fallback');
-      }
-      
-      return null;
+      // Return detailed error information for better debugging
+      throw {
+        error: error instanceof Error ? error.message : 'Unknown error',
+        offline: !navigator.onLine,
+        message: !navigator.onLine 
+          ? 'You are currently offline. Please check your internet connection.'
+          : 'Failed to fetch exchange rates. Please try again.'
+      };
     }
   },
 
-  // Check if user is online
-  isOnline(): boolean {
-    return navigator.onLine;
+  // Check if user is online with enhanced detection
+  async isOnline(): Promise<boolean> {
+    // Quick check with navigator
+    if (!navigator.onLine) {
+      return false;
+    }
+
+    // Try to fetch a small resource to verify actual connectivity
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3000);
+      
+      const response = await fetch('/favicon.svg?t=' + Date.now(), {
+        method: 'HEAD',
+        cache: 'no-cache',
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
+      return response.ok;
+    } catch {
+      return false;
+    }
   },
 
   // Convert amount between currencies

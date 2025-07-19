@@ -4,6 +4,7 @@ import { CurrencySelector } from './components/CurrencySelector';
 import { StatusBar } from './components/StatusBar';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { PWAStatus, OfflineNotice } from './components/PWAStatus';
+import { SEO, StructuredData } from './components/SEO';
 import { usePWA } from './hooks/usePWA';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -71,6 +72,10 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+      {/* SEO and structured data */}
+      <SEO />
+      <StructuredData />
+      
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm shadow-lg border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-4 py-8">

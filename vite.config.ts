@@ -23,8 +23,19 @@ export default defineConfig({
                     return chunkInfo.name === 'sw' ? 'sw.js' : '[name]-[hash].js'
                 }
             }
-        }
+        },
+        // Production optimizations
+        minify: 'terser',
+        // Improve build performance
+        sourcemap: false,
+        // Chunk size warning limit
+        chunkSizeWarningLimit: 600
     },
     // Ensure manifest.json and service worker are properly served
     publicDir: 'public',
+    // Production server config
+    preview: {
+        port: 3000,
+        host: true
+    }
 })
