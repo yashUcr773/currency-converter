@@ -83,10 +83,10 @@ self.addEventListener('fetch', (event) => {
     return;
   }
   
-  // Handle API requests (currency data)
+  // Handle API requests (currency data) with minimal interference
   if (url.origin.includes('exchangerate-api.com') || url.pathname.includes('/api/')) {
-    console.log('[SW] Handling API request:', url.href);
-    event.respondWith(handleApiRequest(event.request));
+    console.log('[SW] Handling API request with minimal interference:', url.href);
+    event.respondWith(handleApiRequestSimple(event.request));
     return;
   }
   
@@ -101,6 +101,43 @@ self.addEventListener('fetch', (event) => {
   console.log('[SW] Skipping cross-origin request:', url.href);
 });
 
+// Simplified API request handler that doesn't interfere with headers
+async function handleApiRequestSimple(request) {
+  const cache = await caches.open(DATA_CACHE_NAME);
+  
+  try {
+    // Try network first - return original response without modification
+    console.log('[SW] Attempting network request (simple):', request.url);
+    const networkResponse = await fetch(request);
+    
+    if (networkResponse.ok) {
+      // Cache the original response
+      const responseClone = networkResponse.clone();
+      await cache.put(request, responseClone);
+      console.log('[SW] Cached original response:', request.url);
+      
+      // Return the original unmodified response
+      return networkResponse;
+    } else {
+      throw new Error(`HTTP ${networkResponse.status}`);
+    }
+  } catch (error) {
+    console.log('[SW] Network failed, trying cache:', error.message);
+    
+    // Only try cache if we're offline
+    if (!navigator.onLine) {
+      const cachedResponse = await cache.match(request);
+      if (cachedResponse) {
+        console.log('[SW] Serving from cache (simple):', request.url);
+        return cachedResponse;
+      }
+    }
+    
+    // Let the error bubble up naturally
+    throw error;
+  }
+}
+
 // Handle API requests with cache-first strategy for offline support
 async function handleApiRequest(request) {
   const cache = await caches.open(DATA_CACHE_NAME);
@@ -113,56 +150,80 @@ async function handleApiRequest(request) {
   
   try {
     // Try network first for fresh data
+    console.log('[SW] Attempting network request for:', request.url);
     const networkResponse = await fetch(request);
     
     if (networkResponse.ok && networkResponse.status < 400) {
       // Cache successful responses only
+      console.log('[SW] Network request successful, caching response');
       const responseClone = networkResponse.clone();
       await cache.put(request, responseClone);
       console.log('[SW] API data cached:', request.url);
       
-      // Add timestamp to track cache freshness
+      // Add timestamp to track cache freshness but preserve original headers
+      const responseData = await networkResponse.clone().json();
+      
+      // Create headers object preserving original CORS headers
+      const responseHeaders = new Headers(networkResponse.headers);
+      responseHeaders.set('Content-Type', 'application/json');
+      
+      // Ensure CORS headers are present
+      if (!responseHeaders.has('Access-Control-Allow-Origin')) {
+        responseHeaders.set('Access-Control-Allow-Origin', '*');
+      }
+      
       const timestampResponse = new Response(
         JSON.stringify({
-          ...await networkResponse.clone().json(),
+          ...responseData,
           sw_cached_at: Date.now()
         }),
         {
           status: networkResponse.status,
           statusText: networkResponse.statusText,
-          headers: networkResponse.headers
+          headers: responseHeaders
         }
       );
       
       return timestampResponse;
+    } else {
+      console.log('[SW] Network response not ok:', networkResponse.status, networkResponse.statusText);
+      throw new Error(`Network response not ok: ${networkResponse.status}`);
     }
-    
-    throw new Error('Network response not ok');
   } catch (error) {
-    console.log('[SW] Network failed, trying cache:', request.url);
+    console.log('[SW] Network failed:', error.message, 'Trying cache for:', request.url);
     
-    // Fall back to cache if network fails
-    const cachedResponse = await cache.match(request);
-    if (cachedResponse) {
-      console.log('[SW] Serving from cache:', request.url);
-      return cachedResponse;
-    }
-    
-    // If no cache available, return offline response
-    return new Response(
-      JSON.stringify({
-        error: 'Offline - No cached data available',
-        offline: true,
-        message: 'You are currently offline. Please check your internet connection.'
-      }),
-      {
-        status: 503,
-        statusText: 'Service Unavailable',
-        headers: {
-          'Content-Type': 'application/json'
-        }
+    // Only use cache if we're actually offline (not on API errors)
+    if (!navigator.onLine) {
+      // Fall back to cache if network fails and we're offline
+      const cachedResponse = await cache.match(request);
+      if (cachedResponse) {
+        console.log('[SW] Serving from cache (offline):', request.url);
+        return cachedResponse;
       }
-    );
+      
+      // If no cache available and we're offline, return offline response
+      console.log('[SW] No cache available while offline');
+      return new Response(
+        JSON.stringify({
+          error: 'Offline - No cached data available',
+          offline: true,
+          message: 'You are currently offline. Please check your internet connection.'
+        }),
+        {
+          status: 503,
+          statusText: 'Service Unavailable',
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        }
+      );
+    } else {
+      // If we're online but the network request failed, let it fail naturally
+      // This could be due to API rate limits, CORS issues, etc.
+      console.log('[SW] Network error while online, letting request fail naturally');
+      throw error;
+    }
   }
 }
 

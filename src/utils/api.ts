@@ -5,19 +5,23 @@ export const api = {
   // Fetch exchange rates from API with PWA support
   async fetchExchangeRates(baseCurrency = 'USD'): Promise<ExchangeRates | null> {
     try {
+      console.log(`[API] Fetching exchange rates for ${baseCurrency} from ${API_BASE_URL}/${baseCurrency}`);
+      
       const response = await fetch(`${API_BASE_URL}/${baseCurrency}`, {
         method: 'GET',
         headers: {
-          'Accept': 'application/json',
-          'Cache-Control': 'no-cache'
+          'Accept': 'application/json'
         }
       });
+      
+      console.log(`[API] Response status: ${response.status}`);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
       const data = await response.json();
+      console.log('[API] Successfully fetched exchange rates:', data.base, Object.keys(data.rates).length, 'currencies');
       
       // Check if this is cached data from service worker
       const isCachedData = data.sw_cached_at && data.sw_cached_at > 0;
@@ -30,16 +34,17 @@ export const api = {
         cached: isCachedData
       };
     } catch (error) {
-      console.error('Error fetching exchange rates:', error);
+      console.error('[API] Error fetching exchange rates:', error);
       
-      // Return detailed error information for better debugging
-      throw {
-        error: error instanceof Error ? error.message : 'Unknown error',
-        offline: !navigator.onLine,
-        message: !navigator.onLine 
-          ? 'You are currently offline. Please check your internet connection.'
-          : 'Failed to fetch exchange rates. Please try again.'
-      };
+      // Log additional debugging information
+      console.log('[API] Network status:', navigator.onLine ? 'ONLINE' : 'OFFLINE');
+      console.log('[API] Error details:', {
+        errorType: error instanceof Error ? error.constructor.name : typeof error,
+        message: error instanceof Error ? error.message : String(error)
+      });
+      
+      // Return null instead of throwing, let the caller handle the error
+      return null;
     }
   },
 
