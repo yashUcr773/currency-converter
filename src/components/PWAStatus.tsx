@@ -11,10 +11,22 @@ export function PWAStatus() {
         <button
           onClick={actions.installApp}
           className="flex items-center gap-1 px-3 py-1 text-blue-600 bg-blue-100 hover:bg-blue-200 rounded-full transition-colors dark:bg-blue-900/20 dark:text-blue-400 dark:hover:bg-blue-900/30"
+          title="Install this app for quick access"
         >
           <Download className="w-3 h-3" />
           <span>Install App</span>
         </button>
+      )}
+
+      {/* Alternative install hint for when browser doesn't show install prompt */}
+      {!status.canInstall && !status.isInstalled && (
+        <div 
+          className="flex items-center gap-1 px-2 py-1 text-gray-500 text-xs cursor-help"
+          title="This app can be installed! Look for 'Install' or 'Add to Home Screen' in your browser menu."
+        >
+          <Download className="w-3 h-3" />
+          <span>Installable</span>
+        </div>
       )}
 
       {/* Update Available */}

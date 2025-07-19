@@ -37,13 +37,28 @@ export function usePWA(): [PWAStatus, PWAActions] {
   useEffect(() => {
     // Check if app is installed
     const checkInstalled = () => {
-      setIsInstalled(
-        window.matchMedia('(display-mode: standalone)').matches ||
-        (window.navigator as Navigator & { standalone?: boolean }).standalone === true
-      );
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+        (window.navigator as Navigator & { standalone?: boolean }).standalone === true;
+      
+      setIsInstalled(isStandalone);
+      
+      // If app is installed, we can't show install button
+      if (isStandalone) {
+        setCanInstall(false);
+      }
+      
+      console.log('[PWA] Install status check:', {
+        isStandalone,
+        displayMode: window.matchMedia('(display-mode: standalone)').matches,
+        iosStandalone: (window.navigator as Navigator & { standalone?: boolean }).standalone
+      });
     };
 
     checkInstalled();
+    
+    // Listen for display mode changes
+    const mediaQuery = window.matchMedia('(display-mode: standalone)');
+    mediaQuery.addListener(checkInstalled);
 
     // Online/offline status with enhanced detection
     const handleOnline = () => {
@@ -118,12 +133,14 @@ export function usePWA(): [PWAStatus, PWAActions] {
 
     // PWA install prompt
     const handleBeforeInstallPrompt = (e: Event) => {
+      console.log('[PWA] beforeinstallprompt event fired');
       e.preventDefault();
       deferredPrompt = e as BeforeInstallPromptEvent;
       setCanInstall(true);
     };
 
     const handleAppInstalled = () => {
+      console.log('[PWA] appinstalled event fired');
       deferredPrompt = null;
       setCanInstall(false);
       setIsInstalled(true);
@@ -131,6 +148,18 @@ export function usePWA(): [PWAStatus, PWAActions] {
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
+
+    // Fallback: if no beforeinstallprompt after 3 seconds and not installed, allow manual install
+    const fallbackTimer = setTimeout(() => {
+      // Check current state when timer fires
+      const currentIsInstalled = window.matchMedia('(display-mode: standalone)').matches ||
+        (window.navigator as Navigator & { standalone?: boolean }).standalone === true;
+      
+      if (!currentIsInstalled && !deferredPrompt && 'serviceWorker' in navigator) {
+        console.log('[PWA] No beforeinstallprompt event detected, enabling fallback install');
+        setCanInstall(true);
+      }
+    }, 3000);
 
     // Service worker update detection
     if ('serviceWorker' in navigator) {
@@ -157,26 +186,46 @@ export function usePWA(): [PWAStatus, PWAActions] {
       window.removeEventListener('offline', handleOffline);
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
+      mediaQuery.removeListener(checkInstalled);
       clearInterval(pollInterval);
+      clearTimeout(fallbackTimer);
     };
   }, []);
 
   const installApp = async (): Promise<void> => {
-    if (!deferredPrompt) return;
-
-    try {
-      const result = await deferredPrompt.prompt();
-      console.log('Install prompt result:', result);
-      
-      if (result.outcome === 'accepted') {
-        setCanInstall(false);
-        setIsInstalled(true);
+    // If we have a deferred prompt, use it
+    if (deferredPrompt) {
+      try {
+        const result = await deferredPrompt.prompt();
+        console.log('Install prompt result:', result);
+        
+        if (result.outcome === 'accepted') {
+          setCanInstall(false);
+          setIsInstalled(true);
+        }
+        
+        deferredPrompt = null;
+      } catch (error) {
+        console.error('Install failed:', error);
       }
-      
-      deferredPrompt = null;
-    } catch (error) {
-      console.error('Install failed:', error);
+      return;
     }
+
+    // Fallback: Show instructions for manual install
+    const userAgent = navigator.userAgent.toLowerCase();
+    let instructions = '';
+    
+    if (userAgent.includes('chrome') || userAgent.includes('edge')) {
+      instructions = 'Click the address bar, then click "Install" or the download icon.';
+    } else if (userAgent.includes('firefox')) {
+      instructions = 'Firefox: Add to Home Screen is available in the address bar menu (three dots).';
+    } else if (userAgent.includes('safari')) {
+      instructions = 'Safari: Tap the Share button and select "Add to Home Screen".';
+    } else {
+      instructions = 'Look for "Add to Home Screen" or "Install" in your browser menu.';
+    }
+    
+    alert(`To install this app:\n\n${instructions}\n\nThis will create a shortcut that opens the app without browser controls.`);
   };
 
   const updateApp = async (): Promise<void> => {
