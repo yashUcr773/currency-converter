@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export interface PWAStatus {
   isOnline: boolean;
   isInstalled: boolean;
   canInstall: boolean;
   updateAvailable: boolean;
+  hasCachedData: boolean;
   cacheStatus?: {
     [cacheName: string]: {
       count: number;
@@ -18,6 +19,7 @@ export interface PWAActions {
   updateApp: () => Promise<void>;
   clearCache: () => Promise<void>;
   refreshData: () => Promise<void>;
+  checkForCachedData: () => boolean;
 }
 
 interface BeforeInstallPromptEvent extends Event {
@@ -32,7 +34,49 @@ export function usePWA(): [PWAStatus, PWAActions] {
   const [isInstalled, setIsInstalled] = useState(false);
   const [canInstall, setCanInstall] = useState(false);
   const [updateAvailable, setUpdateAvailable] = useState(false);
+  const [hasCachedData, setHasCachedData] = useState(false);
   const [cacheStatus, setCacheStatus] = useState<PWAStatus['cacheStatus']>();
+
+  // Check for cached data in localStorage
+  const checkForLocalStorageData = (): boolean => {
+    try {
+      // Check for currency converter data in localStorage
+      const storageKeys = ['currency-converter-data', 'pinnedCurrencies', 'exchangeRates'];
+      return storageKeys.some(key => {
+        const data = localStorage.getItem(key);
+        return data && data !== 'null' && data !== '{}' && data !== '[]';
+      });
+    } catch {
+      return false;
+    }
+  };
+
+  const getCacheStatus = useCallback(async (): Promise<void> => {
+    if ('serviceWorker' in navigator) {
+      try {
+        const registration = await navigator.serviceWorker.getRegistration();
+        if (registration?.active) {
+          const messageChannel = new MessageChannel();
+          
+          messageChannel.port1.onmessage = (event) => {
+            setCacheStatus(event.data);
+            // Check if we have cached data
+            const cacheData = event.data as PWAStatus['cacheStatus'];
+            const totalCacheSize = cacheData ? 
+              Object.values(cacheData).reduce((total: number, cache) => total + cache.size, 0) : 0;
+            setHasCachedData(totalCacheSize > 0 || checkForLocalStorageData());
+          };
+          
+          registration.active.postMessage(
+            { type: 'GET_CACHE_STATUS' },
+            [messageChannel.port2]
+          );
+        }
+      } catch (error) {
+        console.error('Get cache status failed:', error);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     // Check if app is installed
@@ -179,6 +223,9 @@ export function usePWA(): [PWAStatus, PWAActions] {
 
       // Get initial cache status
       getCacheStatus();
+      
+      // Initial check for cached data
+      setHasCachedData(checkForLocalStorageData());
     }
 
     return () => {
@@ -190,7 +237,7 @@ export function usePWA(): [PWAStatus, PWAActions] {
       clearInterval(pollInterval);
       clearTimeout(fallbackTimer);
     };
-  }, []);
+  }, [getCacheStatus]);
 
   const installApp = async (): Promise<void> => {
     // If we have a deferred prompt, use it
@@ -289,26 +336,13 @@ export function usePWA(): [PWAStatus, PWAActions] {
     }
   };
 
-  const getCacheStatus = async (): Promise<void> => {
-    if ('serviceWorker' in navigator) {
-      try {
-        const registration = await navigator.serviceWorker.getRegistration();
-        if (registration?.active) {
-          const messageChannel = new MessageChannel();
-          
-          messageChannel.port1.onmessage = (event) => {
-            setCacheStatus(event.data);
-          };
-          
-          registration.active.postMessage(
-            { type: 'GET_CACHE_STATUS' },
-            [messageChannel.port2]
-          );
-        }
-      } catch (error) {
-        console.error('Get cache status failed:', error);
-      }
-    }
+  const checkForCachedData = (): boolean => {
+    // Check for cached data in localStorage and service worker cache
+    const localStorageData = checkForLocalStorageData();
+    const serviceWorkerCache = cacheStatus ? 
+      Object.values(cacheStatus).reduce((total, cache) => total + cache.size, 0) > 0 : false;
+    
+    return localStorageData || serviceWorkerCache;
   };
 
   const status: PWAStatus = {
@@ -316,6 +350,7 @@ export function usePWA(): [PWAStatus, PWAActions] {
     isInstalled,
     canInstall,
     updateAvailable,
+    hasCachedData,
     cacheStatus,
   };
 
@@ -324,6 +359,7 @@ export function usePWA(): [PWAStatus, PWAActions] {
     updateApp,
     clearCache,
     refreshData,
+    checkForCachedData,
   };
 
   return [status, actions];

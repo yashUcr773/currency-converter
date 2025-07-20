@@ -1,8 +1,51 @@
-import { WifiOff, Download, RefreshCw, Trash2 } from 'lucide-react';
+import { WifiOff, Download, RefreshCw, Trash2, AlertTriangle } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { usePWA, formatCacheSize } from '../hooks/usePWA';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { UpdatePrompt } from './UpdatePrompt';
 
 export function PWAStatus() {
   const [status, actions] = usePWA();
+  const [showClearCacheDialog, setShowClearCacheDialog] = useState(false);
+  const [showUpdatePrompt, setShowUpdatePrompt] = useState(false);
+
+  const handleClearCache = () => {
+    if (!status.isOnline) {
+      setShowClearCacheDialog(true);
+    } else {
+      actions.clearCache();
+    }
+  };
+
+  const confirmClearCache = () => {
+    actions.clearCache();
+    setShowClearCacheDialog(false);
+  };
+
+  const handleUpdateApp = async () => {
+    setShowUpdatePrompt(false);
+    await actions.updateApp();
+  };
+
+  const handleDismissUpdate = () => {
+    setShowUpdatePrompt(false);
+  };
+
+  // Auto-show update prompt when conditions are met
+  useEffect(() => {
+    if (status.updateAvailable && status.hasCachedData && !showUpdatePrompt) {
+      setShowUpdatePrompt(true);
+    }
+  }, [status.updateAvailable, status.hasCachedData, showUpdatePrompt]);
+
+  // Debug helper - add test button in development
+  const isDevelopment = import.meta.env.DEV;
+  const testUpdatePrompt = () => {
+    if (isDevelopment) {
+      setShowUpdatePrompt(true);
+    }
+  };
 
   return (
     <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs sm:text-sm">
@@ -34,7 +77,7 @@ export function PWAStatus() {
       {/* Update Available */}
       {status.updateAvailable && (
         <button
-          onClick={actions.updateApp}
+          onClick={() => setShowUpdatePrompt(true)}
           className="flex items-center gap-1 px-2 sm:px-3 py-1 text-orange-600 bg-orange-100 hover:bg-orange-200 rounded-full transition-colors dark:bg-orange-900/20 dark:text-orange-400 dark:hover:bg-orange-900/30 touch-manipulation"
         >
           <RefreshCw className="w-3 h-3" />
@@ -56,7 +99,7 @@ export function PWAStatus() {
           </button>
           
           <button
-            onClick={actions.clearCache}
+            onClick={handleClearCache}
             className="flex items-center gap-1 px-2 py-1 text-gray-600 hover:text-red-600 rounded transition-colors dark:text-gray-400 dark:hover:text-red-400 touch-manipulation"
             title="Clear Cache"
           >
@@ -79,6 +122,17 @@ export function PWAStatus() {
           <span className="hidden sm:inline">Installed</span>
           <span className="sm:hidden">✓</span>
         </div>
+      )}
+
+      {/* Development Test Button */}
+      {isDevelopment && (
+        <button
+          onClick={testUpdatePrompt}
+          className="flex items-center gap-1 px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs hover:bg-purple-200 transition-colors"
+          title="Test Update Prompt (Dev Only)"
+        >
+          Test Update
+        </button>
       )}
 
       {/* Debug button for testing */}
@@ -127,6 +181,59 @@ export function PWAStatus() {
       >
         🌐
       </button>
+
+      {/* Clear Cache Confirmation Dialog */}
+      <Dialog open={showClearCacheDialog} onOpenChange={setShowClearCacheDialog}>
+        <DialogContent className="max-w-sm mx-4 bg-white/95 backdrop-blur-md border-0 shadow-2xl rounded-2xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-amber-700">
+              <AlertTriangle className="w-5 h-5" />
+              Clear Cache While Offline?
+            </DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div className="text-sm text-slate-700 leading-relaxed">
+              <p className="mb-3">
+                You're currently <strong>offline</strong>. Clearing the cache will remove all stored data including:
+              </p>
+              <ul className="list-disc pl-6 space-y-1 text-xs text-slate-600">
+                <li>Cached exchange rates</li>
+                <li>Offline functionality</li>
+                <li>Previously loaded currency data</li>
+              </ul>
+              <p className="mt-3 text-amber-700 font-medium">
+                ⚠️ The app may not work properly without an internet connection after clearing the cache.
+              </p>
+            </div>
+            
+            <div className="flex gap-2 justify-end">
+              <Button
+                variant="outline"
+                onClick={() => setShowClearCacheDialog(false)}
+                className="text-xs px-3 py-2"
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={confirmClearCache}
+                className="text-xs px-3 py-2"
+              >
+                Clear Anyway
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Update Prompt */}
+      <UpdatePrompt
+        show={showUpdatePrompt}
+        onUpdate={handleUpdateApp}
+        onDismiss={handleDismissUpdate}
+        hasCachedData={status.hasCachedData}
+      />
     </div>
   );
 }
