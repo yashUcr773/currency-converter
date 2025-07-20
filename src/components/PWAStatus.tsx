@@ -175,25 +175,6 @@ export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
         onToggle={setNumberSystem}
       />
 
-      {/* Debug button for testing */}
-      <button
-        onClick={() => {
-          console.log('[PWA Status Debug]');
-          console.log('Navigator online:', navigator.onLine);
-          console.log('PWA hook online:', status.isOnline);
-          const connection = (navigator as Navigator & { connection?: { effectiveType?: string } }).connection;
-          console.log('Network type:', connection?.effectiveType || 'unknown');
-          
-          // Trigger manual connectivity test
-          console.log('Triggering manual connectivity test...');
-          actions.refreshData();
-        }}
-        className="px-2 py-1 text-xs text-gray-500 hover:text-blue-600 rounded transition-colors"
-        title="Debug Online Status & Test Connectivity"
-      >
-        🐛
-      </button>
-
       {/* Manual connectivity test button */}
       <button
         onClick={async () => {
@@ -224,7 +205,7 @@ export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
 
       {/* Clear Cache Confirmation Dialog */}
       <Dialog open={showClearCacheDialog} onOpenChange={setShowClearCacheDialog}>
-        <DialogContent className="max-w-sm mx-4 bg-white/95 backdrop-blur-md border-0 shadow-2xl rounded-2xl">
+        <DialogContent className="max-w-[calc(100% - 24px)] mx-auto bg-white/95 backdrop-blur-md border-0 shadow-2xl rounded-2xl">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-amber-700">
               <AlertTriangle className="w-5 h-5" />
