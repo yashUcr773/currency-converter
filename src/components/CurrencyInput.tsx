@@ -4,7 +4,8 @@ import type { PinnedCurrency } from '../types';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { formatForDisplay } from '../utils/formatNumber';
+import { formatForDisplay, onNumberSystemChange } from '../utils/formatNumber';
+import type { NumberSystem } from '../utils/numberSystem';
 
 interface CurrencyInputProps {
   pinnedCurrency: PinnedCurrency;
@@ -26,16 +27,45 @@ export const CurrencyInput = ({
   onSetBaseCurrency
 }: CurrencyInputProps) => {
   const [inputValue, setInputValue] = useState('');
+  const [numberSystem, setNumberSystem] = useState<NumberSystem>('international');
 
-  // Update local input value when amount changes externally
+  // Listen for number system changes and calculator results
+  useEffect(() => {
+    const unsubscribe = onNumberSystemChange((system) => {
+      setNumberSystem(system);
+    });
+    
+    const handleCalculatorResult = (event: CustomEvent<{ value: number; targetCurrency: string }>) => {
+      // Apply calculator result only if this currency input matches the target currency code
+      const { value, targetCurrency } = event.detail;
+      if (!isNaN(value) && pinnedCurrency.currency.code === targetCurrency) {
+        onAmountChange(value);
+      }
+    };
+    
+    // Get initial value
+    const saved = localStorage.getItem('number-system-preference');
+    if (saved === 'indian' || saved === 'international') {
+      setNumberSystem(saved);
+    }
+    
+    window.addEventListener('calculatorResult', handleCalculatorResult as EventListener);
+    
+    return () => {
+      unsubscribe();
+      window.removeEventListener('calculatorResult', handleCalculatorResult as EventListener);
+    };
+  }, [onAmountChange, pinnedCurrency.currency.code]);
+
+  // Update local input value when amount or number system changes
   useEffect(() => {
     if (pinnedCurrency.amount === 0) {
       setInputValue('');
     } else {
-      // Always show formatted display with commas
-      setInputValue(formatForDisplay(pinnedCurrency.amount));
+      // Always show formatted display with commas in selected number system
+      setInputValue(formatForDisplay(pinnedCurrency.amount, numberSystem));
     }
-  }, [pinnedCurrency.amount]);
+  }, [pinnedCurrency.amount, numberSystem]);
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value;
@@ -46,8 +76,8 @@ export const CurrencyInput = ({
     // Parse the clean value
     const numericValue = cleanValue === '' ? 0 : parseFloat(cleanValue);
     
-    // Format the display value with commas
-    const formattedValue = cleanValue === '' ? '' : formatForDisplay(numericValue);
+    // Format the display value with commas in the selected number system
+    const formattedValue = cleanValue === '' ? '' : formatForDisplay(numericValue, numberSystem);
     
     setInputValue(formattedValue);
     

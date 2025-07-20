@@ -4,11 +4,36 @@ import { usePWA, formatCacheSize } from '../hooks/usePWA';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { UpdatePrompt } from './UpdatePrompt';
+import { MiniCalculator } from './MiniCalculator';
+import { NumberSystemToggle } from './NumberSystemToggle';
+import type { NumberSystem } from '../utils/numberSystem';
+import type { PinnedCurrency } from '../types';
 
-export function PWAStatus() {
+interface PWAStatusProps {
+  pinnedCurrencies?: PinnedCurrency[];
+}
+
+export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
   const [status, actions] = usePWA();
   const [showClearCacheDialog, setShowClearCacheDialog] = useState(false);
   const [showUpdatePrompt, setShowUpdatePrompt] = useState(false);
+  const [numberSystem, setNumberSystemState] = useState<NumberSystem>('international');
+
+  // Load number system preference from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('number-system-preference');
+    if (saved === 'indian' || saved === 'international') {
+      setNumberSystemState(saved);
+    }
+  }, []);
+
+  // Save number system preference to localStorage
+  const setNumberSystem = (system: NumberSystem) => {
+    setNumberSystemState(system);
+    localStorage.setItem('number-system-preference', system);
+    // Could also trigger a global event here for other components to listen
+    window.dispatchEvent(new CustomEvent('numberSystemChanged', { detail: system }));
+  };
 
   const handleClearCache = () => {
     if (!status.isOnline) {
@@ -134,6 +159,21 @@ export function PWAStatus() {
           Test Update
         </button>
       )}
+
+      {/* Mini Calculator */}
+      <MiniCalculator 
+        pinnedCurrencies={pinnedCurrencies}
+        onResult={(value) => {
+          // The calculator will handle its own event dispatching
+          console.log('Calculator result received in PWAStatus:', value);
+        }}
+      />
+
+      {/* Number System Toggle */}
+      <NumberSystemToggle 
+        system={numberSystem}
+        onToggle={setNumberSystem}
+      />
 
       {/* Debug button for testing */}
       <button

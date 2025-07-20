@@ -108,7 +108,7 @@ function App() {
         {/* PWA Status */}
         <div className="px-3 sm:px-4 lg:px-6 py-1.5 sm:py-2 lg:py-3 bg-white/60 backdrop-blur-sm border-t border-slate-200">
           <div className="max-w-6xl mx-auto flex justify-between items-center">
-            <PWAStatus />
+            <PWAStatus pinnedCurrencies={pinnedCurrencies} />
           </div>
         </div>
       </header>
