@@ -129,26 +129,29 @@ function App() {
           </div>
         )}
 
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 lg:gap-4 xl:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5 xl:gap-6">
           {/* Pinned Currencies */}
           {pinnedCurrencies.map((pinnedCurrency) => (
-            <CurrencyInput
-              key={pinnedCurrency.currency.code}
-              pinnedCurrency={pinnedCurrency}
-              onAmountChange={(amount: number) => updateCurrencyAmount(pinnedCurrency.currency.code, amount)}
-              onUnpin={() => unpinCurrency(pinnedCurrency.currency.code)}
-              disabled={!exchangeRates}
-              conversionRate={getConversionRate(pinnedCurrency.currency.code)}
-              baseCurrency={baseCurrency}
-              onSetBaseCurrency={() => setBaseCurrency(pinnedCurrency.currency.code)}
-            />
+            <div key={pinnedCurrency.currency.code} className="min-h-[140px] sm:min-h-[160px]">
+              <CurrencyInput
+                pinnedCurrency={pinnedCurrency}
+                onAmountChange={(amount: number) => updateCurrencyAmount(pinnedCurrency.currency.code, amount)}
+                onUnpin={() => unpinCurrency(pinnedCurrency.currency.code)}
+                disabled={!exchangeRates}
+                conversionRate={getConversionRate(pinnedCurrency.currency.code)}
+                baseCurrency={baseCurrency}
+                onSetBaseCurrency={() => setBaseCurrency(pinnedCurrency.currency.code)}
+              />
+            </div>
           ))}
 
           {/* Currency Selector */}
-          <CurrencySelector
-            availableCurrencies={getAvailableCurrencies()}
-            onSelectCurrency={pinCurrency}
-          />
+          <div className="min-h-[140px] sm:min-h-[160px]">
+            <CurrencySelector
+              availableCurrencies={getAvailableCurrencies()}
+              onSelectCurrency={pinCurrency}
+            />
+          </div>
         </div>
 
         {/* Footer Info */}
