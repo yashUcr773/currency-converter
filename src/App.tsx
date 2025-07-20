@@ -5,6 +5,7 @@ import { StatusBar } from './components/StatusBar';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { PWAStatus, OfflineNotice } from './components/PWAStatus';
 import { DonateButton } from './components/DonateButton';
+import { AboutButton } from './components/AboutPage';
 import { SEO, StructuredData } from './components/SEO';
 import { usePWA } from './hooks/usePWA';
 import { Button } from '@/components/ui/button';
@@ -166,9 +167,10 @@ function App() {
             </div>
           </div>
           
-          {/* Donate Button */}
-          <div className="mt-4 sm:mt-6">
+          {/* Action Buttons */}
+          <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
             <DonateButton />
+            <AboutButton />
           </div>
           
           <p className="mt-2 sm:mt-4 text-slate-500 text-xs px-4">
