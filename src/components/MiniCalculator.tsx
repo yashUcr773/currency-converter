@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Calculator, X, Divide, Plus, Minus, Equal, ArrowRight } from 'lucide-react';
+import { Calculator, X, Divide, Plus, Minus, Equal, ArrowRight, Percent } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { useNumberSystem } from '@/hooks/useNumberSystem';
+import { formatNumber } from '@/utils/numberSystem';
 
 interface MiniCalculatorProps {
   onResult?: (value: number) => void;
@@ -15,13 +17,42 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
   const [waitingForOperand, setWaitingForOperand] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCurrency, setSelectedCurrency] = useState<string>(pinnedCurrencies[0]?.currency.code || '');
+  const [activeTab, setActiveTab] = useState<'calculator' | 'tip'>('calculator');
+  
+  // Tip Calculator State
+  const [billAmount, setBillAmount] = useState('');
+  const [customTipPercent, setCustomTipPercent] = useState('');
+  const [selectedTipPercent, setSelectedTipPercent] = useState<number | null>(null);
+  const [tipCurrency, setTipCurrency] = useState<string>(pinnedCurrencies[0]?.currency.code || '');
+
+  // Number System Hook
+  const { numberSystem } = useNumberSystem();
+
+  // Helper function to format display numbers
+  const formatDisplayNumber = (value: string | number): string => {
+    const numValue = typeof value === 'string' ? parseFloat(value) : value;
+    if (isNaN(numValue) || !isFinite(numValue)) return '0';
+    
+    // For calculator display, we want to preserve decimal precision
+    // but still apply the number system formatting for large numbers
+    if (Math.abs(numValue) >= 1000) {
+      return formatNumber(numValue, numberSystem, 5); // More precision for calculations
+    } else {
+      // For smaller numbers, keep the original string representation to avoid precision loss
+      return typeof value === 'string' ? value : value.toString();
+    }
+  };
 
   // Update selected currency when pinned currencies change
   useEffect(() => {
     if (pinnedCurrencies.length > 0 && !pinnedCurrencies.find(p => p.currency.code === selectedCurrency)) {
       setSelectedCurrency(pinnedCurrencies[0].currency.code);
     }
-  }, [pinnedCurrencies, selectedCurrency]);
+    // Also update tip currency if it's not in the pinned currencies
+    if (pinnedCurrencies.length > 0 && !pinnedCurrencies.find(p => p.currency.code === tipCurrency)) {
+      setTipCurrency(pinnedCurrencies[0].currency.code);
+    }
+  }, [pinnedCurrencies, selectedCurrency, tipCurrency]);
 
   const inputNumber = (num: string) => {
     if (waitingForOperand) {
@@ -121,6 +152,58 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
     }
   };
 
+  // Tip Calculator Functions
+  const calculateTip = (billAmount: number, tipPercent: number) => {
+    const tipAmount = (billAmount * tipPercent) / 100;
+    const total = billAmount + tipAmount;
+    return { tipAmount, total };
+  };
+
+  const handleTipCalculation = (percent: number) => {
+    const bill = parseFloat(billAmount);
+    if (!isNaN(bill) && bill > 0) {
+      const { total } = calculateTip(bill, percent);
+      setSelectedTipPercent(percent);
+      
+      // Broadcast the tip result globally with tip currency
+      window.dispatchEvent(new CustomEvent('calculatorResult', { 
+        detail: { 
+          value: total, 
+          timestamp: Date.now(),
+          formatted: total.toFixed(2),
+          targetCurrency: tipCurrency,
+          isTipResult: true
+        } 
+      }));
+    }
+  };
+
+  const handleCustomTipCalculation = () => {
+    const bill = parseFloat(billAmount);
+    const customPercent = parseFloat(customTipPercent);
+    if (!isNaN(bill) && bill > 0 && !isNaN(customPercent) && customPercent >= 0) {
+      const { total } = calculateTip(bill, customPercent);
+      setSelectedTipPercent(customPercent);
+      
+      // Broadcast the tip result globally with tip currency
+      window.dispatchEvent(new CustomEvent('calculatorResult', { 
+        detail: { 
+          value: total, 
+          timestamp: Date.now(),
+          formatted: total.toFixed(2),
+          targetCurrency: tipCurrency,
+          isTipResult: true
+        } 
+      }));
+    }
+  };
+
+  const resetTipCalculator = () => {
+    setBillAmount('');
+    setCustomTipPercent('');
+    setSelectedTipPercent(null);
+  };
+
   const ButtonStyle = "w-full h-10 sm:h-12 rounded-lg font-semibold text-sm transition-all duration-200 hover:scale-105 active:scale-95 touch-manipulation";
 
   return (
@@ -145,39 +228,68 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
           </DialogTitle>
         </DialogHeader>
         
+        {/* Tab Navigation */}
+        <div className="flex bg-slate-100 rounded-lg p-1 mb-4">
+          <button
+            onClick={() => setActiveTab('calculator')}
+            className={`flex-1 flex items-center justify-center gap-1 px-3 py-2 rounded-md text-sm font-medium transition-all ${
+              activeTab === 'calculator'
+                ? 'bg-white text-slate-800 shadow-sm'
+                : 'text-slate-600 hover:text-slate-800'
+            }`}
+          >
+            <Calculator className="w-3 h-3" />
+            Calculator
+          </button>
+          <button
+            onClick={() => setActiveTab('tip')}
+            className={`flex-1 flex items-center justify-center gap-1 px-3 py-2 rounded-md text-sm font-medium transition-all ${
+              activeTab === 'tip'
+                ? 'bg-white text-slate-800 shadow-sm'
+                : 'text-slate-600 hover:text-slate-800'
+            }`}
+          >
+            <Percent className="w-3 h-3" />
+            Tip
+          </button>
+        </div>
+        
         <div className="space-y-4">
-          {/* Display */}
-          <div className="bg-slate-100 rounded-xl p-3 text-right">
-            <div className="text-xl sm:text-2xl font-mono font-bold text-slate-800 break-all">
-              {display}
-            </div>
-            {operation && previousValue !== null && (
-              <div className="text-xs text-slate-500 mt-1">
-                {previousValue} {operation} ...
+          {/* Calculator Tab */}
+          {activeTab === 'calculator' && (
+            <>
+              {/* Display */}
+              <div className="bg-slate-100 rounded-xl p-3 text-right">
+                <div className="text-xl sm:text-2xl font-mono font-bold text-slate-800 break-all">
+                  {formatDisplayNumber(display)}
+                </div>
+                {operation && previousValue !== null && (
+                  <div className="text-xs text-slate-500 mt-1">
+                    {formatDisplayNumber(previousValue)} {operation} ...
+                  </div>
+                )}
               </div>
-            )}
-          </div>
 
-          {/* Currency Selection */}
-          {pinnedCurrencies.length > 0 && (
-            <div className="bg-slate-50 rounded-lg p-3">
-              <div className="text-sm font-medium text-slate-700 mb-2">Apply result to:</div>
-              <select
-                value={selectedCurrency}
-                onChange={(e) => setSelectedCurrency(e.target.value)}
-                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              >
-                {pinnedCurrencies.map((pinnedCurrency) => (
-                  <option key={pinnedCurrency.currency.code} value={pinnedCurrency.currency.code}>
-                    {pinnedCurrency.currency.symbol} {pinnedCurrency.currency.code} - {pinnedCurrency.currency.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+              {/* Currency Selection */}
+              {pinnedCurrencies.length > 0 && (
+                <div className="bg-slate-50 rounded-lg p-3">
+                  <div className="text-sm font-medium text-slate-700 mb-2">Apply result to:</div>
+                  <select
+                    value={selectedCurrency}
+                    onChange={(e) => setSelectedCurrency(e.target.value)}
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    {pinnedCurrencies.map((pinnedCurrency) => (
+                      <option key={pinnedCurrency.currency.code} value={pinnedCurrency.currency.code}>
+                        {pinnedCurrency.currency.symbol} {pinnedCurrency.currency.code} - {pinnedCurrency.currency.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
 
-          {/* Buttons Grid */}
-          <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
+              {/* Buttons Grid */}
+              <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
             {/* Row 1 */}
             <button
               onClick={clear}
@@ -236,23 +348,143 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
             <button onClick={inputDecimal} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>.</button>
           </div>
 
-          {/* Use Result Button */}
-          <Button
-            onClick={useResult}
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center gap-2 py-2.5 sm:py-3"
-            disabled={isNaN(parseFloat(display)) || !selectedCurrency || pinnedCurrencies.length === 0}
-          >
-            <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
-            <span className="text-sm sm:text-base">
-              {pinnedCurrencies.length === 0 ? (
-                'Pin currencies first'
-              ) : selectedCurrency ? (
-                <>Apply {display} to {pinnedCurrencies.find(p => p.currency.code === selectedCurrency)?.currency.code || selectedCurrency}</>
-              ) : (
-                'Select a currency first'
-              )}
-            </span>
-          </Button>
+              {/* Use Result Button */}
+              <Button
+                onClick={useResult}
+                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center gap-2 py-2.5 sm:py-3"
+                disabled={isNaN(parseFloat(display)) || !selectedCurrency || pinnedCurrencies.length === 0}
+              >
+                <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="text-sm sm:text-base">
+                  {pinnedCurrencies.length === 0 ? (
+                    'Pin currencies first'
+                  ) : selectedCurrency ? (
+                    <>Apply {display} to {pinnedCurrencies.find(p => p.currency.code === selectedCurrency)?.currency.code || selectedCurrency}</>
+                  ) : (
+                    'Select a currency first'
+                  )}
+                </span>
+              </Button>
+            </>
+          )}
+
+          {/* Tip Calculator Tab */}
+          {activeTab === 'tip' && (
+            <div className="space-y-4">
+              <div className="bg-amber-50 rounded-xl p-4 border border-amber-200">
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">
+                      Bill Amount
+                    </label>
+                    <input
+                      type="number"
+                      value={billAmount}
+                      onChange={(e) => setBillAmount(e.target.value)}
+                      placeholder="Enter bill amount"
+                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                    />
+                  </div>
+
+                  {/* Currency Selection */}
+                  {pinnedCurrencies.length > 0 && (
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">
+                        Currency
+                      </label>
+                      <select
+                        value={tipCurrency}
+                        onChange={(e) => setTipCurrency(e.target.value)}
+                        className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                      >
+                        {pinnedCurrencies.map((pinnedCurrency) => (
+                          <option key={pinnedCurrency.currency.code} value={pinnedCurrency.currency.code}>
+                            {pinnedCurrency.currency.symbol} {pinnedCurrency.currency.code} - {pinnedCurrency.currency.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">
+                      Tip Percentage
+                    </label>
+                    <div className="grid grid-cols-3 gap-2 mb-3">
+                      {[15, 20, 25].map((percent) => (
+                        <button
+                          key={percent}
+                          onClick={() => handleTipCalculation(percent)}
+                          disabled={!billAmount || parseFloat(billAmount) <= 0}
+                          className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                            selectedTipPercent === percent
+                              ? 'bg-amber-500 text-white'
+                              : 'bg-white border border-amber-300 text-amber-700 hover:bg-amber-100 disabled:opacity-50 disabled:cursor-not-allowed'
+                          }`}
+                        >
+                          {percent}%
+                        </button>
+                      ))}
+                    </div>
+                    
+                    <div className="flex gap-2">
+                      <input
+                        type="number"
+                        value={customTipPercent}
+                        onChange={(e) => setCustomTipPercent(e.target.value)}
+                        placeholder="Custom %"
+                        className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                      />
+                      <button
+                        onClick={handleCustomTipCalculation}
+                        disabled={!billAmount || !customTipPercent || parseFloat(billAmount) <= 0 || parseFloat(customTipPercent) < 0}
+                        className="px-3 py-2 bg-amber-500 text-white rounded-lg text-sm font-medium hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Tip Breakdown */}
+                  {billAmount && selectedTipPercent && parseFloat(billAmount) > 0 && (
+                    <div className="bg-white rounded-lg p-3 border border-amber-200">
+                      <div className="text-xs font-medium text-slate-600 mb-2">Calculation:</div>
+                      <div className="space-y-1 text-xs text-slate-600">
+                        {(() => {
+                          const currencySymbol = pinnedCurrencies.find(p => p.currency.code === tipCurrency)?.currency.symbol || '$';
+                          const bill = parseFloat(billAmount);
+                          const tipCalc = calculateTip(bill, selectedTipPercent);
+                          return (
+                            <>
+                              <div className="flex justify-between">
+                                <span>Bill Amount:</span>
+                                <span>{currencySymbol}{formatNumber(bill, numberSystem, 2)}</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>Tip ({selectedTipPercent}%):</span>
+                                <span>{currencySymbol}{formatNumber(tipCalc.tipAmount, numberSystem, 2)}</span>
+                              </div>
+                              <div className="flex justify-between font-medium text-slate-800 border-t border-slate-200 pt-1">
+                                <span>Total:</span>
+                                <span>{currencySymbol}{formatNumber(tipCalc.total, numberSystem, 2)}</span>
+                              </div>
+                            </>
+                          );
+                        })()}
+                      </div>
+                    </div>
+                  )}
+
+                  <button
+                    onClick={resetTipCalculator}
+                    className="w-full px-3 py-2 bg-slate-100 text-slate-600 rounded-lg text-sm hover:bg-slate-200 transition-colors"
+                  >
+                    Reset Tip Calculator
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>
