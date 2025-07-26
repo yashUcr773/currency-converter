@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Plus, Search } from 'lucide-react';
 import type { Currency } from '../types';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -16,6 +17,7 @@ export const CurrencySelector = ({
   availableCurrencies,
   onSelectCurrency
 }: CurrencySelectorProps) => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -46,10 +48,10 @@ export const CurrencySelector = ({
             {/* Text content */}
             <div className="space-y-0.5 sm:space-y-1">
               <h3 className="font-bold text-xs sm:text-sm text-slate-800 group-hover:text-blue-600 transition-colors duration-200">
-                Add Currency
+                {t('converter.addCurrencyTitle')}
               </h3>
               <p className="text-xs text-slate-600 font-medium leading-tight">
-                150+ currencies
+                {t('converter.currenciesCount')}
               </p>
             </div>
           </CardContent>
@@ -59,7 +61,7 @@ export const CurrencySelector = ({
       <DialogContent className="max-w-sm mx-4 bg-white/95 backdrop-blur-md border-0 shadow-2xl rounded-2xl">
         <DialogHeader>
           <DialogTitle className="text-lg font-bold text-slate-800 text-center">
-            Select Currency
+            {t('converter.addCurrencyTitle')}
           </DialogTitle>
         </DialogHeader>
         
@@ -70,7 +72,7 @@ export const CurrencySelector = ({
             <Input
               type="text"
               inputMode="search"
-              placeholder="Search currencies..."
+              placeholder={t('converter.searchCurrency')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10 bg-slate-50/80 border-2 border-slate-200 focus:border-blue-400 focus:ring-4 focus:ring-blue-400/20 transition-all duration-200 rounded-xl h-12 text-base touch-manipulation"
@@ -79,14 +81,14 @@ export const CurrencySelector = ({
           </div>
           
           <div className="text-xs text-slate-600 bg-blue-50/60 px-3 py-2 rounded-xl font-medium border border-blue-200/60">
-            {filteredCurrencies.length} of {availableCurrencies.length} currencies
+            {t('converter.currencyCount', { filtered: filteredCurrencies.length, total: availableCurrencies.length })}
           </div>
 
           {/* Currency List */}
           <ScrollArea className="h-72 bg-slate-50/60 rounded-xl border border-slate-200">
             {filteredCurrencies.length === 0 ? (
               <div className="p-6 text-center text-slate-600 font-medium">
-                No currencies found for "{searchTerm}"
+                {t('converter.noCurrenciesFound')} "{searchTerm}"
               </div>
             ) : (
               <div className="space-y-1 p-2">

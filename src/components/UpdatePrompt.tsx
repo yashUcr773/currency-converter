@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { RefreshCw, AlertCircle, Database, Wifi } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -12,6 +13,7 @@ interface UpdatePromptProps {
 }
 
 export function UpdatePrompt({ show, onUpdate, onDismiss, hasCachedData }: UpdatePromptProps) {
+  const { t } = useTranslation();
   const [status] = usePWA();
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -24,7 +26,7 @@ export function UpdatePrompt({ show, onUpdate, onDismiss, hasCachedData }: Updat
     }
   };
 
-  const totalCacheSize = status.cacheStatus ? 
+  const totalCacheSize = status.cacheStatus ?
     Object.values(status.cacheStatus).reduce((total, cache) => total + cache.size, 0) : 0;
 
   return (
@@ -33,19 +35,19 @@ export function UpdatePrompt({ show, onUpdate, onDismiss, hasCachedData }: Updat
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <RefreshCw className="w-5 h-5 text-blue-600" />
-            New Version Available
+            {t('updatePrompt.title')}
           </DialogTitle>
         </DialogHeader>
-        
+
         <div className="space-y-4">
           <div className="flex items-start gap-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
             <AlertCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
             <div className="text-sm">
               <p className="font-medium text-blue-900 mb-1">
-                A new version of the app is ready to install
+                {t('updatePrompt.newVersionReady')}
               </p>
               <p className="text-blue-700">
-                This update may include bug fixes, performance improvements, and new features.
+                {t('updatePrompt.updateDetails')}
               </p>
             </div>
           </div>
@@ -55,18 +57,18 @@ export function UpdatePrompt({ show, onUpdate, onDismiss, hasCachedData }: Updat
               <Database className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
               <div className="text-sm">
                 <p className="font-medium text-amber-900 mb-1">
-                  Your data is safely cached
+                  {t('updatePrompt.dataCachedTitle')}
                 </p>
                 <div className="text-amber-700 space-y-1">
-                  <p>• Currency exchange rates and preferences are stored locally</p>
+                  <p>{t('updatePrompt.dataCachedDesc1')}</p>
                   {totalCacheSize > 0 && (
-                    <p>• Cache size: {formatCacheSize(totalCacheSize)}</p>
+                    <p>{t('updatePrompt.cacheSize', { size: formatCacheSize(totalCacheSize) })}</p>
                   )}
-                  <p>• All your pinned currencies will be preserved</p>
+                  <p>{t('updatePrompt.dataCachedDesc2')}</p>
                   {!status.isOnline && (
                     <div className="flex items-center gap-1 mt-2">
                       <Wifi className="w-4 h-4 text-amber-600" />
-                      <span className="font-medium">You're currently offline - cached data keeps the app working</span>
+                      <span className="font-medium">{t('updatePrompt.offlineNotice')}</span>
                     </div>
                   )}
                 </div>
@@ -83,33 +85,32 @@ export function UpdatePrompt({ show, onUpdate, onDismiss, hasCachedData }: Updat
               {isUpdating ? (
                 <>
                   <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                  Updating...
+                  {t('updatePrompt.updating')}
                 </>
               ) : (
                 <>
                   <RefreshCw className="w-4 h-4 mr-2" />
-                  Update Now
+                  {t('updatePrompt.updateNow')}
                 </>
               )}
             </Button>
-            
             <Button
               onClick={onDismiss}
               variant="outline"
               disabled={isUpdating}
               className="flex-1"
             >
-              Update Later
+              {t('updatePrompt.updateLater')}
             </Button>
           </div>
 
           <div className="text-xs text-gray-500 bg-gray-50 p-2 rounded border">
-            <p className="font-medium mb-1">What happens when you update:</p>
+            <p className="font-medium mb-1">{t('updatePrompt.whatHappens')}</p>
             <ul className="space-y-0.5 text-gray-600">
-              <li>• The app will reload with the latest version</li>
-              <li>• Your cached data and preferences remain safe</li>
-              <li>• Fresh exchange rates will be fetched when online</li>
-              <li>• All functionality will be preserved</li>
+              <li>{t('updatePrompt.reload')}</li>
+              <li>{t('updatePrompt.dataSafe')}</li>
+              <li>{t('updatePrompt.freshRates')}</li>
+              <li>{t('updatePrompt.allPreserved')}</li>
             </ul>
           </div>
         </div>

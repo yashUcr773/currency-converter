@@ -1,0 +1,332 @@
+{
+  "featureRequest": {
+    "githubTitle": "Issues de GitHub",
+    "githubDescription": "Crear un issue en nuestro repositorio de GitHub",
+    "githubAction": "Abrir GitHub",
+    "quickTitle": "Comentarios Rápidos",
+    "quickDescription": "Envía un mensaje rápido con tus sugerencias",
+    "quickAction": "Mensaje Rápido",
+    "historicalTitle": "Gráficos de Tasas Históricas",
+    "historicalDescription": "Ver tendencias de monedas a lo largo del tiempo",
+    "alertsTitle": "Alertas de Tasas",
+    "alertsDescription": "Recibe notificaciones cuando las tasas alcancen tu objetivo",
+    "cryptoTitle": "Soporte de Criptomonedas",
+    "cryptoDescription": "Convertir entre criptomonedas y monedas fiat",
+    "portfoliosTitle": "Múltiples Carteras",
+    "portfoliosDescription": "Guardar diferentes combinaciones de monedas",
+    "exportTitle": "Exportar Datos",
+    "exportDescription": "Exportar historial de conversiones a CSV",
+    "darkModeTitle": "Modo Oscuro",
+    "darkModeDescription": "Alternar entre temas claro y oscuro"
+  },
+  "donateButton": {
+    "buyMeCoffee": "Cómprame un café",
+    "supportWithCoffee": "Apoyar con un café",
+    "supportThisApp": "Apoyar esta App",
+    "supportProject": "Apoyar este Proyecto"
+  },
+  "pwaStatus": {
+    "installApp": "Instalar App",
+    "install": "Instalar",
+    "installable": "Instalable",
+    "installTitle": "Instala esta app para acceso rápido",
+    "installHint": "¡Esta app se puede instalar! Busca 'Instalar' o 'Agregar a Pantalla de Inicio' en el menú de tu navegador.",
+    "updateAvailable": "Actualización Disponible",
+    "update": "Actualizar",
+    "refresh": "Actualizar",
+    "clear": "Limpiar",
+    "installed": "Instalado",
+    "testUpdate": "Probar Actualización",
+    "clearCacheOfflineTitle": "¿Limpiar caché mientras está desconectado?",
+    "clearCacheOfflineDesc": "Actualmente estás <strong>desconectado</strong>. Limpiar el caché eliminará todos los datos almacenados incluyendo:",
+    "clearCacheOfflineList1": "Tasas de cambio en caché",
+    "clearCacheOfflineList2": "Funcionalidad sin conexión",
+    "clearCacheOfflineList3": "Datos de moneda cargados previamente",
+    "clearCacheOfflineWarn": "⚠️ La app puede no funcionar correctamente sin conexión a internet después de limpiar el caché.",
+    "cancel": "Cancelar",
+    "clearAnyway": "Limpiar de Todos Modos"
+  },
+  "updatePrompt": {
+    "title": "Nueva Versión Disponible",
+    "newVersionReady": "Una nueva versión de la app está lista para instalar",
+    "updateDetails": "Esta actualización puede incluir correcciones de errores, mejoras de rendimiento y nuevas características.",
+    "dataCachedTitle": "Tus datos están guardados de forma segura en caché",
+    "dataCachedDesc1": "• Las tasas de cambio y preferencias se almacenan localmente",
+    "dataCachedDesc2": "• Todas tus monedas fijadas se preservarán",
+    "cacheSize": "• Tamaño de caché: {{size}}",
+    "offlineNotice": "Actualmente estás desconectado - los datos en caché mantienen la app funcionando",
+    "updateNow": "Actualizar Ahora",
+    "updating": "Actualizando...",
+    "updateLater": "Actualizar Más Tarde",
+    "whatHappens": "Qué sucede cuando actualizas:",
+    "reload": "• La app se recargará con la versión más reciente",
+    "dataSafe": "• Tus datos en caché y preferencias permanecen seguros",
+    "freshRates": "• Se obtendrán tasas de cambio frescas cuando estés conectado",
+    "allPreserved": "• Toda la funcionalidad se preservará"
+  },
+  "app": {
+    "title": "Conversor de Monedas",
+    "subtitle": "Conversión de monedas en tiempo real • Fija tus favoritas",
+    "loading": "Cargando Conversor de Monedas",
+    "loadingSubtitle": "Obteniendo las últimas tasas de cambio",
+    "noRatesAvailable": "No hay Tasas de Cambio Disponibles",
+    "noRatesMessage": "No se pueden cargar las tasas de cambio. Verifique su conexión a internet e intente de nuevo.",
+    "retrying": "Reintentando...",
+    "retry": "Reintentar",
+    "statusInfo": "Almacenado localmente • Actualización automática • Precisión de 5 decimales",
+    "ratesRelativeTo": "Tasas relativas a",
+    "tapRateToChangeBase": "Toca cualquier tasa para cambiar la moneda base",
+    "liveRatesFrom": "Tasas en vivo de ExchangeRate-API"
+  },
+  "navigation": {
+    "about": "Acerca de",
+    "backToConverter": "Volver al Conversor",
+    "startConverting": "Comenzar a Convertir Monedas"
+  },
+  "converter": {
+    "amount": "Cantidad",
+    "from": "De",
+    "to": "A",
+    "convert": "Convertir",
+    "result": "Resultado",
+    "exchangeRate": "Tasa de Cambio",
+    "lastUpdated": "Última actualización",
+    "refreshRates": "Actualizar Tasas",
+    "addCurrency": "Agregar Moneda",
+    "pinCurrency": "Fijar Moneda",
+    "unpinCurrency": "Desfijar Moneda",
+    "baseCurrency": "Moneda Base",
+    "setAsBase": "Establecer como Base",
+    "searchCurrency": "Buscar monedas...",
+    "noCurrenciesFound": "No se encontraron monedas",
+    "errorLoadingRates": "Error al cargar las tasas de cambio",
+    "retryLoading": "Reintentar Carga",
+    "offlineMode": "Modo Sin Conexión",
+    "ratesExpired": "Las tasas pueden estar desactualizadas",
+    "addCurrencyTitle": "Agregar Moneda",
+    "currenciesCount": "150+ monedas",
+    "baseCurrencyLabel": "BASE",
+    "currencyCount": "{{filtered}} de {{total}} monedas",
+    "amountPlaceholder": "0.00"
+  },
+  "statusBar": {
+    "never": "Nunca",
+    "hoursMinutesAgo": "hace {{hours}}h {{minutes}}m",
+    "minutesAgo": "hace {{minutes}}m",
+    "justNow": "Ahora mismo",
+    "offlineMode": "Desconectado",
+    "ratesExpired": "Tasas expiradas",
+    "online": "En línea",
+    "lastUpdated": "Última actualización",
+    "updated": "Actualizado",
+    "refreshTitle": "Actualizar tasas de cambio",
+    "tryRefreshTitle": "Intentar actualizar tasas",
+    "syncing": "Sincronizando...",
+    "refresh": "Actualizar",
+    "tryRefresh": "Intentar actualizar",
+    "sync": "Sincronizar"
+  },
+  "calculator": {
+    "title": "Calculadora",
+    "tipCalculator": "Calculadora de Propinas",
+    "clear": "Limpiar",
+    "equals": "Igual",
+    "billAmount": "Monto de la Cuenta",
+    "tipPercent": "Propina %",
+    "customTip": "Personalizada",
+    "tipAmount": "Propina",
+    "total": "Total",
+    "calculation": "Cálculo:",
+    "selectCurrency": "Seleccionar Moneda",
+    "presets": "Preestablecidos"
+  },
+  "settings": {
+    "title": "Configuración",
+    "language": "Idioma",
+    "numberSystem": "Sistema Numérico",
+    "international": "Internacional",
+    "indian": "Indio",
+    "theme": "Tema",
+    "darkMode": "Modo Oscuro",
+    "notifications": "Notificaciones",
+    "privacy": "Privacidad"
+  },
+  "numberSystemToggle": {
+    "intl": "Intl",
+    "in": "IN",
+    "switchTo": "Cambiar a sistema {{system}}"
+  },
+  "debug": {
+    "current": "Actual",
+    "title": "Título",
+    "toggleLang": "Cambiar EN/ES"
+  },
+  "about": {
+    "title": "Acerca del Conversor de Monedas",
+    "heroTitle": "El Conversor de Monedas Que Realmente Quieres Usar",
+    "subtitle": "El Conversor de Monedas Que Realmente Quieres Usar",
+    "description": "Un conversor de monedas simple con soporte sin conexión, calculadora integrada y múltiples formatos numéricos. Rápido, confiable y privado.",
+    "freeOpenSource": "Gratuito y Código Abierto",
+    "freeDescription": "Conversor de monedas gratuito sin anuncios ni rastreo. El código fuente está disponible para que cualquiera lo revise, modifique o aprenda de él.",
+    "features": {
+      "title": "Características Principales",
+      "subtitle": "Funciones simples para la conversión diaria de monedas",
+      "fast": "Rápido",
+      "fastDesc": "Conversiones instantáneas con carga rápida",
+      "currencies": "150+ Monedas",
+      "currenciesDesc": "Soporte integral de monedas globales",
+      "privacy": "Privacidad Primero",
+      "privacyDesc": "Sin rastreo, sin anuncios, tus datos permanecen privados",
+      "offline": "Funciona Sin Conexión",
+      "offlineDesc": "Instalar como aplicación, funciona sin internet",
+      "fresh": "Siempre Actualizado",
+      "freshDesc": "Actualiza las tasas de cambio automáticamente",
+      "rich": "Funciones Ricas",
+      "richDesc": "Calculadora, sistemas numéricos, favoritos fijos"
+    },
+    "uniqueFeatures": {
+      "title": "Lo Que Lo Hace Especial",
+      "subtitle": "Características que distinguen a este conversor de monedas",
+      "calculator": "Calculadora Integrada",
+      "calculatorDesc": "Mini calculadora que se integra con conversiones de monedas. Realiza cálculos y usa directamente los resultados en campos de monedas.",
+      "numberSystem": "Alternar Sistema Numérico",
+      "numberSystemDesc": "Cambia entre sistemas de formato numérico Internacional (1,000,000) e Indio (10,00,000) con almacenamiento persistente de preferencias.",
+      "installApp": "Instalar como Aplicación",
+      "installAppDesc": "Agregar a la pantalla de inicio de tu dispositivo y usar como una aplicación nativa. Funciona incluso sin conexión.",
+      "smartBase": "Moneda Base Inteligente",
+      "smartBaseDesc": "Toca cualquier tasa de cambio para establecerla como moneda base. Las tasas de conversión dinámicas se actualizan automáticamente en todas las monedas fijas."
+    },
+    "useCases": {
+      "title": "Casos de Uso Comunes",
+      "subtitle": "Conversión simple de monedas para escenarios cotidianos",
+      "travel": "Planificación de Viajes",
+      "travelDesc": "Convierte monedas para presupuesto de viajes y planificación de gastos. Verifica cuánto vale tu dinero en diferentes países.",
+      "travelExamples": [
+        "Ve cuánto equivalen $500 en euros",
+        "Convierte el precio del hotel a tu moneda",
+        "Verifica cuánto valen 1000 yenes",
+        "Convierte cualquier cantidad entre monedas"
+      ],
+      "shopping": "Compras en Línea",
+      "shoppingDesc": "Convierte precios de sitios web internacionales a tu moneda local. Compara costos entre diferentes países.",
+      "shoppingExamples": [
+        "Convierte ¥15,000 a tu moneda",
+        "Ve cuánto cuestan £50 en dólares",
+        "Convierte cualquier precio extranjero",
+        "Verifica las tasas de cambio"
+      ],
+      "finance": "Finanzas Personales",
+      "financeDesc": "Convierte monedas para gestión de dinero personal, remesas y transacciones internacionales.",
+      "financeExamples": [
+        "Convierte montos de salario",
+        "Verifica tasas de cambio para transferencias",
+        "Ve valores de cuentas extranjeras",
+        "Convierte cualquier cantidad de dinero"
+      ],
+      "work": "Trabajo Remoto",
+      "workDesc": "Convierte pagos de clientes y tarifas de proyectos al trabajar con clientes internacionales.",
+      "workExamples": [
+        "Convierte tasa de $50/hora",
+        "Ve el pago en moneda local",
+        "Verifica valores de proyectos",
+        "Convierte montos de facturas"
+      ],
+      "education": "Educación e Investigación",
+      "educationDesc": "Estudia valores de monedas, comprende tasas de cambio y aprende sobre economía global con datos reales.",
+      "educationExamples": [
+        "Verifica tasas de cambio actuales",
+        "Estudia tendencias de monedas",
+        "Investiga monedas globales",
+        "Aprende sobre valores monetarios mundiales"
+      ],
+      "quickMath": "Matemáticas Rápidas y Conversión",
+      "quickMathDesc": "Usa la calculadora integrada para matemáticas, luego convierte el resultado a cualquier moneda.",
+      "quickMathExamples": [
+        "Calcula el monto de propina, luego convierte",
+        "Haz matemáticas, aplica resultado a moneda",
+        "Divide montos y convierte",
+        "Cálculos rápidos con moneda"
+      ]
+    },
+    "stats": {
+      "currenciesSupported": "Monedas Soportadas",
+      "decimalPrecision": "Precisión Decimal",
+      "cacheDuration": "Duración de Caché",
+      "privacyFocused": "Enfocado en Privacidad"
+    },
+    "links": {
+      "viewGithub": "Ver en GitHub",
+      "exchangeRateApi": "ExchangeRate-API",
+      "donate": "Apoyar Desarrollo"
+    },
+    "footerText": "Hecho con ❤️ para las necesidades de conversión de moneda en todo el mundo"
+  },
+  "aboutPage": {
+    "aboutTitle": "Acerca del Conversor",
+    "aboutFeatures": "Características"
+  },
+  "errors": {
+    "networkError": "Error de conexión de red",
+    "rateLoadError": "Falló la carga de tasas de cambio",
+    "invalidAmount": "Por favor ingresa una cantidad válida",
+    "currencyNotFound": "Moneda no encontrada",
+    "calculationError": "Error de cálculo",
+    "tryAgain": "Intentar de nuevo"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "close": "Cerrar",
+    "apply": "Aplicar",
+    "reset": "Restablecer",
+    "search": "Buscar",
+    "select": "Seleccionar",
+    "none": "Ninguno",
+    "all": "Todos",
+    "yes": "Sí",
+    "no": "No",
+    "testConnectivity": "Probar Conectividad Real a Internet"
+  },
+  "donate": {
+    "title": "Apoyar Desarrollo",
+    "description": "Ayuda a mantener este proyecto gratuito y de código abierto",
+    "buyMeCoffee": "Cómprame un café",
+    "monthly": "Apoyo Mensual",
+    "oneTime": "Apoyo Único"
+  },
+  "seo": {
+    "title": "Conversor de Monedas Pro - Tasas de Cambio en Tiempo Real",
+    "description": "Conversor de monedas profesional con tasas de cambio en tiempo real, soporte offline e interfaz elegante. Convierte entre 170+ monedas al instante.",
+    "keywords": "conversor de monedas, tasas de cambio, forex, cambio de divisas, convertidor de dinero, tasas en tiempo real",
+    "structuredData": {
+      "name": "Conversor de Monedas Pro",
+      "description": "Conversor de monedas profesional con tasas de cambio en tiempo real y soporte offline",
+      "author": "Equipo de Conversor de Monedas Pro",
+      "feature1": "Tasas de cambio en tiempo real",
+      "feature2": "Soporte offline",
+      "feature3": "170+ monedas",
+      "feature4": "Aplicación Web Progresiva",
+      "feature5": "Diseño responsivo móvil"
+    }
+  },
+  "miniCalculator": {
+    "title": "Calculadora",
+    "openCalculator": "Abrir Calculadora",
+    "calc": "Calc",
+    "calculatorTab": "Calculadora",
+    "tipTab": "Calculadora de Propinas",
+    "applyResultTo": "Aplicar resultado a:",
+    "clear": "Limpiar",
+    "pinCurrenciesFirst": "Fija algunas monedas primero para usar esta función",
+    "applyXToY": "Aplicar {{result}} a {{currency}}",
+    "selectCurrencyFirst": "Selecciona una moneda primero",
+    "billAmount": "Monto de la Cuenta",
+    "enterBillAmount": "Ingresa el monto de la cuenta",
+    "currency": "Moneda",
+    "tipPercentage": "Porcentaje de Propina",
+    "customPercent": "% Personalizado"
+  }
+}

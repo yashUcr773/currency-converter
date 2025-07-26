@@ -1,6 +1,7 @@
 import { Wifi, WifiOff, RefreshCw, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface StatusBarProps {
   isOnline: boolean;
@@ -17,8 +18,10 @@ export const StatusBar = ({
   syncing,
   onRefresh
 }: StatusBarProps) => {
+  const { t } = useTranslation();
+
   const formatLastSync = (timestamp: number) => {
-    if (!timestamp) return 'Never';
+    if (!timestamp) return t('statusBar.never');
     
     const now = Date.now();
     const diff = now - timestamp;
@@ -26,11 +29,11 @@ export const StatusBar = ({
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     
     if (hours > 0) {
-      return `${hours}h ${minutes}m ago`;
+      return t('statusBar.hoursMinutesAgo', { hours, minutes });
     } else if (minutes > 0) {
-      return `${minutes}m ago`;
+      return t('statusBar.minutesAgo', { minutes });
     } else {
-      return 'Just now';
+      return t('statusBar.justNow');
     }
   };
 
@@ -41,9 +44,9 @@ export const StatusBar = ({
   };
 
   const getStatusText = () => {
-    if (!isOnline) return 'Offline Mode';
-    if (areRatesExpired) return 'Rates Expired';
-    return 'Online';
+    if (!isOnline) return t('statusBar.offlineMode');
+    if (areRatesExpired) return t('statusBar.ratesExpired');
+    return t('statusBar.online');
   };
 
   const getStatusIcon = () => {
@@ -66,8 +69,8 @@ export const StatusBar = ({
       {/* Last sync and refresh */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-2 lg:gap-4 text-xs sm:text-sm text-slate-600 w-full sm:w-auto">
         <span className="font-medium">
-          <span className="hidden sm:inline">Last updated: </span>
-          <span className="sm:hidden">Updated: </span>
+          <span className="hidden sm:inline">{t('statusBar.lastUpdated')} </span>
+          <span className="sm:hidden">{t('statusBar.updated')} </span>
           <span className="text-slate-500 font-medium">{formatLastSync(lastSync)}</span>
         </span>
         
@@ -83,14 +86,14 @@ export const StatusBar = ({
               ? "hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-700 hover:border-blue-200 text-slate-600"
               : "hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 hover:text-orange-700 hover:border-orange-200 text-slate-500"
           )}
-          title={isOnline ? "Refresh exchange rates" : "Try to refresh (you appear offline)"}
+          title={isOnline ? t('statusBar.refreshTitle') : t('statusBar.tryRefreshTitle')}
         >
           <RefreshCw 
             size={12} 
             className={`sm:w-3.5 sm:h-3.5 ${syncing ? 'animate-spin' : ''}`} 
           />
-          <span className="hidden sm:inline">{syncing ? 'Syncing...' : isOnline ? 'Refresh' : 'Try Refresh'}</span>
-          <span className="sm:hidden">{syncing ? 'Sync' : '🔄'}</span>
+          <span className="hidden sm:inline">{syncing ? t('statusBar.syncing') : isOnline ? t('statusBar.refresh') : t('statusBar.tryRefresh')}</span>
+          <span className="sm:hidden">{syncing ? t('statusBar.sync') : '🔄'}</span>
         </Button>
       </div>
     </div>

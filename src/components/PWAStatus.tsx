@@ -1,4 +1,5 @@
 import { WifiOff, Download, RefreshCw, Trash2, AlertTriangle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 import { usePWA, formatCacheSize } from '../hooks/usePWA';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -14,6 +15,7 @@ interface PWAStatusProps {
 }
 
 export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
+  const { t } = useTranslation();
   const [status, actions] = usePWA();
   const [showClearCacheDialog, setShowClearCacheDialog] = useState(false);
   const [showUpdatePrompt, setShowUpdatePrompt] = useState(false);
@@ -79,11 +81,11 @@ export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
         <button
           onClick={actions.installApp}
           className="flex items-center gap-1 px-2 sm:px-3 py-1 text-blue-600 bg-blue-100 hover:bg-blue-200 rounded-full transition-colors dark:bg-blue-900/20 dark:text-blue-400 dark:hover:bg-blue-900/30 touch-manipulation"
-          title="Install this app for quick access"
+          title={t('pwaStatus.installTitle')}
         >
           <Download className="w-3 h-3" />
-          <span className="hidden sm:inline">Install App</span>
-          <span className="sm:hidden">Install</span>
+          <span className="hidden sm:inline">{t('pwaStatus.installApp')}</span>
+          <span className="sm:hidden">{t('pwaStatus.install')}</span>
         </button>
       )}
 
@@ -91,10 +93,10 @@ export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
       {!status.canInstall && !status.isInstalled && (
         <div 
           className="flex items-center gap-1 px-2 py-1 text-gray-500 text-xs cursor-help"
-          title="This app can be installed! Look for 'Install' or 'Add to Home Screen' in your browser menu."
+          title={t('pwaStatus.installHint')}
         >
           <Download className="w-3 h-3" />
-          <span className="hidden sm:inline">Installable</span>
+          <span className="hidden sm:inline">{t('pwaStatus.installable')}</span>
           <span className="sm:hidden">📱</span>
         </div>
       )}
@@ -106,8 +108,8 @@ export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
           className="flex items-center gap-1 px-2 sm:px-3 py-1 text-orange-600 bg-orange-100 hover:bg-orange-200 rounded-full transition-colors dark:bg-orange-900/20 dark:text-orange-400 dark:hover:bg-orange-900/30 touch-manipulation"
         >
           <RefreshCw className="w-3 h-3" />
-          <span className="hidden sm:inline">Update Available</span>
-          <span className="sm:hidden">Update</span>
+          <span className="hidden sm:inline">{t('pwaStatus.updateAvailable')}</span>
+          <span className="sm:hidden">{t('pwaStatus.update')}</span>
         </button>
       )}
 
@@ -117,19 +119,19 @@ export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
           <button
             onClick={actions.refreshData}
             className="flex items-center gap-1 px-2 py-1 text-gray-600 hover:text-blue-600 rounded transition-colors dark:text-gray-400 dark:hover:text-blue-400 touch-manipulation"
-            title="Refresh Data"
+            title={t('pwaStatus.refresh')}
           >
             <RefreshCw className="w-3 h-3" />
-            <span className="hidden sm:inline text-xs">Refresh</span>
+            <span className="hidden sm:inline text-xs">{t('pwaStatus.refresh')}</span>
           </button>
           
           <button
             onClick={handleClearCache}
             className="flex items-center gap-1 px-2 py-1 text-gray-600 hover:text-red-600 rounded transition-colors dark:text-gray-400 dark:hover:text-red-400 touch-manipulation"
-            title="Clear Cache"
+            title={t('pwaStatus.clear')}
           >
             <Trash2 className="w-3 h-3" />
-            <span className="hidden sm:inline text-xs">Clear</span>
+            <span className="hidden sm:inline text-xs">{t('pwaStatus.clear')}</span>
           </button>
           
           <span className="text-xs text-gray-500 dark:text-gray-400 hidden sm:inline">
@@ -144,7 +146,7 @@ export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
       {status.isInstalled && (
         <div className="flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded-full dark:bg-green-900/20 dark:text-green-400">
           <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-          <span className="hidden sm:inline">Installed</span>
+          <span className="hidden sm:inline">{t('pwaStatus.installed')}</span>
           <span className="sm:hidden">✓</span>
         </div>
       )}
@@ -154,9 +156,9 @@ export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
         <button
           onClick={testUpdatePrompt}
           className="flex items-center gap-1 px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs hover:bg-purple-200 transition-colors"
-          title="Test Update Prompt (Dev Only)"
+          title={t('pwaStatus.testUpdate')}
         >
-          Test Update
+          {t('pwaStatus.testUpdate')}
         </button>
       )}
 
@@ -198,7 +200,7 @@ export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
           }
         }}
         className="px-2 py-1 text-xs text-blue-600 hover:text-blue-800 rounded transition-colors"
-        title="Test Real Internet Connectivity"
+        title={t('common.testConnectivity')}
       >
         🌐
       </button>
@@ -209,22 +211,20 @@ export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-amber-700">
               <AlertTriangle className="w-5 h-5" />
-              Clear Cache While Offline?
+              {t('pwaStatus.clearCacheOfflineTitle')}
             </DialogTitle>
           </DialogHeader>
           
           <div className="space-y-4">
             <div className="text-sm text-slate-700 leading-relaxed">
-              <p className="mb-3">
-                You're currently <strong>offline</strong>. Clearing the cache will remove all stored data including:
-              </p>
+              <p className="mb-3" dangerouslySetInnerHTML={{ __html: t('pwaStatus.clearCacheOfflineDesc') }} />
               <ul className="list-disc pl-6 space-y-1 text-xs text-slate-600">
-                <li>Cached exchange rates</li>
-                <li>Offline functionality</li>
-                <li>Previously loaded currency data</li>
+                <li>{t('pwaStatus.clearCacheOfflineList1')}</li>
+                <li>{t('pwaStatus.clearCacheOfflineList2')}</li>
+                <li>{t('pwaStatus.clearCacheOfflineList3')}</li>
               </ul>
               <p className="mt-3 text-amber-700 font-medium">
-                ⚠️ The app may not work properly without an internet connection after clearing the cache.
+                {t('pwaStatus.clearCacheOfflineWarn')}
               </p>
             </div>
             
@@ -234,14 +234,14 @@ export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
                 onClick={() => setShowClearCacheDialog(false)}
                 className="text-xs px-3 py-2"
               >
-                Cancel
+                {t('pwaStatus.cancel')}
               </Button>
               <Button
                 variant="destructive"
                 onClick={confirmClearCache}
                 className="text-xs px-3 py-2"
               >
-                Clear Anyway
+                {t('pwaStatus.clearAnyway')}
               </Button>
             </div>
           </div>
@@ -260,6 +260,7 @@ export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
 }
 
 export function OfflineNotice() {
+  const { t } = useTranslation();
   const [status] = usePWA();
 
   if (status.isOnline) return null;
@@ -269,9 +270,9 @@ export function OfflineNotice() {
       <div className="flex items-center gap-3">
         <WifiOff className="w-5 h-5 text-amber-600 dark:text-amber-400" />
         <div>
-          <h3 className="font-medium text-amber-800 dark:text-amber-200">You're currently offline</h3>
+          <h3 className="font-medium text-amber-800 dark:text-amber-200">{t('pwaStatus.offlineTitle')}</h3>
           <p className="text-sm text-amber-700 dark:text-amber-300">
-            Using cached exchange rates. Connect to the internet for the latest rates.
+            {t('pwaStatus.offlineDesc')}
           </p>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
@@ -49,28 +50,23 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   };
 
   render() {
-    if (this.state.hasError) {
-      // Custom fallback UI
-      if (this.props.fallback) {
-        const FallbackComponent = this.props.fallback;
-        return <FallbackComponent error={this.state.error!} resetError={this.resetError} />;
-      }
-
-      // Default fallback UI
+    // Use a hook in a class component via a wrapper
+    const TranslatedFallback = () => {
+      const { t } = useTranslation();
       return (
         <div className="min-h-screen bg-background flex items-center justify-center p-4">
           <Card className="max-w-md mx-auto">
             <CardContent className="p-8 text-center">
               <AlertTriangle className="w-16 h-16 text-destructive mx-auto mb-4" />
-              <h2 className="text-xl font-semibold mb-2">Something went wrong</h2>
+              <h2 className="text-xl font-semibold mb-2">{t('errorBoundary.somethingWentWrong')}</h2>
               <p className="text-muted-foreground mb-6">
-                We're sorry, but something unexpected happened. Please try refreshing the page.
+                {t('errorBoundary.unexpectedHappened')}
               </p>
               
               <div className="space-y-3">
                 <Button onClick={this.resetError} className="w-full">
                   <RefreshCw className="w-4 h-4 mr-2" />
-                  Try Again
+                  {t('errorBoundary.tryAgain')}
                 </Button>
                 
                 <Button 
@@ -78,14 +74,14 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
                   onClick={() => window.location.reload()} 
                   className="w-full"
                 >
-                  Refresh Page
+                  {t('errorBoundary.refreshPage')}
                 </Button>
               </div>
 
               {import.meta.env.DEV && this.state.error && (
                 <details className="mt-6 text-left">
                   <summary className="cursor-pointer text-sm text-muted-foreground">
-                    Error Details (Development Only)
+                    {t('errorBoundary.errorDetails')}
                   </summary>
                   <pre className="mt-2 text-xs bg-muted p-3 rounded overflow-auto max-h-32">
                     {this.state.error.toString()}
@@ -96,6 +92,17 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
           </Card>
         </div>
       );
+    };
+
+    if (this.state.hasError) {
+      // Custom fallback UI
+      if (this.props.fallback) {
+        const FallbackComponent = this.props.fallback;
+        return <FallbackComponent error={this.state.error!} resetError={this.resetError} />;
+      }
+
+      // Default fallback UI with translations
+      return <TranslatedFallback />;
     }
 
     return this.props.children;

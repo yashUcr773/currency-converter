@@ -1,0 +1,332 @@
+{
+  "featureRequest": {
+    "githubTitle": "GitHub Issues",
+    "githubDescription": "Erstellen Sie ein Issue in unserem GitHub Repository",
+    "githubAction": "GitHub öffnen",
+    "quickTitle": "Schnelles Feedback",
+    "quickDescription": "Senden Sie eine kurze Nachricht mit Ihren Vorschlägen",
+    "quickAction": "Kurze Nachricht",
+    "historicalTitle": "Historische Kurscharts",
+    "historicalDescription": "Währungstrends über Zeit anzeigen",
+    "alertsTitle": "Kurs-Benachrichtigungen",
+    "alertsDescription": "Benachrichtigung erhalten, wenn Kurse Ihr Ziel erreichen",
+    "cryptoTitle": "Kryptowährungsunterstützung",
+    "cryptoDescription": "Zwischen Krypto- und Fiat-Währungen umrechnen",
+    "portfoliosTitle": "Mehrere Portfolios",
+    "portfoliosDescription": "Verschiedene Währungskombinationen speichern",
+    "exportTitle": "Daten exportieren",
+    "exportDescription": "Umrechnungshistorie nach CSV exportieren",
+    "darkModeTitle": "Dunkler Modus",
+    "darkModeDescription": "Zwischen hellem und dunklem Design wechseln"
+  },
+  "donateButton": {
+    "buyMeCoffee": "Kauf mir einen Kaffee",
+    "supportWithCoffee": "Mit einem Kaffee unterstützen",
+    "supportThisApp": "Diese App unterstützen",
+    "supportProject": "Dieses Projekt unterstützen"
+  },
+  "pwaStatus": {
+    "installApp": "App installieren",
+    "install": "Installieren",
+    "installable": "Installierbar",
+    "installTitle": "Diese App für schnellen Zugriff installieren",
+    "installHint": "Diese App kann installiert werden! Suchen Sie nach 'Installieren' oder 'Zum Home-Bildschirm hinzufügen' in Ihrem Browser-Menü.",
+    "updateAvailable": "Update verfügbar",
+    "update": "Aktualisieren",
+    "refresh": "Aktualisieren",
+    "clear": "Löschen",
+    "installed": "Installiert",
+    "testUpdate": "Update testen",
+    "clearCacheOfflineTitle": "Cache löschen während offline?",
+    "clearCacheOfflineDesc": "Sie sind derzeit <strong>offline</strong>. Das Löschen des Cache entfernt alle gespeicherten Daten einschließlich:",
+    "clearCacheOfflineList1": "Zwischengespeicherte Wechselkurse",
+    "clearCacheOfflineList2": "Offline-Funktionalität",
+    "clearCacheOfflineList3": "Zuvor geladene Währungsdaten",
+    "clearCacheOfflineWarn": "⚠️ Die App funktioniert möglicherweise nicht ordnungsgemäß ohne Internetverbindung nach dem Löschen des Cache.",
+    "cancel": "Abbrechen",
+    "clearAnyway": "Trotzdem löschen"
+  },
+  "updatePrompt": {
+    "title": "Neue Version verfügbar",
+    "newVersionReady": "Eine neue Version der App ist bereit zur Installation",
+    "updateDetails": "Dieses Update kann Fehlerbehebungen, Leistungsverbesserungen und neue Funktionen enthalten.",
+    "dataCachedTitle": "Ihre Daten sind sicher zwischengespeichert",
+    "dataCachedDesc1": "• Wechselkurse und Einstellungen werden lokal gespeichert",
+    "dataCachedDesc2": "• Alle Ihre gepinnten Währungen bleiben erhalten",
+    "cacheSize": "• Cache-Größe: {{size}}",
+    "offlineNotice": "Sie sind derzeit offline - zwischengespeicherte Daten halten die App am Laufen",
+    "updateNow": "Jetzt aktualisieren",
+    "updating": "Wird aktualisiert...",
+    "updateLater": "Später aktualisieren",
+    "whatHappens": "Was passiert beim Update:",
+    "reload": "• Die App wird mit der neuesten Version neu geladen",
+    "dataSafe": "• Ihre zwischengespeicherten Daten und Einstellungen bleiben sicher",
+    "freshRates": "• Neue Wechselkurse werden bei Online-Verbindung abgerufen",
+    "allPreserved": "• Alle Funktionen bleiben erhalten"
+  },
+  "app": {
+    "title": "Währungsrechner",
+    "subtitle": "Echtzeit-Währungsumrechnung • Favoriten anheften",
+    "loading": "Währungsrechner laden",
+    "loadingSubtitle": "Neueste Wechselkurse abrufen",
+    "noRatesAvailable": "Keine Wechselkurse Verfügbar",
+    "noRatesMessage": "Wechselkurse können nicht geladen werden. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
+    "retrying": "Wiederhole...",
+    "retry": "Wiederholen",
+    "statusInfo": "Lokal zwischengespeichert • Automatische Updates • 5-stellige Genauigkeit",
+    "ratesRelativeTo": "Kurse relativ zu",
+    "tapRateToChangeBase": "Tippen Sie auf einen Kurs, um die Basiswährung zu ändern",
+    "liveRatesFrom": "Live-Kurse von ExchangeRate-API"
+  },
+  "navigation": {
+    "about": "Über",
+    "backToConverter": "Zurück zum Rechner",
+    "startConverting": "Währungen umrechnen"
+  },
+  "converter": {
+    "amount": "Betrag",
+    "from": "Von",
+    "to": "Nach",
+    "convert": "Umrechnen",
+    "result": "Ergebnis",
+    "exchangeRate": "Wechselkurs",
+    "lastUpdated": "Zuletzt aktualisiert",
+    "refreshRates": "Kurse aktualisieren",
+    "addCurrency": "Währung hinzufügen",
+    "pinCurrency": "Währung anheften",
+    "unpinCurrency": "Währung lösen",
+    "baseCurrency": "Basiswährung",
+    "setAsBase": "Als Basis festlegen",
+    "searchCurrency": "Währungen suchen...",
+    "noCurrenciesFound": "Keine Währungen gefunden",
+    "errorLoadingRates": "Fehler beim Laden der Wechselkurse",
+    "retryLoading": "Laden wiederholen",
+    "offlineMode": "Offline-Modus",
+    "ratesExpired": "Kurse könnten veraltet sein",
+    "addCurrencyTitle": "Währung Hinzufügen",
+    "currenciesCount": "150+ Währungen",
+    "baseCurrencyLabel": "BASIS",
+    "currencyCount": "{{filtered}} von {{total}} Währungen",
+    "amountPlaceholder": "0,00"
+  },
+  "statusBar": {
+    "never": "Nie",
+    "hoursMinutesAgo": "vor {{hours}}h {{minutes}}m",
+    "minutesAgo": "vor {{minutes}}m",
+    "justNow": "Gerade eben",
+    "offlineMode": "Offline",
+    "ratesExpired": "Kurse abgelaufen",
+    "online": "Online",
+    "lastUpdated": "Zuletzt aktualisiert",
+    "updated": "Aktualisiert",
+    "refreshTitle": "Wechselkurse aktualisieren",
+    "tryRefreshTitle": "Versuche Kurse zu aktualisieren",
+    "syncing": "Synchronisiere...",
+    "refresh": "Aktualisieren",
+    "tryRefresh": "Versuche zu aktualisieren",
+    "sync": "Synchronisieren"
+  },
+  "calculator": {
+    "title": "Rechner",
+    "tipCalculator": "Trinkgeldrechner",
+    "clear": "Löschen",
+    "equals": "Gleich",
+    "billAmount": "Rechnungsbetrag",
+    "tipPercent": "Trinkgeld %",
+    "customTip": "Benutzerdefiniert",
+    "tipAmount": "Trinkgeld",
+    "total": "Gesamt",
+    "calculation": "Berechnung:",
+    "selectCurrency": "Währung auswählen",
+    "presets": "Voreinstellungen"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "language": "Sprache",
+    "numberSystem": "Zahlensystem",
+    "international": "International",
+    "indian": "Indisch",
+    "theme": "Design",
+    "darkMode": "Dunkler Modus",
+    "notifications": "Benachrichtigungen",
+    "privacy": "Datenschutz"
+  },
+  "numberSystemToggle": {
+    "intl": "Intl",
+    "in": "IN",
+    "switchTo": "Zu {{system}} System wechseln"
+  },
+  "common": {
+    "loading": "Laden...",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "close": "Schließen",
+    "apply": "Anwenden",
+    "reset": "Zurücksetzen",
+    "search": "Suchen",
+    "select": "Auswählen",
+    "none": "Keine",
+    "all": "Alle",
+    "yes": "Ja",
+    "no": "Nein",
+    "testConnectivity": "Echte Internetverbindung Testen"
+  },
+  "donate": {
+    "title": "Entwicklung unterstützen",
+    "description": "Helfen Sie, dieses Projekt kostenlos und open source zu halten",
+    "buyMeCoffee": "Kauf mir einen Kaffee",
+    "monthly": "Monatliche Unterstützung",
+    "oneTime": "Einmalige Unterstützung"
+  },
+  "seo": {
+    "title": "Währungsrechner Pro - Echtzeit-Wechselkurse",
+    "description": "Professioneller Währungsrechner mit Echtzeit-Wechselkursen, Offline-Unterstützung und schöner Benutzeroberfläche. Konvertieren Sie zwischen 170+ Währungen sofort.",
+    "keywords": "währungsrechner, wechselkurse, forex, währungstausch, geldkonverter, echtzeit-kurse",
+    "structuredData": {
+      "name": "Währungsrechner Pro",
+      "description": "Professioneller Währungsrechner mit Echtzeit-Wechselkursen und Offline-Unterstützung",
+      "author": "Währungsrechner Pro Team",
+      "feature1": "Echtzeit-Wechselkurse",
+      "feature2": "Offline-Unterstützung",
+      "feature3": "170+ Währungen",
+      "feature4": "Progressive Web-App",
+      "feature5": "Mobile-responsive Design"
+    }
+  },
+  "miniCalculator": {
+    "title": "Rechner",
+    "openCalculator": "Rechner öffnen",
+    "calc": "Rechner",
+    "calculatorTab": "Rechner",
+    "tipTab": "Trinkgeldrechner",
+    "applyResultTo": "Ergebnis anwenden auf:",
+    "clear": "Löschen",
+    "pinCurrenciesFirst": "Pinnen Sie zuerst einige Währungen, um diese Funktion zu nutzen",
+    "applyXToY": "{{result}} auf {{currency}} anwenden",
+    "selectCurrencyFirst": "Wählen Sie zuerst eine Währung",
+    "billAmount": "Rechnungsbetrag",
+    "enterBillAmount": "Rechnungsbetrag eingeben",
+    "currency": "Währung",
+    "tipPercentage": "Trinkgeld-Prozentsatz",
+    "customPercent": "Benutzerdefiniert %"
+  },
+  "debug": {
+    "current": "Aktuell",
+    "title": "Titel",
+    "toggleLang": "DE/EN wechseln"
+  },
+  "about": {
+    "title": "Über den Währungsrechner",
+    "heroTitle": "Der Währungsrechner, den Sie wirklich verwenden möchten",
+    "subtitle": "Der Währungsrechner, den Sie wirklich verwenden möchten",
+    "description": "Ein einfacher Währungsrechner mit Offline-Unterstützung, integriertem Rechner und mehreren Zahlenformaten. Schnell, zuverlässig und privat.",
+    "freeOpenSource": "Kostenlos und Open Source",
+    "freeDescription": "Kostenloser Währungsrechner ohne Werbung oder Tracking. Der Quellcode ist für jeden verfügbar, um ihn zu überprüfen, zu ändern oder daraus zu lernen.",
+    "features": {
+      "title": "Hauptfunktionen",
+      "subtitle": "Einfache Funktionen für die tägliche Währungsumrechnung",
+      "fast": "Schnell",
+      "fastDesc": "Sofortige Umrechnungen mit schnellem Laden",
+      "currencies": "150+ Währungen",
+      "currenciesDesc": "Umfassende globale Währungsunterstützung",
+      "privacy": "Datenschutz zuerst",
+      "privacyDesc": "Kein Tracking, keine Werbung, Ihre Daten bleiben privat",
+      "offline": "Funktioniert offline",
+      "offlineDesc": "Als App installieren, funktioniert ohne Internet",
+      "fresh": "Immer aktuell",
+      "freshDesc": "Aktualisiert Wechselkurse automatisch",
+      "rich": "Reiche Funktionen",
+      "richDesc": "Rechner, Zahlensysteme, Favoriten anheften"
+    },
+    "uniqueFeatures": {
+      "title": "Was es besonders macht",
+      "subtitle": "Funktionen, die diesen Währungsrechner auszeichnen",
+      "calculator": "Integrierter Rechner",
+      "calculatorDesc": "Mini-Rechner, der sich in Währungsumrechnungen integriert. Führen Sie Berechnungen durch und verwenden Sie die Ergebnisse direkt in Währungsfeldern.",
+      "numberSystem": "Zahlensystem-Umschaltung",
+      "numberSystemDesc": "Wechseln Sie zwischen internationalen (1.000.000) und indischen (10,00,000) Zahlenformaten mit dauerhafter Präferenzspeicherung.",
+      "installApp": "Als App installieren",
+      "installAppDesc": "Zum Startbildschirm Ihres Geräts hinzufügen und wie eine native App verwenden. Funktioniert auch offline.",
+      "smartBase": "Intelligente Basiswährung",
+      "smartBaseDesc": "Tippen Sie auf einen beliebigen Wechselkurs, um ihn als Basiswährung festzulegen. Dynamische Umrechnungskurse werden automatisch für alle gepinnten Währungen aktualisiert."
+    },
+    "useCases": {
+      "title": "Häufige Anwendungsfälle",
+      "subtitle": "Einfache Währungsumrechnung für alltägliche Szenarien",
+      "travel": "Reiseplanung",
+      "travelDesc": "Währungen für Reisebudget und Ausgabenplanung umrechnen. Prüfen Sie, wie viel Ihr Geld in verschiedenen Ländern wert ist.",
+      "travelExamples": [
+        "Sehen Sie, was $500 in Euro entspricht",
+        "Hotelpreis in Ihre Währung umrechnen",
+        "Prüfen Sie, wie viel 1000 Yen wert sind",
+        "Beliebige Beträge zwischen Währungen umrechnen"
+      ],
+      "shopping": "Online-Shopping",
+      "shoppingDesc": "Preise von internationalen Websites in Ihre lokale Währung umrechnen. Kosten zwischen verschiedenen Ländern vergleichen.",
+      "shoppingExamples": [
+        "¥15.000 in Ihre Währung umrechnen",
+        "Sehen Sie, was £50 in Dollar kostet",
+        "Beliebige ausländische Preise umrechnen",
+        "Wechselkurse prüfen"
+      ],
+      "finance": "Persönliche Finanzen",
+      "financeDesc": "Währungen für persönliches Geldmanagement, Überweisungen und internationale Transaktionen umrechnen.",
+      "financeExamples": [
+        "Gehaltsbeträge umrechnen",
+        "Wechselkurse für Überweisungen prüfen",
+        "Ausländische Kontowerte sehen",
+        "Beliebige Geldbeträge umrechnen"
+      ],
+      "work": "Remote-Arbeit",
+      "workDesc": "Kundenzahlungen und Projekttarife bei der Arbeit mit internationalen Kunden umrechnen.",
+      "workExamples": [
+        "$50/Stunde Tarif umrechnen",
+        "Zahlung in lokaler Währung sehen",
+        "Projektwerte prüfen",
+        "Rechnungsbeträge umrechnen"
+      ],
+      "education": "Bildung und Forschung",
+      "educationDesc": "Währungswerte studieren, Wechselkurse verstehen und über globale Wirtschaft mit echten Daten lernen.",
+      "educationExamples": [
+        "Aktuelle Wechselkurse prüfen",
+        "Währungstrends studieren",
+        "Globale Währungen erforschen",
+        "Über weltweite Geldwerte lernen"
+      ],
+      "quickMath": "Schnelle Mathematik und Umrechnung",
+      "quickMathDesc": "Verwenden Sie den integrierten Rechner für Mathematik und konvertieren Sie dann das Ergebnis in jede Währung.",
+      "quickMathExamples": [
+        "Trinkgeldbetrag berechnen, dann umrechnen",
+        "Mathematik machen, Ergebnis auf Währung anwenden",
+        "Beträge aufteilen und umrechnen",
+        "Schnelle Berechnungen mit Währung"
+      ]
+    },
+    "stats": {
+      "currenciesSupported": "Unterstützte Währungen",
+      "decimalPrecision": "Dezimalgenauigkeit",
+      "cacheDuration": "Cache-Dauer",
+      "privacyFocused": "Datenschutzorientiert"
+    },
+    "links": {
+      "viewGithub": "Auf GitHub anzeigen",
+      "exchangeRateApi": "ExchangeRate-API",
+      "donate": "Entwicklung unterstützen"
+    },
+    "footerText": "Mit ❤️ für weltweite Währungsumrechnungsbedürfnisse gemacht"
+  },
+  "aboutPage": {
+    "aboutTitle": "Über den Rechner",
+    "aboutFeatures": "Funktionen"
+  },
+  "errors": {
+    "networkError": "Netzwerkverbindungsfehler",
+    "rateLoadError": "Laden der Wechselkurse fehlgeschlagen",
+    "invalidAmount": "Bitte geben Sie einen gültigen Betrag ein",
+    "currencyNotFound": "Währung nicht gefunden",
+    "calculationError": "Berechnungsfehler",
+    "tryAgain": "Erneut versuchen"
+  }
+}

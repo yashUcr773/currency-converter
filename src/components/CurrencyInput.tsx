@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { X } from 'lucide-react';
 import type { PinnedCurrency } from '../types';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -26,6 +27,7 @@ export const CurrencyInput = ({
   baseCurrency = 'USD',
   onSetBaseCurrency
 }: CurrencyInputProps) => {
+  const { t } = useTranslation();
   const [inputValue, setInputValue] = useState('');
   const [numberSystem, setNumberSystem] = useState<NumberSystem>('international');
 
@@ -123,7 +125,7 @@ export const CurrencyInput = ({
               {currency.code === baseCurrency && (
                 <div className="inline-flex items-center gap-0.5 bg-emerald-100 border border-emerald-200 px-1 py-0.5 sm:px-1.5 rounded-sm sm:rounded-md">
                   <div className="w-1 h-1 bg-emerald-500 rounded-full animate-pulse"></div>
-                  <span className="text-xs font-semibold text-emerald-700">BASE</span>
+                  <span className="text-xs font-semibold text-emerald-700">{t('converter.baseCurrencyLabel')}</span>
                 </div>
               )}
             </div>
@@ -170,7 +172,7 @@ export const CurrencyInput = ({
             onChange={handleAmountChange}
             disabled={disabled}
             className="pl-10 pr-2.5 sm:pl-12 sm:pr-3 text-sm sm:text-base font-bold h-10 sm:h-12 bg-gradient-to-r from-slate-50/80 to-white border border-slate-200/80 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 hover:border-slate-300 transition-all duration-300 text-slate-800 rounded-lg sm:rounded-xl shadow-sm hover:shadow-md focus:shadow-lg backdrop-blur-sm placeholder:text-slate-400"
-            placeholder="0.00"
+            placeholder={t('converter.amountPlaceholder')}
           />
         </div>
       </CardContent>

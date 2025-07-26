@@ -1,0 +1,331 @@
+{
+  "featureRequest": {
+    "githubTitle": "Issues GitHub",
+    "githubDescription": "Créer un issue dans notre dépôt GitHub",
+    "githubAction": "Ouvrir GitHub",
+    "quickTitle": "Commentaires Rapides",
+    "quickDescription": "Envoyer un message rapide avec vos suggestions",
+    "quickAction": "Message Rapide",
+    "historicalTitle": "Graphiques de Taux Historiques",
+    "historicalDescription": "Voir les tendances des devises dans le temps",
+    "alertsTitle": "Alertes de Taux",
+    "alertsDescription": "Recevez des notifications lorsque les taux atteignent votre cible",
+    "cryptoTitle": "Support des Cryptomonnaies",
+    "cryptoDescription": "Convertir entre cryptomonnaies et devises fiduciaires",
+    "portfoliosTitle": "Portefeuilles Multiples",
+    "portfoliosDescription": "Sauvegarder différentes combinaisons de devises",
+    "exportTitle": "Exporter les Données",
+    "exportDescription": "Exporter l'historique des conversions vers CSV",
+    "darkModeTitle": "Mode Sombre",
+    "darkModeDescription": "Basculer entre les thèmes clairs et sombres"
+  },
+  "donateButton": {
+    "buyMeCoffee": "Offrez-moi un café",
+    "supportWithCoffee": "Soutenir avec un café",
+    "supportThisApp": "Soutenir cette App",
+    "supportProject": "Soutenir ce Projet"
+  },
+  "pwaStatus": {
+    "installApp": "Installer l'App",
+    "install": "Installer",
+    "installable": "Installable",
+    "installTitle": "Installer cette app pour un accès rapide",
+    "installHint": "Cette app peut être installée ! Cherchez 'Installer' ou 'Ajouter à l'écran d'accueil' dans le menu de votre navigateur.",
+    "updateAvailable": "Mise à Jour Disponible",
+    "update": "Mettre à jour",
+    "refresh": "Actualiser",
+    "clear": "Effacer",
+    "installed": "Installé",
+    "testUpdate": "Tester la Mise à Jour",
+    "clearCacheOfflineTitle": "Vider le cache hors ligne ?",
+    "clearCacheOfflineDesc": "Vous êtes actuellement <strong>hors ligne</strong>. Vider le cache supprimera toutes les données stockées y compris :",
+    "clearCacheOfflineList1": "Taux de change mis en cache",
+    "clearCacheOfflineList2": "Fonctionnalité hors ligne",
+    "clearCacheOfflineList3": "Données de devises précédemment chargées",
+    "clearCacheOfflineWarn": "⚠️ L'app peut ne pas fonctionner correctement sans connexion internet après avoir vidé le cache.",
+    "cancel": "Annuler",
+    "clearAnyway": "Vider Quand Même"
+  },
+  "updatePrompt": {
+    "title": "Nouvelle Version Disponible",
+    "newVersionReady": "Une nouvelle version de l'app est prête à être installée",
+    "updateDetails": "Cette mise à jour peut inclure des corrections de bugs, des améliorations de performance et de nouvelles fonctionnalités.",
+    "dataCachedTitle": "Vos données sont sauvegardées en cache de manière sécurisée",
+    "dataCachedDesc1": "• Les taux de change et préférences sont stockés localement",
+    "dataCachedDesc2": "• Toutes vos devises épinglées seront préservées",
+    "cacheSize": "• Taille du cache : {{size}}",
+    "offlineNotice": "Vous êtes actuellement hors ligne - les données en cache maintiennent l'app en fonctionnement",
+    "updateNow": "Mettre à Jour Maintenant",
+    "updating": "Mise à jour...",
+    "updateLater": "Mettre à Jour Plus Tard",
+    "whatHappens": "Ce qui se passe lors de la mise à jour :",
+    "reload": "• L'app sera rechargée avec la dernière version",
+    "dataSafe": "• Vos données en cache et préférences restent sécurisées",
+    "freshRates": "• De nouveaux taux de change seront récupérés quand vous serez en ligne",
+    "allPreserved": "• Toutes les fonctionnalités seront préservées"
+  },
+  "app": {
+    "title": "Convertisseur de Devises",
+    "subtitle": "Conversion de devises en temps réel • Épinglez vos favoris",
+    "loading": "Chargement du Convertisseur de Devises",
+    "loadingSubtitle": "Récupération des derniers taux de change",
+    "noRatesAvailable": "Aucun Taux de Change Disponible",
+    "noRatesMessage": "Impossible de charger les taux de change. Veuillez vérifier votre connexion internet et réessayer.",
+    "retrying": "Nouvelle tentative...",
+    "retry": "Réessayer",
+    "statusInfo": "Mis en cache localement • Mises à jour automatiques • Précision à 5 décimales",
+    "ratesRelativeTo": "Taux relatifs à",
+    "tapRateToChangeBase": "Appuyez sur n'importe quel taux pour changer la devise de base",
+    "liveRatesFrom": "Taux en direct de ExchangeRate-API"
+  },
+  "navigation": {
+    "about": "À propos",
+    "backToConverter": "Retour au Convertisseur",
+    "startConverting": "Commencer à Convertir les Devises"
+  },
+  "converter": {
+    "amount": "Montant",
+    "from": "De",
+    "to": "À",
+    "convert": "Convertir",
+    "result": "Résultat",
+    "exchangeRate": "Taux de Change",
+    "lastUpdated": "Dernière mise à jour",
+    "refreshRates": "Actualiser les Taux",
+    "addCurrency": "Ajouter une Devise",
+    "pinCurrency": "Épingler la Devise",
+    "unpinCurrency": "Désépingler la Devise",
+    "baseCurrency": "Devise de Base",
+    "setAsBase": "Définir comme Base",
+    "searchCurrency": "Rechercher des devises...",
+    "noCurrenciesFound": "Aucune devise trouvée",
+    "errorLoadingRates": "Erreur lors du chargement des taux de change",
+    "retryLoading": "Réessayer le Chargement",
+    "offlineMode": "Mode Hors Ligne",
+    "ratesExpired": "Les taux peuvent être obsolètes",
+    "addCurrencyTitle": "Ajouter une Devise",
+    "currenciesCount": "150+ devises",
+    "baseCurrencyLabel": "BASE",
+    "currencyCount": "{{filtered}} sur {{total}} devises",
+    "amountPlaceholder": "0,00"
+  },
+  "statusBar": {
+    "never": "Jamais",
+    "hoursMinutesAgo": "il y a {{hours}}h {{minutes}}m",
+    "minutesAgo": "il y a {{minutes}}m",
+    "justNow": "À l'instant",
+    "offlineMode": "Hors ligne",
+    "ratesExpired": "Taux expirés",
+    "online": "En ligne",
+    "lastUpdated": "Dernière mise à jour",
+    "updated": "Mis à jour",
+    "refreshTitle": "Actualiser les taux de change",
+    "tryRefreshTitle": "Essayer d'actualiser les taux",
+    "syncing": "Synchronisation...",
+    "refresh": "Actualiser",
+    "tryRefresh": "Essayer d'actualiser",
+    "sync": "Synchroniser"
+  },
+  "calculator": {
+    "title": "Calculatrice",
+    "tipCalculator": "Calculatrice de Pourboires",
+    "clear": "Effacer",
+    "equals": "Égal",
+    "billAmount": "Montant de l'Addition",
+    "tipPercent": "Pourboire %",
+    "customTip": "Personnalisé",
+    "tipAmount": "Pourboire",
+    "total": "Total",
+    "calculation": "Calcul :",
+    "selectCurrency": "Sélectionner une Devise",
+    "presets": "Préréglages"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "language": "Langue",
+    "numberSystem": "Système Numérique",
+    "international": "International",
+    "indian": "Indien",
+    "theme": "Thème",
+    "darkMode": "Mode Sombre",
+    "notifications": "Notifications",
+    "privacy": "Confidentialité"
+  },
+  "numberSystemToggle": {
+    "intl": "Intl",
+    "in": "IN",
+    "switchTo": "Basculer vers le système {{system}}"
+  },
+  "debug": {
+    "current": "Actuel",
+    "title": "Titre",
+    "toggleLang": "Basculer EN/FR"
+  },
+  "about": {
+    "title": "À Propos du Convertisseur de Devises",
+    "heroTitle": "Le Convertisseur de Devises Que Vous Voulez Vraiment Utiliser",
+    "subtitle": "Le Convertisseur de Devises Que Vous Voulez Vraiment Utiliser",
+    "description": "Un convertisseur de devises simple avec support hors ligne, calculatrice intégrée et formats numériques multiples. Rapide, fiable et privé.",
+    "freeOpenSource": "Gratuit et Open Source",
+    "freeDescription": "Convertisseur de devises gratuit sans publicités ni suivi. Le code source est disponible pour que quiconque puisse l'examiner, le modifier ou en apprendre.",
+    "features": {
+      "title": "Fonctionnalités Clés",
+      "subtitle": "Fonctionnalités simples pour la conversion quotidienne de devises",
+      "fast": "Rapide",
+      "fastDesc": "Conversions instantanées avec chargement rapide",
+      "currencies": "150+ Devises",
+      "currenciesDesc": "Support complet des devises mondiales",
+      "privacy": "Confidentialité d'Abord",
+      "privacyDesc": "Pas de suivi, pas de publicités, vos données restent privées",
+      "offline": "Fonctionne Hors Ligne",
+      "offlineDesc": "Installer comme application, fonctionne sans internet",
+      "fresh": "Toujours Frais",
+      "freshDesc": "Met à jour les taux de change automatiquement",
+      "rich": "Fonctionnalités Riches",
+      "richDesc": "Calculatrice, systèmes numériques, favoris épinglés"
+    },
+    "uniqueFeatures": {
+      "title": "Ce Qui Le Rend Spécial",
+      "subtitle": "Fonctionnalités qui distinguent ce convertisseur de devises",
+      "calculator": "Calculatrice Intégrée",
+      "calculatorDesc": "Mini calculatrice qui s'intègre avec les conversions de devises. Effectuez des calculs et utilisez directement les résultats dans les champs de devises.",
+      "numberSystem": "Basculement du Système Numérique",
+      "numberSystemDesc": "Basculez entre les systèmes de formatage numérique International (1,000,000) et Indien (10,00,000) avec stockage persistant des préférences.",
+      "installApp": "Installer comme Application",
+      "installAppDesc": "Ajoutez à l'écran d'accueil de votre appareil et utilisez comme une application native. Fonctionne même hors ligne.",
+      "smartBase": "Devise de Base Intelligente",
+      "smartBaseDesc": "Appuyez sur n'importe quel taux de change pour le définir comme devise de base. Les taux de conversion dynamiques se mettent à jour automatiquement pour toutes les devises épinglées."
+    },
+    "useCases": {
+      "title": "Cas d'Usage Courants",
+      "subtitle": "Conversion simple de devises pour les scénarios quotidiens",
+      "travel": "Planification de Voyage",
+      "travelDesc": "Convertissez les devises pour la budgétisation de voyage et la planification des dépenses. Vérifiez combien vaut votre argent dans différents pays.",
+      "travelExamples": [
+        "Voir ce que 500$ équivaut en euros",
+        "Convertir le prix d'hôtel vers votre devise",
+        "Vérifier combien valent 1000 yens",
+        "Convertir n'importe quel montant entre devises"
+      ],
+      "shopping": "Achats en Ligne",
+      "shoppingDesc": "Convertissez les prix des sites web internationaux vers votre devise locale. Comparez les coûts entre différents pays.",
+      "shoppingExamples": [
+        "Convertir ¥15 000 vers votre devise",
+        "Voir ce que £50 coûte en dollars",
+        "Convertir n'importe quel prix étranger",
+        "Vérifier les taux de change"
+      ],
+      "finance": "Finances Personnelles",
+      "financeDesc": "Convertissez les devises pour la gestion de l'argent personnel, les transferts et les transactions internationales.",
+      "financeExamples": [
+        "Convertir les montants de salaire",
+        "Vérifier les taux de change pour les transferts",
+        "Voir les valeurs de comptes étrangers",
+        "Convertir n'importe quels montants d'argent"
+      ],
+      "work": "Travail à Distance",
+      "workDesc": "Convertissez les paiements clients et les tarifs de projets en travaillant avec des clients internationaux.",
+      "workExamples": [
+        "Convertir le taux de 50$/heure",
+        "Voir le paiement en devise locale",
+        "Vérifier les valeurs de projets",
+        "Convertir les montants de factures"
+      ],
+      "education": "Éducation et Recherche",
+      "educationDesc": "Étudiez les valeurs des devises, comprenez les taux de change et apprenez l'économie mondiale avec des données réelles.",
+      "educationExamples": [
+        "Vérifier les taux de change actuels",
+        "Étudier les tendances des devises",
+        "Rechercher les devises mondiales",
+        "Apprendre les valeurs monétaires mondiales"
+      ],
+      "quickMath": "Mathématiques Rapides et Conversion",
+      "quickMathDesc": "Utilisez la calculatrice intégrée pour les mathématiques, puis convertissez le résultat vers n'importe quelle devise.",
+      "quickMathExamples": [
+        "Calculer le montant du pourboire, puis convertir",
+        "Faire des maths, appliquer le résultat à la devise",
+        "Diviser les montants et convertir",
+        "Calculs rapides avec devise"
+      ]
+    },
+    "stats": {
+      "currenciesSupported": "Devises Supportées",
+      "decimalPrecision": "Précision Décimale",
+      "cacheDuration": "Durée de Cache",
+      "privacyFocused": "Axé sur la Confidentialité"
+    },
+    "links": {
+      "viewGithub": "Voir sur GitHub",
+      "exchangeRateApi": "ExchangeRate-API",
+      "donate": "Soutenir le Développement"
+    },
+    "footerText": "Fait avec ❤️ pour les besoins de conversion de devises dans le monde entier"
+  },
+  "errors": {
+    "networkError": "Erreur de connexion réseau",
+    "rateLoadError": "Échec du chargement des taux de change",
+    "invalidAmount": "Veuillez entrer un montant valide",
+    "currencyNotFound": "Devise introuvable",
+    "calculationError": "Erreur de calcul",
+    "tryAgain": "Réessayer"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "close": "Fermer",
+    "apply": "Appliquer",
+    "reset": "Réinitialiser",
+    "search": "Rechercher",
+    "select": "Sélectionner",
+    "none": "Aucun",
+    "all": "Tous",
+    "yes": "Oui",
+    "no": "Non",
+    "testConnectivity": "Tester la Connectivité Internet Réelle"
+  },
+  "donate": {
+    "title": "Soutenir le Développement",
+    "description": "Aidez à garder ce projet gratuit et open source",
+    "buyMeCoffee": "Offrez-moi un café",
+    "monthly": "Soutien Mensuel",
+    "oneTime": "Soutien Unique"
+  },
+  "seo": {
+    "title": "Convertisseur de Devises Pro - Taux de Change en Temps Réel",
+    "description": "Convertisseur de devises professionnel avec taux de change en temps réel, support hors ligne et interface élégante. Convertissez entre 170+ devises instantanément.",
+    "keywords": "convertisseur de devises, taux de change, forex, change de devises, convertisseur d'argent, taux en temps réel",
+    "structuredData": {
+      "name": "Convertisseur de Devises Pro",
+      "description": "Convertisseur de devises professionnel avec taux de change en temps réel et support hors ligne",
+      "author": "Équipe Convertisseur de Devises Pro",
+      "feature1": "Taux de change en temps réel",
+      "feature2": "Support hors ligne",
+      "feature3": "170+ devises",
+      "feature4": "Application Web Progressive",
+      "feature5": "Design réactif mobile"
+    }
+  },
+  "miniCalculator": {
+    "title": "Calculatrice",
+    "openCalculator": "Ouvrir la Calculatrice",
+    "calc": "Calc",
+    "calculatorTab": "Calculatrice",
+    "tipTab": "Calculatrice de Pourboires",
+    "applyResultTo": "Appliquer le résultat à :",
+    "clear": "Effacer",
+    "pinCurrenciesFirst": "Épinglez d'abord quelques devises pour utiliser cette fonction",
+    "applyXToY": "Appliquer {{result}} à {{currency}}",
+    "selectCurrencyFirst": "Sélectionnez d'abord une devise",
+    "billAmount": "Montant de l'Addition",
+    "enterBillAmount": "Entrez le montant de l'addition",
+    "currency": "Devise",
+    "tipPercentage": "Pourcentage de Pourboire",
+    "customPercent": "% Personnalisé"
+  },
+  "aboutPage": {
+    "aboutFeatures": "Fonctionnalités À Propos"
+  }
+}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Calculator, X, Divide, Plus, Minus, Equal, ArrowRight, Percent } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -27,6 +28,7 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
 
   // Number System Hook
   const { numberSystem } = useNumberSystem();
+  const { t } = useTranslation();
 
   // Helper function to format display numbers
   const formatDisplayNumber = (value: string | number): string => {
@@ -213,10 +215,10 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
           variant="outline"
           size="sm"
           className="flex items-center gap-1 px-2 py-1 text-xs"
-          title="Open Calculator"
+          title={t('miniCalculator.openCalculator')}
         >
           <Calculator className="w-3 h-3" />
-          <span className="hidden sm:inline">Calc</span>
+          <span className="hidden sm:inline">{t('miniCalculator.calc')}</span>
         </Button>
       </DialogTrigger>
       
@@ -224,7 +226,7 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-slate-700">
             <Calculator className="w-4 h-4" />
-            Mini Calculator
+            {t('miniCalculator.title')}
           </DialogTitle>
         </DialogHeader>
         
@@ -239,7 +241,7 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
             }`}
           >
             <Calculator className="w-3 h-3" />
-            Calculator
+            {t('miniCalculator.calculatorTab')}
           </button>
           <button
             onClick={() => setActiveTab('tip')}
@@ -250,7 +252,7 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
             }`}
           >
             <Percent className="w-3 h-3" />
-            Tip
+            {t('miniCalculator.tipTab')}
           </button>
         </div>
         
@@ -273,7 +275,7 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
               {/* Currency Selection */}
               {pinnedCurrencies.length > 0 && (
                 <div className="bg-slate-50 rounded-lg p-3">
-                  <div className="text-sm font-medium text-slate-700 mb-2">Apply result to:</div>
+                  <div className="text-sm font-medium text-slate-700 mb-2">{t('miniCalculator.applyResultTo')}</div>
                   <select
                     value={selectedCurrency}
                     onChange={(e) => setSelectedCurrency(e.target.value)}
@@ -290,63 +292,63 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
 
               {/* Buttons Grid */}
               <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
-            {/* Row 1 */}
-            <button
-              onClick={clear}
-              className={`${ButtonStyle} bg-red-100 hover:bg-red-200 text-red-700 col-span-2`}
-            >
-              Clear
-            </button>
-            <button
-              onClick={() => inputOperation('÷')}
-              className={`${ButtonStyle} bg-blue-100 hover:bg-blue-200 text-blue-700`}
-            >
-              <Divide className="w-3 h-3 sm:w-4 sm:h-4 mx-auto" />
-            </button>
-            <button
-              onClick={() => inputOperation('×')}
-              className={`${ButtonStyle} bg-blue-100 hover:bg-blue-200 text-blue-700`}
-            >
-              <X className="w-3 h-3 sm:w-4 sm:h-4 mx-auto" />
-            </button>
+                {/* Row 1 */}
+                <button
+                  onClick={clear}
+                  className={`${ButtonStyle} bg-red-100 hover:bg-red-200 text-red-700 col-span-2`}
+                >
+                  {t('miniCalculator.clear')}
+                </button>
+                <button
+                  onClick={() => inputOperation('÷')}
+                  className={`${ButtonStyle} bg-blue-100 hover:bg-blue-200 text-blue-700`}
+                >
+                  <Divide className="w-3 h-3 sm:w-4 sm:h-4 mx-auto" />
+                </button>
+                <button
+                  onClick={() => inputOperation('×')}
+                  className={`${ButtonStyle} bg-blue-100 hover:bg-blue-200 text-blue-700`}
+                >
+                  <X className="w-3 h-3 sm:w-4 sm:h-4 mx-auto" />
+                </button>
 
-            {/* Row 2 */}
-            <button onClick={() => inputNumber('7')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>7</button>
-            <button onClick={() => inputNumber('8')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>8</button>
-            <button onClick={() => inputNumber('9')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>9</button>
-            <button
-              onClick={() => inputOperation('-')}
-              className={`${ButtonStyle} bg-blue-100 hover:bg-blue-200 text-blue-700`}
-            >
-              <Minus className="w-3 h-3 sm:w-4 sm:h-4 mx-auto" />
-            </button>
+                {/* Row 2 */}
+                <button onClick={() => inputNumber('7')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>7</button>
+                <button onClick={() => inputNumber('8')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>8</button>
+                <button onClick={() => inputNumber('9')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>9</button>
+                <button
+                  onClick={() => inputOperation('-')}
+                  className={`${ButtonStyle} bg-blue-100 hover:bg-blue-200 text-blue-700`}
+                >
+                  <Minus className="w-3 h-3 sm:w-4 sm:h-4 mx-auto" />
+                </button>
 
-            {/* Row 3 */}
-            <button onClick={() => inputNumber('4')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>4</button>
-            <button onClick={() => inputNumber('5')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>5</button>
-            <button onClick={() => inputNumber('6')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>6</button>
-            <button
-              onClick={() => inputOperation('+')}
-              className={`${ButtonStyle} bg-blue-100 hover:bg-blue-200 text-blue-700`}
-            >
-              <Plus className="w-3 h-3 sm:w-4 sm:h-4 mx-auto" />
-            </button>
+                {/* Row 3 */}
+                <button onClick={() => inputNumber('4')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>4</button>
+                <button onClick={() => inputNumber('5')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>5</button>
+                <button onClick={() => inputNumber('6')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>6</button>
+                <button
+                  onClick={() => inputOperation('+')}
+                  className={`${ButtonStyle} bg-blue-100 hover:bg-blue-200 text-blue-700`}
+                >
+                  <Plus className="w-3 h-3 sm:w-4 sm:h-4 mx-auto" />
+                </button>
 
-            {/* Row 4 */}
-            <button onClick={() => inputNumber('1')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>1</button>
-            <button onClick={() => inputNumber('2')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>2</button>
-            <button onClick={() => inputNumber('3')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>3</button>
-            <button
-              onClick={performCalculation}
-              className={`${ButtonStyle} bg-green-100 hover:bg-green-200 text-green-700 row-span-2`}
-            >
-              <Equal className="w-3 h-3 sm:w-4 sm:h-4 mx-auto" />
-            </button>
+                {/* Row 4 */}
+                <button onClick={() => inputNumber('1')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>1</button>
+                <button onClick={() => inputNumber('2')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>2</button>
+                <button onClick={() => inputNumber('3')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>3</button>
+                <button
+                  onClick={performCalculation}
+                  className={`${ButtonStyle} bg-green-100 hover:bg-green-200 text-green-700 row-span-2`}
+                >
+                  <Equal className="w-3 h-3 sm:w-4 sm:h-4 mx-auto" />
+                </button>
 
-            {/* Row 5 */}
-            <button onClick={() => inputNumber('0')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800 col-span-2`}>0</button>
-            <button onClick={inputDecimal} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>.</button>
-          </div>
+                {/* Row 5 */}
+                <button onClick={() => inputNumber('0')} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800 col-span-2`}>0</button>
+                <button onClick={inputDecimal} className={`${ButtonStyle} bg-gray-100 hover:bg-gray-200 text-gray-800`}>.</button>
+              </div>
 
               {/* Use Result Button */}
               <Button
@@ -357,11 +359,16 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
                 <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span className="text-sm sm:text-base">
                   {pinnedCurrencies.length === 0 ? (
-                    'Pin currencies first'
+                    t('miniCalculator.pinCurrenciesFirst')
                   ) : selectedCurrency ? (
-                    <>Apply {display} to {pinnedCurrencies.find(p => p.currency.code === selectedCurrency)?.currency.code || selectedCurrency}</>
+                    <>
+                      {t('miniCalculator.applyXToY', {
+                        value: display,
+                        currency: pinnedCurrencies.find(p => p.currency.code === selectedCurrency)?.currency.code || selectedCurrency
+                      })}
+                    </>
                   ) : (
-                    'Select a currency first'
+                    t('miniCalculator.selectCurrencyFirst')
                   )}
                 </span>
               </Button>
@@ -375,13 +382,13 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">
-                      Bill Amount
+                      {t('miniCalculator.billAmount')}
                     </label>
                     <input
                       type="number"
                       value={billAmount}
                       onChange={(e) => setBillAmount(e.target.value)}
-                      placeholder="Enter bill amount"
+                      placeholder={t('miniCalculator.enterBillAmount')}
                       className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
                     />
                   </div>
@@ -390,7 +397,7 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
                   {pinnedCurrencies.length > 0 && (
                     <div>
                       <label className="block text-sm font-medium text-slate-700 mb-2">
-                        Currency
+                        {t('miniCalculator.currency')}
                       </label>
                       <select
                         value={tipCurrency}
@@ -408,7 +415,7 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
 
                   <div>
                     <label className="block text-sm font-medium text-slate-700 mb-2">
-                      Tip Percentage
+                      {t('miniCalculator.tipPercentage')}
                     </label>
                     <div className="grid grid-cols-3 gap-2 mb-3">
                       {[15, 20, 25].map((percent) => (
@@ -432,7 +439,7 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
                         type="number"
                         value={customTipPercent}
                         onChange={(e) => setCustomTipPercent(e.target.value)}
-                        placeholder="Custom %"
+                        placeholder={t('miniCalculator.customPercent')}
                         className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
                       />
                       <button
@@ -440,7 +447,7 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
                         disabled={!billAmount || !customTipPercent || parseFloat(billAmount) <= 0 || parseFloat(customTipPercent) < 0}
                         className="px-3 py-2 bg-amber-500 text-white rounded-lg text-sm font-medium hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                       >
-                        Apply
+                        {t('miniCalculator.apply')}
                       </button>
                     </div>
                   </div>
@@ -448,7 +455,7 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
                   {/* Tip Breakdown */}
                   {billAmount && selectedTipPercent && parseFloat(billAmount) > 0 && (
                     <div className="bg-white rounded-lg p-3 border border-amber-200">
-                      <div className="text-xs font-medium text-slate-600 mb-2">Calculation:</div>
+                      <div className="text-xs font-medium text-slate-600 mb-2">{t('miniCalculator.calculation')}</div>
                       <div className="space-y-1 text-xs text-slate-600">
                         {(() => {
                           const currencySymbol = pinnedCurrencies.find(p => p.currency.code === tipCurrency)?.currency.symbol || '$';
@@ -457,15 +464,15 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
                           return (
                             <>
                               <div className="flex justify-between">
-                                <span>Bill Amount:</span>
+                                <span>{t('miniCalculator.billAmountLabel')}</span>
                                 <span>{currencySymbol}{formatNumber(bill, numberSystem, 2)}</span>
                               </div>
                               <div className="flex justify-between">
-                                <span>Tip ({selectedTipPercent}%):</span>
+                                <span>{t('miniCalculator.tipLabel', { percent: selectedTipPercent })}</span>
                                 <span>{currencySymbol}{formatNumber(tipCalc.tipAmount, numberSystem, 2)}</span>
                               </div>
                               <div className="flex justify-between font-medium text-slate-800 border-t border-slate-200 pt-1">
-                                <span>Total:</span>
+                                <span>{t('miniCalculator.totalLabel')}</span>
                                 <span>{currencySymbol}{formatNumber(tipCalc.total, numberSystem, 2)}</span>
                               </div>
                             </>
@@ -479,7 +486,7 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
                     onClick={resetTipCalculator}
                     className="w-full px-3 py-2 bg-slate-100 text-slate-600 rounded-lg text-sm hover:bg-slate-200 transition-colors"
                   >
-                    Reset Tip Calculator
+                    {t('miniCalculator.resetTipCalculator')}
                   </button>
                 </div>
               </div>

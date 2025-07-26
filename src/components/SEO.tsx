@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface SEOProps {
   title?: string;
@@ -9,28 +10,35 @@ interface SEOProps {
 }
 
 export function SEO({
-  title = 'Currency Converter Pro - Real-time Exchange Rates',
-  description = 'Professional currency converter with real-time exchange rates, offline support, and beautiful interface. Convert between 170+ currencies instantly.',
-  keywords = 'currency converter, exchange rates, forex, currency exchange, money converter, real-time rates',
+  title,
+  description,
+  keywords,
   image = '/icons/icon-512x512.svg',
   url = window.location.href
 }: SEOProps) {
+  const { t } = useTranslation();
+
+  // Use translations or fallback to defaults
+  const metaTitle = title || t('seo.title', 'Currency Converter Pro - Real-time Exchange Rates');
+  const metaDescription = description || t('seo.description', 'Professional currency converter with real-time exchange rates, offline support, and beautiful interface. Convert between 170+ currencies instantly.');
+  const metaKeywords = keywords || t('seo.keywords', 'currency converter, exchange rates, forex, currency exchange, money converter, real-time rates');
+
   useEffect(() => {
     // Update document title
-    document.title = title;
+    document.title = metaTitle;
 
     // Update meta tags
     const metaTags = [
-      { name: 'description', content: description },
-      { name: 'keywords', content: keywords },
-      { property: 'og:title', content: title },
-      { property: 'og:description', content: description },
+      { name: 'description', content: metaDescription },
+      { name: 'keywords', content: metaKeywords },
+      { property: 'og:title', content: metaTitle },
+      { property: 'og:description', content: metaDescription },
       { property: 'og:image', content: image },
       { property: 'og:url', content: url },
-      { property: 'twitter:title', content: title },
-      { property: 'twitter:description', content: description },
+      { property: 'twitter:title', content: metaTitle },
+      { property: 'twitter:description', content: metaDescription },
       { property: 'twitter:image', content: image },
-      { name: 'apple-mobile-web-app-title', content: title.split(' - ')[0] }
+      { name: 'apple-mobile-web-app-title', content: metaTitle.split(' - ')[0] }
     ];
 
     metaTags.forEach(({ name, property, content }) => {
@@ -46,25 +54,26 @@ export function SEO({
       
       meta.content = content;
     });
-  }, [title, description, keywords, image, url]);
+  }, [metaTitle, metaDescription, metaKeywords, image, url]);
 
   return null;
 }
 
 // Structured data for better SEO
 export function StructuredData() {
+  const { t } = useTranslation();
   useEffect(() => {
     const structuredData = {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Currency Converter Pro",
+      "name": t('seo.structuredData.name', 'Currency Converter Pro'),
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "All",
-      "description": "Professional currency converter with real-time exchange rates and offline support",
+      "description": t('seo.structuredData.description', 'Professional currency converter with real-time exchange rates and offline support'),
       "url": window.location.origin,
       "author": {
         "@type": "Organization",
-        "name": "Currency Converter Pro Team"
+        "name": t('seo.structuredData.author', 'Currency Converter Pro Team')
       },
       "offers": {
         "@type": "Offer",
@@ -72,11 +81,11 @@ export function StructuredData() {
         "priceCurrency": "USD"
       },
       "featureList": [
-        "Real-time exchange rates",
-        "Offline support", 
-        "170+ currencies",
-        "Progressive Web App",
-        "Mobile responsive"
+        t('seo.structuredData.feature1', 'Real-time exchange rates'),
+        t('seo.structuredData.feature2', 'Offline support'),
+        t('seo.structuredData.feature3', '170+ currencies'),
+        t('seo.structuredData.feature4', 'Progressive Web App'),
+        t('seo.structuredData.feature5', 'Mobile responsive')
       ]
     };
 

@@ -1,16 +1,18 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Heart, Coffee, Gift } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 export const DonateButton = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
 
   const donationOptions = [
     {
-      name: 'Buy Me a Coffee',
+      name: t('donateButton.buyMeCoffee'),
       icon: '☕',
       url: 'https://coff.ee/yash773',
-      description: 'Support with a coffee',
+      description: t('donateButton.supportWithCoffee'),
       color: 'from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600'
     }
   ];
@@ -25,10 +27,10 @@ export const DonateButton = () => {
       <DialogTrigger asChild>
         <button
           className="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-semibold text-sm sm:text-base rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 active:scale-95 touch-manipulation group"
-          title="Support the development of this app"
+          title={t('donateButton.supportThisApp')}
         >
           <Coffee className="w-4 h-4 group-hover:animate-bounce" />
-          <span>Support This App</span>
+          <span>{t('donateButton.supportThisApp')}</span>
           <Heart className="w-4 h-4 group-hover:animate-pulse text-red-200" />
         </button>
       </DialogTrigger>
@@ -37,13 +39,13 @@ export const DonateButton = () => {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-slate-700 text-center justify-center">
             <Gift className="w-5 h-5 text-orange-500" />
-            Support This Project
+            {t('donateButton.supportProject')}
           </DialogTitle>
         </DialogHeader>
         
         <div className="space-y-3 p-2">
           <p className="text-sm text-slate-600 text-center leading-relaxed">
-            If you find this currency converter helpful, consider supporting its development!
+            {t('donateButton.helpfulMessage')}
           </p>
           
           <div className="grid gap-3">
@@ -58,14 +60,14 @@ export const DonateButton = () => {
                   <div className="font-semibold text-sm">{option.name}</div>
                   <div className="text-xs opacity-90">{option.description}</div>
                 </div>
-                <span className="text-white/70">→</span>
+                <span className="text-white/70">{t('donateButton.arrow')}</span>
               </button>
             ))}
           </div>
           
           <div className="mt-4 p-3 bg-slate-50 rounded-xl">
             <p className="text-xs text-slate-600 text-center">
-              💝 Any support helps keep this app free and improving!
+              {t('donateButton.anySupport')}
             </p>
           </div>
         </div>

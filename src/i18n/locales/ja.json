@@ -1,0 +1,331 @@
+{
+  "featureRequest": {
+    "githubTitle": "GitHub Issues",
+    "githubDescription": "GitHub リポジトリでイシューを作成",
+    "githubAction": "GitHub を開く",
+    "quickTitle": "クイックフィードバック",
+    "quickDescription": "提案と一緒にクイックメッセージを送信",
+    "quickAction": "クイックメッセージ",
+    "historicalTitle": "履歴レートチャート",
+    "historicalDescription": "時間の経過による通貨トレンドを表示",
+    "alertsTitle": "レートアラート",
+    "alertsDescription": "レートが目標に達したときに通知を受け取る",
+    "cryptoTitle": "暗号通貨サポート",
+    "cryptoDescription": "暗号通貨と法定通貨間の変換",
+    "portfoliosTitle": "複数ポートフォリオ",
+    "portfoliosDescription": "異なる通貨の組み合わせを保存",
+    "exportTitle": "データエクスポート",
+    "exportDescription": "変換履歴をCSVにエクスポート",
+    "darkModeTitle": "ダークモード",
+    "darkModeDescription": "ライトとダークテーマ間で切り替え"
+  },
+  "donateButton": {
+    "buyMeCoffee": "コーヒーを奢る",
+    "supportWithCoffee": "コーヒーでサポート",
+    "supportThisApp": "このアプリをサポート",
+    "supportProject": "このプロジェクトをサポート"
+  },
+  "pwaStatus": {
+    "installApp": "アプリをインストール",
+    "install": "インストール",
+    "installable": "インストール可能",
+    "installTitle": "クイックアクセスのためにこのアプリをインストール",
+    "installHint": "このアプリはインストールできます！ブラウザメニューで「インストール」または「ホーム画面に追加」を探してください。",
+    "updateAvailable": "アップデート利用可能",
+    "update": "アップデート",
+    "refresh": "更新",
+    "clear": "クリア",
+    "installed": "インストール済み",
+    "testUpdate": "アップデートテスト",
+    "clearCacheOfflineTitle": "オフライン中にキャッシュをクリア？",
+    "clearCacheOfflineDesc": "現在<strong>オフライン</strong>です。キャッシュをクリアすると、以下を含むすべての保存データが削除されます：",
+    "clearCacheOfflineList1": "キャッシュされた為替レート",
+    "clearCacheOfflineList2": "オフライン機能",
+    "clearCacheOfflineList3": "以前に読み込まれた通貨データ",
+    "clearCacheOfflineWarn": "⚠️ キャッシュをクリアした後、インターネット接続なしではアプリが正常に動作しない可能性があります。",
+    "cancel": "キャンセル",
+    "clearAnyway": "とにかくクリア"
+  },
+  "updatePrompt": {
+    "title": "新バージョン利用可能",
+    "newVersionReady": "アプリの新バージョンがインストール準備完了",
+    "updateDetails": "このアップデートには、バグ修正、パフォーマンス改善、新機能が含まれている可能性があります。",
+    "dataCachedTitle": "データは安全にキャッシュされています",
+    "dataCachedDesc1": "• 通貨為替レートと設定はローカルに保存されています",
+    "dataCachedDesc2": "• ピン留めされたすべての通貨は保持されます",
+    "cacheSize": "• キャッシュサイズ: {{size}}",
+    "offlineNotice": "現在オフラインです - キャッシュデータがアプリを動作させ続けます",
+    "updateNow": "今すぐアップデート",
+    "updating": "アップデート中...",
+    "updateLater": "後でアップデート",
+    "whatHappens": "アップデート時に起こること:",
+    "reload": "• アプリは最新バージョンでリロードされます",
+    "dataSafe": "• キャッシュデータと設定は安全に保たれます",
+    "freshRates": "• オンライン時に新しい為替レートが取得されます",
+    "allPreserved": "• すべての機能が保持されます"
+  },
+  "app": {
+    "title": "通貨コンバーター",
+    "subtitle": "リアルタイム通貨換算 • お気に入りをピン留め",
+    "loading": "通貨コンバーターを読み込み中",
+    "loadingSubtitle": "最新の為替レートを取得中",
+    "noRatesAvailable": "為替レートが利用できません",
+    "noRatesMessage": "為替レートを読み込めません。インターネット接続を確認して再試行してください。",
+    "retrying": "再試行中...",
+    "retry": "再試行",
+    "statusInfo": "ローカルキャッシュ • 自動更新 • 5桁精度",
+    "ratesRelativeTo": "基準レート",
+    "tapRateToChangeBase": "レートをタップして基準通貨を変更",
+    "liveRatesFrom": "ExchangeRate-API からのライブレート"
+  },
+  "navigation": {
+    "about": "について",
+    "backToConverter": "コンバーターに戻る",
+    "startConverting": "通貨変換を開始"
+  },
+  "converter": {
+    "amount": "金額",
+    "from": "から",
+    "to": "へ",
+    "convert": "変換",
+    "result": "結果",
+    "exchangeRate": "為替レート",
+    "lastUpdated": "最終更新",
+    "refreshRates": "レート更新",
+    "addCurrency": "通貨追加",
+    "pinCurrency": "通貨をピン",
+    "unpinCurrency": "ピン解除",
+    "baseCurrency": "基準通貨",
+    "setAsBase": "基準として設定",
+    "searchCurrency": "通貨を検索...",
+    "noCurrenciesFound": "通貨が見つかりません",
+    "errorLoadingRates": "為替レートの読み込みエラー",
+    "retryLoading": "再読み込み",
+    "offlineMode": "オフラインモード",
+    "ratesExpired": "レートが古い可能性があります",
+    "addCurrencyTitle": "通貨を追加",
+    "currenciesCount": "150+ 通貨",
+    "baseCurrencyLabel": "基準",
+    "currencyCount": "{{filtered}} / {{total}} 通貨",
+    "amountPlaceholder": "0.00"
+  },
+  "statusBar": {
+    "never": "なし",
+    "hoursMinutesAgo": "{{hours}}時間{{minutes}}分前",
+    "minutesAgo": "{{minutes}}分前",
+    "justNow": "たった今",
+    "offlineMode": "オフライン",
+    "ratesExpired": "レート期限切れ",
+    "online": "オンライン",
+    "lastUpdated": "最終更新",
+    "updated": "更新済み",
+    "refreshTitle": "為替レートを更新",
+    "tryRefreshTitle": "レート更新を試行",
+    "syncing": "同期中...",
+    "refresh": "更新",
+    "tryRefresh": "更新を試行",
+    "sync": "同期"
+  },
+  "calculator": {
+    "title": "計算機",
+    "tipCalculator": "チップ計算機",
+    "clear": "クリア",
+    "equals": "イコール",
+    "billAmount": "請求額",
+    "tipPercent": "チップ %",
+    "customTip": "カスタム",
+    "tipAmount": "チップ",
+    "total": "合計",
+    "calculation": "計算：",
+    "selectCurrency": "通貨選択",
+    "presets": "プリセット"
+  },
+  "settings": {
+    "title": "設定",
+    "language": "言語",
+    "numberSystem": "数値システム",
+    "international": "国際",
+    "indian": "インド",
+    "theme": "テーマ",
+    "darkMode": "ダークモード",
+    "notifications": "通知",
+    "privacy": "プライバシー"
+  },
+  "numberSystemToggle": {
+    "intl": "国際",
+    "in": "インド",
+    "switchTo": "{{system}}システムに切り替え"
+  },
+  "common": {
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "success": "成功",
+    "cancel": "キャンセル",
+    "save": "保存",
+    "close": "閉じる",
+    "apply": "適用",
+    "reset": "リセット",
+    "search": "検索",
+    "select": "選択",
+    "none": "なし",
+    "all": "すべて",
+    "yes": "はい",
+    "no": "いいえ",
+    "testConnectivity": "実際のインターネット接続をテスト"
+  },
+  "donate": {
+    "title": "開発をサポート",
+    "description": "このプロジェクトを無料でオープンソースに保つためにご支援ください",
+    "buyMeCoffee": "コーヒーを奢る",
+    "monthly": "月次サポート",
+    "oneTime": "一回限りのサポート"
+  },
+  "seo": {
+    "title": "通貨コンバーター Pro - リアルタイム為替レート",
+    "description": "リアルタイム為替レート、オフラインサポート、美しいインターフェースを備えたプロの通貨コンバーター。170以上の通貨を瞬時に変換。",
+    "keywords": "通貨コンバーター, 為替レート, 外国為替, 通貨交換, 通貨変換, リアルタイムレート",
+    "structuredData": {
+      "name": "通貨コンバーター Pro",
+      "description": "リアルタイム為替レートとオフラインサポートを備えたプロの通貨コンバーター",
+      "author": "通貨コンバーター Pro チーム",
+      "feature1": "リアルタイム為替レート",
+      "feature2": "オフラインサポート",
+      "feature3": "170以上の通貨",
+      "feature4": "プログレッシブ Web アプリ",
+      "feature5": "モバイル対応デザイン"
+    }
+  },
+  "miniCalculator": {
+    "title": "計算機",
+    "openCalculator": "計算機を開く",
+    "calc": "計算",
+    "calculatorTab": "計算機",
+    "tipTab": "チップ計算機",
+    "applyResultTo": "結果を適用:",
+    "clear": "クリア",
+    "pinCurrenciesFirst": "この機能を使うには最初に通貨をピン留めしてください",
+    "applyXToY": "{{result}} を {{currency}} に適用",
+    "selectCurrencyFirst": "最初に通貨を選択してください",
+    "billAmount": "請求額",
+    "enterBillAmount": "請求額を入力",
+    "currency": "通貨",
+    "tipPercentage": "チップ割合",
+    "customPercent": "カスタム %"
+  },
+  "debug": {
+    "current": "現在",
+    "title": "タイトル",
+    "toggleLang": "日本語/英語切り替え"
+  },
+  "about": {
+    "heroTitle": "本当に使いたいと思う通貨コンバーター",
+    "title": "通貨コンバーターについて",
+    "subtitle": "本当に使いたい通貨コンバーター",
+    "description": "オフラインサポート、内蔵計算機、複数の数値形式を備えたシンプルな通貨コンバーター。高速で信頼性があり、プライベート。",
+    "freeOpenSource": "無料でオープンソース",
+    "freeDescription": "広告やトラッキングのない無料の通貨コンバーター。ソースコードは誰でもレビュー、修正、学習に利用できます。",
+    "features": {
+      "title": "主な機能",
+      "subtitle": "日常的な通貨変換のためのシンプル機能",
+      "fast": "高速",
+      "fastDesc": "素早い読み込みで瞬時変換",
+      "currencies": "150+ 通貨",
+      "currenciesDesc": "包括的なグローバル通貨サポート",
+      "privacy": "プライバシー第一",
+      "privacyDesc": "トラッキングなし、広告なし、データはプライベート",
+      "offline": "オフライン動作",
+      "offlineDesc": "アプリとしてインストール、インターネットなしで動作",
+      "fresh": "常に最新",
+      "freshDesc": "為替レートを自動更新",
+      "rich": "豊富な機能",
+      "richDesc": "計算機、数値システム、お気に入りピン留め"
+    },
+    "uniqueFeatures": {
+      "title": "特別な理由",
+      "subtitle": "この通貨コンバーターを際立たせる機能",
+      "calculator": "内蔵計算機",
+      "calculatorDesc": "通貨変換と統合されたミニ計算機。計算を実行し、結果を通貨フィールドで直接使用。",
+      "numberSystem": "数値システム切り替え",
+      "numberSystemDesc": "永続的な設定保存で国際形式 (1,000,000) とインド形式 (10,00,000) の数値フォーマットシステム間を切り替え。",
+      "installApp": "アプリとしてインストール",
+      "installAppDesc": "デバイスのホーム画面に追加してネイティブアプリのように使用。オフラインでも動作。",
+      "smartBase": "スマートベース通貨",
+      "smartBaseDesc": "任意の為替レートをタップしてベース通貨として設定。動的変換レートがピン留めされたすべての通貨で自動更新。"
+    },
+    "useCases": {
+      "title": "一般的な使用例",
+      "subtitle": "日常シナリオでのシンプル通貨変換",
+      "travel": "旅行計画",
+      "travelDesc": "旅行予算と支出計画のための通貨変換。異なる国でのお金の価値を確認。",
+      "travelExamples": [
+        "$500がユーロでいくらか見る",
+        "ホテル価格を自分の通貨に変換",
+        "1000円がいくらかチェック",
+        "通貨間で任意の金額を変換"
+      ],
+      "shopping": "オンラインショッピング",
+      "shoppingDesc": "国際的なウェブサイトの価格を現地通貨に変換。異なる国でのコストを比較。",
+      "shoppingExamples": [
+        "¥15,000を自分の通貨に変換",
+        "£50がドルでいくらか見る",
+        "任意の外国価格を変換",
+        "為替レートをチェック"
+      ],
+      "finance": "個人金融",
+      "financeDesc": "個人的な資金管理、送金、国際取引のための通貨変換。",
+      "financeExamples": [
+        "給与額を変換",
+        "送金の為替レートをチェック",
+        "外国口座価値を見る",
+        "任意の金額を変換"
+      ],
+      "work": "リモートワーク",
+      "workDesc": "国際的なクライアントと働く際のクライアント支払いとプロジェクト料金の変換。",
+      "workExamples": [
+        "$50/時の料金を変換",
+        "現地通貨での支払いを見る",
+        "プロジェクト価値をチェック",
+        "請求書金額を変換"
+      ],
+      "education": "教育と研究",
+      "educationDesc": "実データで通貨価値を研究、為替レートを理解、グローバル経済について学習。",
+      "educationExamples": [
+        "現在の為替レートをチェック",
+        "通貨トレンドを研究",
+        "グローバル通貨を調査",
+        "世界の通貨価値を学ぶ"
+      ],
+      "quickMath": "クイック計算と変換",
+      "quickMathDesc": "内蔵計算機で計算し、結果を任意の通貨に変換。",
+      "quickMathExamples": [
+        "チップ額を計算して変換",
+        "計算して通貨に結果を適用",
+        "金額を分割して変換",
+        "通貨でクイック計算"
+      ]
+    },
+    "stats": {
+      "currenciesSupported": "サポート通貨",
+      "decimalPrecision": "小数精度",
+      "cacheDuration": "キャッシュ期間",
+      "privacyFocused": "プライバシー重視"
+    },
+    "links": {
+      "viewGithub": "GitHub で表示",
+      "exchangeRateApi": "ExchangeRate-API",
+      "donate": "開発をサポート"
+    },
+    "footerText": "世界中の通貨変換ニーズのために❤️を込めて作成"
+  },
+  "errors": {
+    "networkError": "ネットワーク接続エラー",
+    "rateLoadError": "為替レートの読み込みに失敗",
+    "invalidAmount": "有効な金額を入力してください",
+    "currencyNotFound": "通貨が見つかりません",
+    "calculationError": "計算エラー",
+    "tryAgain": "再試行"
+  },
+  "aboutPage": {
+    "aboutFeatures": "機能について"
+  }
+}

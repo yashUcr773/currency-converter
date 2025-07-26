@@ -1,4 +1,5 @@
 import { useCurrencyConverter } from './hooks/useCurrencyConverter';
+import { useTranslation } from 'react-i18next';
 import { CurrencyInput } from './components/CurrencyInput';
 import { CurrencySelector } from './components/CurrencySelector';
 import { StatusBar } from './components/StatusBar';
@@ -7,6 +8,7 @@ import { PWAStatus, OfflineNotice } from './components/PWAStatus';
 import { DonateButton } from './components/DonateButton';
 import { AboutButton } from './components/AboutPage';
 import { SEO, StructuredData } from './components/SEO';
+import { LanguagePicker } from './components/LanguagePicker';
 import { usePWA } from './hooks/usePWA';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -14,6 +16,7 @@ import { AlertTriangle } from 'lucide-react';
 import './App.css';
 
 function App() {
+  const { t } = useTranslation();
   const [pwaStatus] = usePWA();
   const {
     pinnedCurrencies,
@@ -38,8 +41,8 @@ function App() {
         <Card className="max-w-sm mx-auto">
           <CardContent className="p-6 sm:p-8 text-center">
             <LoadingSpinner size={40} className="sm:w-12 sm:h-12 mb-3 sm:mb-4 mx-auto" />
-            <h2 className="text-lg sm:text-xl font-semibold mb-2">Loading Currency Converter</h2>
-            <p className="text-muted-foreground text-sm sm:text-base">Fetching latest exchange rates</p>
+            <h2 className="text-lg sm:text-xl font-semibold mb-2">{t('app.loading')}</h2>
+            <p className="text-muted-foreground text-sm sm:text-base">{t('app.loadingSubtitle')}</p>
           </CardContent>
         </Card>
       </div>
@@ -54,16 +57,16 @@ function App() {
             <div className="text-destructive mb-3 sm:mb-4">
               <AlertTriangle className="w-12 h-12 sm:w-16 sm:h-16 mx-auto" />
             </div>
-            <h2 className="text-lg sm:text-xl font-semibold mb-2">No Exchange Rates Available</h2>
+            <h2 className="text-lg sm:text-xl font-semibold mb-2">{t('app.noRatesAvailable')}</h2>
             <p className="text-muted-foreground mb-3 sm:mb-4 text-sm sm:text-base">
-              Unable to load exchange rates. Please check your internet connection and try again.
+              {t('app.noRatesMessage')}
             </p>
             {pwaStatus.isOnline && (
               <Button
                 onClick={refreshRates}
                 disabled={syncing}
               >
-                {syncing ? 'Retrying...' : 'Retry'}
+                {syncing ? t('app.retrying') : t('app.retry')}
               </Button>
             )}
           </CardContent>
@@ -89,11 +92,11 @@ function App() {
                 </svg>
               </div>
               <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Currency Converter
+                {t('app.title')}
               </h1>
             </div>
             <p className="text-slate-600 text-xs sm:text-sm lg:text-base xl:text-lg font-medium px-2 sm:px-4">
-              Real-time currency conversion • Pin your favorites
+              {t('app.subtitle')}
             </p>
           </div>
         </div>
@@ -111,6 +114,9 @@ function App() {
         <div className="px-3 sm:px-4 lg:px-6 py-1.5 sm:py-2 lg:py-3 bg-white/60 backdrop-blur-sm border-t border-slate-200">
           <div className="max-w-6xl mx-auto flex justify-between items-center">
             <PWAStatus pinnedCurrencies={pinnedCurrencies} />
+            <div className="flex items-center gap-2">
+              <LanguagePicker variant="compact" />
+            </div>
           </div>
         </div>
       </header>
@@ -124,9 +130,13 @@ function App() {
         {exchangeRates && (
           <div className="mb-4 sm:mb-6 lg:mb-8 text-center">
             <div className="inline-flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2 lg:gap-3 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 bg-white/80 backdrop-blur-sm rounded-lg sm:rounded-xl border border-slate-200 shadow-lg max-w-full">
-              <span className="text-slate-600 font-medium text-xs sm:text-sm lg:text-base">Rates relative to:</span>
+              <span className="text-slate-600 font-medium text-xs sm:text-sm lg:text-base">
+                {t('app.ratesRelativeTo')}
+              </span>
               <span className="font-bold text-sm sm:text-base lg:text-lg text-blue-600">{baseCurrency}</span>
-              <span className="text-slate-400 text-xs hidden sm:block">• Tap rate to change base</span>
+              <span className="text-slate-400 text-xs hidden sm:block">
+                {t('app.tapRateToChangeBase')}
+              </span>
             </div>
           </div>
         )}
@@ -162,7 +172,7 @@ function App() {
             <div className="flex items-center gap-1.5 sm:gap-2">
               <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
               <span className="text-slate-600 text-xs sm:text-sm font-medium">
-                Live rates from ExchangeRate-API
+                {t('app.liveRatesFrom')}
               </span>
             </div>
           </div>
@@ -174,7 +184,7 @@ function App() {
           </div>
           
           <p className="mt-2 sm:mt-4 text-slate-500 text-xs px-4">
-            Cached locally • Auto-updates • 5-decimal precision
+            {t('app.statusInfo')}
           </p>
         </div>
       </main>
