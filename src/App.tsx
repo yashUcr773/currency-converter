@@ -5,11 +5,11 @@ import { CurrencyInput } from './components/CurrencyInput';
 import { CurrencySelector } from './components/CurrencySelector';
 import { StatusBar } from './components/StatusBar';
 import { LoadingSpinner } from './components/LoadingSpinner';
-import { PWAStatus, OfflineNotice } from './components/PWAStatus';
+import { OfflineNotice } from './components/OfflineNotice';
+import { RefreshWarningModal } from './components/RefreshWarningModal';
 import { DonateButton } from './components/DonateButton';
 import { AboutButton } from './components/AboutPage';
 import { SEO, StructuredData } from './components/SEO';
-import { LanguagePicker } from './components/LanguagePicker';
 import { TimezoneConverter } from './components/TimezoneConverter';
 import { PersistenceIndicator } from './components/PersistenceIndicator';
 import { usePWA } from './hooks/usePWA';
@@ -98,6 +98,9 @@ function App() {
       <SEO />
       <StructuredData />
       
+      {/* Refresh Warning Modal */}
+      <RefreshWarningModal />
+      
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm shadow-lg border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6 py-3 sm:py-4 lg:py-8">
@@ -146,24 +149,15 @@ function App() {
           </div>
         </div>
         
-        {/* Status Bar */}
+        {/* Combined Status Bar */}
         <StatusBar
           isOnline={pwaStatus.isOnline}
           lastSync={lastSync}
           areRatesExpired={areRatesExpired()}
           syncing={syncing}
           onRefresh={refreshRates}
+          pinnedCurrencies={pinnedCurrencies}
         />
-        
-        {/* PWA Status */}
-        <div className="px-3 sm:px-4 lg:px-6 py-1.5 sm:py-2 lg:py-3 bg-white/60 backdrop-blur-sm border-t border-slate-200">
-          <div className="max-w-6xl mx-auto flex justify-between items-center">
-            <PWAStatus pinnedCurrencies={pinnedCurrencies} />
-            <div className="flex items-center gap-2">
-              <LanguagePicker variant="compact" />
-            </div>
-          </div>
-        </div>
       </header>
 
       {/* Main Content */}

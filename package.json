@@ -29,13 +29,13 @@
     "name": "RateVault Team"
   },
   "license": "MIT",
-  "homepage": "https://your-domain.com",
+  "homepage": "https://ratevault.uk",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/timezone-converter.git"
+    "url": "https://github.com/yashUcr773/currency-converter.git"
   },
   "bugs": {
-    "url": "https://github.com/your-username/timezone-converter/issues"
+    "url": "https://github.com/yashUcr773/currency-converter/issues"
   },
   "scripts": {
     "dev": "vite",

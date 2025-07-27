@@ -337,5 +337,16 @@
     "errorDetails": "Error details",
     "tryAgain": "Try Again",
     "refreshPage": "Refresh Page"
+  },
+  "refreshWarning": {
+    "title": "Page Refresh Detected",
+    "message": "Refreshing won't update your data!",
+    "explanation": "RateVault runs on cached data for offline support. A regular refresh won't fetch new exchange rates or update the app.",
+    "tip": "Tip: Use the refresh button in the status bar to update exchange rates",
+    "hardRefresh": "Hard Refresh (Clear Cache)",
+    "hardRefreshing": "Hard Refreshing...",
+    "normalRefresh": "Refresh Anyway (Keep Cache)",
+    "stayHere": "Stay Here",
+    "note": "This message will only show once per session"
   }
 }

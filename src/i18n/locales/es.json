@@ -335,5 +335,16 @@
     "errorDetails": "Detalles del error",
     "tryAgain": "Intentar de nuevo",
     "refreshPage": "Actualizar página"
+  },
+  "refreshWarning": {
+    "title": "Recarga de Página Detectada",
+    "message": "¡Recargar no actualizará tus datos!",
+    "explanation": "RateVault funciona con datos en caché para soporte sin conexión. Una recarga normal no obtendrá nuevas tasas de cambio ni actualizará la aplicación.",
+    "tip": "Consejo: Usa el botón de actualizar en la barra de estado para actualizar las tasas de cambio",
+    "hardRefresh": "Recarga Completa (Limpiar Caché)",
+    "hardRefreshing": "Recargando...",
+    "normalRefresh": "Recargar de Todos Modos (Mantener Caché)",
+    "stayHere": "Quedarse Aquí",
+    "note": "Este mensaje solo se mostrará una vez por sesión"
   }
 }

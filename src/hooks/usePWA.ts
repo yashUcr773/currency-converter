@@ -166,6 +166,13 @@ export function usePWA(): [PWAStatus, PWAActions] {
     };
 
     console.log('[PWA] Setting up online/offline listeners, current status:', navigator.onLine);
+    
+    // PWA requirements check
+    console.log('[PWA] Checking PWA installation requirements:');
+    console.log('[PWA] - HTTPS:', window.location.protocol === 'https:' || window.location.hostname === 'localhost');
+    console.log('[PWA] - Service Worker supported:', 'serviceWorker' in navigator);
+    console.log('[PWA] - beforeinstallprompt supported:', 'onbeforeinstallprompt' in window);
+    console.log('[PWA] - Current display mode:', window.matchMedia('(display-mode: standalone)').matches ? 'standalone' : 'browser');
 
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
@@ -182,6 +189,10 @@ export function usePWA(): [PWAStatus, PWAActions] {
       e.preventDefault();
       deferredPrompt = e as BeforeInstallPromptEvent;
       setCanInstall(true);
+      
+      // Add debug logging
+      console.log('[PWA] Install prompt deferred, canInstall will be set to true');
+      console.log('[PWA] Deferred prompt object:', deferredPrompt);
     };
 
     const handleAppInstalled = () => {
@@ -241,24 +252,32 @@ export function usePWA(): [PWAStatus, PWAActions] {
   }, [getCacheStatus]);
 
   const installApp = async (): Promise<void> => {
+    console.log('[PWA] installApp called, deferredPrompt:', deferredPrompt);
+    
     // If we have a deferred prompt, use it
     if (deferredPrompt) {
       try {
+        console.log('[PWA] Calling deferredPrompt.prompt()');
         const result = await deferredPrompt.prompt();
-        console.log('Install prompt result:', result);
+        console.log('[PWA] Install prompt result:', result);
         
         if (result.outcome === 'accepted') {
+          console.log('[PWA] User accepted install');
           setCanInstall(false);
           setIsInstalled(true);
+        } else {
+          console.log('[PWA] User dismissed install');
         }
         
         deferredPrompt = null;
       } catch (error) {
-        console.error('Install failed:', error);
+        console.error('[PWA] Install failed:', error);
       }
       return;
     }
 
+    console.log('[PWA] No deferred prompt available, showing manual instructions');
+    
     // Fallback: Show instructions for manual install
     const userAgent = navigator.userAgent.toLowerCase();
     let instructions = '';
