@@ -189,12 +189,27 @@ export const useTimezoneConverter = () => {
   const resetToCurrentTime = useCallback(() => {
     setState(prev => ({
       ...prev,
-      pinnedTimezones: prev.pinnedTimezones.map(pinnedTimezone => ({
-        ...pinnedTimezone,
-        isCustomTime: false // This will trigger live time updates
-      }))
+      pinnedTimezones: prev.pinnedTimezones.map(pinnedTimezone => {
+        // Calculate current time in this timezone
+        let timeInTimezone: Date;
+        try {
+          timeInTimezone = new Date(currentTime.toLocaleString('en-US', { 
+            timeZone: pinnedTimezone.timezone.value 
+          }));
+        } catch (error) {
+          console.error(`Invalid timezone in reset: ${pinnedTimezone.timezone.value}`, error);
+          // Fallback to current time
+          timeInTimezone = new Date(currentTime);
+        }
+        
+        return {
+          ...pinnedTimezone,
+          time: timeInTimezone,
+          isCustomTime: false // Mark as live time
+        };
+      })
     }));
-  }, []);
+  }, [currentTime]);
 
   // Add a timezone to pinned list
   const pinTimezone = useCallback((timezone: Timezone) => {
