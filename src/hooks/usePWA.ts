@@ -74,7 +74,7 @@ export function usePWA(): [PWAStatus, PWAActions] {
           );
         }
       } catch (error) {
-        console.error('Get cache status failed:', error);
+        logger.error('Get cache status failed:', error);
       }
     }
   }, []);
@@ -92,7 +92,7 @@ export function usePWA(): [PWAStatus, PWAActions] {
         setCanInstall(false);
       }
       
-      console.log('[PWA] Install status check:', {
+      logger.log('[PWA] Install status check:', {
         isStandalone,
         displayMode: window.matchMedia('(display-mode: standalone)').matches,
         iosStandalone: (window.navigator as Navigator & { standalone?: boolean }).standalone
@@ -107,13 +107,13 @@ export function usePWA(): [PWAStatus, PWAActions] {
 
     // Online/offline status with enhanced detection
     const handleOnline = () => {
-      console.log('[PWA] Browser online event fired');
+      logger.log('[PWA] Browser online event fired');
       // Verify with actual connectivity test
       checkOnlineStatus();
     };
     
     const handleOffline = () => {
-      console.log('[PWA] Browser offline event fired');
+      logger.log('[PWA] Browser offline event fired');
       setIsOnline(false);
     };
 

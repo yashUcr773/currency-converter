@@ -1,7 +1,7 @@
 {
-  "name": "Timezone Converter Pro",
-  "short_name": "TimezoneConverter",
-  "description": "Real-time timezone conversion with beautiful formatting and offline support",
+  "name": "RateVault",
+  "short_name": "RateVault",
+  "description": "Currency and Timezone Conversion — in One Vault. Professional conversion tools with real-time rates and offline support.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f8fafc",
@@ -9,7 +9,7 @@
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "en",
-  "categories": ["productivity", "utilities", "business"],
+  "categories": ["finance", "productivity", "utilities", "business"],
   "icons": [
     {
       "src": "/icons/icon-72x72.svg",

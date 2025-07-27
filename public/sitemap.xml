@@ -5,7 +5,7 @@
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     <!-- Main page -->
     <url>
-        <loc>https://timezone-converter.vercel.app/</loc>
+        <loc>https://ratevault.vercel.app/</loc>
         <lastmod>2025-01-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
@@ -13,7 +13,7 @@
     
     <!-- Privacy Policy -->
     <url>
-        <loc>https://timezone-converter.vercel.app/privacy-policy.html</loc>
+        <loc>https://ratevault.vercel.app/privacy-policy.html</loc>
         <lastmod>2025-01-27</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>

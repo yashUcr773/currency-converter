@@ -3,6 +3,7 @@ import type { Currency, PinnedCurrency, AppState } from '../types';
 import { POPULAR_CURRENCIES, DEFAULT_PINNED_CURRENCIES } from '../constants';
 import { storage } from '../utils/storage';
 import { api } from '../utils/api';
+import { logger } from '../utils/env';
 
 export const useCurrencyConverter = () => {
   const [state, setState] = useState<AppState>({
@@ -35,18 +36,18 @@ export const useCurrencyConverter = () => {
 
       // Try to fetch fresh rates if online and rates are expired or missing
       const isOnline = await api.isOnline();
-      console.log('[Init] Online status:', isOnline, 'Rates expired:', exchangeRates ? storage.areRatesExpired(exchangeRates.timestamp) : 'No rates');
+      logger.log('[Init] Online status:', isOnline, 'Rates expired:', exchangeRates ? storage.areRatesExpired(exchangeRates.timestamp) : 'No rates');
       
       if (isOnline && (!exchangeRates || storage.areRatesExpired(exchangeRates.timestamp))) {
-        console.log('[Init] Fetching fresh rates...');
+        logger.log('[Init] Fetching fresh rates...');
         setSyncing(true);
         const freshRates = await api.fetchExchangeRates();
         if (freshRates) {
-          console.log('[Init] Successfully loaded fresh rates');
+          logger.log('[Init] Successfully loaded fresh rates');
           exchangeRates = freshRates;
           storage.saveExchangeRates(freshRates);
         } else {
-          console.log('[Init] Failed to fetch fresh rates, using cached data');
+          logger.log('[Init] Failed to fetch fresh rates, using cached data');
         }
         setSyncing(false);
       }
@@ -120,13 +121,13 @@ export const useCurrencyConverter = () => {
 
   // Manually refresh exchange rates
   const refreshRates = useCallback(async () => {
-    console.log('[Refresh] Starting manual refresh...');
+    logger.log('[Refresh] Starting manual refresh...');
     setSyncing(true);
     
     const freshRates = await api.fetchExchangeRates();
     
     if (freshRates) {
-      console.log('[Refresh] Successfully fetched fresh rates');
+      logger.log('[Refresh] Successfully fetched fresh rates');
       storage.saveExchangeRates(freshRates);
       setState(prev => ({
         ...prev,
@@ -136,11 +137,11 @@ export const useCurrencyConverter = () => {
       setSyncing(false);
       return true;
     } else {
-      console.log('[Refresh] API returned null, trying cached data...');
+      logger.log('[Refresh] API returned null, trying cached data...');
       // Try to load cached data as fallback
       const cachedRates = storage.getExchangeRates();
       if (cachedRates && cachedRates.rates) {
-        console.log('[Refresh] Using cached data as fallback');
+        logger.log('[Refresh] Using cached data as fallback');
         setState(prev => ({
           ...prev,
           exchangeRates: cachedRates,
@@ -149,7 +150,7 @@ export const useCurrencyConverter = () => {
         setSyncing(false);
         return true;
       } else {
-        console.log('[Refresh] No cached data available');
+        logger.log('[Refresh] No cached data available');
       }
     }
     

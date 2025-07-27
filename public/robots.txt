@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://timezone-converter.vercel.app/sitemap.xml
+Sitemap: https://ratevault.vercel.app/sitemap.xml
 
 # Disallow sensitive files
 Disallow: /sw.js
