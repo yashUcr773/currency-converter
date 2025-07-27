@@ -104,6 +104,11 @@ export const useTimezoneConverter = () => {
     setState(prev => ({
       ...prev,
       pinnedTimezones: prev.pinnedTimezones.map(pinnedTimezone => {
+        // Skip updating if this timezone has a custom set time
+        if (pinnedTimezone.isCustomTime) {
+          return pinnedTimezone;
+        }
+        
         // Calculate time in this timezone
         let timeInTimezone: Date;
         try {
@@ -125,45 +130,79 @@ export const useTimezoneConverter = () => {
   }, [currentTime, state.baseTimezone]);
 
   // Set time in a specific timezone and update all others
-  const setTimeInTimezone = useCallback((timezoneValue: string, time: Date) => {
+  const setTimeInTimezone = useCallback((timezoneValue: string, hour: number, minute: number, ampm: 'AM' | 'PM') => {
     try {
-      // Convert the input time to UTC
-      const inputTimeString = time.toLocaleTimeString('en-US', { hour12: false });
-      const [hours, minutes, seconds] = inputTimeString.split(':').map(Number);
-      
-      // Create a date object in the target timezone
+      // 1. Convert 12-hour to 24-hour format
+      let hour24 = hour;
+      if (ampm === 'AM' && hour === 12) hour24 = 0;
+      else if (ampm === 'PM' && hour !== 12) hour24 = hour + 12;
+
+      // 2. Build a date object for the selected time in the source timezone
       const today = new Date();
-      const targetDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hours, minutes, seconds || 0);
-      
-      // Get the time as if it were in the target timezone
-      const targetTimeInLocal = new Date(targetDate.toLocaleString('en-US', { timeZone: timezoneValue }));
-      const localTime = new Date(targetDate.toLocaleString('en-US'));
-      const offset = targetDate.getTime() - (targetTimeInLocal.getTime() - localTime.getTime());
-      const adjustedTime = new Date(offset);
+      const year = today.getFullYear();
+      const month = today.getMonth();
+      const day = today.getDate();
+      const localDate = new Date(year, month, day, hour24, minute, 0);
 
-      // Update current time to reflect this new time
-      setCurrentTime(adjustedTime);
+      // 3. Helper to get offset in minutes for a timezone at a given date
+      const getTimezoneOffsetMinutes = (tzName: string, date: Date): number => {
+        const utcDate = new Date(date.getTime());
+        const tzDate = new Date(date.toLocaleString('en-US', { timeZone: tzName }));
+        return (tzDate.getTime() - utcDate.getTime()) / (1000 * 60);
+      };
 
-      // Set as base timezone
+      // 4. Get offset for source timezone at localDate
+      const sourceOffset = getTimezoneOffsetMinutes(timezoneValue, localDate);
+
+      // 5. Convert local time to UTC
+      const utcMillis = localDate.getTime() - sourceOffset * 60 * 1000;
+      const utcDate = new Date(utcMillis);
+
+      // 6. Update all timezone cards
       setState(prev => ({
         ...prev,
-        baseTimezone: timezoneValue
+        baseTimezone: timezoneValue,
+        pinnedTimezones: prev.pinnedTimezones.map(pinnedTimezone => {
+          if (pinnedTimezone.timezone.value === timezoneValue) {
+            return {
+              ...pinnedTimezone,
+              time: localDate,
+              isCustomTime: true
+            };
+          } else {
+            const targetOffset = getTimezoneOffsetMinutes(pinnedTimezone.timezone.value, utcDate);
+            const targetMillis = utcMillis + targetOffset * 60 * 1000;
+            return {
+              ...pinnedTimezone,
+              time: new Date(targetMillis),
+              isCustomTime: true
+            };
+          }
+        })
       }));
     } catch (error) {
-      console.error(`Error setting time in timezone ${timezoneValue}:`, error);
-      // Fallback: just set as base timezone without time conversion
-      setState(prev => ({
-        ...prev,
-        baseTimezone: timezoneValue
-      }));
+      console.error('Error in setTimeInTimezone:', error);
     }
+  }, []);
+
+  // Reset all timezones to current time
+  const resetToCurrentTime = useCallback(() => {
+    setState(prev => ({
+      ...prev,
+      pinnedTimezones: prev.pinnedTimezones.map(pinnedTimezone => ({
+        ...pinnedTimezone,
+        isCustomTime: false // This will trigger live time updates
+      }))
+    }));
   }, []);
 
   // Add a timezone to pinned list
   const pinTimezone = useCallback((timezone: Timezone) => {
     setState(prev => {
-      const isAlreadyPinned = prev.pinnedTimezones.some(pt => pt.timezone.value === timezone.value);
-      if (isAlreadyPinned) return prev;
+      // Check if already pinned
+      if (prev.pinnedTimezones.some(pt => pt.timezone.value === timezone.value)) {
+        return prev;
+      }
 
       let timeInTimezone: Date;
       try {
@@ -176,7 +215,8 @@ export const useTimezoneConverter = () => {
 
       const newPinned: PinnedTimezone = {
         timezone,
-        time: timeInTimezone
+        time: timeInTimezone,
+        isCustomTime: false // New timezones start with current time
       };
 
       // Save country to recent countries for persistence
@@ -236,6 +276,7 @@ export const useTimezoneConverter = () => {
     ...state,
     currentTime,
     setTimeInTimezone,
+    resetToCurrentTime,
     pinTimezone,
     unpinTimezone,
     setBaseTimezone,

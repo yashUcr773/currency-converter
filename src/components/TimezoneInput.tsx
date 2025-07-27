@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
-import { X, Clock } from 'lucide-react';
+import { X } from 'lucide-react';
 import type { PinnedTimezone } from '../types';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { getUTCOffsetString } from '../constants-timezone';
+import { LiveTimeDisplay } from './LiveTimeDisplay';
+import { TimezoneTimeDropdown } from './TimezoneTimeDropdown';
 
 interface TimezoneInputProps {
   pinnedTimezone: PinnedTimezone;
-  onTimeChange: (time: Date) => void;
+  onTimeChange: (hour: number, minute: number, ampm: 'AM' | 'PM') => void;
   onUnpin: () => void;
   disabled?: boolean;
   isBaseTimezone?: boolean;
@@ -25,7 +25,10 @@ export const TimezoneInput = ({
   onSetBaseTimezone,
   baseTimezoneOffset = 0,
 }: TimezoneInputProps) => {
-  const [inputValue, setInputValue] = useState('');
+  // Remove unused state - now handled by separate components
+  // const [inputValue, setInputValue] = useState('');
+  
+  // Remove useLiveTime - time updates now handled by LiveTimeDisplay component
 
   // Calculate timezone offset from UTC (in hours)
   const getTimezoneOffset = (timezoneName: string): number => {
@@ -79,49 +82,47 @@ export const TimezoneInput = ({
     }
   };
 
-  // Format time for display
-  const formatTimeForDisplay = (date: Date | null): string => {
-    if (!date) return '';
-    return date.toLocaleTimeString('en-US', { 
-      hour12: false,
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
+  // Remove unused formatTimeForDisplay - now handled by TimezoneTimeInput
+  // const formatTimeForDisplay = (date: Date | null): string => {
+  //   if (!date) return '';
+  //   return date.toLocaleTimeString('en-US', { 
+  //     hour12: false,
+  //     hour: '2-digit',
+  //     minute: '2-digit'
+  //   });
+  // };
 
-  // Update input value when timezone time changes
-  useEffect(() => {
-    if (pinnedTimezone.time) {
-      setInputValue(formatTimeForDisplay(pinnedTimezone.time));
-    }
-  }, [pinnedTimezone.time]);
+  // Remove the useEffect that updated input value - now handled by TimezoneTimeInput
+  // useEffect(() => {
+  //   if (liveTime) {
+  //     setInputValue(formatTimeForDisplay(liveTime));
+  //   }
+  // }, [liveTime]);
 
-  const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setInputValue(value);
+  // Remove unused handleTimeChange - now handled by TimezoneTimeInput
+  // const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = event.target.value;
+  //   setInputValue(value);
+  //   // Parse time input (HH:MM format)
+  //   const timeMatch = value.match(/^(\d{1,2}):(\d{2})$/);
+  //   if (timeMatch) {
+  //     const hours = parseInt(timeMatch[1], 10);
+  //     const minutes = parseInt(timeMatch[2], 10);
+  //     if (hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59) {
+  //       onTimeChange();
+  //     }
+  //   }
+  // };
 
-    // Parse time input (HH:MM format)
-    const timeMatch = value.match(/^(\d{1,2}):(\d{2})$/);
-    if (timeMatch) {
-      const hours = parseInt(timeMatch[1], 10);
-      const minutes = parseInt(timeMatch[2], 10);
-      
-      if (hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59) {
-        const today = new Date();
-        const newTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hours, minutes);
-        onTimeChange(newTime);
-      }
-    }
-  };
-
-  const formatDate = (date: Date | null): string => {
-    if (!date) return '';
-    return date.toLocaleDateString('en-US', {
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric'
-    });
-  };
+  // Remove unused formatDate - now handled by LiveTimeDisplay
+  // const formatDate = (date: Date | null): string => {
+  //   if (!date) return '';
+  //   return date.toLocaleDateString('en-US', {
+  //     weekday: 'short',
+  //     month: 'short',
+  //     day: 'numeric'
+  //   });
+  // };
 
   const utcOffsetString = getUTCOffsetString(pinnedTimezone.timezone.utcOffset);
 
@@ -203,36 +204,22 @@ export const TimezoneInput = ({
 
       <CardContent className="relative z-10 p-2.5 pt-1 sm:p-3 sm:pt-1 flex-1 flex flex-col justify-end">
         {/* Time input */}
-        <div className="relative">
-          {/* Clock icon */}
-          <div className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 z-10">
-            <div className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-slate-200 to-slate-300 rounded-md sm:rounded-lg shadow-sm">
-              <Clock className="text-slate-700 w-3 h-3 sm:w-4 sm:h-4" />
-            </div>
-          </div>
-          
-          <Input
-            type="time"
-            value={inputValue}
-            onChange={handleTimeChange}
-            disabled={disabled}
-            className="pl-10 pr-2.5 sm:pl-12 sm:pr-3 text-sm sm:text-base font-bold h-10 sm:h-12 bg-gradient-to-r from-slate-50/80 to-white border border-slate-200/80 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 hover:border-slate-300 transition-all duration-300 text-slate-800 rounded-lg sm:rounded-xl shadow-sm hover:shadow-md focus:shadow-lg backdrop-blur-sm"
+        {/* Time Input - Now handled by dropdown component */}
+        <TimezoneTimeDropdown
+          timezoneValue={pinnedTimezone.timezone.value}
+          setTime={pinnedTimezone.time}
+          onTimeChange={onTimeChange}
+          disabled={disabled}
+        />
+
+        {/* Current live time display - Now handled by separate component */}
+        <div className="mt-2 text-center">
+          <LiveTimeDisplay 
+            timezoneValue={pinnedTimezone.timezone.value}
+            formatOptions={{ showDate: true, showSeconds: true, hour12: true }}
+            className="text-xs text-slate-500 font-medium"
           />
         </div>
-
-        {/* Current live time display */}
-        {pinnedTimezone.time && (
-          <div className="mt-2 text-center">
-            <div className="text-xs text-slate-500 font-medium">
-              {formatDate(pinnedTimezone.time)} • {pinnedTimezone.time.toLocaleTimeString('en-US', {
-                hour12: true,
-                hour: 'numeric',
-                minute: '2-digit',
-                second: '2-digit'
-              })}
-            </div>
-          </div>
-        )}
       </CardContent>
     </Card>
   );

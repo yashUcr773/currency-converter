@@ -43,6 +43,7 @@ export interface Timezone {
 export interface PinnedTimezone {
   timezone: Timezone;
   time: Date | null; // Current time in this timezone
+  isCustomTime?: boolean; // Whether this timezone has a custom set time
 }
 
 export interface TimezoneAppState {
