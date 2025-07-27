@@ -121,7 +121,7 @@ export const TimezoneSelector = ({
         </Card>
       </DialogTrigger>
       
-      <DialogContent className="max-w-sm mx-4 bg-white/95 backdrop-blur-md border-0 shadow-2xl rounded-2xl">
+      <DialogContent className="max-w-sm mx-auto bg-white/95 backdrop-blur-md border-0 shadow-2xl rounded-2xl px-2 md:px-8">
         <DialogHeader>
           <DialogTitle className="text-lg font-bold text-slate-800 text-center">
             Add Timezone

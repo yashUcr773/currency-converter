@@ -58,7 +58,7 @@ export const CurrencySelector = ({
         </Card>
       </DialogTrigger>
       
-      <DialogContent className="max-w-sm mx-4 bg-white/95 backdrop-blur-md border-0 shadow-2xl rounded-2xl">
+      <DialogContent className="max-w-sm mx-auto bg-white/95 backdrop-blur-md border-0 shadow-2xl rounded-2xl">
         <DialogHeader>
           <DialogTitle className="text-lg font-bold text-slate-800 text-center">
             {t('converter.addCurrencyTitle')}
