@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { logger } from '../utils/env';
 
 export interface PWAStatus {
   isOnline: boolean;

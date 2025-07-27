@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react';
+import { logger } from '../utils/env';
 
 /**
  * Debug component to count renders - helps verify optimization
@@ -9,7 +10,7 @@ export const RenderCounter = ({ name }: { name: string }) => {
   
   useEffect(() => {
     renderCount.current += 1;
-    console.log(`[RenderCounter] ${name} rendered ${renderCount.current} times`);
+    logger.log(`[RenderCounter] ${name} rendered ${renderCount.current} times`);
   });
 
   return (

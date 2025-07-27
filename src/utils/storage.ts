@@ -1,5 +1,6 @@
 import type { ExchangeRates, StorageData } from '../types';
 import { STORAGE_KEY, RATES_EXPIRY_HOURS } from '../constants';
+import { logger } from './env';
 
 export const storage = {
   // Get all stored data
@@ -8,7 +9,7 @@ export const storage = {
       const data = localStorage.getItem(STORAGE_KEY);
       return data ? JSON.parse(data) : null;
     } catch (error) {
-      console.error('Error reading from localStorage:', error);
+      logger.error('Error reading from localStorage:', error);
       return null;
     }
   },
@@ -34,7 +35,7 @@ export const storage = {
       
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedData));
     } catch (error) {
-      console.error('Error saving exchange rates:', error);
+      logger.error('Error saving exchange rates:', error);
     }
   },
 
@@ -53,7 +54,7 @@ export const storage = {
       
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedData));
     } catch (error) {
-      console.error('Error saving pinned currencies:', error);
+      logger.error('Error saving pinned currencies:', error);
     }
   },
 
@@ -69,7 +70,7 @@ export const storage = {
     try {
       localStorage.removeItem(STORAGE_KEY);
     } catch (error) {
-      console.error('Error clearing localStorage:', error);
+      logger.error('Error clearing localStorage:', error);
     }
   }
 };

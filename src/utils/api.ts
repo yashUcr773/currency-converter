@@ -1,11 +1,12 @@
 import type { ExchangeRates } from '../types';
 import { API_BASE_URL } from '../constants';
+import { logger } from './env';
 
 export const api = {
   // Fetch exchange rates from API with PWA support
   async fetchExchangeRates(baseCurrency = 'USD'): Promise<ExchangeRates | null> {
     try {
-      console.log(`[API] Fetching exchange rates for ${baseCurrency} from ${API_BASE_URL}/${baseCurrency}`);
+      logger.log(`[API] Fetching exchange rates for ${baseCurrency} from ${API_BASE_URL}/${baseCurrency}`);
       
       const response = await fetch(`${API_BASE_URL}/${baseCurrency}`, {
         method: 'GET',
@@ -14,14 +15,14 @@ export const api = {
         }
       });
       
-      console.log(`[API] Response status: ${response.status}`);
+      logger.log(`[API] Response status: ${response.status}`);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
       const data = await response.json();
-      console.log('[API] Successfully fetched exchange rates:', data.base, Object.keys(data.rates).length, 'currencies');
+      logger.log('[API] Successfully fetched exchange rates:', data.base, Object.keys(data.rates).length, 'currencies');
       
       // Check if this is cached data from service worker
       const isCachedData = data.sw_cached_at && data.sw_cached_at > 0;

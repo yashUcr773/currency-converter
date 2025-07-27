@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { UpdatePrompt } from './UpdatePrompt';
 import { MiniCalculator } from './MiniCalculator';
 import { NumberSystemToggle } from './NumberSystemToggle';
+import { logger } from '../utils/env';
 import type { NumberSystem } from '../utils/numberSystem';
 import type { PinnedCurrency } from '../types';
 
@@ -167,7 +168,7 @@ export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
         pinnedCurrencies={pinnedCurrencies}
         onResult={(value) => {
           // The calculator will handle its own event dispatching
-          console.log('Calculator result received in PWAStatus:', value);
+          logger.log('Calculator result received in PWAStatus:', value);
         }}
       />
 
@@ -180,7 +181,7 @@ export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
       {/* Manual connectivity test button */}
       <button
         onClick={async () => {
-          console.log('[Manual Test] Testing real internet connectivity...');
+          logger.log('[Manual Test] Testing real internet connectivity...');
           try {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 3000);
@@ -192,10 +193,10 @@ export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
             });
             
             clearTimeout(timeoutId);
-            console.log('[Manual Test] Connectivity test result:', response.ok ? 'CONNECTED' : 'FAILED');
+            logger.log('[Manual Test] Connectivity test result:', response.ok ? 'CONNECTED' : 'FAILED');
             alert(`Connectivity Test: ${response.ok ? '✅ Connected' : '❌ Failed'}`);
           } catch (error) {
-            console.log('[Manual Test] Connectivity test failed:', error);
+            logger.log('[Manual Test] Connectivity test failed:', error);
             alert('❌ No Internet Connection');
           }
         }}

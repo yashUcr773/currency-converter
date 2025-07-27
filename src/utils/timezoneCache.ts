@@ -1,4 +1,5 @@
 // Service Worker utilities for timezone caching
+import { logger } from './env';
 
 // Cache timezone data in service worker
 export const cacheTimezoneData = async (key: string, data: unknown): Promise<boolean> => {
@@ -23,7 +24,7 @@ export const cacheTimezoneData = async (key: string, data: unknown): Promise<boo
         setTimeout(() => resolve(false), 5000);
       });
     } catch (error) {
-      console.error('Error caching timezone data:', error);
+      logger.error('Error caching timezone data:', error);
       return false;
     }
   }
@@ -53,7 +54,7 @@ export const getTimezoneDataFromCache = async (key: string): Promise<unknown | n
         setTimeout(() => resolve(null), 5000);
       });
     } catch (error) {
-      console.error('Error getting timezone data from cache:', error);
+      logger.error('Error getting timezone data from cache:', error);
       return null;
     }
   }
@@ -66,7 +67,7 @@ export const setTimezoneData = async (key: string, data: unknown): Promise<void>
   try {
     localStorage.setItem(key, JSON.stringify(data));
   } catch (error) {
-    console.error('Error saving to localStorage:', error);
+    logger.error('Error saving to localStorage:', error);
   }
   
   // Backup to service worker cache
@@ -82,7 +83,7 @@ export const getTimezoneData = async (key: string): Promise<unknown | null> => {
       return JSON.parse(stored);
     }
   } catch (error) {
-    console.error('Error reading from localStorage:', error);
+    logger.error('Error reading from localStorage:', error);
   }
   
   // Fallback to service worker cache
@@ -107,7 +108,7 @@ export const clearTimezoneData = async (): Promise<void> => {
         [messageChannel.port2]
       );
     } catch (error) {
-      console.error('Error clearing service worker cache:', error);
+      logger.error('Error clearing service worker cache:', error);
     }
   }
 };

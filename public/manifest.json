@@ -1,7 +1,7 @@
 {
-  "name": "Currency Converter Pro",
-  "short_name": "CurrencyPro",
-  "description": "Real-time currency conversion with beautiful formatting and offline support",
+  "name": "Timezone Converter Pro",
+  "short_name": "TimezoneConverter",
+  "description": "Real-time timezone conversion with beautiful formatting and offline support",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f8fafc",
@@ -9,7 +9,7 @@
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "en",
-  "categories": ["finance", "productivity", "utilities"],
+  "categories": ["productivity", "utilities", "business"],
   "icons": [
     {
       "src": "/icons/icon-72x72.svg",

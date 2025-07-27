@@ -1,31 +1,35 @@
 {
-  "name": "currency-converter-pro",
-  "displayName": "Currency Converter Pro",
-  "description": "Professional currency converter with real-time exchange rates, offline support, and beautiful interface",
+  "name": "timezone-converter-pro",
+  "displayName": "Timezone Converter Pro",
+  "description": "Professional timezone converter with live time display, dropdown time selection, and accurate cross-timezone conversion with DST support",
   "version": "1.0.0",
   "private": false,
   "type": "module",
   "keywords": [
-    "currency",
+    "timezone",
     "converter",
-    "exchange-rates",
-    "forex",
+    "world-clock",
+    "time-zone",
+    "UTC",
+    "DST",
+    "time-conversion",
+    "world-time",
     "pwa",
     "offline-first",
     "react",
     "typescript"
   ],
   "author": {
-    "name": "Currency Converter Pro Team"
+    "name": "Timezone Converter Pro Team"
   },
   "license": "MIT",
   "homepage": "https://your-domain.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/currency-converter.git"
+    "url": "https://github.com/your-username/timezone-converter.git"
   },
   "bugs": {
-    "url": "https://github.com/your-username/currency-converter/issues"
+    "url": "https://github.com/your-username/timezone-converter/issues"
   },
   "scripts": {
     "dev": "vite",

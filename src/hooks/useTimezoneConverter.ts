@@ -3,6 +3,7 @@ import type { Timezone, PinnedTimezone, TimezoneAppState } from '../types';
 import { POPULAR_TIMEZONES, DEFAULT_PINNED_TIMEZONES, getTimezoneInfo } from '../constants-timezone';
 import { setTimezoneData, getTimezoneData } from '../utils/timezoneCache';
 import { saveRecentCountry } from '../utils/countryStorage';
+import { logger } from '../utils/env';
 
 const TIMEZONE_STORAGE_KEY = 'timezone-converter-data';
 
@@ -44,33 +45,33 @@ export const useTimezoneConverter = () => {
   useEffect(() => {
     const initializeApp = async () => {
       try {
-        console.log('[TimezoneConverter] Loading saved data...');
+        logger.log('[TimezoneConverter] Loading saved data...');
         const storedData = await getTimezoneData(TIMEZONE_STORAGE_KEY) as StoredTimezoneData | null;
-        console.log('[TimezoneConverter] Stored data:', storedData);
+        logger.log('[TimezoneConverter] Stored data:', storedData);
 
         if (storedData && storedData.pinnedTimezones) {
           // Initialize pinned timezones from saved data
           const pinnedTimezones: PinnedTimezone[] = storedData.pinnedTimezones.map((value: string) => {
             const timezoneInfo = getTimezoneInfo(value);
-            console.log(`[TimezoneConverter] Loading timezone: ${value}`, timezoneInfo);
+            logger.log(`[TimezoneConverter] Loading timezone: ${value}`, timezoneInfo);
             return {
               timezone: timezoneInfo || POPULAR_TIMEZONES.find(tz => tz.value === value) || POPULAR_TIMEZONES[0],
               time: null // Will be calculated based on base timezone
             };
           });
 
-          console.log('[TimezoneConverter] Setting loaded timezones:', pinnedTimezones.map(pt => pt.timezone.value));
+          logger.log('[TimezoneConverter] Setting loaded timezones:', pinnedTimezones.map(pt => pt.timezone.value));
           setState({
             pinnedTimezones,
             baseTimezone: storedData.baseTimezone || 'America/New_York'
           });
         } else {
-          console.log('[TimezoneConverter] No saved data found, using defaults');
+          logger.log('[TimezoneConverter] No saved data found, using defaults');
         }
         
         setIsLoaded(true);
       } catch (error) {
-        console.error('Error loading timezone data:', error);
+        logger.error('Error loading timezone data:', error);
         setIsLoaded(true); // Still mark as loaded even if failed
       }
     };
@@ -88,11 +89,11 @@ export const useTimezoneConverter = () => {
           pinnedTimezones: state.pinnedTimezones.map(pt => pt.timezone.value),
           baseTimezone: state.baseTimezone
         };
-        console.log('[TimezoneConverter] Saving data:', dataToSave);
+        logger.log('[TimezoneConverter] Saving data:', dataToSave);
         await setTimezoneData(TIMEZONE_STORAGE_KEY, dataToSave);
-        console.log('[TimezoneConverter] Data saved successfully');
+        logger.log('[TimezoneConverter] Data saved successfully');
       } catch (error) {
-        console.error('Error saving timezone data:', error);
+        logger.error('Error saving timezone data:', error);
       }
     };
 
@@ -116,7 +117,7 @@ export const useTimezoneConverter = () => {
             timeZone: pinnedTimezone.timezone.value 
           }));
         } catch (error) {
-          console.error(`Invalid timezone in update: ${pinnedTimezone.timezone.value}`, error);
+          logger.error(`Invalid timezone in update: ${pinnedTimezone.timezone.value}`, error);
           // Fallback to current time
           timeInTimezone = new Date(currentTime);
         }
@@ -181,7 +182,7 @@ export const useTimezoneConverter = () => {
         })
       }));
     } catch (error) {
-      console.error('Error in setTimeInTimezone:', error);
+      logger.error('Error in setTimeInTimezone:', error);
     }
   }, []);
 
@@ -197,7 +198,7 @@ export const useTimezoneConverter = () => {
             timeZone: pinnedTimezone.timezone.value 
           }));
         } catch (error) {
-          console.error(`Invalid timezone in reset: ${pinnedTimezone.timezone.value}`, error);
+          logger.error(`Invalid timezone in reset: ${pinnedTimezone.timezone.value}`, error);
           // Fallback to current time
           timeInTimezone = new Date(currentTime);
         }
@@ -223,7 +224,7 @@ export const useTimezoneConverter = () => {
       try {
         timeInTimezone = new Date(currentTime.toLocaleString('en-US', { timeZone: timezone.value }));
       } catch (error) {
-        console.error(`Invalid timezone for pinning: ${timezone.value}`, error);
+        logger.error(`Invalid timezone for pinning: ${timezone.value}`, error);
         // Fallback to current time
         timeInTimezone = new Date(currentTime);
       }
@@ -281,7 +282,7 @@ export const useTimezoneConverter = () => {
       // Convert to target timezone
       return new Date(utcTime.toLocaleString('en-US', { timeZone: toTimezone }));
     } catch (error) {
-      console.error(`Error converting time from ${fromTimezone} to ${toTimezone}:`, error);
+      logger.error(`Error converting time from ${fromTimezone} to ${toTimezone}:`, error);
       // Fallback to original time
       return new Date(time);
     }

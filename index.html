@@ -12,34 +12,34 @@
     <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
     <meta name="theme-color" content="#3b82f6" />
-    <meta name="description" content="Professional currency converter with real-time exchange rates, offline support, and beautiful interface. Convert between 170+ currencies instantly." />
-    <meta name="keywords" content="currency converter, exchange rates, forex, currency exchange, money converter, real-time rates" />
-    <meta name="author" content="Currency Converter Pro" />
+    <meta name="description" content="Professional timezone converter with live time display, dropdown time selection, and accurate cross-timezone conversion. Convert time between 150+ timezones instantly with DST support." />
+    <meta name="keywords" content="timezone converter, time zone converter, world clock, time conversion, UTC converter, timezone calculator, world time, time difference, DST support" />
+    <meta name="author" content="Timezone Converter Pro" />
     <meta name="robots" content="index, follow" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://your-domain.com/" />
-    <meta property="og:title" content="Currency Converter Pro - Real-time Exchange Rates" />
-    <meta property="og:description" content="Professional currency converter with real-time exchange rates and offline support. Convert between 170+ currencies instantly." />
+    <meta property="og:title" content="Timezone Converter Pro - World Clock & Time Zone Converter" />
+    <meta property="og:description" content="Professional timezone converter with live time display and accurate cross-timezone conversion. Convert time between 150+ timezones with DST support." />
     <meta property="og:image" content="/icons/icon-512x512.svg" />
     <meta property="og:image:width" content="512" />
     <meta property="og:image:height" content="512" />
-    <meta property="og:site_name" content="Currency Converter Pro" />
+    <meta property="og:site_name" content="Timezone Converter Pro" />
     
     <!-- Twitter Card -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://your-domain.com/" />
-    <meta property="twitter:title" content="Currency Converter Pro - Real-time Exchange Rates" />
-    <meta property="twitter:description" content="Professional currency converter with real-time exchange rates and offline support." />
+    <meta property="twitter:title" content="Timezone Converter Pro - World Clock & Time Zone Converter" />
+    <meta property="twitter:description" content="Professional timezone converter with live time display and accurate cross-timezone conversion." />
     <meta property="twitter:image" content="/icons/icon-512x512.svg" />
     
     <!-- PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Currency Converter Pro" />
+    <meta name="apple-mobile-web-app-title" content="Timezone Converter Pro" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="application-name" content="Currency Converter Pro" />
+    <meta name="application-name" content="Timezone Converter Pro" />
     
     <!-- Windows/Microsoft -->
     <meta name="msapplication-TileColor" content="#3b82f6" />
@@ -56,7 +56,40 @@
     <link rel="icon" type="image/svg+xml" sizes="384x384" href="/icons/icon-384x384.svg" />
     <link rel="icon" type="image/svg+xml" sizes="512x512" href="/icons/icon-512x512.svg" />
     
-    <title>Currency Converter Pro - Real-time Exchange Rates</title>
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Timezone Converter Pro",
+      "description": "Professional timezone converter with real-time conversion, world clock, and multilingual support",
+      "url": "https://timezone-converter.vercel.app",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Timezone Converter Pro"
+      },
+      "datePublished": "2025-01-27",
+      "dateModified": "2025-01-27",
+      "inLanguage": ["en", "es", "fr", "de", "pt", "ru", "zh", "ja", "ar", "hi"],
+      "featureList": [
+        "Real-time timezone conversion",
+        "World clock functionality", 
+        "Multilingual support",
+        "Offline PWA support",
+        "Custom time settings",
+        "Popular timezone presets"
+      ]
+    }
+    </script>
+    
+    <title>Timezone Converter Pro - World Clock & Time Zone Converter</title>
   </head>
   <body>
     <div id="root"></div>
@@ -68,7 +101,7 @@
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js')
             .then((registration) => {
-              console.log('SW registered: ', registration);
+              // SW registered successfully
               
               // Check for updates
               registration.addEventListener('updatefound', () => {
@@ -88,7 +121,7 @@
               });
             })
             .catch((registrationError) => {
-              console.log('SW registration failed: ', registrationError);
+              // SW registration failed - app will work without offline support
             });
         });
       }

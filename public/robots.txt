@@ -2,9 +2,10 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://your-domain.com/sitemap.xml
+Sitemap: https://timezone-converter.vercel.app/sitemap.xml
 
 # Disallow sensitive files
 Disallow: /sw.js
 Disallow: /manifest.json
 Disallow: /browserconfig.xml
+Disallow: /debug.html
