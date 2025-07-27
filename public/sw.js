@@ -1,7 +1,8 @@
-// Currency Converter PWA Service Worker
-const CACHE_NAME = 'currency-converter-v1.0.0';
-const STATIC_CACHE_NAME = 'currency-converter-static-v1.0.0';
-const DATA_CACHE_NAME = 'currency-converter-data-v1.0.0';
+// Currency Converter PWA Service Worker with Timezone Support
+const CACHE_NAME = 'currency-converter-v1.1.0';
+const STATIC_CACHE_NAME = 'currency-converter-static-v1.1.0';
+const DATA_CACHE_NAME = 'currency-converter-data-v1.1.0';
+const TIMEZONE_CACHE_NAME = 'currency-converter-timezone-v1.1.0';
 
 // Static assets to cache immediately
 const STATIC_ASSETS = [
@@ -17,6 +18,13 @@ const STATIC_ASSETS = [
 const API_ENDPOINTS = [
   'https://api.exchangerate-api.com/v4/latest/USD',
   // Add other API endpoints as needed
+];
+
+// Timezone data to cache
+const TIMEZONE_DATA_KEYS = [
+  'timezone-converter-data',
+  'timezone-country-mapping',
+  'timezone-constants'
 ];
 
 // Install event - cache static assets
@@ -47,7 +55,8 @@ self.addEventListener('activate', (event) => {
             if (
               cacheName !== STATIC_CACHE_NAME &&
               cacheName !== DATA_CACHE_NAME &&
-              cacheName !== CACHE_NAME
+              cacheName !== CACHE_NAME &&
+              cacheName !== TIMEZONE_CACHE_NAME
             ) {
               console.log('[SW] Deleting old cache:', cacheName);
               return caches.delete(cacheName);
@@ -343,6 +352,38 @@ self.addEventListener('notificationclick', (event) => {
   // 'dismiss' action or clicking notification body - just close
 });
 
+// Timezone data caching functions
+async function cacheTimezoneData(key, data) {
+  try {
+    const cache = await caches.open(TIMEZONE_CACHE_NAME);
+    const response = new Response(JSON.stringify(data), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Timestamp': Date.now().toString()
+      }
+    });
+    await cache.put(key, response);
+    console.log('[SW] Timezone data cached:', key);
+  } catch (error) {
+    console.error('[SW] Error caching timezone data:', error);
+  }
+}
+
+async function getTimezoneData(key) {
+  try {
+    const cache = await caches.open(TIMEZONE_CACHE_NAME);
+    const response = await cache.match(key);
+    if (response) {
+      const data = await response.json();
+      console.log('[SW] Timezone data retrieved from cache:', key);
+      return data;
+    }
+  } catch (error) {
+    console.error('[SW] Error retrieving timezone data:', error);
+  }
+  return null;
+}
+
 // Message handling from main app
 self.addEventListener('message', (event) => {
   const { type, data } = event.data;
@@ -361,6 +402,18 @@ self.addEventListener('message', (event) => {
     case 'CLEAR_CACHE':
       clearAllCaches().then(() => {
         event.ports[0].postMessage({ success: true });
+      });
+      break;
+      
+    case 'CACHE_TIMEZONE_DATA':
+      cacheTimezoneData(data.key, data.value).then(() => {
+        event.ports[0].postMessage({ success: true });
+      });
+      break;
+      
+    case 'GET_TIMEZONE_DATA':
+      getTimezoneData(data.key).then(result => {
+        event.ports[0].postMessage({ data: result });
       });
       break;
       

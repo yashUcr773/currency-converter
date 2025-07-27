@@ -327,5 +327,12 @@
   },
   "aboutPage": {
     "aboutFeatures": "Fonctionnalités À Propos"
+  },
+  "errorBoundary": {
+    "somethingWentWrong": "Quelque chose s'est mal passé",
+    "unexpectedHappened": "Une erreur inattendue s'est produite",
+    "errorDetails": "Détails de l'erreur",
+    "tryAgain": "Réessayer",
+    "refreshPage": "Actualiser la page"
   }
 }

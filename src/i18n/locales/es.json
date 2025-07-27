@@ -328,5 +328,12 @@
     "currency": "Moneda",
     "tipPercentage": "Porcentaje de Propina",
     "customPercent": "% Personalizado"
+  },
+  "errorBoundary": {
+    "somethingWentWrong": "Algo salió mal",
+    "unexpectedHappened": "Ha ocurrido un error inesperado",
+    "errorDetails": "Detalles del error",
+    "tryAgain": "Intentar de nuevo",
+    "refreshPage": "Actualizar página"
   }
 }

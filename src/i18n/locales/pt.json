@@ -335,5 +335,12 @@
   },
   "aboutPage": {
     "aboutFeatures": "Sobre Recursos"
+  },
+  "errorBoundary": {
+    "somethingWentWrong": "Algo deu errado",
+    "unexpectedHappened": "Ocorreu um erro inesperado",
+    "errorDetails": "Detalhes do erro",
+    "tryAgain": "Tentar novamente",
+    "refreshPage": "Atualizar página"
   }
 }

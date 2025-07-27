@@ -335,5 +335,12 @@
   },
   "aboutPage": {
     "aboutFeatures": "ميزات حول"
+  },
+  "errorBoundary": {
+    "somethingWentWrong": "حدث خطأ ما",
+    "unexpectedHappened": "حدث خطأ غير متوقع",
+    "errorDetails": "تفاصيل الخطأ",
+    "tryAgain": "حاول مرة أخرى",
+    "refreshPage": "تحديث الصفحة"
   }
 }

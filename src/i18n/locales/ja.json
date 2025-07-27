@@ -327,5 +327,12 @@
   },
   "aboutPage": {
     "aboutFeatures": "機能について"
+  },
+  "errorBoundary": {
+    "somethingWentWrong": "何か問題が発生しました",
+    "unexpectedHappened": "予期しないエラーが発生しました",
+    "errorDetails": "エラーの詳細",
+    "tryAgain": "再試行",
+    "refreshPage": "ページを更新"
   }
 }

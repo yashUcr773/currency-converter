@@ -328,5 +328,12 @@
     "currencyNotFound": "Währung nicht gefunden",
     "calculationError": "Berechnungsfehler",
     "tryAgain": "Erneut versuchen"
+  },
+  "errorBoundary": {
+    "somethingWentWrong": "Etwas ist schief gelaufen",
+    "unexpectedHappened": "Ein unerwarteter Fehler ist aufgetreten",
+    "errorDetails": "Fehlerdetails",
+    "tryAgain": "Erneut versuchen",
+    "refreshPage": "Seite aktualisieren"
   }
 }

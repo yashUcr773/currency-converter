@@ -29,3 +29,23 @@ export interface StorageData {
   exchangeRates: ExchangeRates;
   pinnedCurrencies: string[];
 }
+
+// Timezone types
+export interface Timezone {
+  id: string; // Unique identifier for React keys
+  value: string; // IANA timezone identifier (e.g., 'America/New_York')
+  label: string; // Display name (e.g., 'New York (UTC-5)')
+  country: string; // Country name
+  flag: string; // Country flag emoji
+  utcOffset: number; // Current UTC offset in minutes
+}
+
+export interface PinnedTimezone {
+  timezone: Timezone;
+  time: Date | null; // Current time in this timezone
+}
+
+export interface TimezoneAppState {
+  pinnedTimezones: PinnedTimezone[];
+  baseTimezone: string; // Reference timezone for time input
+}

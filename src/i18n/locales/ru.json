@@ -335,5 +335,12 @@
   },
   "aboutPage": {
     "aboutFeatures": "О функциях"
+  },
+  "errorBoundary": {
+    "somethingWentWrong": "Что-то пошло не так",
+    "unexpectedHappened": "Произошла неожиданная ошибка",
+    "errorDetails": "Детали ошибки",
+    "tryAgain": "Попробовать снова",
+    "refreshPage": "Обновить страницу"
   }
 }

@@ -330,5 +330,12 @@
       "feature4": "Progressive Web App",
       "feature5": "Mobile responsive"
     }
+  },
+  "errorBoundary": {
+    "somethingWentWrong": "Something went wrong",
+    "unexpectedHappened": "An unexpected error has occurred",
+    "errorDetails": "Error details",
+    "tryAgain": "Try Again",
+    "refreshPage": "Refresh Page"
   }
 }

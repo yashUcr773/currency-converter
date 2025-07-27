@@ -335,5 +335,12 @@
   },
   "aboutPage": {
     "aboutFeatures": "सुविधाओं के बारे में"
+  },
+  "errorBoundary": {
+    "somethingWentWrong": "कुछ गलत हो गया",
+    "unexpectedHappened": "एक अप्रत्याशित त्रुटि हुई है",
+    "errorDetails": "त्रुटि विवरण",
+    "tryAgain": "पुनः प्रयास करें",
+    "refreshPage": "पृष्ठ को रीफ्रेश करें"
   }
 }
