@@ -109,7 +109,7 @@ function App() {
                 </svg>
               </div>
               <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              {activeTab === 'currency' ? t('app.title') : 'Timezone Converter Pro'}
+              {activeTab === 'currency' ? t('app.title') : 'Timezone Converter'}
             </h1>
           </div>
           <p className="text-slate-600 text-xs sm:text-sm lg:text-base xl:text-lg font-medium px-2 sm:px-4">

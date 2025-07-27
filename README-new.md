@@ -1,6 +1,8 @@
-# Local Currency Converter
+# RateVault
 
-A lightweight, offline-first currency converter web application that allows users to convert currencies, pin frequently used currencies, and set custom exchange rates for "what-if" scenarios.
+**Currency and Timezone Conversion — in One Vault**
+
+A lightweight, offline-first conversion application that allows users to convert currencies, manage timezones, pin frequently used currencies, and set custom exchange rates for "what-if" scenarios.
 
 ## ✨ Features
 

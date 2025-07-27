@@ -80,7 +80,7 @@
   },
   "navigation": {
     "about": "के बारे में",
-    "backToConverter": "कन्वर्टर पर वापस जाएं",
+    "backToConverter": "RateVault पर वापस जाएं",
     "startConverting": "मुद्रा रूपांतरण शुरू करें"
   },
   "converter": {
@@ -131,7 +131,7 @@
     "description": "तत्काल मुद्रा रूपांतरण के लिए हमारे मुफ्त ऑनलाइन मुद्रा परिवर्तक का उपयोग करें। 150+ मुद्राओं के लिए लाइव विनिमय दरें, ऑफ़लाइन मोड, और सटीक गणना।",
     "keywords": "मुद्रा परिवर्तक, विनिमय दर, मुद्रा रूपांतरण, लाइव दरें, USD, EUR, GBP, JPY",
     "author": "मुद्रा परिवर्तक टीम",
-    "canonicalUrl": "https://currency-converter-phi-snowy.vercel.app/",
+    "canonicalUrl": "https://ratevault.vercel.app/",
     "ogTitle": "मुद्रा परिवर्तक - 150+ मुद्राओं के लिए लाइव दरें",
     "ogDescription": "तत्काल मुद्रा रूपांतरण के लिए हमारे मुफ्त ऑनलाइन मुद्रा परिवर्तक का उपयोग करें। 150+ मुद्राओं के लिए लाइव विनिमय दरें।",
     "ogType": "website",

@@ -1,7 +1,7 @@
 // Currency Converter PWA Service Worker with Timezone Support
 const CACHE_NAME = 'currency-converter-v1.1.0';
 const STATIC_CACHE_NAME = 'currency-converter-static-v1.1.0';
-const DATA_CACHE_NAME = 'currency-converter-data-v1.1.0';
+const DATA_CACHE_NAME = 'ratevault-data-v1.1.0';
 const TIMEZONE_CACHE_NAME = 'currency-converter-timezone-v1.1.0';
 
 // Static assets to cache immediately
@@ -22,7 +22,7 @@ const API_ENDPOINTS = [
 
 // Timezone data to cache
 const TIMEZONE_DATA_KEYS = [
-  'timezone-converter-data',
+  'ratevault-timezone-data',
   'timezone-country-mapping',
   'timezone-constants'
 ];

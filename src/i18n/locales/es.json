@@ -65,9 +65,9 @@
     "allPreserved": "• Toda la funcionalidad se preservará"
   },
   "app": {
-    "title": "Conversor de Monedas",
-    "subtitle": "Conversión de monedas en tiempo real • Fija tus favoritas",
-    "loading": "Cargando Conversor de Monedas",
+    "title": "RateVault",
+    "subtitle": "Conversión de Divisas y Zona Horaria — en Una Bóveda",
+    "loading": "Cargando RateVault",
     "loadingSubtitle": "Obteniendo las últimas tasas de cambio",
     "noRatesAvailable": "No hay Tasas de Cambio Disponibles",
     "noRatesMessage": "No se pueden cargar las tasas de cambio. Verifique su conexión a internet e intente de nuevo.",
@@ -80,8 +80,8 @@
   },
   "navigation": {
     "about": "Acerca de",
-    "backToConverter": "Volver al Conversor",
-    "startConverting": "Comenzar a Convertir Monedas"
+    "backToConverter": "Volver a RateVault",
+    "startConverting": "Comenzar a Convertir"
   },
   "converter": {
     "amount": "Cantidad",

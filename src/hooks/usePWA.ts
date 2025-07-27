@@ -41,8 +41,8 @@ export function usePWA(): [PWAStatus, PWAActions] {
   // Check for cached data in localStorage
   const checkForLocalStorageData = (): boolean => {
     try {
-      // Check for currency converter data in localStorage
-      const storageKeys = ['currency-converter-data', 'pinnedCurrencies', 'exchangeRates'];
+      // Check for RateVault data in localStorage
+      const storageKeys = ['ratevault-data', 'pinnedCurrencies', 'exchangeRates'];
       return storageKeys.some(key => {
         const data = localStorage.getItem(key);
         return data && data !== 'null' && data !== '{}' && data !== '[]';

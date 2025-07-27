@@ -80,7 +80,7 @@
   },
   "navigation": {
     "about": "حول",
-    "backToConverter": "العودة للمحول",
+    "backToConverter": "العودة إلى RateVault",
     "startConverting": "بدء تحويل العملات"
   },
   "converter": {
@@ -131,7 +131,7 @@
     "description": "استخدم محول العملات المجاني عبر الإنترنت للتحويل الفوري. أسعار صرف مباشرة لأكثر من 150 عملة، وضع عدم الاتصال، وحسابات دقيقة.",
     "keywords": "محول العملات، سعر الصرف، تحويل العملة، أسعار مباشرة، USD، EUR، GBP، JPY",
     "author": "فريق محول العملات",
-    "canonicalUrl": "https://currency-converter-phi-snowy.vercel.app/",
+    "canonicalUrl": "https://ratevault.vercel.app/",
     "ogTitle": "محول العملات - أسعار مباشرة لأكثر من 150 عملة",
     "ogDescription": "استخدم محول العملات المجاني عبر الإنترنت للتحويل الفوري. أسعار صرف مباشرة لأكثر من 150 عملة.",
     "ogType": "website",

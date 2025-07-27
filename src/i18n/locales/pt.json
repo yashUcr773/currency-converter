@@ -80,7 +80,7 @@
   },
   "navigation": {
     "about": "Sobre",
-    "backToConverter": "Voltar ao Conversor",
+    "backToConverter": "Voltar ao RateVault",
     "startConverting": "Começar a Converter Moedas"
   },
   "converter": {
@@ -131,7 +131,7 @@
     "description": "Use nosso conversor de moedas online gratuito para conversão instantânea. Taxas de câmbio ao vivo para 150+ moedas, modo offline e cálculos precisos.",
     "keywords": "conversor de moedas, taxa de câmbio, conversão de moeda, taxas ao vivo, USD, EUR, GBP, JPY",
     "author": "Equipe do Conversor de Moedas",
-    "canonicalUrl": "https://currency-converter-phi-snowy.vercel.app/",
+    "canonicalUrl": "https://ratevault.vercel.app/",
     "ogTitle": "Conversor de Moedas - Taxas ao Vivo para 150+ Moedas",
     "ogDescription": "Use nosso conversor de moedas online gratuito para conversão instantânea. Taxas de câmbio ao vivo para 150+ moedas.",
     "ogType": "website",

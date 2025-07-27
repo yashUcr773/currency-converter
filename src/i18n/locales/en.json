@@ -67,9 +67,9 @@
     "allPreserved": "• All functionality will be preserved"
   },
   "app": {
-    "title": "Currency Converter",
-    "subtitle": "Real-time currency conversion • Pin your favorites",
-    "loading": "Loading Currency Converter",
+    "title": "RateVault",
+    "subtitle": "Currency and Timezone Conversion — in One Vault",
+    "loading": "Loading RateVault",
     "loadingSubtitle": "Fetching latest exchange rates",
     "noRatesAvailable": "No Exchange Rates Available",
     "noRatesMessage": "Unable to load exchange rates. Please check your internet connection and try again.",
@@ -82,8 +82,8 @@
   },
   "navigation": {
     "about": "About",
-    "backToConverter": "Back to Converter",
-    "startConverting": "Start Converting Currencies"
+    "backToConverter": "Back to RateVault",
+    "startConverting": "Start Converting"
   },
   "converter": {
     "amount": "Amount",
@@ -181,12 +181,12 @@
     "toggleLang": "Toggle EN/ES"
   },
   "about": {
-    "title": "About Currency Converter",
-    "heroTitle": "The Currency Converter You Actually Want to Use",
-    "subtitle": "The Currency Converter You Actually Want to Use",
-    "description": "A simple currency converter with offline support, built-in calculator, and multiple number formats. Quick, reliable, and private.",
+    "title": "About RateVault",
+    "heroTitle": "Currency and Timezone Conversion — in One Vault",
+    "subtitle": "The Conversion Tool You Actually Want to Use",
+    "description": "RateVault combines currency and timezone conversion in one elegant vault. Quick, reliable, and private with offline support.",
     "freeOpenSource": "Free & Open Source",
-    "freeDescription": "Free to use currency converter with no ads or tracking. Source code is available for anyone to review, modify, or learn from.",
+    "freeDescription": "Free to use conversion tools with no ads or tracking. Source code is available for anyone to review, modify, or learn from.",
     "features": {
       "title": "Key Features",
       "subtitle": "Simple features for everyday currency conversion",
@@ -205,7 +205,7 @@
     },
     "uniqueFeatures": {
       "title": "What Makes It Special",
-      "subtitle": "Features that set this currency converter apart",
+      "subtitle": "Features that set RateVault apart",
       "calculator": "Built-in Calculator",
       "calculatorDesc": "Mini calculator that integrates with currency conversions. Perform calculations and directly use results in currency fields.",
       "numberSystem": "Number System Toggle",
@@ -317,13 +317,13 @@
     "oneTime": "One-time Support"
   },
   "seo": {
-    "title": "Currency Converter Pro - Real-time Exchange Rates",
-    "description": "Professional currency converter with real-time exchange rates, offline support, and beautiful interface. Convert between 170+ currencies instantly.",
-    "keywords": "currency converter, exchange rates, forex, currency exchange, money converter, real-time rates",
+    "title": "RateVault - Currency and Timezone Conversion — in One Vault",
+    "description": "Professional conversion tools with real-time exchange rates, world clock, and accurate cross-timezone conversion. Your one-stop vault for rates and time.",
+    "keywords": "ratevault, currency converter, timezone converter, exchange rates, world clock, time conversion, vault, conversion tools",
     "structuredData": {
-      "name": "Currency Converter Pro",
-      "description": "Professional currency converter with real-time exchange rates and offline support",
-      "author": "Currency Converter Pro Team",
+      "name": "RateVault",
+      "description": "Currency and Timezone Conversion — in One Vault. Professional conversion tools with real-time rates and offline support",
+      "author": "RateVault Team",
       "feature1": "Real-time exchange rates",
       "feature2": "Offline support",
       "feature3": "170+ currencies",

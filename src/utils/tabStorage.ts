@@ -4,7 +4,7 @@
 
 import { logger } from './env';
 
-const TAB_STORAGE_KEY = 'currency-converter-active-tab';
+const TAB_STORAGE_KEY = 'ratevault-active-tab';
 
 export type TabType = 'currency' | 'timezone';
 

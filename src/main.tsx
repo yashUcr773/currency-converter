@@ -10,7 +10,7 @@ import { NumberSystemProvider } from './contexts/NumberSystemContext'
 import { logger, env } from './utils/env'
 
 // Log app startup in development
-logger.log(`Currency Converter Pro v${env.version} starting...`);
+logger.log(`RateVault v${env.version} starting...`);
 logger.log(`Environment: ${env.isProduction ? 'Production' : 'Development'}`);
 
 createRoot(document.getElementById('root')!).render(

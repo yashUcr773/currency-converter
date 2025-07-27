@@ -1,6 +1,6 @@
 # PWA Icons
 
-This directory contains the PWA icons for Currency Converter Pro.
+This directory contains the PWA icons for RateVault.
 
 ## Available Icon Sizes:
 ✅ `icon-72x72.svg` - For Windows tiles and small displays

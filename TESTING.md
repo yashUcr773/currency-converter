@@ -5,7 +5,7 @@
 After fixing the currency input issue, here's how to test that everything is working correctly:
 
 ### 1. **Basic Input Testing**
-- Open the currency converter at `http://localhost:5173/`
+- Open RateVault at `http://localhost:5173/`
 - You should see 3 default currency cards: USD, EUR, GBP
 - The USD card should initially show 100 in the input field
 - The other currencies should show calculated converted amounts

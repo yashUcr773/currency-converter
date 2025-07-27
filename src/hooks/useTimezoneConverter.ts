@@ -5,7 +5,7 @@ import { setTimezoneData, getTimezoneData } from '../utils/timezoneCache';
 import { saveRecentCountry } from '../utils/countryStorage';
 import { logger } from '../utils/env';
 
-const TIMEZONE_STORAGE_KEY = 'timezone-converter-data';
+const TIMEZONE_STORAGE_KEY = 'ratevault-timezone-data';
 
 interface StoredTimezoneData {
   pinnedTimezones: string[];

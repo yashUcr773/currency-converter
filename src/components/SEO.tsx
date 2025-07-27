@@ -19,9 +19,9 @@ export function SEO({
   const { t } = useTranslation();
 
   // Use translations or fallback to defaults
-  const metaTitle = title || t('seo.title', 'Currency Converter Pro - Real-time Exchange Rates');
-  const metaDescription = description || t('seo.description', 'Professional currency converter with real-time exchange rates, offline support, and beautiful interface. Convert between 170+ currencies instantly.');
-  const metaKeywords = keywords || t('seo.keywords', 'currency converter, exchange rates, forex, currency exchange, money converter, real-time rates');
+  const metaTitle = title || t('seo.title', 'RateVault - Currency and Timezone Conversion — in One Vault');
+  const metaDescription = description || t('seo.description', 'Professional conversion tools with real-time exchange rates, world clock, and accurate cross-timezone conversion. Your one-stop vault for rates and time.');
+  const metaKeywords = keywords || t('seo.keywords', 'ratevault, currency converter, timezone converter, exchange rates, world clock, time conversion, vault, conversion tools');
 
   useEffect(() => {
     // Update document title
@@ -66,14 +66,14 @@ export function StructuredData() {
     const structuredData = {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": t('seo.structuredData.name', 'Currency Converter Pro'),
+      "name": t('seo.structuredData.name', 'RateVault'),
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "All",
-      "description": t('seo.structuredData.description', 'Professional currency converter with real-time exchange rates and offline support'),
+      "description": t('seo.structuredData.description', 'Currency and Timezone Conversion — in One Vault. Professional conversion tools with real-time rates and offline support'),
       "url": window.location.origin,
       "author": {
         "@type": "Organization",
-        "name": t('seo.structuredData.author', 'Currency Converter Pro Team')
+        "name": t('seo.structuredData.author', 'RateVault Team')
       },
       "offers": {
         "@type": "Offer",
@@ -97,7 +97,7 @@ export function StructuredData() {
     }
     
     script.textContent = JSON.stringify(structuredData);
-  }, []);
+  }, [t]);
 
   return null;
 }

@@ -1,8 +1,8 @@
 // Country selection persistence for timezone search
 import { logger } from './env';
 
-const TIMEZONE_COUNTRY_STORAGE_KEY = 'timezone-converter-recent-countries';
-const TIMEZONE_SEARCH_STORAGE_KEY = 'timezone-converter-search-history';
+const TIMEZONE_COUNTRY_STORAGE_KEY = 'ratevault-timezone-recent-countries';
+const TIMEZONE_SEARCH_STORAGE_KEY = 'ratevault-timezone-search-history';
 const MAX_RECENT_COUNTRIES = 10;
 const MAX_SEARCH_HISTORY = 20;
 

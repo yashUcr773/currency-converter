@@ -51,7 +51,7 @@ export interface PWAActions {
 #### Cached Data Detection
 ```typescript
 const checkForLocalStorageData = (): boolean => {
-  const storageKeys = ['currency-converter-data', 'pinnedCurrencies', 'exchangeRates'];
+  const storageKeys = ['ratevault-data', 'pinnedCurrencies', 'exchangeRates'];
   return storageKeys.some(key => {
     const data = localStorage.getItem(key);
     return data && data !== 'null' && data !== '{}' && data !== '[]';
@@ -112,7 +112,7 @@ window.dispatchEvent(new CustomEvent('test-update-available'));
 
 ### Storage Keys Monitored
 The system checks these localStorage keys for cached data:
-- `currency-converter-data` - Main app data
+- `ratevault-data` - Main app data
 - `pinnedCurrencies` - User's pinned currencies
 - `exchangeRates` - Cached exchange rates
 
