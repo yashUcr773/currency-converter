@@ -73,19 +73,39 @@ export const CurrencyInput = ({
     const rawValue = e.target.value;
     
     // Remove all non-digit characters except decimal point
-    const cleanValue = rawValue.replace(/[^\d.]/g, '');
+    let cleanValue = rawValue.replace(/[^\d.]/g, '');
+    
+    // Handle multiple decimal points - keep only the first one
+    const decimalIndex = cleanValue.indexOf('.');
+    if (decimalIndex !== -1) {
+      cleanValue = cleanValue.substring(0, decimalIndex + 1) + cleanValue.substring(decimalIndex + 1).replace(/\./g, '');
+    }
+    
+    // Update the input value directly with the clean value (no formatting while typing)
+    setInputValue(cleanValue);
     
     // Parse the clean value
     const numericValue = cleanValue === '' ? 0 : parseFloat(cleanValue);
     
-    // Format the display value with commas in the selected number system
-    const formattedValue = cleanValue === '' ? '' : formatForDisplay(numericValue, numberSystem);
-    
-    setInputValue(formattedValue);
-    
     if (!isNaN(numericValue)) {
       onAmountChange(numericValue);
     }
+  };
+
+  const handleInputBlur = () => {
+    // Format the display value when user stops editing
+    if (pinnedCurrency.amount > 0) {
+      setInputValue(formatForDisplay(pinnedCurrency.amount, numberSystem));
+    }
+  };
+
+  const handleInputFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    // Show raw number without formatting when editing
+    if (pinnedCurrency.amount > 0) {
+      setInputValue(pinnedCurrency.amount.toString());
+    }
+    // Select all text for easy editing
+    e.target.select();
   };
 
   const { currency } = pinnedCurrency;
@@ -170,6 +190,8 @@ export const CurrencyInput = ({
             inputMode="decimal"
             value={inputValue}
             onChange={handleAmountChange}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
             disabled={disabled}
             className="pl-10 pr-2.5 sm:pl-12 sm:pr-3 text-sm sm:text-base font-bold h-10 sm:h-12 bg-gradient-to-r from-slate-50/80 to-white border border-slate-200/80 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 hover:border-slate-300 transition-all duration-300 text-slate-800 rounded-lg sm:rounded-xl shadow-sm hover:shadow-md focus:shadow-lg backdrop-blur-sm placeholder:text-slate-400"
             placeholder={t('converter.amountPlaceholder')}

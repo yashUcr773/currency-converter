@@ -23,7 +23,10 @@
     "buyMeCoffee": "请我喝咖啡",
     "supportWithCoffee": "用咖啡支持",
     "supportThisApp": "支持此应用",
-    "supportProject": "支持此项目"
+    "supportProject": "支持此项目",
+    "helpfulMessage": "有帮助吗？",
+    "anySupport": "任何支持都很感谢！",
+    "arrow": "→"
   },
   "pwaStatus": {
     "installApp": "安装应用",
@@ -44,7 +47,10 @@
     "clearCacheOfflineList3": "之前加载的货币数据",
     "clearCacheOfflineWarn": "⚠️ 清除缓存后，应用可能在没有网络连接的情况下无法正常工作。",
     "cancel": "取消",
-    "clearAnyway": "仍然清除"
+    "clearAnyway": "仍然清除",
+    "clearCacheOfflineMessage": "您当前离线。清除缓存将删除所有存储的数据，应用可能在没有网络连接的情况下无法正常工作。",
+    "offlineTitle": "您已离线",
+    "offlineDesc": "应用正在使用缓存数据运行。某些功能可能受限，直到您重新连接到互联网。"
   },
   "updatePrompt": {
     "title": "新版本可用",

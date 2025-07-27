@@ -23,7 +23,10 @@
     "buyMeCoffee": "コーヒーを奢る",
     "supportWithCoffee": "コーヒーでサポート",
     "supportThisApp": "このアプリをサポート",
-    "supportProject": "このプロジェクトをサポート"
+    "supportProject": "このプロジェクトをサポート",
+    "helpfulMessage": "役に立ちましたか？",
+    "anySupport": "どんなサポートでも感謝します！",
+    "arrow": "→"
   },
   "pwaStatus": {
     "installApp": "アプリをインストール",
@@ -44,7 +47,10 @@
     "clearCacheOfflineList3": "以前に読み込まれた通貨データ",
     "clearCacheOfflineWarn": "⚠️ キャッシュをクリアした後、インターネット接続なしではアプリが正常に動作しない可能性があります。",
     "cancel": "キャンセル",
-    "clearAnyway": "とにかくクリア"
+    "clearAnyway": "とにかくクリア",
+    "clearCacheOfflineMessage": "現在オフラインです。キャッシュをクリアすると保存されたデータがすべて削除され、インターネット接続なしではアプリが正常に動作しない可能性があります。",
+    "offlineTitle": "オフラインです",
+    "offlineDesc": "アプリはキャッシュデータで動作しています。インターネットに再接続するまで、一部の機能が制限される場合があります。"
   },
   "updatePrompt": {
     "title": "新バージョン利用可能",

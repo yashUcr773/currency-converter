@@ -24,7 +24,10 @@
     "buyMeCoffee": "Buy Me a Coffee",
     "supportWithCoffee": "Support with a coffee",
     "supportThisApp": "Support This App",
-    "supportProject": "Support This Project"
+    "supportProject": "Support This Project",
+    "helpfulMessage": "Found this helpful?",
+    "anySupport": "Any support is appreciated!",
+    "arrow": "→"
   },
 
   "pwaStatus": {
@@ -46,7 +49,10 @@
     "clearCacheOfflineList3": "Previously loaded currency data",
     "clearCacheOfflineWarn": "⚠️ The app may not work properly without an internet connection after clearing the cache.",
     "cancel": "Cancel",
-    "clearAnyway": "Clear Anyway"
+    "clearAnyway": "Clear Anyway",
+    "clearCacheOfflineMessage": "You're currently offline. Clearing the cache will remove all stored data and the app may not work properly without an internet connection.",
+    "offlineTitle": "You're Offline",
+    "offlineDesc": "The app is running on cached data. Some features may be limited until you reconnect to the internet."
   },
   "updatePrompt": {
     "title": "New Version Available",

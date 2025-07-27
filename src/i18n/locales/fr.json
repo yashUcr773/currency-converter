@@ -23,7 +23,10 @@
     "buyMeCoffee": "Offrez-moi un café",
     "supportWithCoffee": "Soutenir avec un café",
     "supportThisApp": "Soutenir cette App",
-    "supportProject": "Soutenir ce Projet"
+    "supportProject": "Soutenir ce Projet",
+    "helpfulMessage": "Cela vous a-t-il été utile ?",
+    "anySupport": "Tout soutien est apprécié !",
+    "arrow": "→"
   },
   "pwaStatus": {
     "installApp": "Installer l'App",
@@ -44,7 +47,10 @@
     "clearCacheOfflineList3": "Données de devises précédemment chargées",
     "clearCacheOfflineWarn": "⚠️ L'app peut ne pas fonctionner correctement sans connexion internet après avoir vidé le cache.",
     "cancel": "Annuler",
-    "clearAnyway": "Vider Quand Même"
+    "clearAnyway": "Vider Quand Même",
+    "clearCacheOfflineMessage": "Vous êtes actuellement hors ligne. Vider le cache supprimera toutes les données stockées et l'app peut ne pas fonctionner correctement sans connexion internet.",
+    "offlineTitle": "Vous êtes Hors Ligne",
+    "offlineDesc": "L'app fonctionne avec des données en cache. Certaines fonctionnalités peuvent être limitées jusqu'à ce que vous vous reconnectiez à internet."
   },
   "updatePrompt": {
     "title": "Nouvelle Version Disponible",
