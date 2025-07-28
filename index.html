@@ -112,13 +112,27 @@
                   newWorker.addEventListener('statechange', () => {
                     if (newWorker.state === 'installed') {
                       if (navigator.serviceWorker.controller) {
-                        // New content available, show update notification
-                        if (confirm('New version available! Reload to update?')) {
-                          window.location.reload();
-                        }
+                        // New content available, notify the React app
+                        // Send message to trigger UpdatePrompt modal
+                        navigator.serviceWorker.controller.postMessage({
+                          type: 'UPDATE_AVAILABLE'
+                        });
+                        
+                        // Store the registration for later use
+                        window.__swRegistration = registration;
                       }
                     }
                   });
+                }
+              });
+              
+              // Listen for messages from the service worker
+              navigator.serviceWorker.addEventListener('message', (event) => {
+                if (event.data.type === 'UPDATE_AVAILABLE') {
+                  // Dispatch custom event that React can listen to
+                  window.dispatchEvent(new CustomEvent('swUpdateAvailable', {
+                    detail: { registration }
+                  }));
                 }
               });
             })
@@ -126,6 +140,24 @@
               // SW registration failed - app will work without offline support
             });
         });
+        
+        // Global function for hard refresh (called from React)
+        window.hardRefreshApp = () => {
+          // Clear all caches first
+          if ('caches' in window) {
+            caches.keys().then(cacheNames => {
+              return Promise.all(
+                cacheNames.map(cacheName => caches.delete(cacheName))
+              );
+            }).then(() => {
+              // Force reload with cache bypass
+              window.location.reload(true);
+            });
+          } else {
+            // Fallback: reload with cache bypass
+            window.location.reload(true);
+          }
+        };
       }
     </script>
   </body>

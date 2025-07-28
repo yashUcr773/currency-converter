@@ -1,6 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { logger } from '../utils/env';
 
+interface WindowExtended extends Window {
+  hardRefreshApp?: () => void;
+  __swRegistration?: ServiceWorkerRegistration;
+}
+
+declare const window: WindowExtended;
+
 export interface PWAStatus {
   isOnline: boolean;
   isInstalled: boolean;
@@ -233,11 +240,24 @@ export function usePWA(): [PWAStatus, PWAActions] {
         }
       });
 
+      // Listen for custom update events from service worker registration
+      const handleSwUpdateAvailable = () => {
+        console.log('[PWA] Service worker update detected via custom event');
+        setUpdateAvailable(true);
+      };
+
+      window.addEventListener('swUpdateAvailable', handleSwUpdateAvailable);
+
       // Get initial cache status
       getCacheStatus();
       
       // Initial check for cached data
       setHasCachedData(checkForLocalStorageData());
+
+      // Add cleanup for the new event listener
+      return () => {
+        window.removeEventListener('swUpdateAvailable', handleSwUpdateAvailable);
+      };
     }
 
     return () => {
@@ -296,6 +316,15 @@ export function usePWA(): [PWAStatus, PWAActions] {
   };
 
   const updateApp = async (): Promise<void> => {
+    console.log('[PWA] updateApp called - performing hard refresh');
+    
+    // Use the global hard refresh function if available
+    if (typeof window.hardRefreshApp === 'function') {
+      window.hardRefreshApp();
+      return;
+    }
+    
+    // Fallback: traditional service worker update + hard refresh
     if ('serviceWorker' in navigator) {
       try {
         const registration = await navigator.serviceWorker.getRegistration();
@@ -303,14 +332,23 @@ export function usePWA(): [PWAStatus, PWAActions] {
           // Tell the waiting service worker to skip waiting
           registration.waiting.postMessage({ type: 'SKIP_WAITING' });
           
-          // Wait for the new service worker to take control
+          // Wait for the new service worker to take control, then hard refresh
           navigator.serviceWorker.addEventListener('controllerchange', () => {
+            // Force hard refresh (bypass cache)
             window.location.reload();
           });
+        } else {
+          // No waiting worker, just do hard refresh
+          window.location.reload();
         }
       } catch (error) {
         console.error('Update failed:', error);
+        // Fallback to simple hard refresh
+        window.location.reload();
       }
+    } else {
+      // No service worker support, just hard refresh
+      window.location.reload();
     }
   };
 

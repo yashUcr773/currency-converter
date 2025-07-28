@@ -222,7 +222,7 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
         </Button>
       </DialogTrigger>
       
-      <DialogContent className="w-[95vw] max-w-sm mx-auto bg-white/95 backdrop-blur-md border-0 shadow-2xl rounded-2xl">
+      <DialogContent className="flex flex-col w-full max-w-sm mx-auto bg-white/95 backdrop-blur-md border-0 shadow-2xl rounded-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-slate-700">
             <Calculator className="w-4 h-4" />
@@ -231,7 +231,7 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
         </DialogHeader>
         
         {/* Tab Navigation */}
-        <div className="flex bg-slate-100 rounded-lg p-1 mb-4">
+        <div className="flex flex-row bg-slate-100 rounded-lg py-1 my-4 mx-auto w-full">
           <button
             onClick={() => setActiveTab('calculator')}
             className={`flex-1 flex items-center justify-center gap-1 px-3 py-2 rounded-md text-sm font-medium transition-all ${
@@ -261,7 +261,7 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
           {activeTab === 'calculator' && (
             <>
               {/* Display */}
-              <div className="bg-slate-100 rounded-xl p-3 text-right">
+              <div className="bg-slate-100 rounded-xl p-3 text-right w-full">
                 <div className="text-xl sm:text-2xl font-mono font-bold text-slate-800 break-all">
                   {formatDisplayNumber(display)}
                 </div>
@@ -363,7 +363,7 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
                   ) : selectedCurrency ? (
                     <>
                       {t('miniCalculator.applyXToY', {
-                        value: display,
+                        result: display,
                         currency: pinnedCurrencies.find(p => p.currency.code === selectedCurrency)?.currency.code || selectedCurrency
                       })}
                     </>

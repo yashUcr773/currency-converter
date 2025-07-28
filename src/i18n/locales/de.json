@@ -216,7 +216,9 @@
     "enterBillAmount": "Rechnungsbetrag eingeben",
     "currency": "Währung",
     "tipPercentage": "Trinkgeld-Prozentsatz",
-    "customPercent": "Benutzerdefiniert %"
+    "customPercent": "Benutzerdefiniert %",
+    "apply": "Anwenden",
+    "resetTipCalculator": "Rechner Zurücksetzen"
   },
   "debug": {
     "current": "Aktuell",

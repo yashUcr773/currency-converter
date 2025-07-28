@@ -124,7 +124,7 @@ function App() {
             <div className="inline-flex bg-white/80 backdrop-blur-sm rounded-lg border border-slate-200 shadow-sm p-1">
               <button
                 onClick={() => setActiveTab('currency')}
-                className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                   activeTab === 'currency'
                     ? 'bg-blue-600 text-white shadow-sm'
                     : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50'
@@ -135,7 +135,7 @@ function App() {
               </button>
               <button
                 onClick={() => setActiveTab('timezone')}
-                className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                   activeTab === 'timezone'
                     ? 'bg-blue-600 text-white shadow-sm'
                     : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50'

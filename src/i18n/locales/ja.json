@@ -216,7 +216,9 @@
     "enterBillAmount": "請求額を入力",
     "currency": "通貨",
     "tipPercentage": "チップ割合",
-    "customPercent": "カスタム %"
+    "customPercent": "カスタム %",
+    "apply": "適用",
+    "resetTipCalculator": "計算機をリセット"
   },
   "debug": {
     "current": "現在",

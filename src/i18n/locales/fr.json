@@ -329,7 +329,9 @@
     "enterBillAmount": "Entrez le montant de l'addition",
     "currency": "Devise",
     "tipPercentage": "Pourcentage de Pourboire",
-    "customPercent": "% Personnalisé"
+    "customPercent": "% Personnalisé",
+    "apply": "Appliquer",
+    "resetTipCalculator": "Réinitialiser la Calculatrice"
   },
   "aboutPage": {
     "aboutFeatures": "Fonctionnalités À Propos"

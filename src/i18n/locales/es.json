@@ -333,7 +333,9 @@
     "enterBillAmount": "Ingresa el monto de la cuenta",
     "currency": "Moneda",
     "tipPercentage": "Porcentaje de Propina",
-    "customPercent": "% Personalizado"
+    "customPercent": "% Personalizado",
+    "apply": "Aplicar",
+    "resetTipCalculator": "Reiniciar Calculadora"
   },
   "errorBoundary": {
     "somethingWentWrong": "Algo salió mal",

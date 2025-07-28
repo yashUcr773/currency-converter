@@ -216,7 +216,9 @@
     "enterBillAmount": "输入账单金额",
     "currency": "货币",
     "tipPercentage": "小费百分比",
-    "customPercent": "自定义 %"
+    "customPercent": "自定义 %",
+    "apply": "应用",
+    "resetTipCalculator": "重置计算器"
   },
   "debug": {
     "current": "当前",

@@ -75,10 +75,10 @@ export const StatusBar = ({
 
   // Auto-show update prompt when conditions are met
   useEffect(() => {
-    if (status.updateAvailable && status.hasCachedData && !showUpdatePrompt) {
+    if (status.updateAvailable && !showUpdatePrompt) {
       setShowUpdatePrompt(true);
     }
-  }, [status.updateAvailable, status.hasCachedData, showUpdatePrompt]);
+  }, [status.updateAvailable, showUpdatePrompt]);
 
   const formatLastSync = (timestamp: number) => {
     if (!timestamp) return t('statusBar.never');
@@ -164,7 +164,7 @@ export const StatusBar = ({
           {status.canInstall && !status.isInstalled && (
             <button
               onClick={actions.installApp}
-              className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 text-blue-600 bg-blue-100 hover:bg-blue-200 rounded-lg transition-colors text-xs font-medium touch-manipulation"
+              className="flex items-center justify-center gap-2 px-2 py-1.5 text-blue-600 bg-blue-100 hover:bg-blue-200 rounded-lg transition-colors text-xs font-medium touch-manipulation"
               title={t('pwaStatus.installTitle')}
             >
               <Download className="w-3.5 h-3.5" />

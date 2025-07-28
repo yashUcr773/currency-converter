@@ -67,7 +67,7 @@
     "updating": "Updating...",
     "updateLater": "Update Later",
     "whatHappens": "What happens when you update:",
-    "reload": "• The app will reload with the latest version",
+    "reload": "• The app will perform a hard refresh with the latest version",
     "dataSafe": "• Your cached data and preferences remain safe",
     "freshRates": "• Fresh exchange rates will be fetched when online",
     "allPreserved": "• All functionality will be preserved"
@@ -163,7 +163,9 @@
     "enterBillAmount": "Enter bill amount",
     "currency": "Currency",
     "tipPercentage": "Tip Percentage",
-    "customPercent": "Custom %"
+    "customPercent": "Custom %",
+    "apply": "Apply",
+    "resetTipCalculator": "Reset Calculator"
   },
   "settings": {
     "title": "Settings",
