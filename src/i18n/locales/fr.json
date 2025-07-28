@@ -200,7 +200,11 @@
       "installApp": "Installer comme Application",
       "installAppDesc": "Ajoutez à l'écran d'accueil de votre appareil et utilisez comme une application native. Fonctionne même hors ligne.",
       "smartBase": "Devise de Base Intelligente",
-      "smartBaseDesc": "Appuyez sur n'importe quel taux de change pour le définir comme devise de base. Les taux de conversion dynamiques se mettent à jour automatiquement pour toutes les devises épinglées."
+      "smartBaseDesc": "Appuyez sur n'importe quel taux de change pour le définir comme devise de base. Les taux de conversion dynamiques se mettent à jour automatiquement pour toutes les devises épinglées.",
+      "timezone": "Conversion de Fuseau Horaire",
+      "timezoneDesc": "Convertissez l'heure entre différents fuseaux horaires mondiaux. Voyez quelle heure il est n'importe où lors de la planification d'appels ou de voyages.",
+      "updates": "Mises à Jour Automatiques",
+      "updatesDesc": "Met à jour automatiquement les taux de change et les données de fuseau horaire. Obtenez toujours les informations les plus récentes sans actualisation manuelle."
     },
     "useCases": {
       "title": "Cas d'Usage Courants",

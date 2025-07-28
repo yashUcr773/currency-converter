@@ -200,7 +200,11 @@
       "installApp": "Instalar como Aplicación",
       "installAppDesc": "Agregar a la pantalla de inicio de tu dispositivo y usar como una aplicación nativa. Funciona incluso sin conexión.",
       "smartBase": "Moneda Base Inteligente",
-      "smartBaseDesc": "Toca cualquier tasa de cambio para establecerla como moneda base. Las tasas de conversión dinámicas se actualizan automáticamente en todas las monedas fijas."
+      "smartBaseDesc": "Toca cualquier tasa de cambio para establecerla como moneda base. Las tasas de conversión dinámicas se actualizan automáticamente en todas las monedas fijas.",
+      "timezone": "Conversión de Zona Horaria",
+      "timezoneDesc": "Convierte tiempo entre diferentes zonas horarias mundiales. Ve qué hora es en cualquier lugar cuando planifiques llamadas o viajes.",
+      "updates": "Actualizaciones Automáticas",
+      "updatesDesc": "Actualiza automáticamente las tasas de cambio y datos de zona horaria. Siempre obtén la información más actual sin actualización manual."
     },
     "useCases": {
       "title": "Casos de Uso Comunes",

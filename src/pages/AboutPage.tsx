@@ -1,6 +1,30 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, ExternalLink, Shield, Zap, Globe, Briefcase, Plane, ShoppingCart, Users, Target, Star, Clock, Smartphone } from 'lucide-react';
+import { 
+  ArrowLeft, 
+  ExternalLink, 
+  Shield, 
+  Zap, 
+  Globe, 
+  Briefcase, 
+  Plane, 
+  ShoppingCart, 
+  Users, 
+  Target, 
+  Clock, 
+  Smartphone,
+  Calculator,
+  WifiOff,
+  Languages,
+  Palette,
+  RefreshCw,
+  Settings,
+  Download,
+  Coins,
+  TrendingUp,
+  MapPin,
+  Accessibility
+} from 'lucide-react';
 import { DonateButton } from '@/components/DonateButton';
 import { LanguagePicker } from '@/components/LanguagePicker';
 
@@ -53,35 +77,65 @@ export const AboutPage = () => {
       description: t('about.features.fastDesc')
     },
     {
-      icon: <Globe className="w-5 h-5 text-blue-500" />,
+      icon: <Coins className="w-5 h-5 text-blue-500" />,
       title: t('about.features.currencies'),
       description: t('about.features.currenciesDesc')
     },
     {
-      icon: <Shield className="w-5 h-5 text-green-500" />,
-      title: t('about.features.privacy'),
-      description: t('about.features.privacyDesc')
+      icon: <Calculator className="w-5 h-5 text-green-500" />,
+      title: t('about.features.calculator'),
+      description: t('about.features.calculatorDesc')
     },
     {
-      icon: <Smartphone className="w-5 h-5 text-purple-500" />,
+      icon: <MapPin className="w-5 h-5 text-red-500" />,
+      title: t('about.features.timezone'),
+      description: t('about.features.timezoneDesc')
+    },
+    {
+      icon: <Languages className="w-5 h-5 text-purple-500" />,
+      title: t('about.features.multilanguage'),
+      description: t('about.features.multilanguageDesc')
+    },
+    {
+      icon: <Smartphone className="w-5 h-5 text-indigo-500" />,
+      title: t('about.features.pwa'),
+      description: t('about.features.pwaDesc')
+    },
+    {
+      icon: <WifiOff className="w-5 h-5 text-orange-500" />,
       title: t('about.features.offline'),
       description: t('about.features.offlineDesc')
     },
     {
-      icon: <Clock className="w-5 h-5 text-orange-500" />,
-      title: t('about.features.fresh'),
-      description: t('about.features.freshDesc')
+      icon: <Shield className="w-5 h-5 text-emerald-500" />,
+      title: t('about.features.privacy'),
+      description: t('about.features.privacyDesc')
     },
     {
-      icon: <Star className="w-5 h-5 text-pink-500" />,
-      title: t('about.features.rich'),
-      description: t('about.features.richDesc')
+      icon: <Palette className="w-5 h-5 text-pink-500" />,
+      title: t('about.features.design'),
+      description: t('about.features.designDesc')
+    },
+    {
+      icon: <TrendingUp className="w-5 h-5 text-cyan-500" />,
+      title: t('about.features.realtime'),
+      description: t('about.features.realtimeDesc')
+    },
+    {
+      icon: <Settings className="w-5 h-5 text-slate-500" />,
+      title: t('about.features.customizable'),
+      description: t('about.features.customizableDesc')
+    },
+    {
+      icon: <Accessibility className="w-5 h-5 text-violet-500" />,
+      title: t('about.features.accessible'),
+      description: t('about.features.accessibleDesc')
     }
   ];
 
   const stats = [
     { number: "150+", label: t('about.stats.currenciesSupported') },
-    { number: "5", label: t('about.stats.decimalPrecision') },
+    { number: "10+", label: t('about.stats.languagesSupported') },
     { number: "24hrs", label: t('about.stats.cacheDuration') },
     { number: "100%", label: t('about.stats.privacyFocused') }
   ];
@@ -171,9 +225,7 @@ export const AboutPage = () => {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-200">
               <h4 className="text-lg font-semibold text-slate-800 mb-3 flex items-center gap-2">
-                <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                </svg>
+                <Calculator className="w-5 h-5 text-blue-600" />
                 {t('about.uniqueFeatures.calculator')}
               </h4>
               <p className="text-slate-600 text-sm">{t('about.uniqueFeatures.calculatorDesc')}</p>
@@ -189,7 +241,7 @@ export const AboutPage = () => {
             
             <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 border border-purple-200">
               <h4 className="text-lg font-semibold text-slate-800 mb-3 flex items-center gap-2">
-                <Smartphone className="w-5 h-5 text-purple-600" />
+                <Download className="w-5 h-5 text-purple-600" />
                 {t('about.uniqueFeatures.installApp')}
               </h4>
               <p className="text-slate-600 text-sm">{t('about.uniqueFeatures.installAppDesc')}</p>
@@ -201,6 +253,22 @@ export const AboutPage = () => {
                 {t('about.uniqueFeatures.smartBase')}
               </h4>
               <p className="text-slate-600 text-sm">{t('about.uniqueFeatures.smartBaseDesc')}</p>
+            </div>
+
+            <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-6 border border-cyan-200">
+              <h4 className="text-lg font-semibold text-slate-800 mb-3 flex items-center gap-2">
+                <Clock className="w-5 h-5 text-cyan-600" />
+                {t('about.uniqueFeatures.timezone')}
+              </h4>
+              <p className="text-slate-600 text-sm">{t('about.uniqueFeatures.timezoneDesc')}</p>
+            </div>
+
+            <div className="bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl p-6 border border-emerald-200">
+              <h4 className="text-lg font-semibold text-slate-800 mb-3 flex items-center gap-2">
+                <RefreshCw className="w-5 h-5 text-emerald-600" />
+                {t('about.uniqueFeatures.updates')}
+              </h4>
+              <p className="text-slate-600 text-sm">{t('about.uniqueFeatures.updatesDesc')}</p>
             </div>
           </div>
         </div>

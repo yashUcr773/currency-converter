@@ -258,7 +258,11 @@
       "installApp": "Als App installieren",
       "installAppDesc": "Zum Startbildschirm Ihres Geräts hinzufügen und wie eine native App verwenden. Funktioniert auch offline.",
       "smartBase": "Intelligente Basiswährung",
-      "smartBaseDesc": "Tippen Sie auf einen beliebigen Wechselkurs, um ihn als Basiswährung festzulegen. Dynamische Umrechnungskurse werden automatisch für alle gepinnten Währungen aktualisiert."
+      "smartBaseDesc": "Tippen Sie auf einen beliebigen Wechselkurs, um ihn als Basiswährung festzulegen. Dynamische Umrechnungskurse werden automatisch für alle gepinnten Währungen aktualisiert.",
+      "timezone": "Zeitzonenkonvertierung",
+      "timezoneDesc": "Zeit zwischen verschiedenen Zeitzonen weltweit umrechnen. Sehen Sie, wie spät es überall ist, wenn Sie Anrufe oder Reisen planen.",
+      "updates": "Automatische Updates",
+      "updatesDesc": "Aktualisiert automatisch Wechselkurse und Zeitzonendaten. Erhalten Sie immer die aktuellsten Informationen ohne manuelle Aktualisierung."
     },
     "useCases": {
       "title": "Häufige Anwendungsfälle",

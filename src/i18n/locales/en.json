@@ -221,7 +221,11 @@
       "installApp": "Install as App",
       "installAppDesc": "Add to your device's home screen and use like a native app. Works even when you're offline.",
       "smartBase": "Smart Base Currency",
-      "smartBaseDesc": "Tap any exchange rate to set it as the base currency. Dynamic conversion rates update automatically across all pinned currencies."
+      "smartBaseDesc": "Tap any exchange rate to set it as the base currency. Dynamic conversion rates update automatically across all pinned currencies.",
+      "timezone": "Timezone Conversion",
+      "timezoneDesc": "Convert time between different timezones worldwide. See what time it is anywhere when you're planning calls or travel.",
+      "updates": "Auto-Updates",
+      "updatesDesc": "Automatically updates exchange rates and timezone data. Always get the most current information without manual refresh."
     },
     "useCases": {
       "title": "Common Use Cases",
