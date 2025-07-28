@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Calculator, X, Divide, Plus, Minus, Equal, ArrowRight, Percent } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -56,33 +56,16 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
     }
   }, [pinnedCurrencies, selectedCurrency, tipCurrency]);
 
-  const inputNumber = (num: string) => {
+  const inputNumber = useCallback((num: string) => {
     if (waitingForOperand) {
       setDisplay(num);
       setWaitingForOperand(false);
     } else {
       setDisplay(display === '0' ? num : display + num);
     }
-  };
+  }, [display, waitingForOperand]);
 
-  const inputOperation = (nextOperation: string) => {
-    const inputValue = parseFloat(display);
-
-    if (previousValue === null) {
-      setPreviousValue(inputValue);
-    } else if (operation) {
-      const currentValue = previousValue || 0;
-      const newValue = calculate(currentValue, inputValue, operation);
-
-      setDisplay(newValue.toString());
-      setPreviousValue(newValue);
-    }
-
-    setWaitingForOperand(true);
-    setOperation(nextOperation);
-  };
-
-  const calculate = (firstValue: number, secondValue: number, operation: string): number => {
+  const calculate = useCallback((firstValue: number, secondValue: number, operation: string): number => {
     switch (operation) {
       case '+':
         return firstValue + secondValue;
@@ -97,9 +80,26 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
       default:
         return secondValue;
     }
-  };
+  }, []);
 
-  const performCalculation = () => {
+  const inputOperation = useCallback((nextOperation: string) => {
+    const inputValue = parseFloat(display);
+
+    if (previousValue === null) {
+      setPreviousValue(inputValue);
+    } else if (operation) {
+      const currentValue = previousValue || 0;
+      const newValue = calculate(currentValue, inputValue, operation);
+
+      setDisplay(newValue.toString());
+      setPreviousValue(newValue);
+    }
+
+    setWaitingForOperand(true);
+    setOperation(nextOperation);
+  }, [display, previousValue, operation, calculate]);
+
+  const performCalculation = useCallback(() => {
     const inputValue = parseFloat(display);
 
     if (previousValue !== null && operation) {
@@ -114,23 +114,90 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
         onResult(newValue);
       }
     }
-  };
+  }, [display, previousValue, operation, onResult, calculate]);
 
-  const clear = () => {
+  const clear = useCallback(() => {
     setDisplay('0');
     setPreviousValue(null);
     setOperation(null);
     setWaitingForOperand(false);
-  };
+  }, []);
 
-  const inputDecimal = () => {
+  const inputDecimal = useCallback(() => {
     if (waitingForOperand) {
       setDisplay('0.');
       setWaitingForOperand(false);
     } else if (display.indexOf('.') === -1) {
       setDisplay(display + '.');
     }
-  };
+  }, [display, waitingForOperand]);
+
+  // Add keyboard input support
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      // Only handle keyboard input when calculator is open and on calculator tab
+      if (!isOpen || activeTab !== 'calculator') return;
+      
+      const key = event.key;
+      
+      // Prevent default behavior for calculator keys
+      if (/^[0-9+\-*/=.]$/.test(key) || key === 'Enter' || key === 'Escape' || key === 'Backspace') {
+        event.preventDefault();
+      }
+      
+      // Handle numbers (0-9)
+      if (/^[0-9]$/.test(key)) {
+        inputNumber(key);
+      }
+      
+      // Handle operators
+      else if (key === '+') {
+        inputOperation('+');
+      }
+      else if (key === '-') {
+        inputOperation('-');
+      }
+      else if (key === '*' || key === 'x' || key === 'X') {
+        inputOperation('×');
+      }
+      else if (key === '/' || key === '÷') {
+        inputOperation('÷');
+      }
+      
+      // Handle decimal point
+      else if (key === '.' || key === ',') {
+        inputDecimal();
+      }
+      
+      // Handle Enter or equals
+      else if (key === 'Enter' || key === '=') {
+        performCalculation();
+      }
+      
+      // Handle Escape or Clear
+      else if (key === 'Escape' || key === 'c' || key === 'C') {
+        clear();
+      }
+      
+      // Handle Backspace - delete last character
+      else if (key === 'Backspace') {
+        if (display !== '0') {
+          const newDisplay = display.slice(0, -1);
+          setDisplay(newDisplay === '' ? '0' : newDisplay);
+        }
+      }
+    };
+
+    // Add event listener when calculator is open
+    if (isOpen && activeTab === 'calculator') {
+      document.addEventListener('keydown', handleKeyPress);
+    }
+
+    // Cleanup event listener
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [isOpen, activeTab, display, inputNumber, inputOperation, inputDecimal, performCalculation, clear]);
 
   const useResult = () => {
     const value = parseFloat(display);

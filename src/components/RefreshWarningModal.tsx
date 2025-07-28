@@ -90,8 +90,7 @@ export function RefreshWarningModal() {
         await Promise.all(cacheNames.map(name => caches.delete(name)));
       }
       
-      // Clear storage
-      localStorage.clear();
+      // Clear only sessionStorage (keep localStorage for user preferences)
       sessionStorage.clear();
       
       // Force hard refresh
