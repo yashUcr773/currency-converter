@@ -21,6 +21,12 @@ export default defineConfig({
             output: {
                 entryFileNames: (chunkInfo) => {
                     return chunkInfo.name === 'sw' ? 'sw.js' : '[name]-[hash].js'
+                },
+                manualChunks: {
+                    vendor: ['react', 'react-dom'],
+                    ui: ['@radix-ui/react-dialog', '@radix-ui/react-popover', '@radix-ui/react-scroll-area'],
+                    i18n: ['i18next', 'react-i18next', 'i18next-browser-languagedetector'],
+                    utils: ['lucide-react', 'clsx', 'tailwind-merge']
                 }
             }
         },
@@ -29,7 +35,7 @@ export default defineConfig({
         // Improve build performance
         sourcemap: false,
         // Chunk size warning limit
-        chunkSizeWarningLimit: 600
+        chunkSizeWarningLimit: 500
     },
     // Ensure manifest.json and service worker are properly served
     publicDir: 'public',

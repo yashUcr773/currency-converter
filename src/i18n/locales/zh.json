@@ -246,10 +246,26 @@
       "fastDesc": "快速加载的即时转换",
       "currencies": "150+ 货币",
       "currenciesDesc": "全面的全球货币支持",
-      "privacy": "隐私优先",
-      "privacyDesc": "无跟踪，无广告，您的数据保持私密",
+      "calculator": "内置计算器",
+      "calculatorDesc": "集成计算器与小费计算器，用于快速数学运算和货币转换",
+      "timezone": "时区转换",
+      "timezoneDesc": "在世界不同时区之间转换时间",
+      "multilanguage": "多语言",
+      "multilanguageDesc": "支持10+种语言，具有自动检测和RTL支持",
+      "pwa": "渐进式网络应用",
+      "pwaDesc": "在任何设备上安装为原生应用，通过服务工作器缓存离线工作",
       "offline": "离线工作",
       "offlineDesc": "安装为应用，无需互联网即可工作",
+      "design": "现代设计",
+      "designDesc": "干净直观的界面，针对移动和桌面优化，具有响应式设计",
+      "realtime": "实时更新",
+      "realtimeDesc": "汇率实时更新，每30分钟自动刷新",
+      "customizable": "可定制",
+      "customizableDesc": "自定义您的收藏货币和设置，具有持久化偏好",
+      "accessible": "无障碍访问",
+      "accessibleDesc": "设计为所有用户可访问，具有键盘快捷键和屏幕阅读器支持",
+      "privacy": "隐私优先",
+      "privacyDesc": "无跟踪，无广告，您的数据保持私密",
       "fresh": "始终新鲜",
       "freshDesc": "自动更新汇率",
       "rich": "丰富功能",
@@ -261,7 +277,6 @@
       "responsive": "移动优先响应式设计",
       "noAds": "完全免费无广告或跟踪",
       "crossPlatform": "在所有设备和浏览器上工作",
-      "calculator": "内置计算器与小费计算器",
       "numberSystems": "国际和印度数字系统",
       "smartPinning": "固定收藏货币快速访问",
       "autoRefresh": "每30分钟自动更新汇率",
@@ -318,13 +333,13 @@
         "检查项目价值",
         "转换发票金额"
       ],
-      "education": "教育和研究",
-      "educationDesc": "用真实数据研究货币价值，了解汇率，学习全球经济。",
-      "educationExamples": [
-        "检查当前汇率",
-        "研究货币趋势",
-        "研究全球货币",
-        "学习世界货币价值"
+      "timezone": "国际会议和通话",
+      "timezoneDesc": "安排跨不同时区的会议和通话。了解与世界各地同事、客户和朋友联系的完美时间。",
+      "timezoneExamples": [
+        "安排东京时间上午9点会议",
+        "找到美欧通话的最佳时间",
+        "将会议时间转换为当地时间",
+        "规划国际团队会议"
       ],
       "quickMath": "快速数学和转换",
       "quickMathDesc": "使用内置计算器进行数学运算，然后将结果转换为任何货币。",
@@ -377,5 +392,96 @@
     "normalRefresh": "仍要刷新（保留缓存）",
     "stayHere": "留在这里",
     "note": "此消息每个会话只显示一次"
+  },
+  "privacy": {
+    "title": "隐私政策",
+    "subtitle": "您的隐私是我们的优先考虑。了解我们如何保护您的数据。",
+    "backToApp": "返回货币转换器",
+    "lastUpdated": "最后更新",
+    "updateDate": "2025年7月29日",
+    "overview": {
+      "title": "隐私概述",
+      "description": "RateVault在设计时将隐私作为核心原则。我们收集最少的数据，将所有内容本地存储在您的设备上，从不跟踪或监控您的使用情况。本政策详细解释了我们的隐私实践。"
+    },
+    "dataCollection": {
+      "title": "我们收集的信息",
+      "localStorage": {
+        "title": "仅本地存储",
+        "description": "您的所有数据都本地存储在浏览器的存储中。我们从不将此数据发送到外部服务器。",
+        "items": [
+          "您固定的货币和偏好设置",
+          "情景自定义汇率",
+          "应用设置和显示偏好",
+          "离线使用的缓存汇率",
+          "语言和数字系统偏好"
+        ]
+      },
+      "noPersonalData": {
+        "title": "无个人信息",
+        "description": "我们不收集、存储或处理任何个人信息，如姓名、电子邮件地址、电话号码或位置数据。"
+      },
+      "noTracking": {
+        "title": "无跟踪或分析",
+        "description": "我们不使用Cookie、分析工具、跟踪像素或任何其他监控技术来跟踪您的行为。"
+      }
+    },
+    "dataUsage": {
+      "title": "我们如何使用您的数据",
+      "description": "本地存储的所有数据仅用于增强您的体验：",
+      "purposes": [
+        "在会话之间记住您固定的货币",
+        "存储\"假设\"情景的自定义汇率",
+        "缓存汇率以实现离线功能",
+        "保留您的语言和显示偏好",
+        "启用PWA功能如离线访问"
+      ]
+    },
+    "thirdParty": {
+      "title": "第三方服务",
+      "exchangeApi": {
+        "title": "汇率API",
+        "description": "我们使用ExchangeRate-API获取当前汇率。此服务可能会收集最少的数据用于限流。我们建议查看他们的隐私政策：",
+        "linkText": "查看ExchangeRate-API隐私政策"
+      }
+    },
+    "security": {
+      "title": "数据安全",
+      "description": "您的数据安全通过本地存储和隐私设计原则得到保障：",
+      "measures": [
+        "所有数据都存储在您的设备本地",
+        "不向我们的服务器传输数据",
+        "API请求的HTTPS加密",
+        "无需用户账户或身份验证",
+        "用户完全控制数据删除"
+      ]
+    },
+    "pwa": {
+      "title": "渐进式Web应用功能",
+      "description": "当您将RateVault安装为PWA时，可能会缓存额外数据以实现离线功能：",
+      "offlineData": {
+        "title": "离线缓存",
+        "description": "应用资源和最近的汇率会在本地缓存以启用离线使用。此缓存会自动管理，可通过浏览器设置清除。"
+      }
+    },
+    "rights": {
+      "title": "您的数据权利",
+      "description": "由于所有数据都本地存储在您的设备上，您拥有完全控制权：",
+      "list": [
+        "通过浏览器开发者工具查看所有存储的数据",
+        "通过清除浏览器存储删除所有应用数据",
+        "根据需要手动导出您的偏好设置",
+        "通过应用设置控制存储的数据",
+        "卸载PWA以删除所有缓存数据"
+      ]
+    },
+    "changes": {
+      "title": "政策变更",
+      "description": "我们可能会定期更新此隐私政策。任何更改都将在此页面上发布，并附上更新的修订日期。我们鼓励您定期查看此政策。"
+    },
+    "contact": {
+      "title": "联系我们",
+      "description": "如果您对此隐私政策或我们的隐私实践有疑问，请通过我们的GitHub存储库联系我们：",
+      "github": "GitHub存储库 - 货币转换器"
+    }
   }
 }

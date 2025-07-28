@@ -132,7 +132,7 @@ export function usePWA(): [PWAStatus, PWAActions] {
       if (!navigatorOnline) {
         setIsOnline(prev => {
           if (prev !== false) {
-            console.log('[PWA] Navigator reports offline');
+            logger.debug('[PWA] Navigator reports offline');
           }
           return false;
         });
@@ -157,7 +157,7 @@ export function usePWA(): [PWAStatus, PWAActions] {
         
         setIsOnline(prev => {
           if (prev !== actuallyOnline) {
-            console.log('[PWA] Real connectivity test:', actuallyOnline ? 'ONLINE' : 'OFFLINE');
+            logger.debug('[PWA] Real connectivity test:', actuallyOnline ? 'ONLINE' : 'OFFLINE');
           }
           return actuallyOnline;
         });
@@ -165,21 +165,21 @@ export function usePWA(): [PWAStatus, PWAActions] {
         // Network request failed = actually offline
         setIsOnline(prev => {
           if (prev !== false) {
-            console.log('[PWA] Connectivity test failed, actually offline:', error instanceof Error ? error.message : 'Unknown error');
+            logger.debug('[PWA] Connectivity test failed, actually offline:', error instanceof Error ? error.message : 'Unknown error');
           }
           return false;
         });
       }
     };
 
-    console.log('[PWA] Setting up online/offline listeners, current status:', navigator.onLine);
+    logger.debug('[PWA] Setting up online/offline listeners, current status:', navigator.onLine);
     
     // PWA requirements check
-    console.log('[PWA] Checking PWA installation requirements:');
-    console.log('[PWA] - HTTPS:', window.location.protocol === 'https:' || window.location.hostname === 'localhost');
-    console.log('[PWA] - Service Worker supported:', 'serviceWorker' in navigator);
-    console.log('[PWA] - beforeinstallprompt supported:', 'onbeforeinstallprompt' in window);
-    console.log('[PWA] - Current display mode:', window.matchMedia('(display-mode: standalone)').matches ? 'standalone' : 'browser');
+    logger.debug('[PWA] Checking PWA installation requirements:');
+    logger.debug('[PWA] - HTTPS:', window.location.protocol === 'https:' || window.location.hostname === 'localhost');
+    logger.debug('[PWA] - Service Worker supported:', 'serviceWorker' in navigator);
+    logger.debug('[PWA] - beforeinstallprompt supported:', 'onbeforeinstallprompt' in window);
+    logger.debug('[PWA] - Current display mode:', window.matchMedia('(display-mode: standalone)').matches ? 'standalone' : 'browser');
 
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);

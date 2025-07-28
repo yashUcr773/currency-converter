@@ -329,13 +329,13 @@
         "Verifique valores de projetos",
         "Converta valores de faturas"
       ],
-      "education": "Educação e Pesquisa",
-      "educationDesc": "Estude valores de moedas, entenda taxas de câmbio e aprenda sobre economia global com dados reais.",
-      "educationExamples": [
-        "Verifique taxas de câmbio atuais",
-        "Estude tendências de moedas",
-        "Pesquise moedas globais",
-        "Aprenda valores de moedas mundiais"
+      "timezone": "Reuniões e Chamadas Internacionais",
+      "timezoneDesc": "Agende reuniões e chamadas em diferentes fusos horários. Saiba o horário perfeito para se conectar com colegas, clientes e amigos ao redor do mundo.",
+      "timezoneExamples": [
+        "Agendar reunião às 9h no horário de Tóquio",
+        "Encontrar melhor horário para chamadas EUA-Europa",
+        "Converter horário da conferência para hora local",
+        "Planejar reuniões de equipe internacional"
       ],
       "quickMath": "Matemática Rápida e Conversão",
       "quickMathDesc": "Use a calculadora integrada para matemática, depois converta o resultado para qualquer moeda.",
@@ -395,5 +395,96 @@
     "normalRefresh": "Atualizar Mesmo Assim (Manter Cache)",
     "stayHere": "Ficar Aqui",
     "note": "Esta mensagem será mostrada apenas uma vez por sessão"
+  },
+  "privacy": {
+    "title": "Política de Privacidade",
+    "subtitle": "Sua privacidade é nossa prioridade. Saiba como protegemos seus dados.",
+    "backToApp": "Voltar ao Conversor de Moedas",
+    "lastUpdated": "Última atualização",
+    "updateDate": "29 de julho de 2025",
+    "overview": {
+      "title": "Visão Geral da Privacidade",
+      "description": "RateVault é projetado com privacidade como princípio fundamental. Coletamos dados mínimos, armazenamos tudo localmente em seu dispositivo e nunca rastreamos ou monitoramos seu uso."
+    },
+    "dataCollection": {
+      "title": "Informações que Coletamos",
+      "localStorage": {
+        "title": "Apenas Armazenamento Local",
+        "description": "Todos os seus dados são armazenados localmente no armazenamento do seu navegador. Nunca enviamos esses dados para servidores externos.",
+        "items": [
+          "Suas moedas fixadas e preferências",
+          "Taxas de câmbio personalizadas para cenários",
+          "Configurações do aplicativo e preferências de exibição",
+          "Taxas de câmbio em cache para uso offline",
+          "Preferências de idioma e sistema numérico"
+        ]
+      },
+      "noPersonalData": {
+        "title": "Nenhuma Informação Pessoal",
+        "description": "Não coletamos, armazenamos ou processamos informações pessoais como nomes, endereços de e-mail, números de telefone ou dados de localização."
+      },
+      "noTracking": {
+        "title": "Sem Rastreamento ou Análise",
+        "description": "Não usamos cookies, ferramentas de análise, pixels de rastreamento ou qualquer outra tecnologia de monitoramento para rastrear seu comportamento."
+      }
+    },
+    "dataUsage": {
+      "title": "Como Usamos Seus Dados",
+      "description": "Todos os dados armazenados localmente são usados exclusivamente para melhorar sua experiência:",
+      "purposes": [
+        "Lembrar suas moedas fixadas entre sessões",
+        "Armazenar taxas de câmbio personalizadas para cenários \"e se\"",
+        "Cache de taxas de câmbio para funcionalidade offline",
+        "Preservar suas preferências de idioma e exibição",
+        "Habilitar recursos PWA como acesso offline"
+      ]
+    },
+    "thirdParty": {
+      "title": "Serviços de Terceiros",
+      "exchangeApi": {
+        "title": "API de Taxa de Câmbio",
+        "description": "Usamos ExchangeRate-API para buscar taxas de câmbio atuais. Este serviço pode coletar dados mínimos para limitação de taxa. Recomendamos revisar sua política de privacidade:",
+        "linkText": "Ver Política de Privacidade do ExchangeRate-API"
+      }
+    },
+    "security": {
+      "title": "Segurança de Dados",
+      "description": "A segurança dos seus dados é garantida através de armazenamento local e princípios de privacidade por design:",
+      "measures": [
+        "Todos os dados são armazenados localmente em seu dispositivo",
+        "Nenhuma transmissão de dados para nossos servidores",
+        "Criptografia HTTPS para solicitações de API",
+        "Não são necessárias contas de usuário ou autenticação",
+        "Controle total do usuário sobre exclusão de dados"
+      ]
+    },
+    "pwa": {
+      "title": "Recursos de Aplicação Web Progressiva",
+      "description": "Quando você instala RateVault como PWA, dados adicionais podem ser armazenados em cache para funcionalidade offline:",
+      "offlineData": {
+        "title": "Cache Offline",
+        "description": "Recursos do aplicativo e taxas de câmbio recentes são armazenados em cache localmente para permitir uso offline. Este cache é gerenciado automaticamente e pode ser limpo através das configurações do seu navegador."
+      }
+    },
+    "rights": {
+      "title": "Seus Direitos de Dados",
+      "description": "Como todos os dados são armazenados localmente em seu dispositivo, você tem controle total:",
+      "list": [
+        "Ver todos os dados armazenados através das ferramentas de desenvolvedor do navegador",
+        "Excluir todos os dados do aplicativo limpando o armazenamento do navegador",
+        "Exportar suas preferências manualmente se necessário",
+        "Controlar quais dados são armazenados através das configurações do aplicativo",
+        "Desinstalar o PWA para remover todos os dados em cache"
+      ]
+    },
+    "changes": {
+      "title": "Mudanças nesta Política",
+      "description": "Podemos atualizar esta política de privacidade periodicamente. Quaisquer mudanças serão postadas nesta página com uma data de revisão atualizada."
+    },
+    "contact": {
+      "title": "Entre em Contato",
+      "description": "Se você tiver dúvidas sobre esta política de privacidade ou nossas práticas de privacidade, entre em contato conosco através do nosso repositório GitHub:",
+      "github": "Repositório GitHub - Conversor de Moedas"
+    }
   }
 }

@@ -1,10 +1,5 @@
-import React, { createContext, useState, useEffect, memo } from 'react';
-
-interface TimeContextValue {
-  getCurrentTime: (timezone: string) => Date;
-}
-
-export const TimeContext = createContext<TimeContextValue | null>(null);
+import React, { useState, useEffect, memo } from 'react';
+import { TimeContext } from './TimeContextTypes';
 
 /**
  * Global time provider that manages a single timer for all timezone displays

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { useCurrencyConverter } from './hooks/useCurrencyConverter';
 import { useTranslation } from 'react-i18next';
 import { CurrencyInput } from './components/CurrencyInput';
@@ -8,9 +8,7 @@ import { LoadingSpinner } from './components/LoadingSpinner';
 import { OfflineNotice } from './components/OfflineNotice';
 import { RefreshWarningModal } from './components/RefreshWarningModal';
 import { DonateButton } from './components/DonateButton';
-import { AboutButton } from './components/AboutPage';
 import { SEO, StructuredData } from './components/SEO';
-import { TimezoneConverter } from './components/TimezoneConverter';
 import { PersistenceIndicator } from './components/PersistenceIndicator';
 import { usePWA } from './hooks/usePWA';
 import { Button } from '@/components/ui/button';
@@ -18,6 +16,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import { AlertTriangle, DollarSign, Clock } from 'lucide-react';
 import { saveActiveTab, getActiveTab, type TabType } from './utils/tabStorage';
 import './App.css';
+
+// Lazy load non-critical components
+const AboutButton = lazy(() => import('./components/AboutPage').then(module => ({ default: module.AboutButton })));
+const PrivacyButton = lazy(() => import('./components/PrivacyButton').then(module => ({ default: module.PrivacyButton })));
+const TimezoneConverter = lazy(() => import('./components/TimezoneConverter').then(module => ({ default: module.TimezoneConverter })));
 
 function App() {
   const { t } = useTranslation();
@@ -208,7 +211,9 @@ function App() {
             </div>
           </>
         ) : (
-          <TimezoneConverter />
+          <Suspense fallback={<LoadingSpinner />}>
+            <TimezoneConverter />
+          </Suspense>
         )}
 
         {/* Footer Info */}
@@ -225,7 +230,12 @@ function App() {
           {/* Action Buttons */}
           <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
             <DonateButton />
-            <AboutButton />
+            <Suspense fallback={<LoadingSpinner />}>
+              <AboutButton />
+            </Suspense>
+            <Suspense fallback={<LoadingSpinner />}>
+              <PrivacyButton />
+            </Suspense>
           </div>
           
           <p className="mt-2 sm:mt-4 text-slate-500 text-xs px-4">

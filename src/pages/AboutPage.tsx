@@ -57,13 +57,13 @@ export const AboutPage = () => {
       examples: t('about.useCases.workExamples', { returnObjects: true }) as string[]
     },
     {
-      icon: <Target className="w-6 h-6" />,
-      title: t('about.useCases.education'),
-      description: t('about.useCases.educationDesc'),
-      examples: t('about.useCases.educationExamples', { returnObjects: true }) as string[]
+      icon: <MapPin className="w-6 h-6" />,
+      title: t('about.useCases.timezone'),
+      description: t('about.useCases.timezoneDesc'),
+      examples: t('about.useCases.timezoneExamples', { returnObjects: true }) as string[]
     },
     {
-      icon: <Clock className="w-6 h-6" />,
+      icon: <Calculator className="w-6 h-6" />,
       title: t('about.useCases.quickMath'),
       description: t('about.useCases.quickMathDesc'),
       examples: t('about.useCases.quickMathExamples', { returnObjects: true }) as string[]
@@ -354,8 +354,17 @@ export const AboutPage = () => {
         </div>
 
         {/* Footer */}
-        <div className="text-center text-slate-500 text-sm">
+        <div className="text-center text-slate-500 text-sm space-y-2">
           <p>{t('about.footerText')}</p>
+          <div className="flex items-center justify-center gap-4">
+            <Link 
+              to="/privacy" 
+              className="text-blue-600 hover:text-blue-700 transition-colors duration-200 flex items-center gap-1"
+            >
+              <Shield className="w-4 h-4" />
+              {t('privacy.title')}
+            </Link>
+          </div>
         </div>
 
       </main>

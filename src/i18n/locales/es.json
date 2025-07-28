@@ -182,25 +182,25 @@
       "currencies": "150+ Monedas",
       "currenciesDesc": "Soporte integral de monedas globales",
       "calculator": "Calculadora Integrada",
-      "calculatorDesc": "Calculadora integrada para cálculos rápidos con conversión",
+      "calculatorDesc": "Calculadora integrada con calculadora de propinas para matemáticas rápidas y conversiones de monedas",
       "timezone": "Conversión de Zona Horaria",
       "timezoneDesc": "Convierte tiempo entre diferentes zonas horarias mundiales",
-      "multilanguage": "Soporte Multiidioma",
-      "multilanguageDesc": "Interfaz disponible en 10 idiomas diferentes",
+      "multilanguage": "Multiidioma",
+      "multilanguageDesc": "Soporte para más de 10 idiomas con detección automática y soporte RTL",
       "pwa": "Aplicación Web Progresiva",
-      "pwaDesc": "Instala como aplicación nativa con soporte sin conexión",
+      "pwaDesc": "Instalar como aplicación nativa en cualquier dispositivo, funciona sin conexión con caché de service worker",
       "offline": "Funciona Sin Conexión",
       "offlineDesc": "Instalar como aplicación, funciona sin internet",
+      "design": "Diseño Moderno",
+      "designDesc": "Interfaz limpia e intuitiva optimizada para móvil y escritorio con diseño responsivo",
+      "realtime": "Actualizaciones en Tiempo Real",
+      "realtimeDesc": "Tasas de cambio actualizadas en tiempo real con actualización automática cada 30 minutos",
+      "customizable": "Personalizable",
+      "customizableDesc": "Personaliza tus monedas favoritas y configuraciones con preferencias persistentes",
+      "accessible": "Accesible",
+      "accessibleDesc": "Diseñado para ser accesible a todos los usuarios con atajos de teclado y soporte de lector de pantalla",
       "privacy": "Privacidad Primero",
       "privacyDesc": "Sin rastreo, sin anuncios, tus datos permanecen privados",
-      "design": "Diseño Elegante",
-      "designDesc": "Interfaz de usuario moderna e intuitiva",
-      "realtime": "Tiempo Real",
-      "realtimeDesc": "Tasas de cambio actualizadas en tiempo real",
-      "customizable": "Personalizable",
-      "customizableDesc": "Personaliza tus monedas favoritas y configuraciones",
-      "accessible": "Accesible",
-      "accessibleDesc": "Diseñado para ser accesible a todos los usuarios",
       "fresh": "Siempre Actualizado",
       "freshDesc": "Actualiza las tasas de cambio automáticamente",
       "rich": "Funciones Ricas",
@@ -257,13 +257,13 @@
         "Verifica valores de proyectos",
         "Convierte montos de facturas"
       ],
-      "education": "Educación e Investigación",
-      "educationDesc": "Estudia valores de monedas, comprende tasas de cambio y aprende sobre economía global con datos reales.",
-      "educationExamples": [
-        "Verifica tasas de cambio actuales",
-        "Estudia tendencias de monedas",
-        "Investiga monedas globales",
-        "Aprende sobre valores monetarios mundiales"
+      "timezone": "Reuniones y Llamadas Internacionales",
+      "timezoneDesc": "Programa reuniones y llamadas a través de diferentes zonas horarias. Conoce el momento perfecto para conectar con colegas, clientes y amigos en todo el mundo.",
+      "timezoneExamples": [
+        "Programa reunión a las 9 AM hora de Tokio",
+        "Encuentra mejor hora para llamadas US-Europa",
+        "Convierte hora de conferencia a hora local",
+        "Planifica reuniones de equipo internacional"
       ],
       "quickMath": "Matemáticas Rápidas y Conversión",
       "quickMathDesc": "Usa la calculadora integrada para matemáticas, luego convierte el resultado a cualquier moneda.",
@@ -383,5 +383,96 @@
     "normalRefresh": "Recargar de Todos Modos (Mantener Caché)",
     "stayHere": "Quedarse Aquí",
     "note": "Este mensaje solo se mostrará una vez por sesión"
+  },
+  "privacy": {
+    "title": "Política de Privacidad",
+    "subtitle": "Tu privacidad es nuestra prioridad. Conoce cómo protegemos tus datos.",
+    "backToApp": "Volver al Convertidor de Divisas",
+    "lastUpdated": "Última actualización",
+    "updateDate": "29 de julio de 2025",
+    "overview": {
+      "title": "Resumen de Privacidad",
+      "description": "RateVault está diseñado con la privacidad como principio fundamental. Recopilamos datos mínimos, almacenamos todo localmente en tu dispositivo y nunca rastreamos ni monitoreamos tu uso. Esta política explica nuestras prácticas de privacidad en detalle."
+    },
+    "dataCollection": {
+      "title": "Información que Recopilamos",
+      "localStorage": {
+        "title": "Solo Almacenamiento Local",
+        "description": "Todos tus datos se almacenan localmente en el almacenamiento de tu navegador. Nunca enviamos estos datos a servidores externos.",
+        "items": [
+          "Tus divisas fijadas y preferencias",
+          "Tipos de cambio personalizados para escenarios",
+          "Configuraciones de la aplicación y preferencias de visualización",
+          "Tipos de cambio en caché para uso sin conexión",
+          "Preferencias de idioma y sistema numérico"
+        ]
+      },
+      "noPersonalData": {
+        "title": "Sin Información Personal",
+        "description": "No recopilamos, almacenamos ni procesamos información personal como nombres, direcciones de correo electrónico, números de teléfono o datos de ubicación."
+      },
+      "noTracking": {
+        "title": "Sin Seguimiento ni Análisis",
+        "description": "No utilizamos cookies, herramientas de análisis, píxeles de seguimiento ni ninguna otra tecnología de monitoreo para rastrear tu comportamiento."
+      }
+    },
+    "dataUsage": {
+      "title": "Cómo Usamos Tus Datos",
+      "description": "Todos los datos almacenados localmente se utilizan únicamente para mejorar tu experiencia:",
+      "purposes": [
+        "Recordar tus divisas fijadas entre sesiones",
+        "Almacenar tipos de cambio personalizados para escenarios \"qué pasaría si\"",
+        "Guardar en caché los tipos de cambio para funcionalidad sin conexión",
+        "Preservar tus preferencias de idioma y visualización",
+        "Habilitar funciones PWA como acceso sin conexión"
+      ]
+    },
+    "thirdParty": {
+      "title": "Servicios de Terceros",
+      "exchangeApi": {
+        "title": "API de Tipos de Cambio",
+        "description": "Utilizamos ExchangeRate-API para obtener los tipos de cambio actuales. Este servicio puede recopilar datos mínimos para limitación de velocidad. Recomendamos revisar su política de privacidad:",
+        "linkText": "Ver Política de Privacidad de ExchangeRate-API"
+      }
+    },
+    "security": {
+      "title": "Seguridad de Datos",
+      "description": "La seguridad de tus datos está asegurada a través del almacenamiento local y principios de privacidad por diseño:",
+      "measures": [
+        "Todos los datos se almacenan localmente en tu dispositivo",
+        "Sin transmisión de datos a nuestros servidores",
+        "Cifrado HTTPS para solicitudes de API",
+        "No se requieren cuentas de usuario ni autenticación",
+        "Control total del usuario sobre la eliminación de datos"
+      ]
+    },
+    "pwa": {
+      "title": "Funciones de Aplicación Web Progresiva",
+      "description": "Cuando instalas RateVault como PWA, datos adicionales pueden almacenarse en caché para funcionalidad sin conexión:",
+      "offlineData": {
+        "title": "Caché Sin Conexión",
+        "description": "Los recursos de la aplicación y tipos de cambio recientes se almacenan en caché localmente para permitir uso sin conexión. Este caché se gestiona automáticamente y puede borrarse a través de la configuración de tu navegador."
+      }
+    },
+    "rights": {
+      "title": "Tus Derechos de Datos",
+      "description": "Como todos los datos se almacenan localmente en tu dispositivo, tienes control total:",
+      "list": [
+        "Ver todos los datos almacenados a través de las herramientas de desarrollador del navegador",
+        "Eliminar todos los datos de la aplicación borrando el almacenamiento del navegador",
+        "Exportar tus preferencias manualmente si es necesario",
+        "Controlar qué datos se almacenan a través de la configuración de la aplicación",
+        "Desinstalar la PWA para eliminar todos los datos en caché"
+      ]
+    },
+    "changes": {
+      "title": "Cambios a Esta Política",
+      "description": "Podemos actualizar esta política de privacidad periódicamente. Cualquier cambio se publicará en esta página con una fecha de revisión actualizada. Te alentamos a revisar esta política regularmente."
+    },
+    "contact": {
+      "title": "Contáctanos",
+      "description": "Si tienes preguntas sobre esta política de privacidad o nuestras prácticas de privacidad, por favor contáctanos a través de nuestro repositorio de GitHub:",
+      "github": "Repositorio de GitHub - Convertidor de Divisas"
+    }
   }
 }

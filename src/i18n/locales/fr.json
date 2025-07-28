@@ -182,25 +182,23 @@
       "currencies": "150+ Devises",
       "currenciesDesc": "Support complet des devises mondiales",
       "calculator": "Calculatrice Intégrée",
-      "calculatorDesc": "Calculatrice intégrée pour des calculs rapides avec conversion",
-      "timezone": "Conversion de Fuseau Horaire",
-      "timezoneDesc": "Convertissez l'heure entre différents fuseaux horaires mondiaux",
-      "multilanguage": "Support Multilingue",
-      "multilanguageDesc": "Interface disponible en 10 langues différentes",
+      "calculatorDesc": "Calculatrice intégrée avec calculatrice de pourboires pour les mathématiques rapides et les conversions de devises",
+      "timezone": "Conversion de Fuseau Horaire", 
+      "timezoneDesc": "Convertir l'heure entre différents fuseaux horaires mondiaux",
+      "multilanguage": "Multilingue",
+      "multilanguageDesc": "Support pour 10+ langues avec détection automatique et support RTL",
       "pwa": "Application Web Progressive",
-      "pwaDesc": "Installez comme application native avec support hors ligne",
+      "pwaDesc": "Installer comme application native sur tout appareil, fonctionne hors ligne avec mise en cache du service worker",
       "offline": "Fonctionne Hors Ligne",
       "offlineDesc": "Installer comme application, fonctionne sans internet",
-      "privacy": "Confidentialité d'Abord",
-      "privacyDesc": "Pas de suivi, pas de publicités, vos données restent privées",
-      "design": "Design Élégant",
-      "designDesc": "Interface utilisateur moderne et intuitive",
-      "realtime": "Temps Réel",
-      "realtimeDesc": "Taux de change mis à jour en temps réel",
+      "design": "Design Moderne",
+      "designDesc": "Interface propre et intuitive optimisée pour mobile et bureau avec design réactif",
+      "realtime": "Mises À Jour Temps Réel",
+      "realtimeDesc": "Taux de change mis à jour en temps réel avec actualisation automatique toutes les 30 minutes",
       "customizable": "Personnalisable",
-      "customizableDesc": "Personnalisez vos devises préférées et paramètres",
+      "customizableDesc": "Personnalisez vos devises préférées et paramètres avec préférences persistantes",
       "accessible": "Accessible",
-      "accessibleDesc": "Conçu pour être accessible à tous les utilisateurs",
+      "accessibleDesc": "Conçu pour être accessible à tous les utilisateurs avec raccourcis clavier et support de lecteur d'écran",
       "fresh": "Toujours Frais",
       "freshDesc": "Met à jour les taux de change automatiquement",
       "rich": "Fonctionnalités Riches",
@@ -257,13 +255,13 @@
         "Vérifier les valeurs de projets",
         "Convertir les montants de factures"
       ],
-      "education": "Éducation et Recherche",
-      "educationDesc": "Étudiez les valeurs des devises, comprenez les taux de change et apprenez l'économie mondiale avec des données réelles.",
-      "educationExamples": [
-        "Vérifier les taux de change actuels",
-        "Étudier les tendances des devises",
-        "Rechercher les devises mondiales",
-        "Apprendre les valeurs monétaires mondiales"
+      "timezone": "Réunions et Appels Internationaux",
+      "timezoneDesc": "Planifiez des réunions et des appels à travers différents fuseaux horaires. Trouvez le moment parfait pour vous connecter avec des collègues, clients et amis du monde entier.",
+      "timezoneExamples": [
+        "Programmer réunion à 9h heure de Tokyo",
+        "Trouver meilleur moment pour appels US-Europe",
+        "Convertir l'heure de conférence en heure locale",
+        "Planifier réunions d'équipe internationale"
       ],
       "quickMath": "Mathématiques Rapides et Conversion",
       "quickMathDesc": "Utilisez la calculatrice intégrée pour les mathématiques, puis convertissez le résultat vers n'importe quelle devise.",
@@ -383,5 +381,96 @@
     "normalRefresh": "Actualiser Quand Même (Garder le Cache)",
     "stayHere": "Rester Ici",
     "note": "Ce message ne sera affiché qu'une fois par session"
+  },
+  "privacy": {
+    "title": "Politique de Confidentialité",
+    "subtitle": "Votre vie privée est notre priorité. Découvrez comment nous protégeons vos données.",
+    "backToApp": "Retour au Convertisseur de Devises",
+    "lastUpdated": "Dernière mise à jour",
+    "updateDate": "29 juillet 2025",
+    "overview": {
+      "title": "Aperçu de la Confidentialité",
+      "description": "RateVault est conçu avec la confidentialité comme principe fondamental. Nous collectons un minimum de données, stockons tout localement sur votre appareil et ne suivons ni ne surveillons jamais votre utilisation. Cette politique explique nos pratiques de confidentialité en détail."
+    },
+    "dataCollection": {
+      "title": "Informations que Nous Collectons",
+      "localStorage": {
+        "title": "Stockage Local Uniquement",
+        "description": "Toutes vos données sont stockées localement dans le stockage de votre navigateur. Nous n'envoyons jamais ces données vers des serveurs externes.",
+        "items": [
+          "Vos devises épinglées et préférences",
+          "Taux de change personnalisés pour les scénarios",
+          "Paramètres de l'application et préférences d'affichage",
+          "Taux de change mis en cache pour une utilisation hors ligne",
+          "Préférences de langue et de système numérique"
+        ]
+      },
+      "noPersonalData": {
+        "title": "Aucune Information Personnelle",
+        "description": "Nous ne collectons, stockons ou traitons aucune information personnelle telle que les noms, adresses e-mail, numéros de téléphone ou données de localisation."
+      },
+      "noTracking": {
+        "title": "Aucun Suivi ou Analyse",
+        "description": "Nous n'utilisons pas de cookies, outils d'analyse, pixels de suivi ou toute autre technologie de surveillance pour suivre votre comportement."
+      }
+    },
+    "dataUsage": {
+      "title": "Comment Nous Utilisons Vos Données",
+      "description": "Toutes les données stockées localement sont utilisées uniquement pour améliorer votre expérience :",
+      "purposes": [
+        "Se souvenir de vos devises épinglées entre les sessions",
+        "Stocker des taux de change personnalisés pour des scénarios \"et si\"",
+        "Mettre en cache les taux de change pour la fonctionnalité hors ligne",
+        "Préserver vos préférences de langue et d'affichage",
+        "Activer les fonctionnalités PWA comme l'accès hors ligne"
+      ]
+    },
+    "thirdParty": {
+      "title": "Services Tiers",
+      "exchangeApi": {
+        "title": "API de Taux de Change",
+        "description": "Nous utilisons ExchangeRate-API pour récupérer les taux de change actuels. Ce service peut collecter des données minimales pour la limitation du débit. Nous recommandons de consulter leur politique de confidentialité :",
+        "linkText": "Voir la Politique de Confidentialité d'ExchangeRate-API"
+      }
+    },
+    "security": {
+      "title": "Sécurité des Données",
+      "description": "La sécurité de vos données est assurée par le stockage local et les principes de confidentialité dès la conception :",
+      "measures": [
+        "Toutes les données sont stockées localement sur votre appareil",
+        "Aucune transmission de données vers nos serveurs",
+        "Chiffrement HTTPS pour les requêtes API",
+        "Aucun compte utilisateur ou authentification requis",
+        "Contrôle complet de l'utilisateur sur la suppression des données"
+      ]
+    },
+    "pwa": {
+      "title": "Fonctionnalités de l'Application Web Progressive",
+      "description": "Lorsque vous installez RateVault comme PWA, des données supplémentaires peuvent être mises en cache pour la fonctionnalité hors ligne :",
+      "offlineData": {
+        "title": "Cache Hors Ligne",
+        "description": "Les ressources de l'application et les taux de change récents sont mis en cache localement pour permettre l'utilisation hors ligne. Ce cache est géré automatiquement et peut être effacé via les paramètres de votre navigateur."
+      }
+    },
+    "rights": {
+      "title": "Vos Droits sur les Données",
+      "description": "Puisque toutes les données sont stockées localement sur votre appareil, vous avez un contrôle total :",
+      "list": [
+        "Voir toutes les données stockées via les outils de développement du navigateur",
+        "Supprimer toutes les données de l'application en effaçant le stockage du navigateur",
+        "Exporter vos préférences manuellement si nécessaire",
+        "Contrôler quelles données sont stockées via les paramètres de l'application",
+        "Désinstaller la PWA pour supprimer toutes les données mises en cache"
+      ]
+    },
+    "changes": {
+      "title": "Modifications de Cette Politique",
+      "description": "Nous pouvons mettre à jour cette politique de confidentialité périodiquement. Tout changement sera publié sur cette page avec une date de révision mise à jour. Nous vous encourageons à consulter régulièrement cette politique."
+    },
+    "contact": {
+      "title": "Nous Contacter",
+      "description": "Si vous avez des questions sur cette politique de confidentialité ou nos pratiques de confidentialité, veuillez nous contacter via notre dépôt GitHub :",
+      "github": "Dépôt GitHub - Convertisseur de Devises"
+    }
   }
 }

@@ -5,6 +5,7 @@ import './index.css'
 import './i18n/config'
 import App from './App.tsx'
 import { AboutPage } from './pages/AboutPage.tsx'
+import { PrivacyPage } from './pages/PrivacyPage.tsx'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { NumberSystemProvider } from './contexts/NumberSystemContext'
 import { logger, env } from './utils/env'
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')!).render(
           <Routes>
             <Route path="/" element={<App />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
           </Routes>
         </BrowserRouter>
       </NumberSystemProvider>

@@ -33,8 +33,10 @@ export const logger = {
 export const env = {
   isDevelopment: IS_DEVELOPMENT,
   isProduction: IS_PRODUCTION,
-  version: '1.0.0',
-  buildDate: new Date().toISOString()
+  version: import.meta.env.VITE_APP_VERSION || '1.0.0',
+  buildDate: new Date().toISOString(),
+  appName: import.meta.env.VITE_APP_NAME || 'RateVault',
+  appDescription: import.meta.env.VITE_APP_DESCRIPTION || 'Currency Converter'
 };
 
 /**

@@ -38,8 +38,8 @@ export const api = {
       console.error('[API] Error fetching exchange rates:', error);
       
       // Log additional debugging information
-      console.log('[API] Network status:', navigator.onLine ? 'ONLINE' : 'OFFLINE');
-      console.log('[API] Error details:', {
+      logger.debug('[API] Network status:', navigator.onLine ? 'ONLINE' : 'OFFLINE');
+      logger.debug('[API] Error details:', {
         errorType: error instanceof Error ? error.constructor.name : typeof error,
         message: error instanceof Error ? error.message : String(error)
       });

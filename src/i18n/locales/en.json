@@ -206,10 +206,26 @@
       "fastDesc": "Instant conversions with quick loading",
       "currencies": "150+ Currencies",
       "currenciesDesc": "Comprehensive global currency support",
-      "privacy": "Privacy First",
-      "privacyDesc": "No tracking, no ads, your data stays private",
+      "calculator": "Built-in Calculator",
+      "calculatorDesc": "Integrated calculator with tip calculator for quick math and currency conversions",
+      "timezone": "Timezone Conversion", 
+      "timezoneDesc": "Convert time between different timezones worldwide",
+      "multilanguage": "Multi-Language",
+      "multilanguageDesc": "Support for 10+ languages with automatic detection and RTL support",
+      "pwa": "Progressive Web App",
+      "pwaDesc": "Install as a native app on any device, works offline with service worker caching",
       "offline": "Works Offline",
       "offlineDesc": "Install as app, works without internet",
+      "design": "Modern Design",
+      "designDesc": "Clean, intuitive interface optimized for mobile and desktop with responsive design",
+      "realtime": "Real-time Updates",
+      "realtimeDesc": "Exchange rates updated in real-time with automatic refresh every 30 minutes",
+      "customizable": "Customizable",
+      "customizableDesc": "Customize your favorite currencies and settings with persistent preferences",
+      "accessible": "Accessible",
+      "accessibleDesc": "Designed to be accessible to all users with keyboard shortcuts and screen reader support",
+      "privacy": "Privacy First",
+      "privacyDesc": "No tracking, no ads, your data stays private",
       "fresh": "Always Fresh",
       "freshDesc": "Updates exchange rates automatically",
       "rich": "Rich Features",
@@ -221,7 +237,6 @@
       "responsive": "Mobile-first responsive design",
       "noAds": "Completely free without ads or tracking",
       "crossPlatform": "Works on all devices and browsers",
-      "calculator": "Built-in calculator with tip calculator",
       "numberSystems": "International and Indian number systems",
       "smartPinning": "Pin favorite currencies for quick access",
       "autoRefresh": "Automatic rate updates every 30 minutes",
@@ -278,17 +293,17 @@
       "workDesc": "Convert client payments and project rates when working with international clients.",
       "workExamples": [
         "Convert $50/hour rate",
-        "See payment in local currency",
+        "See payment in local currency", 
         "Check project values",
         "Convert invoice amounts"
       ],
-      "education": "Education & Research",
-      "educationDesc": "Study currency values, understand exchange rates, and learn about global economics with real data.",
-      "educationExamples": [
-        "Check current exchange rates",
-        "Study currency trends",
-        "Research global currencies",
-        "Learn about money values worldwide"
+      "timezone": "International Meetings & Calls",
+      "timezoneDesc": "Schedule meetings and calls across different time zones. Know the perfect time to connect with colleagues, clients, and friends worldwide.",
+      "timezoneExamples": [
+        "Schedule 9 AM meeting in Tokyo time",
+        "Find best time for US-Europe calls",
+        "Convert conference time to local time",
+        "Plan international team meetings"
       ],
       "quickMath": "Quick Math & Convert",
       "quickMathDesc": "Use the built-in calculator for math, then convert the result to any currency.",
@@ -383,5 +398,96 @@
     "normalRefresh": "Refresh Anyway (Keep Cache)",
     "stayHere": "Stay Here",
     "note": "This message will only show once per session"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "subtitle": "Your privacy is our priority. Learn how we protect your data.",
+    "backToApp": "Back to Currency Converter",
+    "lastUpdated": "Last updated",
+    "updateDate": "July 29, 2025",
+    "overview": {
+      "title": "Privacy Overview",
+      "description": "RateVault is designed with privacy as a core principle. We collect minimal data, store everything locally on your device, and never track or monitor your usage. This policy explains our privacy practices in detail."
+    },
+    "dataCollection": {
+      "title": "Information We Collect",
+      "localStorage": {
+        "title": "Local Storage Only",
+        "description": "All your data is stored locally in your browser's storage. We never send this data to external servers.",
+        "items": [
+          "Your pinned currencies and preferences",
+          "Custom exchange rates for scenarios",
+          "App settings and display preferences",
+          "Cached exchange rates for offline use",
+          "Language and number system preferences"
+        ]
+      },
+      "noPersonalData": {
+        "title": "No Personal Information",
+        "description": "We do not collect, store, or process any personal information such as names, email addresses, phone numbers, or location data."
+      },
+      "noTracking": {
+        "title": "No Tracking or Analytics",
+        "description": "We do not use cookies, analytics tools, tracking pixels, or any other monitoring technologies to track your behavior."
+      }
+    },
+    "dataUsage": {
+      "title": "How We Use Your Data",
+      "description": "All data stored locally is used solely to enhance your experience:",
+      "purposes": [
+        "Remember your pinned currencies between sessions",
+        "Store custom exchange rates for 'what-if' scenarios",
+        "Cache exchange rates for offline functionality",
+        "Preserve your language and display preferences",
+        "Enable PWA features like offline access"
+      ]
+    },
+    "thirdParty": {
+      "title": "Third-Party Services",
+      "exchangeApi": {
+        "title": "Exchange Rate API",
+        "description": "We use ExchangeRate-API to fetch current exchange rates. This service may collect minimal data for rate limiting. We recommend reviewing their privacy policy:",
+        "linkText": "View ExchangeRate-API Privacy Policy"
+      }
+    },
+    "security": {
+      "title": "Data Security",
+      "description": "Your data security is ensured through local storage and privacy-by-design principles:",
+      "measures": [
+        "All data is stored locally on your device",
+        "No data transmission to our servers",
+        "HTTPS encryption for API requests",
+        "No user accounts or authentication required",
+        "Full user control over data deletion"
+      ]
+    },
+    "pwa": {
+      "title": "Progressive Web App Features",
+      "description": "When you install RateVault as a PWA, additional data may be cached for offline functionality:",
+      "offlineData": {
+        "title": "Offline Cache",
+        "description": "App assets and recent exchange rates are cached locally to enable offline use. This cache is managed automatically and can be cleared through your browser settings."
+      }
+    },
+    "rights": {
+      "title": "Your Data Rights",
+      "description": "Since all data is stored locally on your device, you have full control:",
+      "list": [
+        "View all stored data through browser developer tools",
+        "Delete all app data by clearing browser storage",
+        "Export your preferences manually if needed",
+        "Control what data is stored through app settings",
+        "Uninstall the PWA to remove all cached data"
+      ]
+    },
+    "changes": {
+      "title": "Changes to This Policy",
+      "description": "We may update this privacy policy periodically. Any changes will be posted on this page with an updated revision date. We encourage you to review this policy regularly."
+    },
+    "contact": {
+      "title": "Contact Us",
+      "description": "If you have questions about this privacy policy or our privacy practices, please contact us through our GitHub repository:",
+      "github": "GitHub Repository - Currency Converter"
+    }
   }
 }

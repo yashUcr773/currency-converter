@@ -322,13 +322,13 @@
         "Projektwerte prüfen",
         "Rechnungsbeträge umrechnen"
       ],
-      "education": "Bildung und Forschung",
-      "educationDesc": "Währungswerte studieren, Wechselkurse verstehen und über globale Wirtschaft mit echten Daten lernen.",
-      "educationExamples": [
-        "Aktuelle Wechselkurse prüfen",
-        "Währungstrends studieren",
-        "Globale Währungen erforschen",
-        "Über weltweite Geldwerte lernen"
+      "timezone": "Internationale Meetings & Anrufe",
+      "timezoneDesc": "Planen Sie Meetings und Anrufe über verschiedene Zeitzonen hinweg. Finden Sie die perfekte Zeit, um sich mit Kollegen, Kunden und Freunden weltweit zu verbinden.",
+      "timezoneExamples": [
+        "9 Uhr Meeting in Tokio-Zeit planen",
+        "Beste Zeit für US-Europa Anrufe finden",
+        "Konferenzzeit in lokale Zeit umrechnen",
+        "Internationale Team-Meetings planen"
       ],
       "quickMath": "Schnelle Mathematik und Umrechnung",
       "quickMathDesc": "Verwenden Sie den integrierten Rechner für Mathematik und konvertieren Sie dann das Ergebnis in jede Währung.",
@@ -381,5 +381,96 @@
     "normalRefresh": "Trotzdem aktualisieren (Cache behalten)",
     "stayHere": "Hier bleiben",
     "note": "Diese Nachricht wird nur einmal pro Sitzung angezeigt"
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "subtitle": "Ihr Datenschutz ist unsere Priorität. Erfahren Sie, wie wir Ihre Daten schützen.",
+    "backToApp": "Zurück zum Währungsrechner",
+    "lastUpdated": "Zuletzt aktualisiert",
+    "updateDate": "29. Juli 2025",
+    "overview": {
+      "title": "Datenschutz-Übersicht",
+      "description": "RateVault wurde mit Datenschutz als Grundprinzip entwickelt. Wir sammeln minimale Daten, speichern alles lokal auf Ihrem Gerät und verfolgen oder überwachen niemals Ihre Nutzung. Diese Richtlinie erklärt unsere Datenschutzpraktiken im Detail."
+    },
+    "dataCollection": {
+      "title": "Informationen, die wir sammeln",
+      "localStorage": {
+        "title": "Nur lokale Speicherung",
+        "description": "Alle Ihre Daten werden lokal im Speicher Ihres Browsers gespeichert. Wir senden diese Daten niemals an externe Server.",
+        "items": [
+          "Ihre angehefteten Währungen und Einstellungen",
+          "Benutzerdefinierte Wechselkurse für Szenarien",
+          "App-Einstellungen und Anzeigeeinstellungen",
+          "Zwischengespeicherte Wechselkurse für Offline-Nutzung",
+          "Sprach- und Zahlensystemeinstellungen"
+        ]
+      },
+      "noPersonalData": {
+        "title": "Keine persönlichen Informationen",
+        "description": "Wir sammeln, speichern oder verarbeiten keine persönlichen Informationen wie Namen, E-Mail-Adressen, Telefonnummern oder Standortdaten."
+      },
+      "noTracking": {
+        "title": "Kein Tracking oder Analyse",
+        "description": "Wir verwenden keine Cookies, Analyse-Tools, Tracking-Pixel oder andere Überwachungstechnologien, um Ihr Verhalten zu verfolgen."
+      }
+    },
+    "dataUsage": {
+      "title": "Wie wir Ihre Daten verwenden",
+      "description": "Alle lokal gespeicherten Daten werden ausschließlich zur Verbesserung Ihrer Erfahrung verwendet:",
+      "purposes": [
+        "Ihre angehefteten Währungen zwischen Sitzungen merken",
+        "Benutzerdefinierte Wechselkurse für \"Was-wäre-wenn\"-Szenarien speichern",
+        "Wechselkurse für Offline-Funktionalität zwischenspeichern",
+        "Ihre Sprach- und Anzeigeeinstellungen bewahren",
+        "PWA-Funktionen wie Offline-Zugriff ermöglichen"
+      ]
+    },
+    "thirdParty": {
+      "title": "Drittanbieter-Services",
+      "exchangeApi": {
+        "title": "Wechselkurs-API",
+        "description": "Wir verwenden ExchangeRate-API, um aktuelle Wechselkurse abzurufen. Dieser Service kann minimale Daten für Rate-Limiting sammeln. Wir empfehlen, deren Datenschutzerklärung zu überprüfen:",
+        "linkText": "ExchangeRate-API Datenschutzerklärung ansehen"
+      }
+    },
+    "security": {
+      "title": "Datensicherheit",
+      "description": "Ihre Datensicherheit wird durch lokale Speicherung und Privacy-by-Design-Prinzipien gewährleistet:",
+      "measures": [
+        "Alle Daten werden lokal auf Ihrem Gerät gespeichert",
+        "Keine Datenübertragung an unsere Server",
+        "HTTPS-Verschlüsselung für API-Anfragen",
+        "Keine Benutzerkonten oder Authentifizierung erforderlich",
+        "Vollständige Benutzerkontrolle über Datenlöschung"
+      ]
+    },
+    "pwa": {
+      "title": "Progressive Web App Funktionen",
+      "description": "Wenn Sie RateVault als PWA installieren, können zusätzliche Daten für Offline-Funktionalität zwischengespeichert werden:",
+      "offlineData": {
+        "title": "Offline-Cache",
+        "description": "App-Ressourcen und aktuelle Wechselkurse werden lokal zwischengespeichert, um Offline-Nutzung zu ermöglichen. Dieser Cache wird automatisch verwaltet und kann über Ihre Browser-Einstellungen gelöscht werden."
+      }
+    },
+    "rights": {
+      "title": "Ihre Datenrechte",
+      "description": "Da alle Daten lokal auf Ihrem Gerät gespeichert werden, haben Sie vollständige Kontrolle:",
+      "list": [
+        "Alle gespeicherten Daten über Browser-Entwicklertools einsehen",
+        "Alle App-Daten durch Löschen des Browser-Speichers entfernen",
+        "Ihre Einstellungen bei Bedarf manuell exportieren",
+        "Kontrollieren, welche Daten über App-Einstellungen gespeichert werden",
+        "PWA deinstallieren, um alle zwischengespeicherten Daten zu entfernen"
+      ]
+    },
+    "changes": {
+      "title": "Änderungen an dieser Richtlinie",
+      "description": "Wir können diese Datenschutzerklärung regelmäßig aktualisieren. Alle Änderungen werden auf dieser Seite mit einem aktualisierten Überarbeitungsdatum veröffentlicht. Wir ermutigen Sie, diese Richtlinie regelmäßig zu überprüfen."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "description": "Wenn Sie Fragen zu dieser Datenschutzerklärung oder unseren Datenschutzpraktiken haben, kontaktieren Sie uns bitte über unser GitHub-Repository:",
+      "github": "GitHub-Repository - Währungsrechner"
+    }
   }
 }
