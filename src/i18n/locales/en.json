@@ -165,7 +165,11 @@
     "tipPercentage": "Tip Percentage",
     "customPercent": "Custom %",
     "apply": "Apply",
-    "resetTipCalculator": "Reset Calculator"
+    "resetTipCalculator": "Reset Calculator",
+    "billAmountLabel": "Bill Amount",
+    "tipLabel": "Tip",
+    "calculation": "Calculation:",
+    "totalLabel": "Total"
   },
   "settings": {
     "title": "Settings",
@@ -209,7 +213,23 @@
       "fresh": "Always Fresh",
       "freshDesc": "Updates exchange rates automatically",
       "rich": "Rich Features",
-      "richDesc": "Calculator, number systems, pin favorites"
+      "richDesc": "Calculator, number systems, pin favorites",
+      "realTimeRates": "Real-time exchange rates with automatic updates",
+      "offlineSupport": "Works perfectly offline once installed",
+      "multiCurrency": "Support for 170+ world currencies",
+      "pwaInstall": "Install as Progressive Web App",
+      "responsive": "Mobile-first responsive design",
+      "noAds": "Completely free without ads or tracking",
+      "crossPlatform": "Works on all devices and browsers",
+      "calculator": "Built-in calculator with tip calculator",
+      "numberSystems": "International and Indian number systems",
+      "smartPinning": "Pin favorite currencies for quick access",
+      "autoRefresh": "Automatic rate updates every 30 minutes",
+      "securePrivate": "Your data stays private - no server storage",
+      "fastLoading": "Optimized for speed with instant startup",
+      "modernUI": "Clean, intuitive user interface",
+      "accessibility": "Keyboard shortcuts and screen reader support",
+      "caching": "Smart caching for reliable offline performance"
     },
     "uniqueFeatures": {
       "title": "What Makes It Special",
@@ -340,7 +360,10 @@
       "feature2": "Offline support",
       "feature3": "170+ currencies",
       "feature4": "Progressive Web App",
-      "feature5": "Mobile responsive"
+      "feature5": "Mobile responsive",
+      "feature6": "Free without registration",
+      "feature7": "Cross-platform compatibility",
+      "feature8": "Accurate currency calculations"
     }
   },
   "errorBoundary": {

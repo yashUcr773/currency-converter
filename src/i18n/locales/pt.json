@@ -137,7 +137,7 @@
     "description": "Use nosso conversor de moedas online gratuito para conversão instantânea. Taxas de câmbio ao vivo para 150+ moedas, modo offline e cálculos precisos.",
     "keywords": "conversor de moedas, taxa de câmbio, conversão de moeda, taxas ao vivo, USD, EUR, GBP, JPY",
     "author": "Equipe do Conversor de Moedas",
-    "canonicalUrl": "https://ratevault.vercel.app/",
+    "canonicalUrl": "https://ratevault.uk/",
     "ogTitle": "Conversor de Moedas - Taxas ao Vivo para 150+ Moedas",
     "ogDescription": "Use nosso conversor de moedas online gratuito para conversão instantânea. Taxas de câmbio ao vivo para 150+ moedas.",
     "ogType": "website",
@@ -153,7 +153,20 @@
       "Modo offline",
       "Cálculos em tempo real",
       "Visualização multi-moeda"
-    ]
+    ],
+    "structuredData": {
+      "name": "Conversor de Moedas Pro",
+      "description": "Conversor de moedas profissional com taxas de câmbio em tempo real e suporte offline",
+      "author": "Equipe Conversor de Moedas Pro",
+      "feature1": "Taxas de câmbio em tempo real",
+      "feature2": "Suporte offline",
+      "feature3": "170+ moedas",
+      "feature4": "Progressive Web App",
+      "feature5": "Design responsivo móvel",
+      "feature6": "Gratuito sem registro",
+      "feature7": "Compatibilidade multiplataforma",
+      "feature8": "Cálculos de moeda precisos"
+    }
   },
   "miniCalculator": {
     "title": "Calculadora",
@@ -172,7 +185,11 @@
     "tipPercentage": "Porcentagem de Gorjeta",
     "customPercent": "% Personalizado",
     "apply": "Aplicar",
-    "resetTipCalculator": "Reiniciar Calculadora"
+    "resetTipCalculator": "Reiniciar Calculadora",
+    "billAmountLabel": "Valor da conta",
+    "tipLabel": "Gorjeta",
+    "calculation": "Cálculo:",
+    "totalLabel": "Total"
   },
   "calculator": {
     "title": "Calculadora",
@@ -247,7 +264,23 @@
       "fresh": "Sempre Atualizado",
       "freshDesc": "Atualiza taxas de câmbio automaticamente",
       "rich": "Recursos Ricos",
-      "richDesc": "Calculadora, sistemas numéricos, favoritos fixos"
+      "richDesc": "Calculadora, sistemas numéricos, favoritos fixos",
+      "realTimeRates": "Taxas de câmbio em tempo real com atualizações automáticas",
+      "offlineSupport": "Funciona perfeitamente offline após instalação",
+      "multiCurrency": "Suporte para 170+ moedas mundiais",
+      "pwaInstall": "Instalar como Progressive Web App",
+      "responsive": "Design responsivo mobile-first",
+      "noAds": "Completamente gratuito sem anúncios ou rastreamento",
+      "crossPlatform": "Funciona em todos os dispositivos e navegadores",
+      "calculator": "Calculadora integrada com calculadora de gorjetas",
+      "numberSystems": "Sistemas numéricos internacional e indiano",
+      "smartPinning": "Fixar moedas favoritas para acesso rápido",
+      "autoRefresh": "Atualização automática de taxas a cada 30 minutos",
+      "securePrivate": "Seus dados permanecem privados - sem armazenamento no servidor",
+      "fastLoading": "Otimizado para velocidade com inicialização instantânea",
+      "modernUI": "Interface de usuário limpa e intuitiva",
+      "accessibility": "Atalhos de teclado e suporte a leitor de tela",
+      "caching": "Cache inteligente para desempenho offline confiável"
     },
     "uniqueFeatures": {
       "title": "O Que O Torna Especial",
@@ -342,6 +375,7 @@
     "oneTime": "Apoio Único"
   },
   "aboutPage": {
+    "aboutTitle": "Sobre o Conversor",
     "aboutFeatures": "Sobre Recursos"
   },
   "errorBoundary": {
@@ -350,5 +384,16 @@
     "errorDetails": "Detalhes do erro",
     "tryAgain": "Tentar novamente",
     "refreshPage": "Atualizar página"
+  },
+  "refreshWarning": {
+    "title": "Atualização da Página Detectada",
+    "message": "Atualizar não atualizará seus dados!",
+    "explanation": "RateVault funciona com dados em cache para suporte offline. Uma atualização normal não buscará novas taxas de câmbio ou atualizará o aplicativo.",
+    "tip": "Dica: Use o botão de atualização na barra de status para atualizar as taxas de câmbio",
+    "hardRefresh": "Atualização Forçada (Limpar Cache)",
+    "hardRefreshing": "Atualizando Forçadamente...",
+    "normalRefresh": "Atualizar Mesmo Assim (Manter Cache)",
+    "stayHere": "Ficar Aqui",
+    "note": "Esta mensagem será mostrada apenas uma vez por sessão"
   }
 }

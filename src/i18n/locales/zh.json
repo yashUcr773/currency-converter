@@ -198,7 +198,10 @@
       "feature2": "离线支持",
       "feature3": "170+ 货币",
       "feature4": "渐进式网络应用",
-      "feature5": "移动响应式设计"
+      "feature5": "移动响应式设计",
+      "feature6": "免费无需注册",
+      "feature7": "跨平台兼容性",
+      "feature8": "精确货币计算"
     }
   },
   "miniCalculator": {
@@ -218,7 +221,11 @@
     "tipPercentage": "小费百分比",
     "customPercent": "自定义 %",
     "apply": "应用",
-    "resetTipCalculator": "重置计算器"
+    "resetTipCalculator": "重置计算器",
+    "billAmountLabel": "账单金额",
+    "tipLabel": "小费",
+    "calculation": "计算：",
+    "totalLabel": "总计"
   },
   "debug": {
     "current": "当前",
@@ -246,7 +253,23 @@
       "fresh": "始终新鲜",
       "freshDesc": "自动更新汇率",
       "rich": "丰富功能",
-      "richDesc": "计算器、数字系统、固定收藏夹"
+      "richDesc": "计算器、数字系统、固定收藏夹",
+      "realTimeRates": "实时汇率自动更新",
+      "offlineSupport": "安装后完美离线工作",
+      "multiCurrency": "支持170+世界货币",
+      "pwaInstall": "安装为渐进式Web应用",
+      "responsive": "移动优先响应式设计",
+      "noAds": "完全免费无广告或跟踪",
+      "crossPlatform": "在所有设备和浏览器上工作",
+      "calculator": "内置计算器与小费计算器",
+      "numberSystems": "国际和印度数字系统",
+      "smartPinning": "固定收藏货币快速访问",
+      "autoRefresh": "每30分钟自动更新汇率",
+      "securePrivate": "您的数据保持私密-无服务器存储",
+      "fastLoading": "优化速度快速启动",
+      "modernUI": "干净直观的用户界面",
+      "accessibility": "键盘快捷键和屏幕阅读器支持",
+      "caching": "智能缓存可靠离线性能"
     },
     "uniqueFeatures": {
       "title": "使其特别之处",
@@ -334,6 +357,7 @@
     "tryAgain": "重试"
   },
   "aboutPage": {
+    "aboutTitle": "关于转换器",
     "aboutFeatures": "关于功能"
   },
   "errorBoundary": {
@@ -342,5 +366,16 @@
     "errorDetails": "错误详情",
     "tryAgain": "重试",
     "refreshPage": "刷新页面"
+  },
+  "refreshWarning": {
+    "title": "检测到页面刷新",
+    "message": "刷新不会更新您的数据！",
+    "explanation": "RateVault 使用缓存数据以支持离线功能。普通刷新不会获取新的汇率或更新应用程序。",
+    "tip": "提示：使用状态栏中的刷新按钮来更新汇率",
+    "hardRefresh": "强制刷新（清除缓存）",
+    "hardRefreshing": "强制刷新中...",
+    "normalRefresh": "仍要刷新（保留缓存）",
+    "stayHere": "留在这里",
+    "note": "此消息每个会话只显示一次"
   }
 }

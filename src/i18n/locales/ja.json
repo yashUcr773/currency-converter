@@ -198,7 +198,10 @@
       "feature2": "オフラインサポート",
       "feature3": "170以上の通貨",
       "feature4": "プログレッシブ Web アプリ",
-      "feature5": "モバイル対応デザイン"
+      "feature5": "モバイル対応デザイン",
+      "feature6": "登録不要で無料",
+      "feature7": "クロスプラットフォーム互換性",
+      "feature8": "正確な通貨計算"
     }
   },
   "miniCalculator": {
@@ -218,7 +221,11 @@
     "tipPercentage": "チップ割合",
     "customPercent": "カスタム %",
     "apply": "適用",
-    "resetTipCalculator": "計算機をリセット"
+    "resetTipCalculator": "計算機をリセット",
+    "billAmountLabel": "請求額",
+    "tipLabel": "チップ",
+    "calculation": "計算：",
+    "totalLabel": "合計"
   },
   "debug": {
     "current": "現在",
@@ -246,7 +253,23 @@
       "fresh": "常に最新",
       "freshDesc": "為替レートを自動更新",
       "rich": "豊富な機能",
-      "richDesc": "計算機、数値システム、お気に入りピン留め"
+      "richDesc": "計算機、数値システム、お気に入りピン留め",
+      "realTimeRates": "リアルタイム為替レート自動更新",
+      "offlineSupport": "インストール後完璧なオフライン動作",
+      "multiCurrency": "170+世界通貨をサポート",
+      "pwaInstall": "プログレッシブWebアプリとしてインストール",
+      "responsive": "モバイルファーストレスポンシブデザイン",
+      "noAds": "広告やトラッキング完全無料",
+      "crossPlatform": "すべてのデバイスとブラウザで動作",
+      "calculator": "内蔵計算機とチップ計算機",
+      "numberSystems": "国際およびインドの数値システム",
+      "smartPinning": "お気に入り通貨を素早くアクセスにピン留め",
+      "autoRefresh": "30分毎に自動レート更新",
+      "securePrivate": "データはプライベート - サーバー保存なし",
+      "fastLoading": "高速起動に最適化",
+      "modernUI": "クリーンで直感的なユーザーインターフェース",
+      "accessibility": "キーボードショートカットとスクリーンリーダーサポート",
+      "caching": "信頼性のあるオフライン性能のためのスマートキャッシング"
     },
     "uniqueFeatures": {
       "title": "特別な理由",
@@ -334,6 +357,7 @@
     "tryAgain": "再試行"
   },
   "aboutPage": {
+    "aboutTitle": "コンバーターについて",
     "aboutFeatures": "機能について"
   },
   "errorBoundary": {
@@ -342,5 +366,16 @@
     "errorDetails": "エラーの詳細",
     "tryAgain": "再試行",
     "refreshPage": "ページを更新"
+  },
+  "refreshWarning": {
+    "title": "ページ更新が検出されました",
+    "message": "更新してもデータは更新されません！",
+    "explanation": "RateVaultはオフラインサポートのためにキャッシュされたデータで動作します。通常の更新では新しい為替レートを取得したり、アプリを更新したりしません。",
+    "tip": "ヒント：ステータスバーの更新ボタンを使用して為替レートを更新してください",
+    "hardRefresh": "ハード更新（キャッシュクリア）",
+    "hardRefreshing": "ハード更新中...",
+    "normalRefresh": "とにかく更新（キャッシュ保持）",
+    "stayHere": "ここに留まる",
+    "note": "このメッセージはセッションごとに一度だけ表示されます"
   }
 }

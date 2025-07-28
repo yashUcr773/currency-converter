@@ -1,11 +1,22 @@
 User-agent: *
 Allow: /
+Allow: /icons/
+Allow: /privacy-policy.html
+Allow: /manifest.json
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
 
 # Sitemap
-Sitemap: https://ratevault.vercel.app/sitemap.xml
+Sitemap: https://ratevault.uk/sitemap.xml
 
-# Disallow sensitive files
+# Disallow sensitive/unnecessary files
 Disallow: /sw.js
-Disallow: /manifest.json
 Disallow: /browserconfig.xml
 Disallow: /debug.html
+Disallow: /.well-known/
+Disallow: /api/
+
+# Allow important files for SEO
+Allow: /robots.txt
+Allow: /sitemap.xml

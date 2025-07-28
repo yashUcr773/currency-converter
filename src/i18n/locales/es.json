@@ -181,10 +181,26 @@
       "fastDesc": "Conversiones instantáneas con carga rápida",
       "currencies": "150+ Monedas",
       "currenciesDesc": "Soporte integral de monedas globales",
-      "privacy": "Privacidad Primero",
-      "privacyDesc": "Sin rastreo, sin anuncios, tus datos permanecen privados",
+      "calculator": "Calculadora Integrada",
+      "calculatorDesc": "Calculadora integrada para cálculos rápidos con conversión",
+      "timezone": "Conversión de Zona Horaria",
+      "timezoneDesc": "Convierte tiempo entre diferentes zonas horarias mundiales",
+      "multilanguage": "Soporte Multiidioma",
+      "multilanguageDesc": "Interfaz disponible en 10 idiomas diferentes",
+      "pwa": "Aplicación Web Progresiva",
+      "pwaDesc": "Instala como aplicación nativa con soporte sin conexión",
       "offline": "Funciona Sin Conexión",
       "offlineDesc": "Instalar como aplicación, funciona sin internet",
+      "privacy": "Privacidad Primero",
+      "privacyDesc": "Sin rastreo, sin anuncios, tus datos permanecen privados",
+      "design": "Diseño Elegante",
+      "designDesc": "Interfaz de usuario moderna e intuitiva",
+      "realtime": "Tiempo Real",
+      "realtimeDesc": "Tasas de cambio actualizadas en tiempo real",
+      "customizable": "Personalizable",
+      "customizableDesc": "Personaliza tus monedas favoritas y configuraciones",
+      "accessible": "Accesible",
+      "accessibleDesc": "Diseñado para ser accesible a todos los usuarios",
       "fresh": "Siempre Actualizado",
       "freshDesc": "Actualiza las tasas de cambio automáticamente",
       "rich": "Funciones Ricas",
@@ -260,12 +276,14 @@
     },
     "stats": {
       "currenciesSupported": "Monedas Soportadas",
+      "languagesSupported": "Idiomas Soportados",
       "decimalPrecision": "Precisión Decimal",
       "cacheDuration": "Duración de Caché",
       "privacyFocused": "Enfocado en Privacidad"
     },
     "links": {
       "viewGithub": "Ver en GitHub",
+      "poweredBy": "Desarrollado por",
       "exchangeRateApi": "ExchangeRate-API",
       "donate": "Apoyar Desarrollo"
     },
@@ -319,7 +337,10 @@
       "feature2": "Soporte offline",
       "feature3": "170+ monedas",
       "feature4": "Aplicación Web Progresiva",
-      "feature5": "Diseño responsivo móvil"
+      "feature5": "Diseño responsivo móvil",
+      "feature6": "Gratis sin registro",
+      "feature7": "Compatibilidad multiplataforma",
+      "feature8": "Cálculos de moneda precisos"
     }
   },
   "miniCalculator": {
@@ -334,11 +355,15 @@
     "applyXToY": "Aplicar {{result}} a {{currency}}",
     "selectCurrencyFirst": "Selecciona una moneda primero",
     "billAmount": "Monto de la Cuenta",
+    "billAmountLabel": "Monto de cuenta",
     "enterBillAmount": "Ingresa el monto de la cuenta",
     "currency": "Moneda",
     "tipPercentage": "Porcentaje de Propina",
+    "tipLabel": "Propina",
     "customPercent": "% Personalizado",
     "apply": "Aplicar",
+    "calculation": "Cálculo:",
+    "totalLabel": "Total",
     "resetTipCalculator": "Reiniciar Calculadora"
   },
   "errorBoundary": {

@@ -198,7 +198,10 @@
       "feature2": "Offline-Unterstützung",
       "feature3": "170+ Währungen",
       "feature4": "Progressive Web-App",
-      "feature5": "Mobile-responsive Design"
+      "feature5": "Mobile-responsive Design",
+      "feature6": "Kostenlos ohne Registrierung",
+      "feature7": "Plattformübergreifende Kompatibilität",
+      "feature8": "Präzise Währungsberechnungen"
     }
   },
   "miniCalculator": {
@@ -218,7 +221,11 @@
     "tipPercentage": "Trinkgeld-Prozentsatz",
     "customPercent": "Benutzerdefiniert %",
     "apply": "Anwenden",
-    "resetTipCalculator": "Rechner Zurücksetzen"
+    "resetTipCalculator": "Rechner Zurücksetzen",
+    "billAmountLabel": "Rechnungsbetrag",
+    "tipLabel": "Trinkgeld",
+    "calculation": "Berechnung:",
+    "totalLabel": "Gesamt"
   },
   "debug": {
     "current": "Aktuell",
@@ -246,7 +253,23 @@
       "fresh": "Immer aktuell",
       "freshDesc": "Aktualisiert Wechselkurse automatisch",
       "rich": "Reiche Funktionen",
-      "richDesc": "Rechner, Zahlensysteme, Favoriten anheften"
+      "richDesc": "Rechner, Zahlensysteme, Favoriten anheften",
+      "realTimeRates": "Echtzeit-Wechselkurse mit automatischen Updates",
+      "offlineSupport": "Funktioniert perfekt offline nach Installation",
+      "multiCurrency": "Unterstützung für 170+ Weltwährungen",
+      "pwaInstall": "Installation als Progressive Web App",
+      "responsive": "Mobile-first responsives Design",
+      "noAds": "Völlig kostenlos ohne Werbung oder Tracking",
+      "crossPlatform": "Funktioniert auf allen Geräten und Browsern",
+      "calculator": "Eingebauter Rechner mit Trinkgeldrechner",
+      "numberSystems": "Internationale und indische Zahlensysteme",
+      "smartPinning": "Lieblingswährungen für schnellen Zugriff anheften",
+      "autoRefresh": "Automatische Kursaktualisierung alle 30 Minuten",
+      "securePrivate": "Ihre Daten bleiben privat - keine Serverspeicherung",
+      "fastLoading": "Optimiert für Geschwindigkeit mit sofortigem Start",
+      "modernUI": "Saubere, intuitive Benutzeroberfläche",
+      "accessibility": "Tastaturkürzel und Screenreader-Unterstützung",
+      "caching": "Intelligente Zwischenspeicherung für zuverlässige Offline-Leistung"
     },
     "uniqueFeatures": {
       "title": "Was es besonders macht",
@@ -347,5 +370,16 @@
     "errorDetails": "Fehlerdetails",
     "tryAgain": "Erneut versuchen",
     "refreshPage": "Seite aktualisieren"
+  },
+  "refreshWarning": {
+    "title": "Seitenaktualisierung erkannt",
+    "message": "Aktualisieren wird Ihre Daten nicht aktualisieren!",
+    "explanation": "RateVault läuft auf zwischengespeicherten Daten für Offline-Unterstützung. Eine normale Aktualisierung wird keine neuen Wechselkurse abrufen oder die App aktualisieren.",
+    "tip": "Tipp: Verwenden Sie die Aktualisierungsschaltfläche in der Statusleiste, um Wechselkurse zu aktualisieren",
+    "hardRefresh": "Harte Aktualisierung (Cache löschen)",
+    "hardRefreshing": "Harte Aktualisierung...",
+    "normalRefresh": "Trotzdem aktualisieren (Cache behalten)",
+    "stayHere": "Hier bleiben",
+    "note": "Diese Nachricht wird nur einmal pro Sitzung angezeigt"
   }
 }

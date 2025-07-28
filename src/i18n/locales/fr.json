@@ -181,10 +181,26 @@
       "fastDesc": "Conversions instantanées avec chargement rapide",
       "currencies": "150+ Devises",
       "currenciesDesc": "Support complet des devises mondiales",
-      "privacy": "Confidentialité d'Abord",
-      "privacyDesc": "Pas de suivi, pas de publicités, vos données restent privées",
+      "calculator": "Calculatrice Intégrée",
+      "calculatorDesc": "Calculatrice intégrée pour des calculs rapides avec conversion",
+      "timezone": "Conversion de Fuseau Horaire",
+      "timezoneDesc": "Convertissez l'heure entre différents fuseaux horaires mondiaux",
+      "multilanguage": "Support Multilingue",
+      "multilanguageDesc": "Interface disponible en 10 langues différentes",
+      "pwa": "Application Web Progressive",
+      "pwaDesc": "Installez comme application native avec support hors ligne",
       "offline": "Fonctionne Hors Ligne",
       "offlineDesc": "Installer comme application, fonctionne sans internet",
+      "privacy": "Confidentialité d'Abord",
+      "privacyDesc": "Pas de suivi, pas de publicités, vos données restent privées",
+      "design": "Design Élégant",
+      "designDesc": "Interface utilisateur moderne et intuitive",
+      "realtime": "Temps Réel",
+      "realtimeDesc": "Taux de change mis à jour en temps réel",
+      "customizable": "Personnalisable",
+      "customizableDesc": "Personnalisez vos devises préférées et paramètres",
+      "accessible": "Accessible",
+      "accessibleDesc": "Conçu pour être accessible à tous les utilisateurs",
       "fresh": "Toujours Frais",
       "freshDesc": "Met à jour les taux de change automatiquement",
       "rich": "Fonctionnalités Riches",
@@ -260,12 +276,14 @@
     },
     "stats": {
       "currenciesSupported": "Devises Supportées",
+      "languagesSupported": "Langues Supportées",
       "decimalPrecision": "Précision Décimale",
       "cacheDuration": "Durée de Cache",
       "privacyFocused": "Axé sur la Confidentialité"
     },
     "links": {
       "viewGithub": "Voir sur GitHub",
+      "poweredBy": "Alimenté par",
       "exchangeRateApi": "ExchangeRate-API",
       "donate": "Soutenir le Développement"
     },
@@ -315,7 +333,10 @@
       "feature2": "Support hors ligne",
       "feature3": "170+ devises",
       "feature4": "Application Web Progressive",
-      "feature5": "Design réactif mobile"
+      "feature5": "Design réactif mobile",
+      "feature6": "Gratuit sans inscription",
+      "feature7": "Compatibilité multiplateforme",
+      "feature8": "Calculs de devises précis"
     }
   },
   "miniCalculator": {
@@ -330,14 +351,19 @@
     "applyXToY": "Appliquer {{result}} à {{currency}}",
     "selectCurrencyFirst": "Sélectionnez d'abord une devise",
     "billAmount": "Montant de l'Addition",
+    "billAmountLabel": "Montant facture",
     "enterBillAmount": "Entrez le montant de l'addition",
     "currency": "Devise",
     "tipPercentage": "Pourcentage de Pourboire",
+    "tipLabel": "Pourboire",
     "customPercent": "% Personnalisé",
     "apply": "Appliquer",
+    "calculation": "Calcul :",
+    "totalLabel": "Total",
     "resetTipCalculator": "Réinitialiser la Calculatrice"
   },
   "aboutPage": {
+    "aboutTitle": "À Propos du Convertisseur",
     "aboutFeatures": "Fonctionnalités À Propos"
   },
   "errorBoundary": {
@@ -346,5 +372,16 @@
     "errorDetails": "Détails de l'erreur",
     "tryAgain": "Réessayer",
     "refreshPage": "Actualiser la page"
+  },
+  "refreshWarning": {
+    "title": "Actualisation de Page Détectée",
+    "message": "L'actualisation ne mettra pas à jour vos données !",
+    "explanation": "RateVault fonctionne avec des données en cache pour le support hors ligne. Une actualisation normale ne récupérera pas de nouveaux taux de change ou ne mettra pas à jour l'application.",
+    "tip": "Astuce : Utilisez le bouton d'actualisation dans la barre d'état pour mettre à jour les taux de change",
+    "hardRefresh": "Actualisation Forcée (Vider le Cache)",
+    "hardRefreshing": "Actualisation forcée...",
+    "normalRefresh": "Actualiser Quand Même (Garder le Cache)",
+    "stayHere": "Rester Ici",
+    "note": "Ce message ne sera affiché qu'une fois par session"
   }
 }
