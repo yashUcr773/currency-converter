@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 import { logger } from '@/utils/env';
+import { clearCacheAndReload } from '@/utils/clearCacheAndReload';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -64,14 +65,17 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
               </p>
               
               <div className="space-y-3">
-                <Button onClick={this.resetError} className="w-full">
+                <Button
+                  onClick={() => clearCacheAndReload()}
+                  className="w-full"
+                >
                   <RefreshCw className="w-4 h-4 mr-2" />
                   {t('errorBoundary.tryAgain')}
                 </Button>
-                
-                <Button 
-                  variant="outline" 
-                  onClick={() => window.location.reload()} 
+
+                <Button
+                  variant="outline"
+                  onClick={() => clearCacheAndReload()}
                   className="w-full"
                 >
                   {t('errorBoundary.refreshPage')}
