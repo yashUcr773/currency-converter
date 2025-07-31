@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { UNIT_CATEGORIES, DEFAULT_UNITS_BY_CATEGORY, type Unit } from '../constants-units';
 import { UnitConverter } from '../utils/unitConverter';
+import { storage } from '../utils/storage';
 
 export interface PinnedUnit {
   unit: Unit;
@@ -10,36 +11,17 @@ export interface PinnedUnit {
 
 export const useUnitConverter = () => {
   const [activeCategory, setActiveCategory] = useState<string>('length');
-  const [pinnedUnits, setPinnedUnits] = useState<PinnedUnit[]>(() => {
-    // Initialize with default units for the active category
-    const defaultUnits = DEFAULT_UNITS_BY_CATEGORY[activeCategory] || [];
-    const category = UNIT_CATEGORIES.find(cat => cat.id === activeCategory);
-    
-    if (!category) return [];
-    
-    return defaultUnits.map(unitId => {
-      const unit = category.units.find(u => u.id === unitId);
-      return unit ? {
-        unit,
-        categoryId: activeCategory,
-        value: 0
-      } : null;
-    }).filter(Boolean) as PinnedUnit[];
-  });
+  const [pinnedUnits, setPinnedUnits] = useState<PinnedUnit[]>([]);
 
-  // Change active category and reset pinned units
-  const setCategory = useCallback((categoryId: string) => {
-    setActiveCategory(categoryId);
+  // Helper function to get pinned units for a category
+  const getPinnedUnitsForCategory = useCallback((categoryId: string): PinnedUnit[] => {
+    const storedUnitIds = storage.getPinnedUnitsForCategory(categoryId);
+    const unitIds = storedUnitIds.length > 0 ? storedUnitIds : (DEFAULT_UNITS_BY_CATEGORY[categoryId] || []);
     
-    const defaultUnits = DEFAULT_UNITS_BY_CATEGORY[categoryId] || [];
     const category = UNIT_CATEGORIES.find(cat => cat.id === categoryId);
-    
-    if (!category) {
-      setPinnedUnits([]);
-      return;
-    }
-    
-    const newPinnedUnits = defaultUnits.map(unitId => {
+    if (!category) return [];
+
+    return unitIds.map(unitId => {
       const unit = category.units.find(u => u.id === unitId);
       return unit ? {
         unit,
@@ -47,8 +29,24 @@ export const useUnitConverter = () => {
         value: 0
       } : null;
     }).filter(Boolean) as PinnedUnit[];
-    
-    setPinnedUnits(newPinnedUnits);
+  }, []);
+
+  // Helper function to save pinned units for current category
+  const savePinnedUnitsForCategory = useCallback((categoryId: string, units: PinnedUnit[]) => {
+    const unitIds = units.map(p => p.unit.id);
+    storage.savePinnedUnitsForCategory(categoryId, unitIds);
+  }, []);
+
+  // Initialize pinned units for the active category
+  useEffect(() => {
+    const initialPinnedUnits = getPinnedUnitsForCategory(activeCategory);
+    setPinnedUnits(initialPinnedUnits);
+  }, [activeCategory, getPinnedUnitsForCategory]);
+
+  // Change active category and load its pinned units
+  const setCategory = useCallback((categoryId: string) => {
+    setActiveCategory(categoryId);
+    // The useEffect will handle loading the pinned units for the new category
   }, []);
 
   // Update a unit's value and convert all others
@@ -100,18 +98,30 @@ export const useUnitConverter = () => {
         }
       }
 
-      return [...current, {
+      const newPinnedUnits = [...current, {
         unit,
         categoryId: activeCategory,
         value: initialValue
       }];
+
+      // Save to storage
+      savePinnedUnitsForCategory(activeCategory, newPinnedUnits);
+      
+      return newPinnedUnits;
     });
-  }, [activeCategory]);
+  }, [activeCategory, savePinnedUnitsForCategory]);
 
   // Remove a unit from the pinned list
   const unpinUnit = useCallback((unitId: string) => {
-    setPinnedUnits((current: PinnedUnit[]) => current.filter((p: PinnedUnit) => p.unit.id !== unitId));
-  }, []);
+    setPinnedUnits((current: PinnedUnit[]) => {
+      const newPinnedUnits = current.filter((p: PinnedUnit) => p.unit.id !== unitId);
+      
+      // Save to storage
+      savePinnedUnitsForCategory(activeCategory, newPinnedUnits);
+      
+      return newPinnedUnits;
+    });
+  }, [activeCategory, savePinnedUnitsForCategory]);
 
   // Get available units for current category (excluding already pinned)
   const getAvailableUnits = useCallback(() => {

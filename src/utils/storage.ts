@@ -58,6 +58,35 @@ export const storage = {
     }
   },
 
+  // Get pinned units for a category
+  getPinnedUnitsForCategory(categoryId: string): string[] {
+    const data = this.getData();
+    return data?.pinnedUnitsByCategory?.[categoryId] || [];
+  },
+
+  // Save pinned units for a category
+  savePinnedUnitsForCategory(categoryId: string, unitIds: string[]): void {
+    try {
+      const existingData = this.getData() || {
+        exchangeRates: null,
+        pinnedCurrencies: [],
+        pinnedUnitsByCategory: {}
+      };
+      
+      const updatedData = {
+        ...existingData,
+        pinnedUnitsByCategory: {
+          ...existingData.pinnedUnitsByCategory,
+          [categoryId]: unitIds
+        }
+      };
+      
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedData));
+    } catch (error) {
+      logger.error('Error saving pinned units for category:', error);
+    }
+  },
+
   // Check if rates are expired
   areRatesExpired(timestamp: number): boolean {
     const now = Date.now();

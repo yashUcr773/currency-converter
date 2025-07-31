@@ -28,6 +28,7 @@ export interface AppState {
 export interface StorageData {
   exchangeRates: ExchangeRates;
   pinnedCurrencies: string[];
+  pinnedUnitsByCategory?: Record<string, string[]>; // Store pinned unit IDs per category
 }
 
 // Timezone types
