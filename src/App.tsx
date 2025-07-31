@@ -13,7 +13,7 @@ import { PersistenceIndicator } from './components/PersistenceIndicator';
 import { usePWA } from './hooks/usePWA';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { AlertTriangle, DollarSign, Clock } from 'lucide-react';
+import { AlertTriangle, DollarSign, Clock, Calculator } from 'lucide-react';
 import { saveActiveTab, getActiveTab, type TabType } from './utils/tabStorage';
 import './App.css';
 
@@ -21,6 +21,7 @@ import './App.css';
 const AboutButton = lazy(() => import('./components/AboutPage').then(module => ({ default: module.AboutButton })));
 const PrivacyButton = lazy(() => import('./components/PrivacyButton').then(module => ({ default: module.PrivacyButton })));
 const TimezoneConverter = lazy(() => import('./components/TimezoneConverter').then(module => ({ default: module.TimezoneConverter })));
+const UnitConverter = lazy(() => import('./components/UnitConverter').then(module => ({ default: module.UnitConverter })));
 
 function App() {
   const { t } = useTranslation();
@@ -61,8 +62,8 @@ function App() {
         <Card className="max-w-sm mx-auto">
           <CardContent className="p-6 sm:p-8 text-center">
             <LoadingSpinner size={40} className="sm:w-12 sm:h-12 mb-3 sm:mb-4 mx-auto" />
-            <h2 className="text-lg sm:text-xl font-semibold mb-2">{t('app.loading')}</h2>
-            <p className="text-muted-foreground text-sm sm:text-base">{t('app.loadingSubtitle')}</p>
+            <h2 className="text-lg sm:text-xl font-semibold mb-2">{t('app.loading') as string}</h2>
+            <p className="text-muted-foreground text-sm sm:text-base">{t('app.loadingSubtitle') as string}</p>
           </CardContent>
         </Card>
       </div>
@@ -77,16 +78,16 @@ function App() {
             <div className="text-destructive mb-3 sm:mb-4">
               <AlertTriangle className="w-12 h-12 sm:w-16 sm:h-16 mx-auto" />
             </div>
-            <h2 className="text-lg sm:text-xl font-semibold mb-2">{t('app.noRatesAvailable')}</h2>
+            <h2 className="text-lg sm:text-xl font-semibold mb-2">{t('app.noRatesAvailable') as string}</h2>
             <p className="text-muted-foreground mb-3 sm:mb-4 text-sm sm:text-base">
-              {t('app.noRatesMessage')}
+              {t('app.noRatesMessage') as string}
             </p>
             {pwaStatus.isOnline && (
               <Button
                 onClick={refreshRates}
                 disabled={syncing}
               >
-                {syncing ? t('app.retrying') : t('app.retry')}
+                {syncing ? t('app.retrying') as string : t('app.retry') as string}
               </Button>
             )}
           </CardContent>
@@ -115,11 +116,11 @@ function App() {
                 </svg>
               </div>
               <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              {activeTab === 'currency' ? t('app.title') : 'Timezone Converter'}
+              {activeTab === 'currency' ? t('app.title') as string : activeTab === 'timezone' ? 'Timezone Converter' : 'Unit Converter'}
             </h1>
           </div>
           <p className="text-slate-600 text-xs sm:text-sm lg:text-base xl:text-lg font-medium px-2 sm:px-4">
-            {activeTab === 'currency' ? t('app.subtitle') : 'Real-time timezone conversion across the globe'}
+            {activeTab === 'currency' ? t('app.subtitle') as string : activeTab === 'timezone' ? 'Real-time timezone conversion across the globe' : 'Convert between different units of measurement'}
           </p>
 
           {/* Tab Navigation */}
@@ -146,6 +147,17 @@ function App() {
               >
                 <Clock className="w-4 h-4" />
                 <span className="hidden sm:inline">Timezone</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('units')}
+                className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                  activeTab === 'units'
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50'
+                }`}
+              >
+                <Calculator className="w-4 h-4" />
+                <span className="hidden sm:inline">Units</span>
               </button>
             </div>
           </div>
@@ -175,11 +187,11 @@ function App() {
               <div className="mb-4 sm:mb-6 lg:mb-8 text-center">
                 <div className="inline-flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2 lg:gap-3 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 bg-white/80 backdrop-blur-sm rounded-lg sm:rounded-xl border border-slate-200 shadow-lg max-w-full">
                   <span className="text-slate-600 font-medium text-xs sm:text-sm lg:text-base">
-                    {t('app.ratesRelativeTo')}
+                    {t('app.ratesRelativeTo') as string}
                   </span>
                   <span className="font-bold text-sm sm:text-base lg:text-lg text-blue-600">{baseCurrency}</span>
                   <span className="text-slate-400 text-xs hidden sm:block">
-                    {t('app.tapRateToChangeBase')}
+                    {t('app.tapRateToChangeBase') as string}
                   </span>
                 </div>
               </div>
@@ -210,9 +222,13 @@ function App() {
               </div>
             </div>
           </>
-        ) : (
+        ) : activeTab === 'timezone' ? (
           <Suspense fallback={<LoadingSpinner />}>
             <TimezoneConverter />
+          </Suspense>
+        ) : (
+          <Suspense fallback={<LoadingSpinner />}>
+            <UnitConverter />
           </Suspense>
         )}
 
@@ -222,7 +238,7 @@ function App() {
             <div className="flex items-center gap-1.5 sm:gap-2">
               <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
               <span className="text-slate-600 text-xs sm:text-sm font-medium">
-                {activeTab === 'currency' ? t('app.liveRatesFrom') : 'Real-time timezone data'}
+                {activeTab === 'currency' ? t('app.liveRatesFrom') as string : activeTab === 'timezone' ? 'Real-time timezone data' : 'Real-time unit conversion'}
               </span>
             </div>
           </div>
@@ -239,7 +255,7 @@ function App() {
           </div>
           
           <p className="mt-2 sm:mt-4 text-slate-500 text-xs px-4">
-            {activeTab === 'currency' ? t('app.statusInfo') : 'Select a timezone card as base and enter time to convert'}
+            {activeTab === 'currency' ? t('app.statusInfo') as string : activeTab === 'timezone' ? 'Select a timezone card as base and enter time to convert' : 'Enter a value in any unit to see conversions across all other units'}
           </p>
         </div>
       </main>
