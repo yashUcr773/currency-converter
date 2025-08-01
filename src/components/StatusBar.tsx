@@ -64,21 +64,17 @@ export const StatusBar = ({
     setShowClearCacheDialog(false);
   };
 
-  const handleUpdateApp = async () => {
-    setShowUpdatePrompt(false);
-    await actions.updateApp();
-  };
-
   const handleDismissUpdate = () => {
     setShowUpdatePrompt(false);
+    actions.dismissUpdate(); // Mark update as dismissed in PWA state
   };
 
   // Auto-show update prompt when conditions are met
   useEffect(() => {
-    if (status.updateAvailable && !showUpdatePrompt) {
+    if (status.updateAvailable && !status.updateDismissed && !showUpdatePrompt) {
       setShowUpdatePrompt(true);
     }
-  }, [status.updateAvailable, showUpdatePrompt]);
+  }, [status.updateAvailable, status.updateDismissed, showUpdatePrompt]);
 
   const formatLastSync = (timestamp: number) => {
     if (!timestamp) return t('statusBar.never');
@@ -226,7 +222,6 @@ export const StatusBar = ({
       {showUpdatePrompt && (
         <UpdatePrompt
           show={showUpdatePrompt}
-          onUpdate={handleUpdateApp}
           onDismiss={handleDismissUpdate}
           hasCachedData={status.hasCachedData}
         />

@@ -1,8 +1,8 @@
 // Currency Converter PWA Service Worker with Timezone Support
-const CACHE_NAME = 'currency-converter-v1.1.0';
-const STATIC_CACHE_NAME = 'currency-converter-static-v1.1.0';
-const DATA_CACHE_NAME = 'ratevault-data-v1.1.0';
-const TIMEZONE_CACHE_NAME = 'currency-converter-timezone-v1.1.0';
+const CACHE_VERSION = 'v1.12.0';
+const STATIC_CACHE_NAME = 'currency-converter-static-v1.12.0';
+const DATA_CACHE_NAME = 'ratevault-data-v1.12.0';
+const TIMEZONE_CACHE_NAME = 'currency-converter-timezone-v1.12.0';
 
 // Static assets to cache immediately
 const STATIC_ASSETS = [
@@ -43,7 +43,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate event - clean up old caches
+// Activate event - clean up old caches and notify clients of update
 self.addEventListener('activate', (event) => {
   console.log('[SW] Activating service worker');
   event.waitUntil(
@@ -65,7 +65,9 @@ self.addEventListener('activate', (event) => {
         );
       }),
       // Take control of all clients
-      self.clients.claim()
+      self.clients.claim(),
+      // Notify all clients that an update is available
+      notifyClientsOfUpdate()
     ])
   );
 });
@@ -89,6 +91,12 @@ self.addEventListener('fetch', (event) => {
   // Skip browser extension requests explicitly
   if (url.protocol === 'chrome-extension:' || url.protocol === 'moz-extension:' || url.protocol === 'ms-browser-extension:') {
     console.log('[SW] Skipping browser extension request:', url.href);
+    return;
+  }
+  
+  // Skip development module requests (Vite dev server)
+  if (url.pathname.startsWith('/src/') || url.pathname.includes('node_modules') || url.searchParams.has('import')) {
+    console.log('[SW] Skipping development module request:', url.href);
     return;
   }
   
@@ -271,6 +279,22 @@ async function handleStaticRequest(request) {
     }
     
     throw error;
+  }
+}
+
+// Notify all clients that an update is available
+async function notifyClientsOfUpdate() {
+  try {
+    console.log('[SW] Notifying clients of available update');
+    const clients = await self.clients.matchAll();
+    clients.forEach(client => {
+      client.postMessage({
+        type: 'UPDATE_AVAILABLE',
+        timestamp: Date.now()
+      });
+    });
+  } catch (error) {
+    console.error('[SW] Failed to notify clients of update:', error);
   }
 }
 

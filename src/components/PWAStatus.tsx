@@ -51,21 +51,17 @@ export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
     setShowClearCacheDialog(false);
   };
 
-  const handleUpdateApp = async () => {
-    setShowUpdatePrompt(false);
-    await actions.updateApp();
-  };
-
   const handleDismissUpdate = () => {
     setShowUpdatePrompt(false);
+    actions.dismissUpdate(); // Mark update as dismissed in PWA state
   };
 
   // Auto-show update prompt when conditions are met
   useEffect(() => {
-    if (status.updateAvailable && status.hasCachedData && !showUpdatePrompt) {
+    if (status.updateAvailable && status.hasCachedData && !status.updateDismissed && !showUpdatePrompt) {
       setShowUpdatePrompt(true);
     }
-  }, [status.updateAvailable, status.hasCachedData, showUpdatePrompt]);
+  }, [status.updateAvailable, status.hasCachedData, status.updateDismissed, showUpdatePrompt]);
 
   // Debug helper - add test button in development
   const isDevelopment = import.meta.env.DEV;
@@ -252,7 +248,6 @@ export function PWAStatus({ pinnedCurrencies = [] }: PWAStatusProps) {
       {/* Update Prompt */}
       <UpdatePrompt
         show={showUpdatePrompt}
-        onUpdate={handleUpdateApp}
         onDismiss={handleDismissUpdate}
         hasCachedData={status.hasCachedData}
       />

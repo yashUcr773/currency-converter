@@ -13,6 +13,7 @@ export interface PWAStatus {
   isInstalled: boolean;
   canInstall: boolean;
   updateAvailable: boolean;
+  updateDismissed: boolean;
   hasCachedData: boolean;
   cacheStatus?: {
     [cacheName: string]: {
@@ -28,6 +29,7 @@ export interface PWAActions {
   clearCache: () => Promise<void>;
   refreshData: () => Promise<void>;
   checkForCachedData: () => boolean;
+  dismissUpdate: () => void;
 }
 
 interface BeforeInstallPromptEvent extends Event {
@@ -42,6 +44,7 @@ export function usePWA(): [PWAStatus, PWAActions] {
   const [isInstalled, setIsInstalled] = useState(false);
   const [canInstall, setCanInstall] = useState(false);
   const [updateAvailable, setUpdateAvailable] = useState(false);
+  const [updateDismissed, setUpdateDismissed] = useState(false);
   const [hasCachedData, setHasCachedData] = useState(false);
   const [cacheStatus, setCacheStatus] = useState<PWAStatus['cacheStatus']>();
 
@@ -172,6 +175,27 @@ export function usePWA(): [PWAStatus, PWAActions] {
       }
     };
 
+    // Check for waiting service worker on initial load
+    const checkForWaitingServiceWorker = async () => {
+      if ('serviceWorker' in navigator) {
+        try {
+          // Add a small delay to ensure service worker registration is complete
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          
+          const registration = await navigator.serviceWorker.getRegistration();
+          if (registration?.waiting) {
+            console.log('[PWA] Found waiting service worker on initial load');
+            setUpdateAvailable(true);
+            setUpdateDismissed(false); // Reset dismissal state for new updates
+          } else {
+            console.log('[PWA] No waiting service worker found on initial load');
+          }
+        } catch (error) {
+          console.error('[PWA] Error checking for waiting service worker:', error);
+        }
+      }
+    };
+
     logger.debug('[PWA] Setting up online/offline listeners, current status:', navigator.onLine);
     
     // PWA requirements check
@@ -231,7 +255,9 @@ export function usePWA(): [PWAStatus, PWAActions] {
         
         switch (type) {
           case 'UPDATE_AVAILABLE':
+            console.log('[PWA] Update available message received');
             setUpdateAvailable(true);
+            setUpdateDismissed(false); // Reset dismissal state for new updates
             break;
           case 'DATA_SYNCED':
             console.log('Fresh data synced in background');
@@ -244,6 +270,7 @@ export function usePWA(): [PWAStatus, PWAActions] {
       const handleSwUpdateAvailable = () => {
         console.log('[PWA] Service worker update detected via custom event');
         setUpdateAvailable(true);
+        setUpdateDismissed(false); // Reset dismissal state for new updates
       };
 
       window.addEventListener('swUpdateAvailable', handleSwUpdateAvailable);
@@ -253,6 +280,12 @@ export function usePWA(): [PWAStatus, PWAActions] {
       
       // Initial check for cached data
       setHasCachedData(checkForLocalStorageData());
+
+      // Check for waiting service worker on initial load
+      checkForWaitingServiceWorker();
+
+      // Also check after a short delay to catch race conditions
+      setTimeout(checkForWaitingServiceWorker, 2000);
 
       // Add cleanup for the new event listener
       return () => {
@@ -394,6 +427,11 @@ export function usePWA(): [PWAStatus, PWAActions] {
     }
   };
 
+  const dismissUpdate = (): void => {
+    console.log('[PWA] User dismissed update');
+    setUpdateDismissed(true);
+  };
+
   const checkForCachedData = (): boolean => {
     // Check for cached data in localStorage and service worker cache
     const localStorageData = checkForLocalStorageData();
@@ -408,6 +446,7 @@ export function usePWA(): [PWAStatus, PWAActions] {
     isInstalled,
     canInstall,
     updateAvailable,
+    updateDismissed,
     hasCachedData,
     cacheStatus,
   };
@@ -418,6 +457,7 @@ export function usePWA(): [PWAStatus, PWAActions] {
     clearCache,
     refreshData,
     checkForCachedData,
+    dismissUpdate,
   };
 
   return [status, actions];

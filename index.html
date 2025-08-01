@@ -64,7 +64,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
     <meta name="theme-color" content="#3b82f6" />
     
-    <!-- Enhanced Open Graph / Facebook -->
+                                <meta name="version" content="1.1.0" />
+<!-- Enhanced Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://ratevault.uk/" />
     <meta property="og:title" content="RateVault - Free Currency & Timezone Converter | Real-Time Exchange Rates" />
@@ -189,11 +190,11 @@
                   newWorker.addEventListener('statechange', () => {
                     if (newWorker.state === 'installed') {
                       if (navigator.serviceWorker.controller) {
-                        // New content available, notify the React app
-                        // Send message to trigger UpdatePrompt modal
-                        navigator.serviceWorker.controller.postMessage({
-                          type: 'UPDATE_AVAILABLE'
-                        });
+                        // New content available, dispatch event for React app
+                        console.log('[SW Registration] New service worker installed, dispatching update event');
+                        window.dispatchEvent(new CustomEvent('swUpdateAvailable', {
+                          detail: { registration }
+                        }));
                         
                         // Store the registration for later use
                         window.__swRegistration = registration;
@@ -207,11 +208,20 @@
               navigator.serviceWorker.addEventListener('message', (event) => {
                 if (event.data.type === 'UPDATE_AVAILABLE') {
                   // Dispatch custom event that React can listen to
+                  console.log('[SW Registration] Received UPDATE_AVAILABLE message');
                   window.dispatchEvent(new CustomEvent('swUpdateAvailable', {
                     detail: { registration }
                   }));
                 }
               });
+
+              // Check immediately if there's already a waiting service worker
+              if (registration.waiting) {
+                console.log('[SW Registration] Found waiting service worker on registration');
+                window.dispatchEvent(new CustomEvent('swUpdateAvailable', {
+                  detail: { registration }
+                }));
+              }
             })
             .catch((registrationError) => {
               // SW registration failed - app will work without offline support

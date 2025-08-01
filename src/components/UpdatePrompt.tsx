@@ -1,29 +1,35 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { RefreshCw, AlertCircle, Database, Wifi } from 'lucide-react';
+import { RefreshCw, AlertCircle, Database, Wifi, AlertTriangle } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { usePWA, formatCacheSize } from '../hooks/usePWA';
+import { clearCacheAndReload } from '../utils/clearCacheAndReload';
 
 interface UpdatePromptProps {
   show: boolean;
-  onUpdate: () => void;
   onDismiss: () => void;
   hasCachedData: boolean;
 }
 
-export function UpdatePrompt({ show, onUpdate, onDismiss, hasCachedData }: UpdatePromptProps) {
+export function UpdatePrompt({ show, onDismiss, hasCachedData }: UpdatePromptProps) {
   const { t } = useTranslation();
   const [status] = usePWA();
   const [isUpdating, setIsUpdating] = useState(false);
 
-  const handleUpdate = async () => {
+  const handleClearCacheAndReload = async () => {
     setIsUpdating(true);
     try {
-      await onUpdate();
-    } finally {
-      setIsUpdating(false);
+      await clearCacheAndReload();
+    } catch (error) {
+      console.error('Failed to clear cache and reload:', error);
+      // Fallback to regular reload
+      window.location.reload();
     }
+  };
+
+  const handleUseExistingVersion = () => {
+    onDismiss();
   };
 
   const totalCacheSize = status.cacheStatus ?
@@ -65,52 +71,65 @@ export function UpdatePrompt({ show, onUpdate, onDismiss, hasCachedData }: Updat
                     <p>{t('updatePrompt.cacheSize', { size: formatCacheSize(totalCacheSize) })}</p>
                   )}
                   <p>{t('updatePrompt.dataCachedDesc2')}</p>
-                  {!status.isOnline && (
-                    <div className="flex items-center gap-1 mt-2">
-                      <Wifi className="w-4 h-4 text-amber-600" />
-                      <span className="font-medium">{t('updatePrompt.offlineNotice')}</span>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
           )}
 
-          <div className="flex flex-col sm:flex-row gap-2">
+          {/* Internet access warning */}
+          <div className="flex items-start gap-3 p-3 bg-orange-50 rounded-lg border border-orange-200">
+            <AlertTriangle className="w-5 h-5 text-orange-600 mt-0.5 flex-shrink-0" />
+            <div className="text-sm">
+              <p className="font-medium text-orange-900 mb-1">
+                {t('updatePrompt.internetRequired')}
+              </p>
+              <p className="text-orange-700">
+                {t('updatePrompt.internetWarning')}
+              </p>
+              {!status.isOnline && (
+                <div className="flex items-center gap-1 mt-2">
+                  <Wifi className="w-4 h-4 text-orange-600" />
+                  <span className="font-medium text-orange-800">{t('updatePrompt.currentlyOffline')}</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2">
             <Button
-              onClick={handleUpdate}
+              onClick={handleClearCacheAndReload}
               disabled={isUpdating}
-              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
             >
               {isUpdating ? (
                 <>
                   <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                  {t('updatePrompt.updating')}
+                  {t('updatePrompt.clearingAndReloading')}
                 </>
               ) : (
                 <>
                   <RefreshCw className="w-4 h-4 mr-2" />
-                  {t('updatePrompt.updateNow')}
+                  {t('updatePrompt.clearCacheAndReload')}
                 </>
               )}
             </Button>
             <Button
-              onClick={onDismiss}
+              onClick={handleUseExistingVersion}
               variant="outline"
               disabled={isUpdating}
-              className="flex-1"
+              className="w-full"
             >
-              {t('updatePrompt.updateLater')}
+              {t('updatePrompt.useExistingVersion')}
             </Button>
           </div>
 
           <div className="text-xs text-gray-500 bg-gray-50 p-2 rounded border">
-            <p className="font-medium mb-1">{t('updatePrompt.whatHappens')}</p>
+            <p className="font-medium mb-1">{t('updatePrompt.whatHappensOnUpdate')}</p>
             <ul className="space-y-0.5 text-gray-600">
-              <li>{t('updatePrompt.reload')}</li>
-              <li>{t('updatePrompt.dataSafe')}</li>
-              <li>{t('updatePrompt.freshRates')}</li>
-              <li>{t('updatePrompt.allPreserved')}</li>
+              <li>{t('updatePrompt.clearAllCaches')}</li>
+              <li>{t('updatePrompt.reloadWithNewVersion')}</li>
+              <li>{t('updatePrompt.fetchFreshData')}</li>
+              <li>{t('updatePrompt.preferencesPreserved')}</li>
             </ul>
           </div>
         </div>
