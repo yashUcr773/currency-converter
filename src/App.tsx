@@ -13,7 +13,7 @@ import { PersistenceIndicator } from './components/PersistenceIndicator';
 import { usePWA } from './hooks/usePWA';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { AlertTriangle, DollarSign, Clock, Calculator } from 'lucide-react';
+import { AlertTriangle, DollarSign, Clock, Calculator, MapPin } from 'lucide-react';
 import { saveActiveTab, getActiveTab, type TabType } from './utils/tabStorage';
 import './App.css';
 
@@ -22,6 +22,7 @@ const AboutButton = lazy(() => import('./components/AboutPage').then(module => (
 const PrivacyButton = lazy(() => import('./components/PrivacyButton').then(module => ({ default: module.PrivacyButton })));
 const TimezoneConverter = lazy(() => import('./components/TimezoneConverter').then(module => ({ default: module.TimezoneConverter })));
 const UnitConverter = lazy(() => import('./components/UnitConverter').then(module => ({ default: module.UnitConverter })));
+const ItineraryManager = lazy(() => import('./components/ItineraryManager').then(module => ({ default: module.ItineraryManager })));
 
 function App() {
   const { t } = useTranslation();
@@ -116,11 +117,17 @@ function App() {
                 </svg>
               </div>
               <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              {activeTab === 'currency' ? t('app.title') as string : activeTab === 'timezone' ? 'Timezone Converter' : 'Unit Converter'}
+              {activeTab === 'currency' ? t('app.title') as string : 
+               activeTab === 'timezone' ? 'Timezone Converter' : 
+               activeTab === 'units' ? 'Unit Converter' : 
+               'Travel Itinerary'}
             </h1>
           </div>
           <p className="text-slate-600 text-xs sm:text-sm lg:text-base xl:text-lg font-medium px-2 sm:px-4">
-            {activeTab === 'currency' ? t('app.subtitle') as string : activeTab === 'timezone' ? 'Real-time timezone conversion across the globe' : 'Convert between different units of measurement'}
+            {activeTab === 'currency' ? t('app.subtitle') as string : 
+             activeTab === 'timezone' ? 'Real-time timezone conversion across the globe' : 
+             activeTab === 'units' ? 'Convert between different units of measurement' :
+             'Plan and organize your complete trip itinerary'}
           </p>
 
           {/* Tab Navigation */}
@@ -158,6 +165,17 @@ function App() {
               >
                 <Calculator className="w-4 h-4" />
                 <span className="hidden sm:inline">Units</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('itinerary')}
+                className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                  activeTab === 'itinerary'
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50'
+                }`}
+              >
+                <MapPin className="w-4 h-4" />
+                <span className="hidden sm:inline">Itinerary</span>
               </button>
             </div>
           </div>
@@ -226,9 +244,13 @@ function App() {
           <Suspense fallback={<LoadingSpinner />}>
             <TimezoneConverter />
           </Suspense>
-        ) : (
+        ) : activeTab === 'units' ? (
           <Suspense fallback={<LoadingSpinner />}>
             <UnitConverter />
+          </Suspense>
+        ) : (
+          <Suspense fallback={<LoadingSpinner />}>
+            <ItineraryManager />
           </Suspense>
         )}
 
@@ -238,7 +260,10 @@ function App() {
             <div className="flex items-center gap-1.5 sm:gap-2">
               <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
               <span className="text-slate-600 text-xs sm:text-sm font-medium">
-                {activeTab === 'currency' ? t('app.liveRatesFrom') as string : activeTab === 'timezone' ? 'Real-time timezone data' : 'Real-time unit conversion'}
+                {activeTab === 'currency' ? t('app.liveRatesFrom') as string : 
+                 activeTab === 'timezone' ? 'Real-time timezone data' : 
+                 activeTab === 'units' ? 'Real-time unit conversion' :
+                 'Your travel planner'}
               </span>
             </div>
           </div>
@@ -255,7 +280,10 @@ function App() {
           </div>
           
           <p className="mt-2 sm:mt-4 text-slate-500 text-xs px-4">
-            {activeTab === 'currency' ? t('app.statusInfo') as string : activeTab === 'timezone' ? 'Select a timezone card as base and enter time to convert' : 'Enter a value in any unit to see conversions across all other units'}
+            {activeTab === 'currency' ? t('app.statusInfo') as string : 
+             activeTab === 'timezone' ? 'Select a timezone card as base and enter time to convert' : 
+             activeTab === 'units' ? 'Enter a value in any unit to see conversions across all other units' :
+             'Add activities, set dates and times, and organize your complete travel schedule'}
           </p>
         </div>
       </main>

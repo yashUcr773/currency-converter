@@ -6,7 +6,7 @@ import { logger } from './env';
 
 const TAB_STORAGE_KEY = 'ratevault-active-tab';
 
-export type TabType = 'currency' | 'timezone' | 'units';
+export type TabType = 'currency' | 'timezone' | 'units' | 'itinerary';
 
 export const saveActiveTab = (tab: TabType): void => {
   try {
@@ -19,7 +19,7 @@ export const saveActiveTab = (tab: TabType): void => {
 export const getActiveTab = (): TabType => {
   try {
     const saved = localStorage.getItem(TAB_STORAGE_KEY);
-    return (saved === 'currency' || saved === 'timezone' || saved === 'units') ? saved : 'currency';
+    return (saved === 'currency' || saved === 'timezone' || saved === 'units' || saved === 'itinerary') ? saved : 'currency';
   } catch (error) {
     logger.warn('Failed to load active tab from localStorage:', error);
     return 'currency';
