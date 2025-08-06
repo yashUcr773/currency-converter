@@ -1,8 +1,17 @@
 import React, { useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { ChevronDown, ChevronUp, Edit, Trash2, Calendar as CalendarIcon, Clock, MapPin, Copy } from 'lucide-react';
+import { DateRangePicker } from '@/components/ui/date-range-picker';
+import { 
+  ChevronDown, 
+  ChevronUp, 
+  Edit, 
+  Trash2, 
+  Calendar as CalendarIcon, 
+  Clock, 
+  MapPin, 
+  Copy
+} from 'lucide-react';
 import type { ItineraryItem, TimelineView } from '@/types/itinerary';
 import { COLOR_VARIANTS, CATEGORY_ICONS } from '@/types/itinerary';
 
@@ -37,7 +46,12 @@ export const ItineraryTimeline: React.FC<ItineraryTimelineProps> = ({
     return items
       .filter(item => {
         const itemDate = new Date(item.startDate);
-        return itemDate >= timelineView.startDate && itemDate <= timelineView.endDate;
+        // Normalize dates to compare only the date part, not time
+        const itemDateOnly = new Date(itemDate.getFullYear(), itemDate.getMonth(), itemDate.getDate());
+        const startDateOnly = new Date(timelineView.startDate.getFullYear(), timelineView.startDate.getMonth(), timelineView.startDate.getDate());
+        const endDateOnly = new Date(timelineView.endDate.getFullYear(), timelineView.endDate.getMonth(), timelineView.endDate.getDate());
+        
+        return itemDateOnly >= startDateOnly && itemDateOnly <= endDateOnly;
       })
       .sort((a, b) => {
         const dateA = new Date(a.startDate);
@@ -73,7 +87,6 @@ export const ItineraryTimeline: React.FC<ItineraryTimelineProps> = ({
       groupMap.get(groupKey)!.push(item);
     });
 
-    // Convert map to array and sort by date
     Array.from(groupMap.entries()).forEach(([, groupItems]) => {
       const firstItem = groupItems[0];
       const itemDate = new Date(firstItem.startDate);
@@ -109,9 +122,7 @@ export const ItineraryTimeline: React.FC<ItineraryTimelineProps> = ({
     });
 
     return groups.sort((a, b) => a.date.getTime() - b.date.getTime());
-  }, [filteredItems, timelineView.groupBy]);
-
-  const formatTime = (time: string) => {
+  }, [filteredItems, timelineView.groupBy]);  const formatTime = (time: string) => {
     const [hours, minutes] = time.split(':');
     const hour = parseInt(hours);
     const ampm = hour >= 12 ? 'PM' : 'AM';
@@ -129,21 +140,6 @@ export const ItineraryTimeline: React.FC<ItineraryTimelineProps> = ({
     setExpandedGroups(newExpanded);
   };
 
-  const expandAll = () => {
-    setExpandedGroups(new Set(timelineGroups.map(group => group.title)));
-  };
-
-  const collapseAll = () => {
-    setExpandedGroups(new Set());
-  };
-
-  const handleDateRangeChange = (field: 'startDate' | 'endDate', value: string) => {
-    setTimelineView(prev => ({
-      ...prev,
-      [field]: new Date(value)
-    }));
-  };
-
   const isUpcoming = (item: ItineraryItem) => {
     const now = new Date();
     const itemDate = new Date(item.startDate);
@@ -156,40 +152,33 @@ export const ItineraryTimeline: React.FC<ItineraryTimelineProps> = ({
     return itemDate < now;
   };
 
-  if (filteredItems.length === 0) {
-    return (
-      <div className="text-center py-12">
-        <CalendarIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-lg font-medium text-gray-900 mb-2">No activities in this time range</h3>
-        <p className="text-gray-500">Adjust your date range or add some activities to see them here!</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="space-y-6">
-      {/* Timeline Controls */}
+    <div className="space-y-4">
+      {/* Clean Timeline Controls */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Clock className="w-5 h-5" />
-            Timeline View
-          </CardTitle>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-primary" />
+              <CardTitle className="text-base">Timeline</CardTitle>
+            </div>
+            <div className="text-sm text-muted-foreground">
+              {filteredItems.length} {filteredItems.length === 1 ? 'activity' : 'activities'}
+            </div>
+          </div>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Group By Controls */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Group by
-            </label>
-            <div className="flex gap-2">
+          <div className="space-y-2">
+            <h4 className="text-sm font-medium text-gray-700">Group By</h4>
+            <div className="flex gap-1">
               {(['day', 'week', 'month'] as const).map((groupType) => (
                 <Button
                   key={groupType}
                   variant={timelineView.groupBy === groupType ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setTimelineView(prev => ({ ...prev, groupBy: groupType }))}
-                  className="capitalize"
+                  className="capitalize text-xs"
                 >
                   {groupType}
                 </Button>
@@ -197,237 +186,263 @@ export const ItineraryTimeline: React.FC<ItineraryTimelineProps> = ({
             </div>
           </div>
 
-          {/* Date Range Controls */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Start Date
-              </label>
-              <Input
-                type="date"
-                value={timelineView.startDate.toISOString().split('T')[0]}
-                onChange={(e) => handleDateRangeChange('startDate', e.target.value)}
-              />
+          {/* Clean Date Range Controls */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-medium text-gray-700">Date Range</h4>
+            
+            {/* Simple Quick Date Buttons */}
+            <div className="flex flex-wrap gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const today = new Date();
+                  setTimelineView(prev => ({
+                    ...prev,
+                    startDate: today,
+                    endDate: today
+                  }));
+                }}
+                className="text-xs"
+              >
+                <CalendarIcon className="w-3 h-3 mr-1" />
+                Today
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const today = new Date();
+                  const weekStart = new Date(today);
+                  weekStart.setDate(today.getDate() - today.getDay());
+                  const weekEnd = new Date(weekStart);
+                  weekEnd.setDate(weekStart.getDate() + 6);
+                  setTimelineView(prev => ({
+                    ...prev,
+                    startDate: weekStart,
+                    endDate: weekEnd
+                  }));
+                }}
+                className="text-xs"
+              >
+                This Week
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const today = new Date();
+                  setTimelineView(prev => ({
+                    ...prev,
+                    startDate: new Date(today.getFullYear(), today.getMonth(), 1),
+                    endDate: new Date(today.getFullYear(), today.getMonth() + 1, 0)
+                  }));
+                }}
+                className="text-xs"
+              >
+                This Month
+              </Button>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                End Date
-              </label>
-              <Input
-                type="date"
-                value={timelineView.endDate.toISOString().split('T')[0]}
-                onChange={(e) => handleDateRangeChange('endDate', e.target.value)}
-                min={timelineView.startDate.toISOString().split('T')[0]}
+            
+            {/* Custom Date Range Picker */}
+            <div className="pt-2 border-t">
+              <DateRangePicker
+                startDate={timelineView.startDate}
+                endDate={timelineView.endDate}
+                onDateRangeSelect={(range) => setTimelineView(prev => ({
+                  ...prev,
+                  startDate: range.startDate,
+                  endDate: range.endDate
+                }))}
               />
             </div>
           </div>
 
-          {/* Expand/Collapse Controls */}
-          {timelineGroups.length > 0 && (
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={expandAll}>
-                <ChevronDown className="w-4 h-4 mr-1" />
-                Expand All
-              </Button>
-              <Button variant="outline" size="sm" onClick={collapseAll}>
-                <ChevronUp className="w-4 h-4 mr-1" />
-                Collapse All
-              </Button>
-            </div>
-          )}
         </CardContent>
       </Card>
 
-      {/* Timeline Groups */}
+      {/* Simple Timeline Groups */}
       <div className="space-y-4">
-        {timelineGroups.map((group) => {
-          const isExpanded = expandedGroups.has(group.title);
-          const totalItems = group.items.length;
-          const upcomingCount = group.items.filter(isUpcoming).length;
-          const pastCount = group.items.filter(isPast).length;
+        {timelineGroups.length === 0 ? (
+          <Card>
+            <CardContent className="flex flex-col items-center justify-center py-12">
+              <CalendarIcon className="w-12 h-12 text-muted-foreground mb-4" />
+              <h3 className="text-lg font-medium mb-2">No activities in this time range</h3>
+              <p className="text-muted-foreground text-center">
+                Adjust your date range or add some activities to see them here.
+              </p>
+            </CardContent>
+          </Card>
+        ) : (
+          timelineGroups.map((group) => {
+            const isExpanded = expandedGroups.has(group.title);
+            const totalItems = group.items.length;
+            const upcomingCount = group.items.filter(isUpcoming).length;
+            const pastCount = group.items.filter(isPast).length;
 
-          return (
-            <Card key={group.title} className="overflow-hidden">
-              <CardHeader 
-                className="cursor-pointer hover:bg-gray-50 transition-colors"
-                onClick={() => toggleGroup(group.title)}
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle className="text-lg">{group.title}</CardTitle>
-                    <div className="flex items-center gap-4 mt-1 text-sm text-gray-600">
-                      <span>{totalItems} {totalItems === 1 ? 'activity' : 'activities'}</span>
-                      {upcomingCount > 0 && (
-                        <span className="text-green-600">{upcomingCount} upcoming</span>
-                      )}
-                      {pastCount > 0 && (
-                        <span className="text-gray-500">{pastCount} past</span>
+            return (
+              <Card key={group.title}>
+                <CardHeader 
+                  className="cursor-pointer hover:bg-gray-50 transition-colors"
+                  onClick={() => toggleGroup(group.title)}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="text-lg">{group.title}</CardTitle>
+                      <div className="flex items-center gap-4 mt-1 text-sm text-gray-600">
+                        <span>{totalItems} {totalItems === 1 ? 'activity' : 'activities'}</span>
+                        {upcomingCount > 0 && (
+                          <span className="text-green-600">{upcomingCount} upcoming</span>
+                        )}
+                        {pastCount > 0 && (
+                          <span className="text-gray-500">{pastCount} past</span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {isExpanded ? (
+                        <ChevronUp className="w-5 h-5 text-gray-400" />
+                      ) : (
+                        <ChevronDown className="w-5 h-5 text-gray-400" />
                       )}
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    {isExpanded ? (
-                      <ChevronUp className="w-5 h-5 text-gray-400" />
-                    ) : (
-                      <ChevronDown className="w-5 h-5 text-gray-400" />
-                    )}
-                  </div>
-                </div>
-              </CardHeader>
+                </CardHeader>
 
-              {isExpanded && (
-                <CardContent className="pt-0">
-                  <div className="space-y-3">
-                    {group.items.map((item, itemIndex) => {
-                      const colorVariant = COLOR_VARIANTS[item.color];
-                      const upcoming = isUpcoming(item);
-                      const past = isPast(item);
+                {isExpanded && (
+                  <CardContent className="pt-0">
+                    <div className="space-y-3">
+                      {group.items.map((item, itemIndex) => {
+                        const colorVariant = COLOR_VARIANTS[item.color];
+                        const upcoming = isUpcoming(item);
+                        const past = isPast(item);
 
-                      return (
-                        <div
-                          key={item.id}
-                          className={`relative pl-8 pb-4 ${
-                            itemIndex < group.items.length - 1 ? 'border-l-2 border-gray-200' : ''
-                          }`}
-                        >
-                          {/* Timeline dot */}
-                          <div 
-                            className={`absolute left-0 top-2 w-4 h-4 rounded-full border-2 border-white shadow-md transform -translate-x-1/2 ${colorVariant.bg} ${colorVariant.border}`}
-                          />
+                        return (
+                          <div
+                            key={item.id}
+                            className={`relative pl-8 pb-4 ${
+                              itemIndex < group.items.length - 1 ? 'border-l-2 border-gray-200' : ''
+                            }`}
+                          >
+                            {/* Timeline dot */}
+                            <div 
+                              className={`absolute left-0 top-2 w-4 h-4 rounded-full border-2 border-white shadow-md transform -translate-x-1/2 ${colorVariant.bg} ${colorVariant.border}`}
+                            />
 
-                          {/* Timeline line connector */}
-                          {itemIndex < group.items.length - 1 && (
-                            <div className="absolute left-0 top-6 w-0.5 bg-gray-200 h-full transform -translate-x-1/2" />
-                          )}
-
-                          <Card className={`ml-4 ${past ? 'opacity-75' : ''}`}>
-                            <CardContent className="p-4">
-                              <div className="flex items-start justify-between">
-                                <div className="flex-1 min-w-0">
-                                  {/* Item header */}
-                                  <div className="flex items-start gap-3 mb-2">
-                                    <div className={`p-2 rounded-lg ${colorVariant.bg} flex-shrink-0`}>
-                                      <span className="text-lg">
-                                        {CATEGORY_ICONS[item.category || 'other']}
-                                      </span>
-                                    </div>
-                                    
-                                    <div className="flex-1 min-w-0">
-                                      <div className="flex items-start justify-between">
-                                        <div>
-                                          <h4 className="font-semibold text-gray-900 truncate">
-                                            {item.title}
-                                          </h4>
-                                          {item.description && (
-                                            <p className="text-gray-600 text-sm mt-1">
-                                              {item.description}
-                                            </p>
+                            <Card className={`ml-4 ${past ? 'opacity-75' : ''}`}>
+                              <CardContent className="p-4">
+                                <div className="flex items-start justify-between">
+                                  <div className="flex-1 min-w-0">
+                                    {/* Item header */}
+                                    <div className="flex items-start gap-3 mb-2">
+                                      <div className={`p-2 rounded-lg ${colorVariant.bg} flex-shrink-0`}>
+                                        <span className="text-lg">
+                                          {CATEGORY_ICONS[item.category || 'other']}
+                                        </span>
+                                      </div>
+                                      
+                                      <div className="flex-1 min-w-0">
+                                        <div className="flex items-start justify-between">
+                                          <div>
+                                            <h4 className="font-semibold text-gray-900 truncate">
+                                              {item.title}
+                                            </h4>
+                                            {item.description && (
+                                              <p className="text-gray-600 text-sm mt-1">
+                                                {item.description}
+                                              </p>
+                                            )}
+                                          </div>
+                                          
+                                          {upcoming && (
+                                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 ml-2">
+                                              Upcoming
+                                            </span>
+                                          )}
+                                          
+                                          {past && (
+                                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600 ml-2">
+                                              Past
+                                            </span>
                                           )}
                                         </div>
-                                        
-                                        {upcoming && (
-                                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 ml-2">
-                                            Upcoming
-                                          </span>
-                                        )}
-                                        
-                                        {past && (
-                                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600 ml-2">
-                                            Past
-                                          </span>
-                                        )}
                                       </div>
                                     </div>
-                                  </div>
 
-                                  {/* Item details */}
-                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-600 ml-14">
-                                    {/* Time */}
-                                    <div className="flex items-center gap-2">
-                                      <Clock className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                                      <span>
-                                        {item.isAllDay ? 'All day' : (
-                                          <>
-                                            {formatTime(item.startTime)}
-                                            {item.endTime && ` - ${formatTime(item.endTime)}`}
-                                          </>
-                                        )}
-                                      </span>
+                                    {/* Item details */}
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-600 ml-14">
+                                      {/* Time */}
+                                      <div className="flex items-center gap-2">
+                                        <Clock className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                                        <span>
+                                          {item.isAllDay ? 'All day' : (
+                                            <>
+                                              {formatTime(item.startTime)}
+                                              {item.endTime && ` - ${formatTime(item.endTime)}`}
+                                            </>
+                                          )}
+                                        </span>
+                                      </div>
+
+                                      {/* Location */}
+                                      {item.location && (
+                                        <div className="flex items-center gap-2">
+                                          <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                                          <span className="truncate">{item.location}</span>
+                                        </div>
+                                      )}
                                     </div>
 
-                                    {/* Location */}
-                                    {item.location && (
-                                      <div className="flex items-center gap-2">
-                                        <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                                        <span className="truncate">{item.location}</span>
+                                    {/* Notes */}
+                                    {item.notes && (
+                                      <div className="mt-3 ml-14 p-3 bg-gray-50 rounded-lg">
+                                        <p className="text-sm text-gray-700">{item.notes}</p>
                                       </div>
                                     )}
                                   </div>
 
-                                  {/* Notes */}
-                                  {item.notes && (
-                                    <div className="mt-3 ml-14 p-3 bg-gray-50 rounded-lg">
-                                      <p className="text-sm text-gray-700">{item.notes}</p>
-                                    </div>
-                                  )}
+                                  {/* Actions */}
+                                  <div className="flex items-center gap-2 ml-4">
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => onEditItem(item)}
+                                      className="p-2"
+                                    >
+                                      <Edit className="w-4 h-4" />
+                                    </Button>
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => onDuplicateItem(item)}
+                                      className="p-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                                      title="Duplicate item"
+                                    >
+                                      <Copy className="w-4 h-4" />
+                                    </Button>
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => onDeleteItem(item.id)}
+                                      className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50"
+                                    >
+                                      <Trash2 className="w-4 h-4" />
+                                    </Button>
+                                  </div>
                                 </div>
-
-                                {/* Actions */}
-                                <div className="flex items-center gap-2 ml-4">
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => onEditItem(item)}
-                                    className="p-2"
-                                  >
-                                    <Edit className="w-4 h-4" />
-                                  </Button>
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => onDuplicateItem(item)}
-                                    className="p-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                                    title="Duplicate item"
-                                  >
-                                    <Copy className="w-4 h-4" />
-                                  </Button>
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => onDeleteItem(item.id)}
-                                    className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50"
-                                  >
-                                    <Trash2 className="w-4 h-4" />
-                                  </Button>
-                                </div>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </CardContent>
-              )}
-            </Card>
-          );
-        })}
+                              </CardContent>
+                            </Card>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </CardContent>
+                )}
+              </Card>
+            );
+          })
+        )}
       </div>
-
-      {/* Summary Stats */}
-      <Card>
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between text-sm text-gray-600">
-            <span>
-              Showing {filteredItems.length} {filteredItems.length === 1 ? 'activity' : 'activities'} 
-              from {timelineView.startDate.toLocaleDateString()} to {timelineView.endDate.toLocaleDateString()}
-            </span>
-            <span>
-              Grouped by {timelineView.groupBy}
-            </span>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { DateRangePicker } from '@/components/ui/date-range-picker';
 import { ChevronLeft, ChevronRight, Edit, Trash2, Clock, MapPin, ChevronDown, ChevronUp, Copy } from 'lucide-react';
 import type { ItineraryItem, CalendarView, TimelineView } from '@/types/itinerary';
 import { COLOR_VARIANTS, CATEGORY_ICONS } from '@/types/itinerary';
@@ -440,69 +440,171 @@ export const TimelineCalendar: React.FC<TimelineCalendarProps> = ({
             </div>
 
             {/* Date Range Controls */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Start Date
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h4 className="text-sm font-medium text-foreground">Date Range</h4>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const today = new Date();
+                      const weekStart = new Date(today);
+                      weekStart.setDate(today.getDate() - today.getDay());
+                      const weekEnd = new Date(weekStart);
+                      weekEnd.setDate(weekStart.getDate() + 6);
+                      setTimelineFilter(prev => ({
+                        ...prev,
+                        startDate: weekStart,
+                        endDate: weekEnd
+                      }));
+                    }}
+                    className="text-xs"
+                  >
+                    This Week
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const today = new Date();
+                      setTimelineFilter(prev => ({
+                        ...prev,
+                        startDate: new Date(today.getFullYear(), today.getMonth(), 1),
+                        endDate: new Date(today.getFullYear(), today.getMonth() + 1, 0)
+                      }));
+                    }}
+                    className="text-xs"
+                  >
+                    This Month
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const today = new Date();
+                      setTimelineFilter(prev => ({
+                        ...prev,
+                        startDate: new Date(today.getFullYear(), 0, 1),
+                        endDate: new Date(today.getFullYear(), 11, 31)
+                      }));
+                    }}
+                    className="text-xs"
+                  >
+                    This Year
+                  </Button>
+                </div>
+              </div>
+              
+              {/* Unified Date Range Picker */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-muted-foreground">
+                  Select Date Range
                 </label>
-                <Input
-                  type="date"
-                  value={timelineFilter.startDate.toISOString().split('T')[0]}
-                  onChange={(e) => setTimelineFilter(prev => ({ 
-                    ...prev, 
-                    startDate: new Date(e.target.value) 
+                <DateRangePicker
+                  startDate={timelineFilter.startDate}
+                  endDate={timelineFilter.endDate}
+                  onDateRangeSelect={(range) => setTimelineFilter(prev => ({
+                    ...prev,
+                    startDate: range.startDate,
+                    endDate: range.endDate
                   }))}
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  End Date
-                </label>
-                <Input
-                  type="date"
-                  value={timelineFilter.endDate.toISOString().split('T')[0]}
-                  onChange={(e) => setTimelineFilter(prev => ({ 
-                    ...prev, 
-                    endDate: new Date(e.target.value) 
-                  }))}
-                  min={timelineFilter.startDate.toISOString().split('T')[0]}
-                />
+              
+              {/* Date Range Summary */}
+              <div className="p-3 bg-muted/50 rounded-lg border">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">Selected Range:</span>
+                  <span className="font-medium">
+                    {Math.ceil((timelineFilter.endDate.getTime() - timelineFilter.startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1} days
+                  </span>
+                </div>
+                <div className="text-xs text-muted-foreground mt-1">
+                  {timelineFilter.startDate.toLocaleDateString('en-US', { 
+                    month: 'long', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                  })} → {timelineFilter.endDate.toLocaleDateString('en-US', { 
+                    month: 'long', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                  })}
+                </div>
               </div>
             </div>
 
             {/* Time Range Controls */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Start Time (Hour)
-                </label>
-                <Input
-                  type="number"
-                  min="0"
-                  max="23"
-                  value={timeRange.start}
-                  onChange={(e) => setTimeRange(prev => ({ 
-                    ...prev, 
-                    start: Math.min(parseInt(e.target.value) || 0, prev.end - 1)
-                  }))}
-                  placeholder="0 = 12:00 AM"
-                />
+            {/* Time Range Controls */}
+            <div className="space-y-3">
+              <h4 className="text-sm font-medium text-foreground">Time Range</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-muted-foreground">
+                    Start Time (Hour)
+                  </label>
+                  <select 
+                    value={timeRange.start}
+                    onChange={(e) => setTimeRange(prev => ({ 
+                      ...prev, 
+                      start: Math.min(parseInt(e.target.value) || 0, prev.end - 1)
+                    }))}
+                    className="w-full px-3 py-2 border border-input bg-background text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
+                  >
+                    {Array.from({ length: 24 }, (_, i) => (
+                      <option key={i} value={i}>
+                        {i === 0 ? '12:00 AM' : i < 12 ? `${i}:00 AM` : i === 12 ? '12:00 PM' : `${i - 12}:00 PM`}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-muted-foreground">
+                    End Time (Hour)
+                  </label>
+                  <select
+                    value={timeRange.end}
+                    onChange={(e) => setTimeRange(prev => ({ 
+                      ...prev, 
+                      end: Math.max(parseInt(e.target.value) || 23, prev.start + 1)
+                    }))}
+                    className="w-full px-3 py-2 border border-input bg-background text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
+                  >
+                    {Array.from({ length: 24 }, (_, i) => (
+                      <option key={i} value={i}>
+                        {i === 0 ? '12:00 AM' : i < 12 ? `${i}:00 AM` : i === 12 ? '12:00 PM' : `${i - 12}:00 PM`}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  End Time (Hour)
-                </label>
-                <Input
-                  type="number"
-                  min="1"
-                  max="23"
-                  value={timeRange.end}
-                  onChange={(e) => setTimeRange(prev => ({ 
-                    ...prev, 
-                    end: Math.max(parseInt(e.target.value) || 23, prev.start + 1)
-                  }))}
-                  placeholder="23 = 11:59 PM"
-                />
+              
+              {/* Quick Time Range Presets */}
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setTimeRange({ start: 6, end: 22 })}
+                  className="text-xs"
+                >
+                  Day Hours (6 AM - 10 PM)
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setTimeRange({ start: 9, end: 17 })}
+                  className="text-xs"
+                >
+                  Business Hours (9 AM - 5 PM)
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setTimeRange({ start: 0, end: 23 })}
+                  className="text-xs"
+                >
+                  Full Day (24 hours)
+                </Button>
               </div>
             </div>
           </CardContent>
@@ -594,7 +696,18 @@ export const TimelineCalendar: React.FC<TimelineCalendarProps> = ({
       </Card>
 
       {/* Timeline Grid */}
-      <div className="border rounded-lg overflow-hidden bg-white">
+      {filteredItems.length === 0 ? (
+        <Card className="border-dashed">
+          <CardContent className="flex flex-col items-center justify-center py-12">
+            <Clock className="w-12 h-12 text-muted-foreground mb-4" />
+            <h3 className="text-lg font-medium text-foreground mb-2">No activities in this time range</h3>
+            <p className="text-muted-foreground text-center max-w-sm">
+              Adjust your date range or time filters above, or add some activities to see them here!
+            </p>
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="border rounded-lg overflow-hidden bg-white">
         {/* Header Row */}
         <div className={`grid ${type === 'week' ? 'grid-cols-8' : 'grid-cols-2'} border-b`}>
           <div className="p-3 bg-gray-50 border-r font-medium text-sm text-gray-700">
@@ -737,6 +850,7 @@ export const TimelineCalendar: React.FC<TimelineCalendarProps> = ({
           </div>
         ))}
       </div>
+      )}
 
       {/* Legend */}
       <Card>

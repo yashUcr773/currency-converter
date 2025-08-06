@@ -6,9 +6,9 @@ import { ItineraryList } from './ItineraryList';
 import { ItineraryTimeline } from './ItineraryTimeline';
 import { TimelineCalendar } from './TimelineCalendar';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Plus, Calendar, List, Clock, CalendarDays } from 'lucide-react';
+import { Plus, Calendar, List, Clock, CalendarDays, TrendingUp, Activity, Star } from 'lucide-react';
 import type { ItineraryItem } from '@/types/itinerary';
 
 // Itinerary Manager Component - manages calendar, list, and timeline views
@@ -86,99 +86,141 @@ export const ItineraryManager: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900">Travel Itinerary</h2>
-          <p className="text-gray-600">Plan and organize your trip activities</p>
+      <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold tracking-tight">Travel Itinerary</h1>
+          <p className="text-lg text-muted-foreground">
+            Plan and organize your trip activities with ease
+          </p>
         </div>
         <Button
           onClick={() => setShowForm(true)}
-          className="flex items-center gap-2"
+          size="lg"
+          className="flex items-center gap-2 px-6"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="h-4 w-4" />
           Add Activity
         </Button>
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <Calendar className="w-5 h-5 text-blue-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Total Activities</p>
-                <p className="text-2xl font-bold text-gray-900">{items.length}</p>
-              </div>
-            </div>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card className="border-l-4 border-l-blue-500">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Activities</CardTitle>
+            <Calendar className="h-4 w-4 text-blue-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{items.length}</div>
+            <p className="text-xs text-muted-foreground">
+              Activities planned
+            </p>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-green-100 rounded-lg">
-                <Clock className="w-5 h-5 text-green-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Today's Activities</p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {getItemsForDate(new Date()).length}
-                </p>
-              </div>
+        <Card className="border-l-4 border-l-green-500">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Today's Activities</CardTitle>
+            <Activity className="h-4 w-4 text-green-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {getItemsForDate(new Date()).length}
             </div>
+            <p className="text-xs text-muted-foreground">
+              Scheduled for today
+            </p>
           </CardContent>
         </Card>
         
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-purple-100 rounded-lg">
-                <List className="w-5 h-5 text-purple-600" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-600">Upcoming</p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {items.filter(item => new Date(item.startDate) > new Date()).length}
-                </p>
-              </div>
+        <Card className="border-l-4 border-l-orange-500">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Upcoming</CardTitle>
+            <TrendingUp className="h-4 w-4 text-orange-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {items.filter(item => new Date(item.startDate) > new Date()).length}
             </div>
+            <p className="text-xs text-muted-foreground">
+              Future activities
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-l-4 border-l-purple-500">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">This Week</CardTitle>
+            <Star className="h-4 w-4 text-purple-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {(() => {
+                const now = new Date();
+                const weekStart = new Date(now.setDate(now.getDate() - now.getDay()));
+                const weekEnd = new Date(weekStart);
+                weekEnd.setDate(weekStart.getDate() + 6);
+                return items.filter(item => {
+                  const itemDate = new Date(item.startDate);
+                  return itemDate >= weekStart && itemDate <= weekEnd;
+                }).length;
+              })()}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Activities this week
+            </p>
           </CardContent>
         </Card>
       </div>
 
       {/* Main Content */}
-      <Card>
-        <CardHeader>
+      <Card className="border-0 shadow-lg">
+        <CardHeader className="pb-6 space-y-4">
+          <div className="space-y-2">
+            <CardTitle className="text-2xl font-semibold">Activity Views</CardTitle>
+            <CardDescription className="text-base">
+              Choose how you want to view and manage your itinerary
+            </CardDescription>
+          </div>
           <Tabs value={activeTab} onValueChange={(value: string) => setActiveTab(value as 'calendar' | 'list' | 'timeline' | 'timeline-calendar')}>
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="calendar" className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                Calendar
+            <TabsList className="grid w-full grid-cols-4 h-14 bg-muted/30 p-1 rounded-xl">
+              <TabsTrigger 
+                value="calendar" 
+                className="flex items-center gap-2 text-sm font-medium rounded-lg transition-all duration-200 data-[state=active]:bg-background data-[state=active]:shadow-sm data-[state=active]:text-foreground px-3 py-2"
+              >
+                <Calendar className="h-4 w-4" />
+                <span className="hidden sm:inline">Calendar</span>
               </TabsTrigger>
-              <TabsTrigger value="list" className="flex items-center gap-2">
-                <List className="w-4 h-4" />
-                List
+              <TabsTrigger 
+                value="list" 
+                className="flex items-center gap-2 text-sm font-medium rounded-lg transition-all duration-200 data-[state=active]:bg-background data-[state=active]:shadow-sm data-[state=active]:text-foreground px-3 py-2"
+              >
+                <List className="h-4 w-4" />
+                <span className="hidden sm:inline">List</span>
               </TabsTrigger>
-              <TabsTrigger value="timeline" className="flex items-center gap-2">
-                <Clock className="w-4 h-4" />
-                Timeline
+              <TabsTrigger 
+                value="timeline" 
+                className="flex items-center gap-2 text-sm font-medium rounded-lg transition-all duration-200 data-[state=active]:bg-background data-[state=active]:shadow-sm data-[state=active]:text-foreground px-3 py-2"
+              >
+                <Clock className="h-4 w-4" />
+                <span className="hidden sm:inline">Timeline</span>
               </TabsTrigger>
-              <TabsTrigger value="timeline-calendar" className="flex items-center gap-2">
-                <CalendarDays className="w-4 h-4" />
-                Schedule
+              <TabsTrigger 
+                value="timeline-calendar" 
+                className="flex items-center gap-2 text-sm font-medium rounded-lg transition-all duration-200 data-[state=active]:bg-background data-[state=active]:shadow-sm data-[state=active]:text-foreground px-3 py-2"
+              >
+                <CalendarDays className="h-4 w-4" />
+                <span className="hidden sm:inline">Schedule</span>
               </TabsTrigger>
             </TabsList>
           </Tabs>
         </CardHeader>
         
-        <CardContent>
+        <CardContent className="pt-0 px-6 pb-6">
           <Tabs value={activeTab} onValueChange={(value: string) => setActiveTab(value as 'calendar' | 'list' | 'timeline' | 'timeline-calendar')}>
-            <TabsContent value="calendar" className="mt-0">
+            <TabsContent value="calendar" className="mt-6 space-y-6 focus-visible:outline-none">
               <ItineraryCalendar
                 items={items}
                 calendarView={calendarView}
@@ -192,7 +234,7 @@ export const ItineraryManager: React.FC = () => {
               />
             </TabsContent>
             
-            <TabsContent value="list" className="mt-0">
+            <TabsContent value="list" className="mt-6 space-y-6 focus-visible:outline-none">
               <ItineraryList
                 items={items}
                 onEditItem={handleEditItem}
@@ -201,7 +243,7 @@ export const ItineraryManager: React.FC = () => {
               />
             </TabsContent>
             
-            <TabsContent value="timeline" className="mt-0">
+            <TabsContent value="timeline" className="mt-6 space-y-6 focus-visible:outline-none">
               <ItineraryTimeline
                 items={items}
                 onEditItem={handleEditItem}
@@ -210,7 +252,7 @@ export const ItineraryManager: React.FC = () => {
               />
             </TabsContent>
             
-            <TabsContent value="timeline-calendar" className="mt-0">
+            <TabsContent value="timeline-calendar" className="mt-6 space-y-6 focus-visible:outline-none">
               <TimelineCalendar
                 items={items}
                 calendarView={calendarView}

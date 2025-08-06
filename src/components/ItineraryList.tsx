@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
 import { Edit, Trash2, MapPin, Clock, Calendar as CalendarIcon, Copy } from 'lucide-react';
 import type { ItineraryItem } from '@/types/itinerary';
 import { COLOR_VARIANTS, CATEGORY_ICONS } from '@/types/itinerary';
@@ -53,16 +53,20 @@ export const ItineraryList: React.FC<ItineraryListProps> = ({ items, onEditItem,
 
   if (items.length === 0) {
     return (
-      <div className="text-center py-12">
-        <CalendarIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-lg font-medium text-gray-900 mb-2">No activities yet</h3>
-        <p className="text-gray-500">Start planning your trip by adding your first activity!</p>
-      </div>
+      <Card className="border-dashed">
+        <CardContent className="flex flex-col items-center justify-center py-12">
+          <CalendarIcon className="h-12 w-12 text-muted-foreground mb-4" />
+          <CardTitle className="text-lg mb-2">No Activities Yet</CardTitle>
+          <CardDescription className="text-center max-w-sm">
+            Your itinerary is empty. Start by adding your first activity to begin planning your trip.
+          </CardDescription>
+        </CardContent>
+      </Card>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {sortedItems.map((item) => {
         const colorVariant = COLOR_VARIANTS[item.color];
         const upcoming = isUpcoming(item);
@@ -71,119 +75,119 @@ export const ItineraryList: React.FC<ItineraryListProps> = ({ items, onEditItem,
         return (
           <Card 
             key={item.id}
-            className={`transition-all hover:shadow-md ${
-              past ? 'opacity-75' : ''
-            } ${colorVariant.border} border-l-4`}
+            className={`group transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 ${
+              past ? 'opacity-70' : ''
+            } ${upcoming ? 'ring-2 ring-blue-200' : ''} border-l-4 ${colorVariant.border}`}
           >
-            <CardContent className="p-4">
-              <div className="flex items-start justify-between">
-                <div className="flex-1 min-w-0">
-                  {/* Header */}
-                  <div className="flex items-start gap-3 mb-3">
-                    <div className={`p-2 rounded-lg ${colorVariant.bg} flex-shrink-0`}>
-                      <span className="text-lg">
-                        {CATEGORY_ICONS[item.category || 'other']}
-                      </span>
-                    </div>
-                    
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <h3 className="text-lg font-semibold text-gray-900 truncate">
-                            {item.title}
-                          </h3>
-                          {item.description && (
-                            <p className="text-gray-600 text-sm mt-1">
-                              {item.description}
-                            </p>
-                          )}
-                        </div>
-                        
-                        {upcoming && (
-                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 ml-2">
-                            Upcoming
-                          </span>
-                        )}
-                        
-                        {past && (
-                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600 ml-2">
-                            Past
-                          </span>
-                        )}
-                      </div>
-                    </div>
+            <CardContent className="p-6">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-start gap-4 flex-1 min-w-0">
+                  {/* Icon */}
+                  <div className={`p-3 rounded-xl ${colorVariant.bg} flex-shrink-0 transition-transform group-hover:scale-105`}>
+                    <span className="text-xl">
+                      {CATEGORY_ICONS[item.category || 'other']}
+                    </span>
                   </div>
-
-                  {/* Details */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm text-gray-600">
-                    {/* Date */}
-                    <div className="flex items-center gap-2">
-                      <CalendarIcon className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                      <span>
-                        {formatDate(new Date(item.startDate))}
-                        {item.endDate && 
-                          new Date(item.endDate).toDateString() !== new Date(item.startDate).toDateString() && 
-                          ` - ${formatDate(new Date(item.endDate))}`
-                        }
-                      </span>
+                  
+                  {/* Content */}
+                  <div className="flex-1 min-w-0 space-y-3">
+                    {/* Title and Description */}
+                    <div>
+                      <h3 className="text-xl font-semibold text-foreground mb-1 leading-tight">
+                        {item.title}
+                      </h3>
+                      {item.description && (
+                        <p className="text-muted-foreground text-sm leading-relaxed">
+                          {item.description}
+                        </p>
+                      )}
                     </div>
 
-                    {/* Time */}
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                      <span>
-                        {item.isAllDay ? 'All day' : (
-                          <>
-                            {formatTime(item.startTime)}
-                            {item.endTime && ` - ${formatTime(item.endTime)}`}
-                          </>
-                        )}
-                      </span>
-                    </div>
-
-                    {/* Location */}
-                    {item.location && (
+                    {/* Details Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+                      {/* Date */}
                       <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                        <span className="truncate">{item.location}</span>
+                        <CalendarIcon className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                        <span className="text-muted-foreground">
+                          {formatDate(new Date(item.startDate))}
+                          {item.endDate && 
+                            formatDate(new Date(item.endDate)) !== formatDate(new Date(item.startDate)) && (
+                              <span> - {formatDate(new Date(item.endDate))}</span>
+                            )
+                          }
+                        </span>
+                      </div>
+
+                      {/* Time */}
+                      <div className="flex items-center gap-2">
+                        <Clock className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                        <span className="text-muted-foreground">
+                          {item.isAllDay ? 'All Day' : `${formatTime(item.startTime)}${item.endTime ? ` - ${formatTime(item.endTime)}` : ''}`}
+                        </span>
+                      </div>
+
+                      {/* Location */}
+                      {item.location && (
+                        <div className="flex items-center gap-2">
+                          <MapPin className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                          <span className="text-muted-foreground truncate">{item.location}</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Notes */}
+                    {item.notes && (
+                      <div className="mt-3 p-3 bg-muted/50 rounded-lg border">
+                        <p className="text-sm text-muted-foreground leading-relaxed">{item.notes}</p>
+                      </div>
+                    )}
+
+                    {/* Status Badge */}
+                    {(upcoming || past) && (
+                      <div className="flex gap-2 mt-3">
+                        {upcoming && (
+                          <div className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
+                            Upcoming
+                          </div>
+                        )}
+                        {past && (
+                          <div className="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
+                            Completed
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
-
-                  {/* Notes */}
-                  {item.notes && (
-                    <div className="mt-3 p-3 bg-gray-50 rounded-lg">
-                      <p className="text-sm text-gray-700">{item.notes}</p>
-                    </div>
-                  )}
                 </div>
 
                 {/* Actions */}
-                <div className="flex items-center gap-2 ml-4">
+                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                   <Button
-                    variant="outline"
+                    variant="ghost"
                     size="sm"
                     onClick={() => onEditItem(item)}
-                    className="p-2"
+                    className="h-8 w-8 p-0"
+                    title="Edit item"
                   >
-                    <Edit className="w-4 h-4" />
+                    <Edit className="h-4 w-4" />
                   </Button>
                   <Button
-                    variant="outline"
+                    variant="ghost"
                     size="sm"
                     onClick={() => onDuplicateItem(item)}
-                    className="p-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                    className="h-8 w-8 p-0 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
                     title="Duplicate item"
                   >
-                    <Copy className="w-4 h-4" />
+                    <Copy className="h-4 w-4" />
                   </Button>
                   <Button
-                    variant="outline"
+                    variant="ghost"
                     size="sm"
                     onClick={() => onDeleteItem(item.id)}
-                    className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50"
+                    className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                    title="Delete item"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
               </div>

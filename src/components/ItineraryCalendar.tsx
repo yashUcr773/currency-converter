@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Edit, Trash2, Copy } from 'lucide-react';
+import { CalendarNavigation } from './CalendarNavigation';
+import { Edit, Trash2, Copy, Calendar as CalendarIcon } from 'lucide-react';
 import type { ItineraryItem, CalendarView } from '@/types/itinerary';
 import { COLOR_VARIANTS, CATEGORY_ICONS } from '@/types/itinerary';
 
@@ -72,25 +73,6 @@ export const ItineraryCalendar: React.FC<ItineraryCalendarProps> = ({
     });
   };
 
-  const formatHeaderDate = () => {
-    if (type === 'month') {
-      return currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-    } else if (type === 'week') {
-      const startOfWeek = new Date(currentDate);
-      startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
-      const endOfWeek = new Date(startOfWeek);
-      endOfWeek.setDate(startOfWeek.getDate() + 6);
-      
-      if (startOfWeek.getMonth() === endOfWeek.getMonth()) {
-        return `${startOfWeek.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - Week of ${startOfWeek.getDate()}`;
-      } else {
-        return `${startOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
-      }
-    } else {
-      return currentDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-    }
-  };
-
   const isToday = (date: Date) => {
     const today = new Date();
     return date.toDateString() === today.toDateString();
@@ -109,55 +91,15 @@ export const ItineraryCalendar: React.FC<ItineraryCalendarProps> = ({
   };
 
   return (
-    <div className="space-y-4">
-      {/* Calendar Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => onNavigate('prev')}
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </Button>
-          
-          <h3 className="text-lg font-semibold text-gray-900 min-w-0">
-            {formatHeaderDate()}
-          </h3>
-          
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => onNavigate('next')}
-          >
-            <ChevronRight className="w-4 h-4" />
-          </Button>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={onGoToToday}
-          >
-            Today
-          </Button>
-          
-          <div className="flex items-center bg-gray-100 rounded-lg p-1">
-            {(['month', 'week', 'day'] as const).map((viewType) => (
-              <Button
-                key={viewType}
-                variant={type === viewType ? 'default' : 'ghost'}
-                size="sm"
-                onClick={() => onViewTypeChange(viewType)}
-                className="px-3 py-1 text-xs"
-              >
-                {viewType.charAt(0).toUpperCase() + viewType.slice(1)}
-              </Button>
-            ))}
-          </div>
-        </div>
-      </div>
+    <div className="space-y-6">
+      {/* Enhanced Calendar Navigation */}
+      <CalendarNavigation
+        calendarView={calendarView}
+        onNavigate={onNavigate}
+        onViewTypeChange={onViewTypeChange}
+        onGoToToday={onGoToToday}
+        onGoToDate={onGoToDate}
+      />
 
       {/* Calendar Grid */}
       {type === 'month' && (
