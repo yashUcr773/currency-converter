@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ChevronLeft, ChevronRight, Edit, Trash2, Clock, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Edit, Trash2, Clock, MapPin, ChevronDown, ChevronUp, Copy } from 'lucide-react';
 import type { ItineraryItem, CalendarView, TimelineView } from '@/types/itinerary';
 import { COLOR_VARIANTS, CATEGORY_ICONS } from '@/types/itinerary';
 
@@ -15,6 +15,7 @@ interface TimelineCalendarProps {
   onGoToDate: (date: Date) => void;
   onEditItem: (item: ItineraryItem) => void;
   onDeleteItem: (id: string) => void;
+  onDuplicateItem: (item: ItineraryItem) => void;
 }
 
 interface TimeSlot {
@@ -37,10 +38,11 @@ export const TimelineCalendar: React.FC<TimelineCalendarProps> = ({
   onViewTypeChange,
   onGoToToday,
   onEditItem,
-  onDeleteItem
+  onDeleteItem,
+  onDuplicateItem
 }) => {
   const { type, currentDate } = calendarView;
-  const [timeRange, setTimeRange] = useState({ start: 6, end: 23 }); // 6 AM to 11 PM
+  const [timeRange, setTimeRange] = useState({ start: 0, end: 23 }); // 12 AM to 11:59 PM
   
   // Timeline filtering state
   const [timelineFilter, setTimelineFilter] = useState<TimelineView>({
@@ -118,8 +120,20 @@ export const TimelineCalendar: React.FC<TimelineCalendarProps> = ({
   // Get items for a specific date with overlap detection
   const getItemsForDateWithOverlaps = (date: Date): TimeSlot[] => {
     const dayItems = filteredItems.filter(item => {
-      const itemDate = new Date(item.startDate);
-      return itemDate.toDateString() === date.toDateString();
+      const itemStartDate = new Date(item.startDate);
+      const itemEndDate = item.endDate ? new Date(item.endDate) : new Date(item.startDate);
+      
+      // Check if the date falls within the item's date range
+      const targetDate = new Date(date);
+      targetDate.setHours(0, 0, 0, 0);
+      
+      const startDate = new Date(itemStartDate);
+      startDate.setHours(0, 0, 0, 0);
+      
+      const endDate = new Date(itemEndDate);
+      endDate.setHours(23, 59, 59, 999);
+      
+      return targetDate >= startDate && targetDate <= endDate;
     });
 
     const timeSlotMap = new Map<number, ItineraryItem[]>();
@@ -137,13 +151,36 @@ export const TimelineCalendar: React.FC<TimelineCalendarProps> = ({
           }
         }
       } else {
-        const startMinutes = parseTime(item.startTime);
-        const endMinutes = item.endTime ? parseTime(item.endTime) : startMinutes + 60;
+        // For multi-day events, adjust times based on current viewing date
+        const itemStartDate = new Date(item.startDate);
+        const itemEndDate = item.endDate ? new Date(item.endDate) : new Date(item.startDate);
+        const viewingDate = new Date(date);
+        
+        let startMinutes: number;
+        let endMinutes: number;
+        
+        // Determine effective start time for this viewing date
+        if (itemStartDate.toDateString() === viewingDate.toDateString()) {
+          // This is the actual start date, use the specified start time
+          startMinutes = parseTime(item.startTime);
+        } else {
+          // This is a continuation day, start from beginning of day
+          startMinutes = 0;
+        }
+        
+        // Determine effective end time for this viewing date
+        if (itemEndDate.toDateString() === viewingDate.toDateString()) {
+          // This is the actual end date, use the specified end time or default
+          endMinutes = item.endTime ? parseTime(item.endTime) : startMinutes + 60;
+        } else {
+          // This is not the final day, go to end of day
+          endMinutes = 24 * 60; // End of day (24:00)
+        }
         
         const startHour = Math.floor(startMinutes / 60);
-        const endHour = Math.ceil(endMinutes / 60);
+        const endHour = Math.min(Math.ceil(endMinutes / 60), 24);
 
-        for (let hour = Math.max(startHour, timeRange.start); hour <= Math.min(endHour, timeRange.end); hour++) {
+        for (let hour = Math.max(startHour, timeRange.start); hour <= Math.min(endHour - 1, timeRange.end); hour++) {
           if (!timeSlotMap.has(hour)) {
             timeSlotMap.set(hour, []);
           }
@@ -157,7 +194,7 @@ export const TimelineCalendar: React.FC<TimelineCalendarProps> = ({
     
     for (let hour = timeRange.start; hour <= timeRange.end; hour++) {
       const hourItems = timeSlotMap.get(hour) || [];
-      const overlapGroups = detectOverlaps(hourItems, hour);
+      const overlapGroups = detectOverlaps(hourItems, hour, date);
       
       slots.push({
         hour,
@@ -169,15 +206,32 @@ export const TimelineCalendar: React.FC<TimelineCalendarProps> = ({
   };
 
   // Detect overlapping items and organize them into columns
-  const detectOverlaps = (hourItems: ItineraryItem[], hour: number): OverlapGroup[] => {
+  const detectOverlaps = (hourItems: ItineraryItem[], hour: number, viewingDate: Date): OverlapGroup[] => {
     if (hourItems.length === 0) return [];
 
     // Filter items that actually occur in this hour
     const relevantItems = hourItems.filter(item => {
       if (item.isAllDay) return hour === timeRange.start; // Only show all-day in first slot
       
-      const startMinutes = parseTime(item.startTime);
-      const endMinutes = item.endTime ? parseTime(item.endTime) : startMinutes + 60;
+      // For multi-day events, calculate effective start and end times for this viewing date
+      const itemStartDate = new Date(item.startDate);
+      const itemEndDate = item.endDate ? new Date(item.endDate) : new Date(item.startDate);
+      
+      let startMinutes: number;
+      let endMinutes: number;
+      
+      if (itemStartDate.toDateString() === viewingDate.toDateString()) {
+        startMinutes = parseTime(item.startTime);
+      } else {
+        startMinutes = 0;
+      }
+      
+      if (itemEndDate.toDateString() === viewingDate.toDateString()) {
+        endMinutes = item.endTime ? parseTime(item.endTime) : startMinutes + 60;
+      } else {
+        endMinutes = 24 * 60;
+      }
+      
       const hourStart = hour * 60;
       const hourEnd = (hour + 1) * 60;
       
@@ -199,8 +253,35 @@ export const TimelineCalendar: React.FC<TimelineCalendarProps> = ({
     const columns: { startMinute: number; endMinute: number }[] = [];
 
     sortedItems.forEach(item => {
-      const startMinute = item.isAllDay ? hour * 60 : parseTime(item.startTime);
-      const endMinute = item.isAllDay ? (hour + 1) * 60 : (item.endTime ? parseTime(item.endTime) : startMinute + 60);
+      let startMinute: number;
+      let endMinute: number;
+      
+      if (item.isAllDay) {
+        startMinute = hour * 60;
+        endMinute = (hour + 1) * 60;
+      } else {
+        // For multi-day events, calculate effective times for this viewing date
+        const itemStartDate = new Date(item.startDate);
+        const itemEndDate = item.endDate ? new Date(item.endDate) : new Date(item.startDate);
+        
+        if (itemStartDate.toDateString() === viewingDate.toDateString()) {
+          startMinute = parseTime(item.startTime);
+        } else {
+          startMinute = 0; // Start of day for continuation
+        }
+        
+        if (itemEndDate.toDateString() === viewingDate.toDateString()) {
+          endMinute = item.endTime ? parseTime(item.endTime) : startMinute + 60;
+        } else {
+          endMinute = 24 * 60; // End of day for continuation
+        }
+        
+        // Clamp to the current hour window
+        const hourStart = hour * 60;
+        const hourEnd = (hour + 1) * 60;
+        startMinute = Math.max(startMinute, hourStart);
+        endMinute = Math.min(endMinute, hourEnd);
+      }
 
       // Find a column that doesn't overlap
       let columnIndex = 0;
@@ -393,7 +474,7 @@ export const TimelineCalendar: React.FC<TimelineCalendarProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Start Time
+                  Start Time (Hour)
                 </label>
                 <Input
                   type="number"
@@ -404,11 +485,12 @@ export const TimelineCalendar: React.FC<TimelineCalendarProps> = ({
                     ...prev, 
                     start: Math.min(parseInt(e.target.value) || 0, prev.end - 1)
                   }))}
+                  placeholder="0 = 12:00 AM"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  End Time
+                  End Time (Hour)
                 </label>
                 <Input
                   type="number"
@@ -419,6 +501,7 @@ export const TimelineCalendar: React.FC<TimelineCalendarProps> = ({
                     ...prev, 
                     end: Math.max(parseInt(e.target.value) || 23, prev.start + 1)
                   }))}
+                  placeholder="23 = 11:59 PM"
                 />
               </div>
             </div>
@@ -617,6 +700,18 @@ export const TimelineCalendar: React.FC<TimelineCalendarProps> = ({
                                   className="h-4 w-4 p-0"
                                 >
                                   <Edit className="w-3 h-3" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    onDuplicateItem(item);
+                                  }}
+                                  className="h-4 w-4 p-0 text-blue-600 hover:text-blue-700"
+                                  title="Duplicate item"
+                                >
+                                  <Copy className="w-3 h-3" />
                                 </Button>
                                 <Button
                                   variant="ghost"

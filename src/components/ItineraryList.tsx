@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Edit, Trash2, MapPin, Clock, Calendar as CalendarIcon } from 'lucide-react';
+import { Edit, Trash2, MapPin, Clock, Calendar as CalendarIcon, Copy } from 'lucide-react';
 import type { ItineraryItem } from '@/types/itinerary';
 import { COLOR_VARIANTS, CATEGORY_ICONS } from '@/types/itinerary';
 
@@ -9,9 +9,10 @@ interface ItineraryListProps {
   items: ItineraryItem[];
   onEditItem: (item: ItineraryItem) => void;
   onDeleteItem: (id: string) => void;
+  onDuplicateItem: (item: ItineraryItem) => void;
 }
 
-export const ItineraryList: React.FC<ItineraryListProps> = ({ items, onEditItem, onDeleteItem }) => {
+export const ItineraryList: React.FC<ItineraryListProps> = ({ items, onEditItem, onDeleteItem, onDuplicateItem }) => {
   const sortedItems = [...items].sort((a, b) => {
     const dateA = new Date(a.startDate);
     const dateB = new Date(b.startDate);
@@ -166,6 +167,15 @@ export const ItineraryList: React.FC<ItineraryListProps> = ({ items, onEditItem,
                     className="p-2"
                   >
                     <Edit className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => onDuplicateItem(item)}
+                    className="p-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                    title="Duplicate item"
+                  >
+                    <Copy className="w-4 h-4" />
                   </Button>
                   <Button
                     variant="outline"

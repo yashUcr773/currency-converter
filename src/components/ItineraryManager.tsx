@@ -21,6 +21,7 @@ export const ItineraryManager: React.FC = () => {
     createItem,
     updateItem,
     deleteItem,
+    duplicateItem,
     getItemsForDate,
     navigateDate,
     setViewType,
@@ -55,6 +56,14 @@ export const ItineraryManager: React.FC = () => {
       await deleteItem(id);
     } catch (error) {
       console.error('Error deleting item:', error);
+    }
+  };
+
+  const handleDuplicateItem = async (item: ItineraryItem) => {
+    try {
+      await duplicateItem(item);
+    } catch (error) {
+      console.error('Error duplicating item:', error);
     }
   };
 
@@ -179,6 +188,7 @@ export const ItineraryManager: React.FC = () => {
                 onGoToDate={goToDate}
                 onEditItem={handleEditItem}
                 onDeleteItem={handleDeleteItem}
+                onDuplicateItem={handleDuplicateItem}
               />
             </TabsContent>
             
@@ -187,6 +197,7 @@ export const ItineraryManager: React.FC = () => {
                 items={items}
                 onEditItem={handleEditItem}
                 onDeleteItem={handleDeleteItem}
+                onDuplicateItem={handleDuplicateItem}
               />
             </TabsContent>
             
@@ -195,6 +206,7 @@ export const ItineraryManager: React.FC = () => {
                 items={items}
                 onEditItem={handleEditItem}
                 onDeleteItem={handleDeleteItem}
+                onDuplicateItem={handleDuplicateItem}
               />
             </TabsContent>
             
@@ -208,6 +220,7 @@ export const ItineraryManager: React.FC = () => {
                 onGoToDate={goToDate}
                 onEditItem={handleEditItem}
                 onDeleteItem={handleDeleteItem}
+                onDuplicateItem={handleDuplicateItem}
               />
             </TabsContent>
           </Tabs>

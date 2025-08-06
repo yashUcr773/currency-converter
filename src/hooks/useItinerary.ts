@@ -67,6 +67,28 @@ export const useItinerary = () => {
     }
   }, []);
 
+  const duplicateItem = useCallback((item: ItineraryItem) => {
+    try {
+      // Create a copy of the item with a new title and dates
+      const duplicatedData: Omit<ItineraryItem, 'id' | 'createdAt' | 'updatedAt'> = {
+        ...item,
+        title: `${item.title} (Copy)`,
+        // Add one day to the start date for the duplicate
+        startDate: new Date(new Date(item.startDate).getTime() + 24 * 60 * 60 * 1000),
+        endDate: item.endDate 
+          ? new Date(new Date(item.endDate).getTime() + 24 * 60 * 60 * 1000)
+          : undefined
+      };
+      
+      const newItem = addItineraryItem(duplicatedData);
+      setItems(prev => [...prev, newItem]);
+      return newItem;
+    } catch (error) {
+      console.error('Failed to duplicate itinerary item:', error);
+      throw error;
+    }
+  }, []);
+
   const getItemsForDate = useCallback((date: Date) => {
     return getItineraryItemsByDate(date);
   }, []);
@@ -129,6 +151,7 @@ export const useItinerary = () => {
     createItem,
     updateItem,
     deleteItem,
+    duplicateItem,
     getItemsForDate,
     getItemsForDateRange,
     getItemsForCurrentView,

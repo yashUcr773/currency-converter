@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Edit, Trash2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Edit, Trash2, Copy } from 'lucide-react';
 import type { ItineraryItem, CalendarView } from '@/types/itinerary';
 import { COLOR_VARIANTS, CATEGORY_ICONS } from '@/types/itinerary';
 
@@ -14,6 +14,7 @@ interface ItineraryCalendarProps {
   onGoToDate: (date: Date) => void;
   onEditItem: (item: ItineraryItem) => void;
   onDeleteItem: (id: string) => void;
+  onDuplicateItem: (item: ItineraryItem) => void;
 }
 
 export const ItineraryCalendar: React.FC<ItineraryCalendarProps> = ({
@@ -24,7 +25,8 @@ export const ItineraryCalendar: React.FC<ItineraryCalendarProps> = ({
   onGoToToday,
   onGoToDate,
   onEditItem,
-  onDeleteItem
+  onDeleteItem,
+  onDuplicateItem
 }) => {
   const { type, currentDate } = calendarView;
 
@@ -271,6 +273,18 @@ export const ItineraryCalendar: React.FC<ItineraryCalendarProps> = ({
                               size="sm"
                               onClick={(e) => {
                                 e.stopPropagation();
+                                onDuplicateItem(item);
+                              }}
+                              className="h-6 w-6 p-0 text-blue-600 hover:text-blue-700"
+                              title="Duplicate item"
+                            >
+                              <Copy className="w-3 h-3" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={(e) => {
+                                e.stopPropagation();
                                 onDeleteItem(item.id);
                               }}
                               className="h-6 w-6 p-0 text-red-600 hover:text-red-700"
@@ -346,6 +360,15 @@ export const ItineraryCalendar: React.FC<ItineraryCalendarProps> = ({
                             onClick={() => onEditItem(item)}
                           >
                             <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => onDuplicateItem(item)}
+                            className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                            title="Duplicate item"
+                          >
+                            <Copy className="w-4 h-4" />
                           </Button>
                           <Button
                             variant="outline"
