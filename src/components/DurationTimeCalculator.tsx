@@ -1,15 +1,12 @@
 import { useState } from 'react';
-import { Clock, Calendar, Plus, AlertTriangle, ArrowRight, Timer, CalendarDays, Calculator, Briefcase } from 'lucide-react';
+import { Clock, Calendar, Plus, ArrowRight, Timer, CalendarDays, Calculator, Briefcase } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
 import { useNumberSystem } from '@/hooks/useNumberSystem';
 import { formatNumber } from '@/utils/numberSystem';
 
@@ -323,216 +320,179 @@ export const DurationTimeCalculator = () => {
     if (results.length === 0) return null;
 
     return (
-      <Card className="mt-6 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 border-slate-200/60 shadow-sm">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-lg font-semibold text-slate-700 flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500"></div>
-            Calculation Results
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {results.map((result, index) => (
-              <div 
-                key={index} 
-                className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-slate-200/60 hover:shadow-md transition-all duration-200"
-              >
-                <div className="space-y-2">
-                  <div className="flex items-start justify-between">
-                    <Badge variant="secondary" className="text-xs bg-slate-100 text-slate-600 hover:bg-slate-100">
-                      {result.label}
-                    </Badge>
-                  </div>
-                  <div className="text-2xl font-bold text-slate-800 break-words">
-                    {result.value}
-                  </div>
-                  {result.description && (
-                    <div className="text-xs text-slate-500 italic">
-                      {result.description}
-                    </div>
-                  )}
-                </div>
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        {results.slice(0, 6).map((result, index) => (
+          <div 
+            key={index} 
+            className="bg-white/95 backdrop-blur-sm rounded-lg p-3 border border-slate-200/60 hover:shadow-md transition-all duration-200"
+          >
+            <div className="text-xs font-medium text-slate-500 mb-1">
+              {result.label}
+            </div>
+            <div className="text-lg font-bold text-slate-800 break-words">
+              {result.value}
+            </div>
+            {result.description && (
+              <div className="text-xs text-slate-400 mt-1">
+                {result.description}
               </div>
-            ))}
+            )}
           </div>
-        </CardContent>
-      </Card>
+        ))}
+      </div>
     );
   };
 
   return (
     <div className="space-y-6">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+      <div className="text-center mb-6">
+        <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
           Duration & Time Calculator
         </h2>
-        <p className="text-slate-600 text-lg">Calculate time differences, add durations, and analyze dates with precision</p>
+        <p className="text-slate-600">Calculate time differences, add durations, and analyze dates</p>
       </div>
 
       <Tabs defaultValue="difference" className="space-y-6">
-        <TabsList className="grid grid-cols-2 lg:grid-cols-4 gap-1 h-auto p-1 bg-slate-100/80 backdrop-blur-sm">
-          <TabsTrigger 
-            value="difference" 
-            className="flex flex-col items-center p-3 text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm"
-          >
-            <Timer className="w-5 h-5 mb-1" />
-            <span>Time Diff</span>
-          </TabsTrigger>
-          <TabsTrigger 
-            value="duration" 
-            className="flex flex-col items-center p-3 text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm"
-          >
-            <Calculator className="w-5 h-5 mb-1" />
-            <span>Add Duration</span>
-          </TabsTrigger>
-          <TabsTrigger 
-            value="age" 
-            className="flex flex-col items-center p-3 text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm"
-          >
-            <CalendarDays className="w-5 h-5 mb-1" />
-            <span>Age Calc</span>
-          </TabsTrigger>
-          <TabsTrigger 
-            value="working" 
-            className="flex flex-col items-center p-3 text-sm font-medium data-[state=active]:bg-white data-[state=active]:shadow-sm"
-          >
-            <Briefcase className="w-5 h-5 mb-1" />
-            <span>Work Days</span>
-          </TabsTrigger>
-        </TabsList>
+        <div className="flex justify-center">
+          <TabsList className="inline-flex grid-cols-2 lg:grid-cols-4 gap-2 h-auto p-1.5 bg-white/90 backdrop-blur-sm border border-slate-200 shadow-lg rounded-xl">
+            <TabsTrigger 
+              value="difference" 
+              className="flex flex-col items-center p-3 text-xs font-medium rounded-lg transition-all duration-200 data-[state=active]:bg-gradient-to-br data-[state=active]:from-blue-50 data-[state=active]:to-blue-100 data-[state=active]:text-blue-700 data-[state=active]:shadow-md hover:bg-slate-50"
+            >
+              <Timer className="w-4 h-4 mb-1" />
+              <span>Time Diff</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="duration" 
+              className="flex flex-col items-center p-3 text-xs font-medium rounded-lg transition-all duration-200 data-[state=active]:bg-gradient-to-br data-[state=active]:from-green-50 data-[state=active]:to-green-100 data-[state=active]:text-green-700 data-[state=active]:shadow-md hover:bg-slate-50"
+            >
+              <Calculator className="w-4 h-4 mb-1" />
+              <span>Add Duration</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="age" 
+              className="flex flex-col items-center p-3 text-xs font-medium rounded-lg transition-all duration-200 data-[state=active]:bg-gradient-to-br data-[state=active]:from-purple-50 data-[state=active]:to-purple-100 data-[state=active]:text-purple-700 data-[state=active]:shadow-md hover:bg-slate-50"
+            >
+              <CalendarDays className="w-4 h-4 mb-1" />
+              <span>Age Calc</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="working" 
+              className="flex flex-col items-center p-3 text-xs font-medium rounded-lg transition-all duration-200 data-[state=active]:bg-gradient-to-br data-[state=active]:from-orange-50 data-[state=active]:to-orange-100 data-[state=active]:text-orange-700 data-[state=active]:shadow-md hover:bg-slate-50"
+            >
+              <Briefcase className="w-4 h-4 mb-1" />
+              <span>Work Days</span>
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="difference" className="space-y-4">
-          <Card className="shadow-lg border-slate-200/60 bg-white/90 backdrop-blur-sm">
-            <CardHeader className="space-y-3">
-              <CardTitle className="flex items-center gap-3 text-xl">
-                <div className="p-2 rounded-lg bg-blue-100 text-blue-600">
-                  <Timer className="w-6 h-6" />
-                </div>
+          <Card className="bg-white/95 backdrop-blur-md border-slate-200 shadow-md">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <Timer className="w-5 h-5 text-blue-600" />
                 Time Difference Calculator
               </CardTitle>
-              <Alert className="border-amber-200 bg-amber-50/80">
-                <AlertTriangle className="h-4 w-4 text-amber-600" />
-                <AlertDescription className="text-amber-800">
-                  Enter two dates and times to calculate the exact duration between them.
-                </AlertDescription>
-              </Alert>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-3">
-                  <Label htmlFor="startDateTime" className="text-sm font-semibold text-slate-700">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="space-y-2">
+                  <Label htmlFor="startDateTime" className="text-sm font-medium text-slate-700">
                     Start Date & Time
                   </Label>
-                  <div className="space-y-3">
-                    <Input
-                      id="startDateTime"
-                      type="datetime-local"
-                      value={startDateTime}
-                      onChange={(e) => setStartDateTime(e.target.value)}
-                      className="bg-white/80 border-slate-300 focus:border-blue-500 focus:ring-blue-500/20"
-                    />
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => setStartDateTime(getTodayAt00())}
-                      className="w-full border-slate-300 hover:bg-slate-50"
-                    >
-                      <Clock className="w-4 h-4 mr-2" />
-                      Set to Today 00:00 AM
-                    </Button>
-                  </div>
+                  <Input
+                    id="startDateTime"
+                    type="datetime-local"
+                    value={startDateTime}
+                    onChange={(e) => setStartDateTime(e.target.value)}
+                    className="bg-white/80 border-slate-300 focus:border-blue-500"
+                  />
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => setStartDateTime(getTodayAt00())}
+                    className="w-full text-xs border-slate-300 hover:bg-slate-50"
+                  >
+                    <Clock className="w-3 h-3 mr-1" />
+                    Today 00:00
+                  </Button>
                 </div>
-                <div className="space-y-3">
-                  <Label htmlFor="endDateTime" className="text-sm font-semibold text-slate-700">
+                <div className="space-y-2">
+                  <Label htmlFor="endDateTime" className="text-sm font-medium text-slate-700">
                     End Date & Time
                   </Label>
-                  <div className="space-y-3">
-                    <Input
-                      id="endDateTime"
-                      type="datetime-local"
-                      value={endDateTime}
-                      onChange={(e) => setEndDateTime(e.target.value)}
-                      className="bg-white/80 border-slate-300 focus:border-blue-500 focus:ring-blue-500/20"
+                  <Input
+                    id="endDateTime"
+                    type="datetime-local"
+                    value={endDateTime}
+                    onChange={(e) => setEndDateTime(e.target.value)}
+                    className="bg-white/80 border-slate-300 focus:border-blue-500"
+                  />
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => setEndDateTime(getTodayAt00())}
+                    className="w-full text-xs border-slate-300 hover:bg-slate-50"
+                  >
+                    <Clock className="w-3 h-3 mr-1" />
+                    Today 00:00
+                  </Button>
+                </div>
+                <div className="flex flex-col justify-center">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="includeSeconds"
+                      checked={includeSeconds}
+                      onCheckedChange={(checked) => setIncludeSeconds(!!checked)}
                     />
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => setEndDateTime(getTodayAt00())}
-                      className="w-full border-slate-300 hover:bg-slate-50"
-                    >
-                      <Clock className="w-4 h-4 mr-2" />
-                      Set to Today 00:00 AM
-                    </Button>
+                    <Label htmlFor="includeSeconds" className="text-sm text-slate-700">
+                      Include seconds
+                    </Label>
                   </div>
                 </div>
               </div>
 
-              <Separator className="my-4" />
-
-              <div className="flex items-center space-x-3">
-                <Checkbox
-                  id="includeSeconds"
-                  checked={includeSeconds}
-                  onCheckedChange={(checked) => setIncludeSeconds(!!checked)}
-                />
-                <Label htmlFor="includeSeconds" className="text-sm font-medium text-slate-700">
-                  Include seconds in results
-                </Label>
+              <div className="border-t pt-4">
+                <ResultCard results={calculateTimeDifference()} />
               </div>
-
-              <ResultCard results={calculateTimeDifference()} />
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="duration" className="space-y-4">
-          <Card className="shadow-lg border-slate-200/60 bg-white/90 backdrop-blur-sm">
-            <CardHeader className="space-y-3">
-              <CardTitle className="flex items-center gap-3 text-xl">
-                <div className="p-2 rounded-lg bg-green-100 text-green-600">
-                  <Calculator className="w-6 h-6" />
-                </div>
-                Duration Addition/Subtraction Calculator
+          <Card className="bg-white/95 backdrop-blur-md border-slate-200 shadow-md">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <Calculator className="w-5 h-5 text-green-600" />
+                Duration Addition/Subtraction
               </CardTitle>
-              <Alert className="border-amber-200 bg-amber-50/80">
-                <AlertTriangle className="h-4 w-4 text-amber-600" />
-                <AlertDescription className="text-amber-800">
-                  Add or subtract a duration from a specific date and time.
-                </AlertDescription>
-              </Alert>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="space-y-3">
-                <Label htmlFor="baseDateTime" className="text-sm font-semibold text-slate-700">
-                  Base Date & Time
-                </Label>
-                <div className="space-y-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="space-y-2">
+                  <Label htmlFor="baseDateTime" className="text-sm font-medium text-slate-700">
+                    Base Date & Time
+                  </Label>
                   <Input
                     id="baseDateTime"
                     type="datetime-local"
                     value={baseDateTime}
                     onChange={(e) => setBaseDateTime(e.target.value)}
-                    className="bg-white/80 border-slate-300 focus:border-blue-500 focus:ring-blue-500/20"
+                    className="bg-white/80 border-slate-300 focus:border-blue-500"
                   />
                   <Button 
                     variant="outline" 
                     size="sm"
                     onClick={() => setBaseDateTime(getTodayAt00())}
-                    className="w-full border-slate-300 hover:bg-slate-50"
+                    className="w-full text-xs border-slate-300 hover:bg-slate-50"
                   >
-                    <Clock className="w-4 h-4 mr-2" />
-                    Set to Today 00:00 AM
+                    <Clock className="w-3 h-3 mr-1" />
+                    Today 00:00
                   </Button>
                 </div>
-              </div>
 
-              <Separator className="my-4" />
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="space-y-3">
-                  <Label htmlFor="operation" className="text-sm font-semibold text-slate-700">
-                    Operation
-                  </Label>
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-slate-700">Operation</Label>
                   <Select value={operation} onValueChange={(value: 'add' | 'subtract') => setOperation(value)}>
                     <SelectTrigger className="bg-white/80 border-slate-300">
                       <SelectValue />
@@ -540,36 +500,31 @@ export const DurationTimeCalculator = () => {
                     <SelectContent>
                       <SelectItem value="add">
                         <div className="flex items-center gap-2">
-                          <Plus className="w-4 h-4 text-green-600" />
-                          Add (+)
+                          <Plus className="w-3 h-3 text-green-600" />
+                          Add
                         </div>
                       </SelectItem>
                       <SelectItem value="subtract">
                         <div className="flex items-center gap-2">
-                          <span className="w-4 h-4 flex items-center justify-center text-red-600 font-bold">−</span>
-                          Subtract (−)
+                          <span className="w-3 h-3 flex items-center justify-center text-red-600 font-bold">−</span>
+                          Subtract
                         </div>
                       </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="space-y-3">
-                  <Label htmlFor="durationValue" className="text-sm font-semibold text-slate-700">
-                    Duration Value
-                  </Label>
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-slate-700">Value</Label>
                   <Input
-                    id="durationValue"
                     type="number"
                     placeholder="10"
                     value={durationValue}
                     onChange={(e) => setDurationValue(e.target.value)}
-                    className="bg-white/80 border-slate-300 focus:border-blue-500 focus:ring-blue-500/20"
+                    className="bg-white/80 border-slate-300 focus:border-blue-500"
                   />
                 </div>
-                <div className="space-y-3">
-                  <Label htmlFor="durationUnit" className="text-sm font-semibold text-slate-700">
-                    Unit
-                  </Label>
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-slate-700">Unit</Label>
                   <Select value={durationUnit} onValueChange={setDurationUnit}>
                     <SelectTrigger className="bg-white/80 border-slate-300">
                       <SelectValue />
@@ -587,40 +542,25 @@ export const DurationTimeCalculator = () => {
                 </div>
               </div>
 
-              <Alert className="border-blue-200 bg-blue-50/80">
-                <AlertTriangle className="h-4 w-4 text-blue-600" />
-                <AlertDescription className="text-blue-800 space-y-1">
-                  <div>• Months are calculated as 30.44 days (average)</div>
-                  <div>• Years are calculated as 365.25 days (accounting for leap years)</div>
-                  <div>• For exact month/year calculations, use specific date inputs</div>
-                </AlertDescription>
-              </Alert>
-
-              <ResultCard results={calculateDurationAddition()} />
+              <div className="border-t pt-4">
+                <ResultCard results={calculateDurationAddition()} />
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="age" className="space-y-4">
-          <Card className="shadow-lg border-slate-200/60 bg-white/90 backdrop-blur-sm">
-            <CardHeader className="space-y-3">
-              <CardTitle className="flex items-center gap-3 text-xl">
-                <div className="p-2 rounded-lg bg-purple-100 text-purple-600">
-                  <CalendarDays className="w-6 h-6" />
-                </div>
+          <Card className="bg-white/95 backdrop-blur-md border-slate-200 shadow-md">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <CalendarDays className="w-5 h-5 text-purple-600" />
                 Age Calculator
               </CardTitle>
-              <Alert className="border-amber-200 bg-amber-50/80">
-                <AlertTriangle className="h-4 w-4 text-amber-600" />
-                <AlertDescription className="text-amber-800">
-                  Calculate precise age or time elapsed from a birth date to any target date.
-                </AlertDescription>
-              </Alert>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-3">
-                  <Label htmlFor="birthDate" className="text-sm font-semibold text-slate-700">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="space-y-2">
+                  <Label htmlFor="birthDate" className="text-sm font-medium text-slate-700">
                     Birth Date
                   </Label>
                   <Input
@@ -628,84 +568,79 @@ export const DurationTimeCalculator = () => {
                     type="date"
                     value={birthDate}
                     onChange={(e) => setBirthDate(e.target.value)}
-                    className="bg-white/80 border-slate-300 focus:border-blue-500 focus:ring-blue-500/20"
+                    className="bg-white/80 border-slate-300 focus:border-blue-500"
                   />
                 </div>
-                <div className="space-y-3">
-                  <Label htmlFor="targetDate" className="text-sm font-semibold text-slate-700">
-                    Target Date (default: today)
+
+                <div className="space-y-2">
+                  <Label htmlFor="targetDate" className="text-sm font-medium text-slate-700">
+                    Calculate Age On
                   </Label>
                   <Input
                     id="targetDate"
                     type="date"
                     value={targetDate}
                     onChange={(e) => setTargetDate(e.target.value)}
-                    className="bg-white/80 border-slate-300 focus:border-blue-500 focus:ring-blue-500/20"
+                    className="bg-white/80 border-slate-300 focus:border-blue-500"
                   />
+                </div>
+
+                <div className="flex flex-col justify-end">
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setTargetDate(new Date().toISOString().split('T')[0])}
+                      className="text-xs border-slate-300 hover:bg-slate-50"
+                    >
+                      <Calendar className="w-3 h-3 mr-1" />
+                      Today
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => {
+                        const nextBirthday = new Date();
+                        if (birthDate) {
+                          const birth = new Date(birthDate);
+                          nextBirthday.setFullYear(nextBirthday.getFullYear());
+                          nextBirthday.setMonth(birth.getMonth());
+                          nextBirthday.setDate(birth.getDate());
+                          if (nextBirthday < new Date()) {
+                            nextBirthday.setFullYear(nextBirthday.getFullYear() + 1);
+                          }
+                          setTargetDate(nextBirthday.toISOString().split('T')[0]);
+                        }
+                      }}
+                      disabled={!birthDate}
+                      className="text-xs border-slate-300 hover:bg-slate-50"
+                    >
+                      <CalendarDays className="w-3 h-3 mr-1" />
+                      Next Birthday
+                    </Button>
+                  </div>
                 </div>
               </div>
 
-              <Separator className="my-4" />
-
-              <div className="flex gap-3">
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => setTargetDate(new Date().toISOString().split('T')[0])}
-                  className="border-slate-300 hover:bg-slate-50"
-                >
-                  <Calendar className="w-4 h-4 mr-2" />
-                  Set to Today
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => {
-                    const nextBirthday = new Date();
-                    if (birthDate) {
-                      const birth = new Date(birthDate);
-                      nextBirthday.setFullYear(nextBirthday.getFullYear());
-                      nextBirthday.setMonth(birth.getMonth());
-                      nextBirthday.setDate(birth.getDate());
-                      if (nextBirthday < new Date()) {
-                        nextBirthday.setFullYear(nextBirthday.getFullYear() + 1);
-                      }
-                      setTargetDate(nextBirthday.toISOString().split('T')[0]);
-                    }
-                  }}
-                  disabled={!birthDate}
-                  className="border-slate-300 hover:bg-slate-50"
-                >
-                  <CalendarDays className="w-4 h-4 mr-2" />
-                  Next Birthday
-                </Button>
+              <div className="border-t pt-4">
+                <ResultCard results={calculateAge()} />
               </div>
-
-              <ResultCard results={calculateAge()} />
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="working" className="space-y-4">
-          <Card className="shadow-lg border-slate-200/60 bg-white/90 backdrop-blur-sm">
-            <CardHeader className="space-y-3">
-              <CardTitle className="flex items-center gap-3 text-xl">
-                <div className="p-2 rounded-lg bg-orange-100 text-orange-600">
-                  <Briefcase className="w-6 h-6" />
-                </div>
+          <Card className="bg-white/95 backdrop-blur-md border-slate-200 shadow-md">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <Briefcase className="w-5 h-5 text-orange-600" />
                 Working Days Calculator
               </CardTitle>
-              <Alert className="border-amber-200 bg-amber-50/80">
-                <AlertTriangle className="h-4 w-4 text-amber-600" />
-                <AlertDescription className="text-amber-800">
-                  Calculate working days between two dates, optionally including weekends.
-                </AlertDescription>
-              </Alert>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-3">
-                  <Label htmlFor="workStartDate" className="text-sm font-semibold text-slate-700">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="space-y-2">
+                  <Label htmlFor="workStartDate" className="text-sm font-medium text-slate-700">
                     Start Date
                   </Label>
                   <Input
@@ -713,11 +648,11 @@ export const DurationTimeCalculator = () => {
                     type="date"
                     value={workStartDate}
                     onChange={(e) => setWorkStartDate(e.target.value)}
-                    className="bg-white/80 border-slate-300 focus:border-blue-500 focus:ring-blue-500/20"
+                    className="bg-white/80 border-slate-300 focus:border-blue-500"
                   />
                 </div>
-                <div className="space-y-3">
-                  <Label htmlFor="workEndDate" className="text-sm font-semibold text-slate-700">
+                <div className="space-y-2">
+                  <Label htmlFor="workEndDate" className="text-sm font-medium text-slate-700">
                     End Date
                   </Label>
                   <Input
@@ -725,50 +660,54 @@ export const DurationTimeCalculator = () => {
                     type="date"
                     value={workEndDate}
                     onChange={(e) => setWorkEndDate(e.target.value)}
-                    className="bg-white/80 border-slate-300 focus:border-blue-500 focus:ring-blue-500/20"
+                    className="bg-white/80 border-slate-300 focus:border-blue-500"
                   />
+                </div>
+
+                <div className="flex flex-col justify-center">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="includeWeekends"
+                      checked={includeWeekends}
+                      onCheckedChange={(checked) => setIncludeWeekends(!!checked)}
+                    />
+                    <Label htmlFor="includeWeekends" className="text-sm text-slate-700">
+                      Include weekends
+                    </Label>
+                  </div>
+                </div>
+
+                <div className="flex flex-col justify-end">
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setWorkStartDate(new Date().toISOString().split('T')[0])}
+                      className="text-xs border-slate-300 hover:bg-slate-50"
+                    >
+                      <Calendar className="w-3 h-3 mr-1" />
+                      Today
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => {
+                        const nextWeek = new Date();
+                        nextWeek.setDate(nextWeek.getDate() + 7);
+                        setWorkEndDate(nextWeek.toISOString().split('T')[0]);
+                      }}
+                      className="text-xs border-slate-300 hover:bg-slate-50"
+                    >
+                      <ArrowRight className="w-3 h-3 mr-1" />
+                      +1 Week
+                    </Button>
+                  </div>
                 </div>
               </div>
 
-              <Separator className="my-4" />
-
-              <div className="flex items-center space-x-3">
-                <Checkbox
-                  id="includeWeekends"
-                  checked={includeWeekends}
-                  onCheckedChange={(checked) => setIncludeWeekends(!!checked)}
-                />
-                <Label htmlFor="includeWeekends" className="text-sm font-medium text-slate-700">
-                  Include weekends in working days count
-                </Label>
+              <div className="border-t pt-4">
+                <ResultCard results={calculateWorkingDays()} />
               </div>
-
-              <div className="flex gap-3">
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => setWorkStartDate(new Date().toISOString().split('T')[0])}
-                  className="border-slate-300 hover:bg-slate-50"
-                >
-                  <Calendar className="w-4 h-4 mr-2" />
-                  Start Today
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => {
-                    const nextWeek = new Date();
-                    nextWeek.setDate(nextWeek.getDate() + 7);
-                    setWorkEndDate(nextWeek.toISOString().split('T')[0]);
-                  }}
-                  className="border-slate-300 hover:bg-slate-50"
-                >
-                  <ArrowRight className="w-4 h-4 mr-2" />
-                  End Next Week
-                </Button>
-              </div>
-
-              <ResultCard results={calculateWorkingDays()} />
             </CardContent>
           </Card>
         </TabsContent>
