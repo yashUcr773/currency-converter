@@ -46,6 +46,7 @@ export const ItineraryManager: React.FC = () => {
     try {
       await updateItem(id, updates);
       setEditingItem(null);
+      setShowForm(false); // Close the form after successful update
     } catch (error) {
       console.error('Error updating item:', error);
     }

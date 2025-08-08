@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { TimePicker } from '@/components/ui/time-picker';
 import { Calendar, MapPin, Palette, Tag } from 'lucide-react';
 import type { ItineraryItem, ItineraryColor, ItineraryCategory } from '@/types/itinerary';
 import { COLOR_VARIANTS, CATEGORY_ICONS } from '@/types/itinerary';
@@ -27,6 +28,11 @@ export const ItineraryForm: React.FC<ItineraryFormProps> = ({ item, onSave, onCa
     notes: ''
   });
 
+  const [errors, setErrors] = useState<{
+    dateRange?: string;
+    timeRange?: string;
+  }>({});
+
   useEffect(() => {
     if (item) {
       setFormData({
@@ -45,10 +51,44 @@ export const ItineraryForm: React.FC<ItineraryFormProps> = ({ item, onSave, onCa
     }
   }, [item]);
 
+  const validateForm = (): boolean => {
+    const newErrors: { dateRange?: string; timeRange?: string } = {};
+
+    // Validate date range
+    if (formData.startDate && formData.endDate) {
+      const startDate = new Date(formData.startDate);
+      const endDate = new Date(formData.endDate);
+      if (endDate < startDate) {
+        newErrors.dateRange = 'End date cannot be earlier than start date';
+      }
+    }
+
+    // Validate time range (only if not all day)
+    if (!formData.isAllDay && formData.startTime && formData.endTime) {
+      const startDate = formData.startDate || new Date().toISOString().split('T')[0];
+      const endDate = formData.endDate || startDate;
+      
+      const startDateTime = new Date(`${startDate}T${formData.startTime}`);
+      const endDateTime = new Date(`${endDate}T${formData.endTime}`);
+      
+      if (endDateTime <= startDateTime) {
+        newErrors.timeRange = 'End time must be after start time';
+      }
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.title.trim() || !formData.startDate) {
+      return;
+    }
+
+    // Validate form before submission
+    if (!validateForm()) {
       return;
     }
 
@@ -145,7 +185,13 @@ export const ItineraryForm: React.FC<ItineraryFormProps> = ({ item, onSave, onCa
                 <Input
                   type="date"
                   value={formData.startDate}
-                  onChange={(e) => setFormData(prev => ({ ...prev, startDate: e.target.value }))}
+                  onChange={(e) => {
+                    setFormData(prev => ({ ...prev, startDate: e.target.value }));
+                    // Clear date validation error when user changes date
+                    if (errors.dateRange) {
+                      setErrors(prev => ({ ...prev, dateRange: undefined }));
+                    }
+                  }}
                   required
                 />
               </div>
@@ -157,36 +203,64 @@ export const ItineraryForm: React.FC<ItineraryFormProps> = ({ item, onSave, onCa
                 <Input
                   type="date"
                   value={formData.endDate}
-                  onChange={(e) => setFormData(prev => ({ ...prev, endDate: e.target.value }))}
+                  onChange={(e) => {
+                    setFormData(prev => ({ ...prev, endDate: e.target.value }));
+                    // Clear date validation error when user changes date
+                    if (errors.dateRange) {
+                      setErrors(prev => ({ ...prev, dateRange: undefined }));
+                    }
+                  }}
                   min={formData.startDate}
                 />
               </div>
             </div>
 
+            {errors.dateRange && (
+              <div className="text-red-600 text-sm mt-1 flex items-center gap-1">
+                <span>⚠️</span>
+                {errors.dateRange}
+              </div>
+            )}
+
             {!formData.isAllDay && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Start Time
-                  </label>
-                  <Input
-                    type="time"
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <TimePicker
                     value={formData.startTime}
-                    onChange={(e) => setFormData(prev => ({ ...prev, startTime: e.target.value }))}
+                    onChange={(time) => {
+                      setFormData(prev => ({ ...prev, startTime: time }));
+                      // Clear time validation error when user changes time
+                      if (errors.timeRange) {
+                        setErrors(prev => ({ ...prev, timeRange: undefined }));
+                      }
+                    }}
+                    label="Start Time"
+                    required={!formData.isAllDay}
+                    error={errors.timeRange && formData.startTime === formData.endTime ? errors.timeRange : undefined}
+                  />
+
+                  <TimePicker
+                    value={formData.endTime}
+                    onChange={(time) => {
+                      setFormData(prev => ({ ...prev, endTime: time }));
+                      // Clear time validation error when user changes time
+                      if (errors.timeRange) {
+                        setErrors(prev => ({ ...prev, timeRange: undefined }));
+                      }
+                    }}
+                    label="End Time"
+                    required={!formData.isAllDay}
+                    error={errors.timeRange && formData.endTime === formData.startTime ? errors.timeRange : undefined}
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    End Time
-                  </label>
-                  <Input
-                    type="time"
-                    value={formData.endTime}
-                    onChange={(e) => setFormData(prev => ({ ...prev, endTime: e.target.value }))}
-                  />
-                </div>
-              </div>
+                {errors.timeRange && (
+                  <div className="text-red-600 text-sm mt-1 flex items-center gap-1">
+                    <span>⚠️</span>
+                    {errors.timeRange}
+                  </div>
+                )}
+              </>
             )}
           </div>
 
