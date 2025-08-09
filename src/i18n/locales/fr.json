@@ -82,9 +82,9 @@
     "allPreserved": "• Toutes les fonctionnalités seront préservées"
   },
   "app": {
-    "title": "RateVault",
-    "subtitle": "Conversion de Devises et Fuseaux Horaires — dans Un Coffre",
-    "loading": "Chargement de RateVault",
+    "title": "Trip Tools",
+    "subtitle": "Tous les Outils Dont Vous Avez Besoin pour Chaque Voyage",
+    "loading": "Chargement de Trip Tools",
     "loadingSubtitle": "Récupération des derniers taux de change",
     "noRatesAvailable": "Aucun Taux de Change Disponible",
     "noRatesMessage": "Impossible de charger les taux de change. Veuillez vérifier votre connexion internet et réessayer.",

@@ -84,9 +84,9 @@
     "allPreserved": "• All functionality will be preserved"
   },
   "app": {
-    "title": "RateVault",
-    "subtitle": "Currency and Timezone Conversion — in One Vault",
-    "loading": "Loading RateVault",
+    "title": "Trip Tools",
+    "subtitle": "Every Tool You Need for Every Trip",
+    "loading": "Loading Trip Tools",
     "loadingSubtitle": "Fetching latest exchange rates",
     "noRatesAvailable": "No Exchange Rates Available",
     "noRatesMessage": "Unable to load exchange rates. Please check your internet connection and try again.",
@@ -99,7 +99,7 @@
   },
   "navigation": {
     "about": "About",
-    "backToConverter": "Back to RateVault",
+    "backToConverter": "Back to Trip Tools",
     "startConverting": "Start Converting"
   },
   "converter": {

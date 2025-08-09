@@ -1,13 +1,13 @@
 // SEO utility functions and constants
 
 export const SEO_CONSTANTS = {
-  SITE_NAME: 'RateVault',
-  SITE_URL: 'https://ratevault.uk',
-  DEFAULT_TITLE: 'RateVault - Free Currency & Timezone Converter | Real-Time Exchange Rates',
-  DEFAULT_DESCRIPTION: 'Free online currency converter and world clock with real-time exchange rates for 170+ currencies. Convert money and time zones instantly. Progressive Web App with offline support.',
-  DEFAULT_KEYWORDS: 'currency converter, exchange rates, timezone converter, world clock, free currency conversion, real-time rates, USD EUR GBP, time zones, UTC converter, money converter, forex rates',
+  SITE_NAME: 'Trip Tools',
+  SITE_URL: 'https://trip-tools.com',
+  DEFAULT_TITLE: 'Trip Tools - Every Tool You Need for Every Trip | Currency, Timezone & Travel Tools',
+  DEFAULT_DESCRIPTION: 'Every Tool You Need for Every Trip. Free online currency converter, world clock, unit converter, and travel planner with real-time exchange rates for 170+ currencies. Progressive Web App with offline support.',
+  DEFAULT_KEYWORDS: 'trip tools, travel tools, currency converter, exchange rates, timezone converter, world clock, travel planner, itinerary manager, free currency conversion, real-time rates, USD EUR GBP, time zones, UTC converter, money converter, forex rates, travel utilities',
   DEFAULT_IMAGE: '/icons/icon-512x512.svg',
-  TWITTER_HANDLE: '@ratevault',
+  TWITTER_HANDLE: '@trip_tools',
   LANGUAGES: ['en', 'es', 'fr', 'de', 'pt', 'ru', 'zh', 'ja', 'ar', 'hi'] as const
 };
 
@@ -24,10 +24,10 @@ export interface SEOMetadata {
 // Generate currency-specific SEO metadata
 export function getCurrencyPairSEO(from: string, to: string): SEOMetadata {
   return {
-    title: `${from} to ${to} Converter - Live Exchange Rate | RateVault`,
+    title: `${from} to ${to} Converter - Live Exchange Rate | Trip Tools`,
     description: `Convert ${from} to ${to} with real-time exchange rates. Free currency converter with historical data and accurate calculations. ${from}/${to} exchange rate updated daily.`,
     keywords: `${from} to ${to}, ${from}${to}, ${from.toLowerCase()} ${to.toLowerCase()}, exchange rate, currency converter, ${from} exchange rate, ${to} exchange rate`,
-    canonical: `https://ratevault.uk/?from=${from}&to=${to}`
+    canonical: `https://trip-tools.com/?from=${from}&to=${to}`
   };
 }
 
@@ -36,10 +36,10 @@ export function getTimezoneSEO(timezone: string): SEOMetadata {
   const timezoneName = timezone.replace(/_/g, ' ').replace('/', ' - ');
   
   return {
-    title: `${timezoneName} Time Zone Converter | Current Time | RateVault`,
+    title: `${timezoneName} Time Zone Converter | Current Time | Trip Tools`,
     description: `Current time in ${timezoneName} timezone. Convert time zones instantly with accurate world clock. Check what time it is in ${timezoneName} right now.`,
     keywords: `${timezoneName}, ${timezone}, time zone, world clock, current time, time converter, UTC time, ${timezoneName.toLowerCase()} time`,
-    canonical: `https://ratevault.uk/?timezone=${encodeURIComponent(timezone)}`
+    canonical: `https://trip-tools.com/?timezone=${encodeURIComponent(timezone)}`
   };
 }
 
@@ -123,10 +123,10 @@ export function generateFAQSchema(): object {
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "Is RateVault free to use?",
+        "name": "Is Trip Tools free to use?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, RateVault is completely free to use. No registration or payment required for currency conversion and timezone tools."
+          "text": "Yes, Trip Tools is completely free to use. No registration or payment required for currency conversion, timezone tools, unit converters, or travel planning features."
         }
       },
       {
@@ -139,10 +139,10 @@ export function generateFAQSchema(): object {
       },
       {
         "@type": "Question",
-        "name": "Can I use RateVault offline?",
+        "name": "Can I use Trip Tools offline?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, RateVault is a Progressive Web App (PWA) that works offline using cached exchange rates and timezone data. You can install it on your device for offline access."
+          "text": "Yes, Trip Tools is a Progressive Web App (PWA) that works offline using cached exchange rates and timezone data. You can install it on your device for offline access to all travel tools."
         }
       },
       {
@@ -150,15 +150,15 @@ export function generateFAQSchema(): object {
         "name": "How many currencies are supported?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "RateVault supports over 170 currencies from around the world, including all major currencies like USD, EUR, GBP, JPY, CAD, AUD, and many more."
+          "text": "Trip Tools supports over 170 currencies from around the world, including all major currencies like USD, EUR, GBP, JPY, CAD, AUD, and many more."
         }
       },
       {
         "@type": "Question",
-        "name": "Does RateVault support cryptocurrency?",
+        "name": "Does Trip Tools support cryptocurrency?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Currently, RateVault focuses on traditional fiat currencies. Cryptocurrency support may be added in future updates."
+          "text": "Currently, Trip Tools focuses on traditional fiat currencies and travel utilities. Cryptocurrency support may be added in future updates."
         }
       }
     ]

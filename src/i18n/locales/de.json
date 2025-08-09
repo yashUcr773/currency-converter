@@ -71,9 +71,9 @@
     "allPreserved": "• Alle Funktionen bleiben erhalten"
   },
   "app": {
-    "title": "RateVault",
-    "subtitle": "Währungs- und Zeitzonen-Umrechnung — in Einem Tresor",
-    "loading": "RateVault laden",
+    "title": "Trip Tools",
+    "subtitle": "Alle Werkzeuge, die Sie für Jede Reise Benötigen",
+    "loading": "Trip Tools laden",
     "loadingSubtitle": "Neueste Wechselkurse abrufen",
     "noRatesAvailable": "Keine Wechselkurse Verfügbar",
     "noRatesMessage": "Wechselkurse können nicht geladen werden. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",

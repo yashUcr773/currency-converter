@@ -82,9 +82,9 @@
     "allPreserved": "• Toda la funcionalidad se preservará"
   },
   "app": {
-    "title": "RateVault",
-    "subtitle": "Conversión de Divisas y Zona Horaria — en Una Bóveda",
-    "loading": "Cargando RateVault",
+    "title": "Trip Tools",
+    "subtitle": "Todas las Herramientas que Necesitas para Cada Viaje",
+    "loading": "Cargando Trip Tools",
     "loadingSubtitle": "Obteniendo las últimas tasas de cambio",
     "noRatesAvailable": "No hay Tasas de Cambio Disponibles",
     "noRatesMessage": "No se pueden cargar las tasas de cambio. Verifique su conexión a internet e intente de nuevo.",

@@ -1,10 +1,10 @@
-# RateVault
+# Trip Tools
 
-**Currency and Timezone Conversion — in One Vault**
+**Every Tool You Need for Every Trip**
 
 > 📋 **Note**: This README consolidates all project documentation. All individual `.md` files have been merged into this comprehensive guide.
 
-A powerful, offline-first Progressive Web App (PWA) that provides professional currency conversion, timezone management, built-in calculator, and comprehensive internationalization support. Designed for travelers, professionals, and anyone who needs reliable conversion tools.
+A powerful, offline-first Progressive Web App (PWA) that provides professional currency conversion, timezone management, unit conversion, travel calculators, itinerary planning, and comprehensive internationalization support. Designed for travelers, professionals, and anyone who needs reliable conversion tools for their trips.
 
 ## ✨ Features
 

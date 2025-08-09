@@ -4,7 +4,7 @@
 
 import { logger } from './env';
 
-const TAB_STORAGE_KEY = 'ratevault-active-tab';
+const TAB_STORAGE_KEY = 'trip-tools-active-tab';
 
 export type TabType = 'currency' | 'timezone' | 'units' | 'calculators' | 'itinerary';
 

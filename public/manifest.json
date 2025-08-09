@@ -1,7 +1,7 @@
 {
-  "name": "RateVault",
-  "short_name": "RateVault",
-  "description": "Professional PWA for currency conversion, timezone management, and calculation tools. Supports 150+ currencies, 10+ languages, and works completely offline.",
+  "name": "Trip Tools",
+  "short_name": "Trip Tools",
+  "description": "Every Tool You Need for Every Trip. Professional PWA for currency conversion, timezone management, calculation tools, and travel planning. Supports 150+ currencies, 10+ languages, and works completely offline.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f8fafc",
