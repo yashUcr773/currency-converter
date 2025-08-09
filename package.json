@@ -2,7 +2,7 @@
   "name": "ratevault",
   "displayName": "RateVault",
   "description": "Professional PWA for currency conversion, timezone management, and calculation tools. Supports 150+ currencies, 10+ languages, and works completely offline.",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "private": false,
   "type": "module",
   "keywords": [
