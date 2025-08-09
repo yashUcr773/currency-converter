@@ -13,7 +13,7 @@ import { PersistenceIndicator } from './components/PersistenceIndicator';
 import { usePWA } from './hooks/usePWA';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { AlertTriangle, DollarSign, Clock, Calculator } from 'lucide-react';
+import { AlertTriangle, DollarSign, Clock, Calculator, MapPin } from 'lucide-react';
 import { saveActiveTab, getActiveTab, type TabType } from './utils/tabStorage';
 import './App.css';
 
@@ -23,6 +23,7 @@ const PrivacyButton = lazy(() => import('./components/PrivacyButton').then(modul
 const TimezoneConverter = lazy(() => import('./components/TimezoneConverter').then(module => ({ default: module.TimezoneConverter })));
 const UnitConverter = lazy(() => import('./components/UnitConverter').then(module => ({ default: module.UnitConverter })));
 const DurationTimeCalculator = lazy(() => import('./components/DurationTimeCalculator'));
+const ItineraryManager = lazy(() => import('./components/ItineraryManager').then(module => ({ default: module.ItineraryManager })));
 
 function App() {
   const { t } = useTranslation();
@@ -119,15 +120,17 @@ function App() {
               <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               {activeTab === 'currency' ? t('app.title') as string : 
                activeTab === 'timezone' ? 'Timezone Converter' : 
-               activeTab === 'units' ? 'Unit Converter' : 
-               'Duration & Time Calculator'}
+               activeTab === 'units' ? 'Unit Converter' :
+               activeTab === 'calculators' ? 'Duration & Time Calculator' : 
+               'Travel Itinerary'}
             </h1>
           </div>
           <p className="text-slate-600 text-xs sm:text-sm lg:text-base xl:text-lg font-medium px-2 sm:px-4">
             {activeTab === 'currency' ? t('app.subtitle') as string : 
              activeTab === 'timezone' ? 'Real-time timezone conversion across the globe' : 
              activeTab === 'units' ? 'Convert between different units of measurement' :
-             'Calculate time differences, add durations, and analyze dates'}
+             activeTab === 'calculators' ? 'Calculate time differences, add durations, and analyze dates':
+             'Plan and organize your complete trip itinerary'}
           </p>
 
           {/* Tab Navigation */}
@@ -176,6 +179,17 @@ function App() {
               >
                 <Clock className="w-4 h-4" />
                 <span className="hidden sm:inline">Duration</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('itinerary')}
+                className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                  activeTab === 'itinerary'
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50'
+                }`}
+              >
+                <MapPin className="w-4 h-4" />
+                <span className="hidden sm:inline">Itinerary</span>
               </button>
             </div>
           </div>
@@ -248,9 +262,13 @@ function App() {
           <Suspense fallback={<LoadingSpinner />}>
             <UnitConverter />
           </Suspense>
-        ) : (
+        ) : activeTab === 'calculators' ? (
           <Suspense fallback={<LoadingSpinner />}>
             <DurationTimeCalculator />
+          </Suspense>
+        ): (
+          <Suspense fallback={<LoadingSpinner />}>  
+            <ItineraryManager />
           </Suspense>
         )}
 
@@ -263,7 +281,8 @@ function App() {
                 {activeTab === 'currency' ? t('app.liveRatesFrom') as string : 
                  activeTab === 'timezone' ? 'Real-time timezone data' : 
                  activeTab === 'units' ? 'Real-time unit conversion' :
-                 'Smart calculation tools'}
+                 activeTab === 'calculators' ? 'Smart calculation tools' :
+                 'Your travel planner'}
               </span>
             </div>
           </div>
@@ -283,7 +302,8 @@ function App() {
             {activeTab === 'currency' ? t('app.statusInfo') as string : 
              activeTab === 'timezone' ? 'Select a timezone card as base and enter time to convert' : 
              activeTab === 'units' ? 'Enter a value in any unit to see conversions across all other units' :
-             'Use the tabs above to access different calculation tools for time, duration, age, and working days'}
+             activeTab === 'calculators' ? 'Use the tabs above to access different calculation tools for time, duration, age, and working days' :
+             'Add activities, set dates and times, and organize your complete travel schedule'}
           </p>
         </div>
       </main>
