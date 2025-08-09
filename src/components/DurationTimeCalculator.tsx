@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Calendar, Plus, ArrowRight, Timer, CalendarDays, Calculator, Briefcase } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,8 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DateTimePicker, DatePicker } from '@/components/ui/date-time-picker';
+import { TimePicker } from '@/components/ui/time-picker';
+import { DatePicker as CalendarDatePicker } from '@/components/ui/date-picker';
 import { useNumberSystem } from '@/hooks/useNumberSystem';
 import { formatNumber } from '@/utils/numberSystem';
 
@@ -23,7 +25,27 @@ export const DurationTimeCalculator = () => {
   // Time Difference Calculator State
   const [startDateTime, setStartDateTime] = useState('');
   const [endDateTime, setEndDateTime] = useState('');
+  
+  // Separate date and time state for better UX
+  const [startDate, setStartDate] = useState(() => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  });
+  const [startTime, setStartTime] = useState('09:00');
+  const [endDate, setEndDate] = useState(() => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  });
+  const [endTime, setEndTime] = useState('17:00');
+  
   const [includeSeconds, setIncludeSeconds] = useState(false);
+
+  // Initialize combined datetime values
+  useEffect(() => {
+    const today = new Date().toISOString().split('T')[0];
+    setStartDateTime(`${today}T09:00:00`);
+    setEndDateTime(`${today}T17:00:00`);
+  }, []);
 
   // Duration Addition Calculator State
   const [baseDateTime, setBaseDateTime] = useState('');
@@ -42,6 +64,35 @@ export const DurationTimeCalculator = () => {
 
   const formatDisplayNumber = (value: number): string => {
     return formatNumber(value, numberSystem, 2);
+  };
+
+  // Helper function to combine date and time
+  const combineDateAndTime = (dateStr: string, timeStr: string): string => {
+    if (!dateStr || !timeStr) return '';
+    // Convert time from HH:MM format to full datetime
+    return `${dateStr}T${timeStr}:00`;
+  };
+
+  // Helper functions to convert between Date objects and date strings
+  const dateStringToDate = (dateStr: string): Date => {
+    return dateStr ? new Date(dateStr + 'T00:00:00') : new Date();
+  };
+
+  const dateToDateString = (date: Date): string => {
+    return date.toISOString().split('T')[0];
+  };
+
+  // Update combined datetime when separate components change
+  const updateStartDateTime = (date: string, time: string) => {
+    setStartDate(date);
+    setStartTime(time);
+    setStartDateTime(combineDateAndTime(date, time));
+  };
+
+  const updateEndDateTime = (date: string, time: string) => {
+    setEndDate(date);
+    setEndTime(time);
+    setEndDateTime(combineDateAndTime(date, time));
   };
 
   const formatDateTime = (date: Date): string => {
@@ -387,33 +438,163 @@ export const DurationTimeCalculator = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <DateTimePicker
-                  label="Start Date & Time"
-                  value={startDateTime}
-                  onChange={setStartDateTime}
-                  className="bg-white/80"
-                  placeholder="Select start date & time"
-                />
-                
-                <DateTimePicker
-                  label="End Date & Time"
-                  value={endDateTime}
-                  onChange={setEndDateTime}
-                  className="bg-white/80"
-                  placeholder="Select end date & time"
-                />
-                
-                <div className="flex flex-col justify-center">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="includeSeconds"
-                      checked={includeSeconds}
-                      onCheckedChange={(checked) => setIncludeSeconds(!!checked)}
+              {/* Start Date & Time Section */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Calendar className="w-4 h-4 text-green-600" />
+                  <h3 className="text-sm font-semibold text-slate-800">Start Date & Time</h3>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="block text-sm font-medium text-gray-700">Start Date</label>
+                    <CalendarDatePicker
+                      selectedDate={dateStringToDate(startDate)}
+                      onDateSelect={(date) => updateStartDateTime(dateToDateString(date), startTime)}
                     />
-                    <Label htmlFor="includeSeconds" className="text-sm text-slate-700">
-                      Include seconds
-                    </Label>
+                  </div>
+                  
+                  <TimePicker
+                    label="Start Time"
+                    value={startTime}
+                    onChange={(time) => updateStartDateTime(startDate, time)}
+                    className="bg-white/80"
+                  />
+                </div>
+              </div>
+
+              {/* End Date & Time Section */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Timer className="w-4 h-4 text-red-600" />
+                  <h3 className="text-sm font-semibold text-slate-800">End Date & Time</h3>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="block text-sm font-medium text-gray-700">End Date</label>
+                    <CalendarDatePicker
+                      selectedDate={dateStringToDate(endDate)}
+                      onDateSelect={(date) => updateEndDateTime(dateToDateString(date), endTime)}
+                    />
+                  </div>
+                  
+                  <TimePicker
+                    label="End Time"
+                    value={endTime}
+                    onChange={(time) => updateEndDateTime(endDate, time)}
+                    className="bg-white/80"
+                  />
+                </div>
+              </div>
+
+              {/* Options and Quick Presets */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Calculator className="w-4 h-4 text-blue-600" />
+                  <h3 className="text-sm font-semibold text-slate-800">Options & Quick Presets</h3>
+                </div>
+                
+                <div className="flex items-center space-x-2 mb-4">
+                  <Checkbox
+                    id="includeSeconds"
+                    checked={includeSeconds}
+                    onCheckedChange={(checked) => setIncludeSeconds(!!checked)}
+                  />
+                  <Label htmlFor="includeSeconds" className="text-sm text-slate-700">
+                    Include seconds in calculations
+                  </Label>
+                </div>
+                
+                {/* Quick Presets */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Date Presets */}
+                  <div>
+                    <h4 className="text-xs font-medium text-slate-600 mb-2">Date Presets:</h4>
+                    <div className="flex flex-wrap gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          const today = new Date().toISOString().split('T')[0];
+                          updateStartDateTime(today, startTime);
+                          updateEndDateTime(today, endTime);
+                        }}
+                        className="text-xs border-slate-300 hover:bg-slate-50"
+                      >
+                        <Calendar className="w-3 h-3 mr-1" />
+                        Today
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          const today = new Date();
+                          const tomorrow = new Date(today);
+                          tomorrow.setDate(tomorrow.getDate() + 1);
+                          updateStartDateTime(dateToDateString(today), startTime);
+                          updateEndDateTime(dateToDateString(tomorrow), endTime);
+                        }}
+                        className="text-xs border-slate-300 hover:bg-slate-50"
+                      >
+                        <ArrowRight className="w-3 h-3 mr-1" />
+                        Today → Tomorrow
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          const today = new Date();
+                          const nextWeek = new Date(today);
+                          nextWeek.setDate(nextWeek.getDate() + 7);
+                          updateStartDateTime(dateToDateString(today), startTime);
+                          updateEndDateTime(dateToDateString(nextWeek), endTime);
+                        }}
+                        className="text-xs border-slate-300 hover:bg-slate-50"
+                      >
+                        <Plus className="w-3 h-3 mr-1" />
+                        +1 Week
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  {/* Time Presets */}
+                  <div>
+                    <h4 className="text-xs font-medium text-slate-600 mb-2">Time Presets:</h4>
+                    <div className="flex flex-wrap gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          updateStartDateTime(startDate, '09:00');
+                          updateEndDateTime(endDate, '17:00');
+                        }}
+                        className="text-xs border-slate-300 hover:bg-slate-50"
+                      >
+                        Work Day (9-5)
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          updateStartDateTime(startDate, '00:00');
+                          updateEndDateTime(endDate, '23:59');
+                        }}
+                        className="text-xs border-slate-300 hover:bg-slate-50"
+                      >
+                        Full Day
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          const now = new Date();
+                          const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+                          updateStartDateTime(startDate, currentTime);
+                        }}
+                        className="text-xs border-slate-300 hover:bg-slate-50"
+                      >
+                        Now
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
