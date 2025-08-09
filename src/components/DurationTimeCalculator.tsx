@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Clock, Calendar, Plus, ArrowRight, Timer, CalendarDays, Calculator, Briefcase } from 'lucide-react';
+import { Calendar, Plus, ArrowRight, Timer, CalendarDays, Calculator, Briefcase } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
+import { DateTimePicker, DatePicker } from '@/components/ui/date-time-picker';
 import { useNumberSystem } from '@/hooks/useNumberSystem';
 import { formatNumber } from '@/utils/numberSystem';
 
@@ -41,15 +42,6 @@ export const DurationTimeCalculator = () => {
 
   const formatDisplayNumber = (value: number): string => {
     return formatNumber(value, numberSystem, 2);
-  };
-
-  // Helper function to get current date/time with time set to 00:00
-  const getTodayAt00 = (): string => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}T00:00`;
   };
 
   const formatDateTime = (date: Date): string => {
@@ -396,48 +388,22 @@ export const DurationTimeCalculator = () => {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="space-y-2">
-                  <Label htmlFor="startDateTime" className="text-sm font-medium text-slate-700">
-                    Start Date & Time
-                  </Label>
-                  <Input
-                    id="startDateTime"
-                    type="datetime-local"
-                    value={startDateTime}
-                    onChange={(e) => setStartDateTime(e.target.value)}
-                    className="bg-white/80 border-slate-300 focus:border-blue-500"
-                  />
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => setStartDateTime(getTodayAt00())}
-                    className="w-full text-xs border-slate-300 hover:bg-slate-50"
-                  >
-                    <Clock className="w-3 h-3 mr-1" />
-                    Today 00:00
-                  </Button>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="endDateTime" className="text-sm font-medium text-slate-700">
-                    End Date & Time
-                  </Label>
-                  <Input
-                    id="endDateTime"
-                    type="datetime-local"
-                    value={endDateTime}
-                    onChange={(e) => setEndDateTime(e.target.value)}
-                    className="bg-white/80 border-slate-300 focus:border-blue-500"
-                  />
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => setEndDateTime(getTodayAt00())}
-                    className="w-full text-xs border-slate-300 hover:bg-slate-50"
-                  >
-                    <Clock className="w-3 h-3 mr-1" />
-                    Today 00:00
-                  </Button>
-                </div>
+                <DateTimePicker
+                  label="Start Date & Time"
+                  value={startDateTime}
+                  onChange={setStartDateTime}
+                  className="bg-white/80"
+                  placeholder="Select start date & time"
+                />
+                
+                <DateTimePicker
+                  label="End Date & Time"
+                  value={endDateTime}
+                  onChange={setEndDateTime}
+                  className="bg-white/80"
+                  placeholder="Select end date & time"
+                />
+                
                 <div className="flex flex-col justify-center">
                   <div className="flex items-center space-x-2">
                     <Checkbox
@@ -469,27 +435,13 @@ export const DurationTimeCalculator = () => {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="space-y-2">
-                  <Label htmlFor="baseDateTime" className="text-sm font-medium text-slate-700">
-                    Base Date & Time
-                  </Label>
-                  <Input
-                    id="baseDateTime"
-                    type="datetime-local"
-                    value={baseDateTime}
-                    onChange={(e) => setBaseDateTime(e.target.value)}
-                    className="bg-white/80 border-slate-300 focus:border-blue-500"
-                  />
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => setBaseDateTime(getTodayAt00())}
-                    className="w-full text-xs border-slate-300 hover:bg-slate-50"
-                  >
-                    <Clock className="w-3 h-3 mr-1" />
-                    Today 00:00
-                  </Button>
-                </div>
+                <DateTimePicker
+                  label="Base Date & Time"
+                  value={baseDateTime}
+                  onChange={setBaseDateTime}
+                  className="bg-white/80"
+                  placeholder="Select base date & time"
+                />
 
                 <div className="space-y-2">
                   <Label className="text-sm font-medium text-slate-700">Operation</Label>
@@ -559,31 +511,21 @@ export const DurationTimeCalculator = () => {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="space-y-2">
-                  <Label htmlFor="birthDate" className="text-sm font-medium text-slate-700">
-                    Birth Date
-                  </Label>
-                  <Input
-                    id="birthDate"
-                    type="date"
-                    value={birthDate}
-                    onChange={(e) => setBirthDate(e.target.value)}
-                    className="bg-white/80 border-slate-300 focus:border-blue-500"
-                  />
-                </div>
+                <DatePicker
+                  label="Birth Date"
+                  value={birthDate ? `${birthDate}T00:00` : ''}
+                  onChange={(value) => setBirthDate(value.split('T')[0])}
+                  className="bg-white/80"
+                  placeholder="Select birth date"
+                />
 
-                <div className="space-y-2">
-                  <Label htmlFor="targetDate" className="text-sm font-medium text-slate-700">
-                    Calculate Age On
-                  </Label>
-                  <Input
-                    id="targetDate"
-                    type="date"
-                    value={targetDate}
-                    onChange={(e) => setTargetDate(e.target.value)}
-                    className="bg-white/80 border-slate-300 focus:border-blue-500"
-                  />
-                </div>
+                <DatePicker
+                  label="Calculate Age On"
+                  value={targetDate ? `${targetDate}T00:00` : ''}
+                  onChange={(value) => setTargetDate(value.split('T')[0])}
+                  className="bg-white/80"
+                  placeholder="Select target date"
+                />
 
                 <div className="flex flex-col justify-end">
                   <div className="flex gap-2">
@@ -639,30 +581,21 @@ export const DurationTimeCalculator = () => {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="space-y-2">
-                  <Label htmlFor="workStartDate" className="text-sm font-medium text-slate-700">
-                    Start Date
-                  </Label>
-                  <Input
-                    id="workStartDate"
-                    type="date"
-                    value={workStartDate}
-                    onChange={(e) => setWorkStartDate(e.target.value)}
-                    className="bg-white/80 border-slate-300 focus:border-blue-500"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="workEndDate" className="text-sm font-medium text-slate-700">
-                    End Date
-                  </Label>
-                  <Input
-                    id="workEndDate"
-                    type="date"
-                    value={workEndDate}
-                    onChange={(e) => setWorkEndDate(e.target.value)}
-                    className="bg-white/80 border-slate-300 focus:border-blue-500"
-                  />
-                </div>
+                <DatePicker
+                  label="Start Date"
+                  value={workStartDate ? `${workStartDate}T00:00` : ''}
+                  onChange={(value) => setWorkStartDate(value.split('T')[0])}
+                  className="bg-white/80"
+                  placeholder="Select start date"
+                />
+                
+                <DatePicker
+                  label="End Date"
+                  value={workEndDate ? `${workEndDate}T00:00` : ''}
+                  onChange={(value) => setWorkEndDate(value.split('T')[0])}
+                  className="bg-white/80"
+                  placeholder="Select end date"
+                />
 
                 <div className="flex flex-col justify-center">
                   <div className="flex items-center space-x-2">
