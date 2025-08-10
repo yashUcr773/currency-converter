@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { TimePicker } from '@/components/ui/time-picker';
+import { SimpleTimePicker } from '@/components/ui/simple-time-picker';
 import { Calendar, MapPin, Palette, Tag } from 'lucide-react';
 import type { ItineraryItem, ItineraryColor, ItineraryCategory } from '@/types/itinerary';
 import { COLOR_VARIANTS, CATEGORY_ICONS } from '@/types/itinerary';
@@ -225,9 +225,9 @@ export const ItineraryForm: React.FC<ItineraryFormProps> = ({ item, onSave, onCa
             {!formData.isAllDay && (
               <>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <TimePicker
+                  <SimpleTimePicker
                     value={formData.startTime}
-                    onChange={(time) => {
+                    onChange={(time: string) => {
                       setFormData(prev => ({ ...prev, startTime: time }));
                       // Clear time validation error when user changes time
                       if (errors.timeRange) {
@@ -239,9 +239,9 @@ export const ItineraryForm: React.FC<ItineraryFormProps> = ({ item, onSave, onCa
                     error={errors.timeRange && formData.startTime === formData.endTime ? errors.timeRange : undefined}
                   />
 
-                  <TimePicker
+                  <SimpleTimePicker
                     value={formData.endTime}
-                    onChange={(time) => {
+                    onChange={(time: string) => {
                       setFormData(prev => ({ ...prev, endTime: time }));
                       // Clear time validation error when user changes time
                       if (errors.timeRange) {

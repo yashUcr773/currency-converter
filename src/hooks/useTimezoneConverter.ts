@@ -4,6 +4,7 @@ import { POPULAR_TIMEZONES, DEFAULT_PINNED_TIMEZONES, getTimezoneInfo } from '..
 import { setTimezoneData, getTimezoneData } from '../utils/timezoneCache';
 import { saveRecentCountry } from '../utils/countryStorage';
 import { logger } from '../utils/env';
+import { createTimeInTimezone, convertUtcToTimezone } from '../utils/timezoneUtils';
 
 const TIMEZONE_STORAGE_KEY = 'ratevault-timezone-data';
 
@@ -138,46 +139,38 @@ export const useTimezoneConverter = () => {
       if (ampm === 'AM' && hour === 12) hour24 = 0;
       else if (ampm === 'PM' && hour !== 12) hour24 = hour + 12;
 
-      // 2. Build a date object for the selected time in the source timezone
+      logger.log(`Setting time in ${timezoneValue}: ${hour}:${minute.toString().padStart(2, '0')} ${ampm} (${hour24}:${minute.toString().padStart(2, '0')})`);
+
+      // 2. Get today's date
       const today = new Date();
       const year = today.getFullYear();
       const month = today.getMonth();
       const day = today.getDate();
-      const localDate = new Date(year, month, day, hour24, minute, 0);
 
-      // 3. Helper to get offset in minutes for a timezone at a given date
-      const getTimezoneOffsetMinutes = (tzName: string, date: Date): number => {
-        const utcDate = new Date(date.getTime());
-        const tzDate = new Date(date.toLocaleString('en-US', { timeZone: tzName }));
-        return (tzDate.getTime() - utcDate.getTime()) / (1000 * 60);
-      };
+      // 3. Create UTC time that represents the desired local time in the source timezone
+      const utcTime = createTimeInTimezone(timezoneValue, year, month, day, hour24, minute);
+      
+      logger.log(`UTC time for ${hour24}:${minute.toString().padStart(2, '0')} in ${timezoneValue}: ${utcTime.toISOString()}`);
 
-      // 4. Get offset for source timezone at localDate
-      const sourceOffset = getTimezoneOffsetMinutes(timezoneValue, localDate);
-
-      // 5. Convert local time to UTC
-      const utcMillis = localDate.getTime() - sourceOffset * 60 * 1000;
-      const utcDate = new Date(utcMillis);
-
-      // 6. Update all timezone cards
+      // 4. Update all timezone cards
       setState(prev => ({
         ...prev,
         baseTimezone: timezoneValue,
         pinnedTimezones: prev.pinnedTimezones.map(pinnedTimezone => {
-          if (pinnedTimezone.timezone.value === timezoneValue) {
+          // For all timezones (including the source), convert from UTC to their local time
+          try {
+            const targetLocalTime = convertUtcToTimezone(utcTime, pinnedTimezone.timezone.value);
+            
+            logger.log(`Converted time for ${pinnedTimezone.timezone.value}: ${targetLocalTime.toLocaleString()}`);
+            
             return {
               ...pinnedTimezone,
-              time: localDate,
+              time: targetLocalTime,
               isCustomTime: true
             };
-          } else {
-            const targetOffset = getTimezoneOffsetMinutes(pinnedTimezone.timezone.value, utcDate);
-            const targetMillis = utcMillis + targetOffset * 60 * 1000;
-            return {
-              ...pinnedTimezone,
-              time: new Date(targetMillis),
-              isCustomTime: true
-            };
+          } catch (conversionError) {
+            logger.error(`Error converting time for ${pinnedTimezone.timezone.value}:`, conversionError);
+            return pinnedTimezone;
           }
         })
       }));

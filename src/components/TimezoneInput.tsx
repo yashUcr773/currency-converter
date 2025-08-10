@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { getUTCOffsetString } from '../constants-timezone';
 import { LiveTimeDisplay } from './LiveTimeDisplay';
-import { TimezoneTimeDropdown } from './TimezoneTimeDropdown';
+import { TimezoneTimePicker } from './ui/timezone-time-picker';
 
 interface TimezoneInputProps {
   pinnedTimezone: PinnedTimezone;
@@ -205,7 +205,7 @@ export const TimezoneInput = ({
       <CardContent className="relative z-10 p-2.5 pt-1 sm:p-3 sm:pt-1 flex-1 flex flex-col justify-end">
         {/* Time input */}
         {/* Time Input - Now handled by dropdown component */}
-        <TimezoneTimeDropdown
+        <TimezoneTimePicker
           timezoneValue={pinnedTimezone.timezone.value}
           setTime={pinnedTimezone.time}
           onTimeChange={onTimeChange}
@@ -216,6 +216,7 @@ export const TimezoneInput = ({
         <div className="mt-2 text-center">
           <LiveTimeDisplay 
             timezoneValue={pinnedTimezone.timezone.value}
+            customTime={pinnedTimezone.time}
             formatOptions={{ showDate: true, showSeconds: true, hour12: true }}
             className="text-xs text-slate-500 font-medium"
           />

@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DateTimePicker, DatePicker } from '@/components/ui/date-time-picker';
-import { TimePicker } from '@/components/ui/time-picker';
+import { SimpleTimePicker } from '@/components/ui/simple-time-picker';
 import { DatePicker as CalendarDatePicker } from '@/components/ui/date-picker';
 import { useNumberSystem } from '@/hooks/useNumberSystem';
 import { formatNumber } from '@/utils/numberSystem';
@@ -453,10 +453,10 @@ export const DurationTimeCalculator = () => {
                     />
                   </div>
                   
-                  <TimePicker
+                  <SimpleTimePicker
                     label="Start Time"
                     value={startTime}
-                    onChange={(time) => updateStartDateTime(startDate, time)}
+                    onChange={(time: string) => updateStartDateTime(startDate, time)}
                     className="bg-white/80"
                   />
                 </div>
@@ -477,10 +477,10 @@ export const DurationTimeCalculator = () => {
                     />
                   </div>
                   
-                  <TimePicker
+                  <SimpleTimePicker
                     label="End Time"
                     value={endTime}
-                    onChange={(time) => updateEndDateTime(endDate, time)}
+                    onChange={(time: string) => updateEndDateTime(endDate, time)}
                     className="bg-white/80"
                   />
                 </div>
