@@ -1,9 +1,10 @@
 import { X } from 'lucide-react';
+import { memo } from 'react';
 import type { PinnedTimezone } from '../types';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { getUTCOffsetString } from '../constants-timezone';
-import { LiveTimeDisplay } from './LiveTimeDisplay';
+import { PureTimerDisplay } from './PureTimerDisplay';
 import { TimezoneTimePicker } from './ui/timezone-time-picker';
 
 interface TimezoneInputProps {
@@ -16,7 +17,7 @@ interface TimezoneInputProps {
   baseTimezoneOffset?: number; // UTC offset of base timezone in minutes
 }
 
-export const TimezoneInput = ({
+const TimezoneInputComponent = ({
   pinnedTimezone,
   onTimeChange,
   onUnpin,
@@ -212,9 +213,9 @@ export const TimezoneInput = ({
           disabled={disabled}
         />
 
-        {/* Current live time display - Now handled by separate component */}
+        {/* Current live time display - Now handled by pure timer component */}
         <div className="mt-2 text-center">
-          <LiveTimeDisplay 
+          <PureTimerDisplay 
             timezoneValue={pinnedTimezone.timezone.value}
             customTime={pinnedTimezone.time}
             formatOptions={{ showDate: true, showSeconds: true, hour12: true }}
@@ -225,3 +226,15 @@ export const TimezoneInput = ({
     </Card>
   );
 };
+
+// Memoize the component with custom comparison to prevent unnecessary re-renders
+export const TimezoneInput = memo(TimezoneInputComponent, (prevProps, nextProps) => {
+  // Custom comparison to prevent re-renders from irrelevant prop changes
+  return (
+    prevProps.pinnedTimezone.timezone.value === nextProps.pinnedTimezone.timezone.value &&
+    prevProps.pinnedTimezone.time?.getTime() === nextProps.pinnedTimezone.time?.getTime() &&
+    prevProps.disabled === nextProps.disabled &&
+    prevProps.isBaseTimezone === nextProps.isBaseTimezone &&
+    prevProps.baseTimezoneOffset === nextProps.baseTimezoneOffset
+  );
+});

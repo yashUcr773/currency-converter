@@ -31,16 +31,15 @@ export const useTimezoneConverter = () => {
   });
 
   const [isLoaded, setIsLoaded] = useState(false);
-  const [currentTime, setCurrentTime] = useState(new Date());
+  // Removed: const [currentTime, setCurrentTime] = useState(new Date());
 
-  // Update current time every second
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
+  // Removed: Update current time every second - this was causing global re-renders
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCurrentTime(new Date());
+  //   }, 1000);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   // Initialize app state from localStorage/cache
   useEffect(() => {
@@ -101,8 +100,10 @@ export const useTimezoneConverter = () => {
     saveData();
   }, [state, isLoaded]);
 
-  // Update all timezone times when current time or base timezone changes
+  // Update all timezone times when base timezone changes (removed currentTime dependency)
   useEffect(() => {
+    // Note: Individual timer displays now handle their own updates via direct DOM manipulation
+    // This effect is kept for when the base timezone changes only
     setState(prev => ({
       ...prev,
       pinnedTimezones: prev.pinnedTimezones.map(pinnedTimezone => {
@@ -111,25 +112,12 @@ export const useTimezoneConverter = () => {
           return pinnedTimezone;
         }
         
-        // Calculate time in this timezone
-        let timeInTimezone: Date;
-        try {
-          timeInTimezone = new Date(currentTime.toLocaleString('en-US', { 
-            timeZone: pinnedTimezone.timezone.value 
-          }));
-        } catch (error) {
-          logger.error(`Invalid timezone in update: ${pinnedTimezone.timezone.value}`, error);
-          // Fallback to current time
-          timeInTimezone = new Date(currentTime);
-        }
-        
-        return {
-          ...pinnedTimezone,
-          time: timeInTimezone
-        };
+        // Let individual timer components handle live time updates
+        // This state update is only for base timezone changes
+        return pinnedTimezone;
       })
     }));
-  }, [currentTime, state.baseTimezone]);
+  }, [state.baseTimezone]); // Removed currentTime dependency
 
   // Set time in a specific timezone and update all others
   const setTimeInTimezone = useCallback((timezoneValue: string, hour: number, minute: number, ampm: 'AM' | 'PM') => {
@@ -181,19 +169,20 @@ export const useTimezoneConverter = () => {
 
   // Reset all timezones to current time
   const resetToCurrentTime = useCallback(() => {
+    const now = new Date(); // Get current time at the moment of reset
     setState(prev => ({
       ...prev,
       pinnedTimezones: prev.pinnedTimezones.map(pinnedTimezone => {
         // Calculate current time in this timezone
         let timeInTimezone: Date;
         try {
-          timeInTimezone = new Date(currentTime.toLocaleString('en-US', { 
+          timeInTimezone = new Date(now.toLocaleString('en-US', { 
             timeZone: pinnedTimezone.timezone.value 
           }));
         } catch (error) {
           logger.error(`Invalid timezone in reset: ${pinnedTimezone.timezone.value}`, error);
           // Fallback to current time
-          timeInTimezone = new Date(currentTime);
+          timeInTimezone = new Date(now);
         }
         
         return {
@@ -203,10 +192,11 @@ export const useTimezoneConverter = () => {
         };
       })
     }));
-  }, [currentTime]);
+  }, []); // No dependencies needed
 
   // Add a timezone to pinned list
   const pinTimezone = useCallback((timezone: Timezone) => {
+    const now = new Date(); // Get current time when pinning
     setState(prev => {
       // Check if already pinned
       if (prev.pinnedTimezones.some(pt => pt.timezone.value === timezone.value)) {
@@ -215,11 +205,11 @@ export const useTimezoneConverter = () => {
 
       let timeInTimezone: Date;
       try {
-        timeInTimezone = new Date(currentTime.toLocaleString('en-US', { timeZone: timezone.value }));
+        timeInTimezone = new Date(now.toLocaleString('en-US', { timeZone: timezone.value }));
       } catch (error) {
         logger.error(`Invalid timezone for pinning: ${timezone.value}`, error);
         // Fallback to current time
-        timeInTimezone = new Date(currentTime);
+        timeInTimezone = new Date(now);
       }
 
       const newPinned: PinnedTimezone = {
@@ -237,7 +227,7 @@ export const useTimezoneConverter = () => {
         pinnedTimezones: [...prev.pinnedTimezones, newPinned]
       };
     });
-  }, [currentTime]);
+  }, []); // No dependencies needed
 
   // Remove a timezone from pinned list
   const unpinTimezone = useCallback((timezoneValue: string) => {
@@ -283,7 +273,7 @@ export const useTimezoneConverter = () => {
 
   return {
     ...state,
-    currentTime,
+    // currentTime removed - individual timer components handle their own time updates
     setTimeInTimezone,
     resetToCurrentTime,
     pinTimezone,
