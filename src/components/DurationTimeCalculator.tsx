@@ -484,8 +484,8 @@ export const DurationTimeCalculator = () => {
                 </div>
 
                 {/* Start Presets */}
-                <div className="space-y-2">
-                  <h4 className="text-xs font-medium text-slate-600">Start Presets:</h4>
+                <div className="space-y-1">
+                  <h4 className="text-xs font-medium text-slate-600">Quick Start:</h4>
                   <div className="flex flex-wrap gap-1">
                     <Button
                       variant="outline"
@@ -495,7 +495,7 @@ export const DurationTimeCalculator = () => {
                         const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
                         updateStartDateTime(startDate, currentTime);
                       }}
-                      className="text-xs border-green-300 hover:bg-green-50 hover:border-green-400"
+                      className="text-xs px-2 py-1 h-6 border-green-300 hover:bg-green-50"
                     >
                       Now
                     </Button>
@@ -506,7 +506,7 @@ export const DurationTimeCalculator = () => {
                         const today = new Date().toISOString().split('T')[0];
                         updateStartDateTime(today, startTime);
                       }}
-                      className="text-xs border-green-300 hover:bg-green-50 hover:border-green-400"
+                      className="text-xs px-2 py-1 h-6 border-green-300 hover:bg-green-50"
                     >
                       Today
                     </Button>
@@ -514,31 +514,11 @@ export const DurationTimeCalculator = () => {
                       variant="outline"
                       size="sm"
                       onClick={() => {
-                        updateStartDateTime(startDate, '06:00');
-                      }}
-                      className="text-xs border-green-300 hover:bg-green-50 hover:border-green-400"
-                    >
-                      6 AM
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        updateStartDateTime(startDate, '07:00');
-                      }}
-                      className="text-xs border-green-300 hover:bg-green-50 hover:border-green-400"
-                    >
-                      7 AM
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
                         updateStartDateTime(startDate, '08:00');
                       }}
-                      className="text-xs border-green-300 hover:bg-green-50 hover:border-green-400"
+                      className="text-xs px-2 py-1 h-6 border-green-300 hover:bg-green-50"
                     >
-                      8 AM
+                      8AM
                     </Button>
                     <Button
                       variant="outline"
@@ -546,29 +526,9 @@ export const DurationTimeCalculator = () => {
                       onClick={() => {
                         updateStartDateTime(startDate, '09:00');
                       }}
-                      className="text-xs border-green-300 hover:bg-green-50 hover:border-green-400"
+                      className="text-xs px-2 py-1 h-6 border-green-300 hover:bg-green-50"
                     >
-                      9 AM
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        updateStartDateTime(startDate, '10:00');
-                      }}
-                      className="text-xs border-green-300 hover:bg-green-50 hover:border-green-400"
-                    >
-                      10 AM
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        updateStartDateTime(startDate, '12:00');
-                      }}
-                      className="text-xs border-green-300 hover:bg-green-50 hover:border-green-400"
-                    >
-                      Noon
+                      9AM
                     </Button>
                     <Button
                       variant="outline"
@@ -576,9 +536,9 @@ export const DurationTimeCalculator = () => {
                       onClick={() => {
                         updateStartDateTime(startDate, '00:00');
                       }}
-                      className="text-xs border-green-300 hover:bg-green-50 hover:border-green-400"
+                      className="text-xs px-2 py-1 h-6 border-green-300 hover:bg-green-50"
                     >
-                      Midnight
+                      00:00
                     </Button>
                   </div>
                 </div>
@@ -617,68 +577,18 @@ export const DurationTimeCalculator = () => {
                 </div>
 
                 {/* End Presets */}
-                <div className="space-y-2">
-                  <h4 className="text-xs font-medium text-slate-600">End Presets:</h4>
+                <div className="space-y-1">
+                  <h4 className="text-xs font-medium text-slate-600">Quick End:</h4>
                   <div className="flex flex-wrap gap-1">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        updateEndDateTime(endDate, '12:00');
-                      }}
-                      className="text-xs border-red-300 hover:bg-red-50 hover:border-red-400"
-                    >
-                      Noon
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        updateEndDateTime(endDate, '13:00');
-                      }}
-                      className="text-xs border-red-300 hover:bg-red-50 hover:border-red-400"
-                    >
-                      1 PM
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        updateEndDateTime(endDate, '14:00');
-                      }}
-                      className="text-xs border-red-300 hover:bg-red-50 hover:border-red-400"
-                    >
-                      2 PM
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        updateEndDateTime(endDate, '15:00');
-                      }}
-                      className="text-xs border-red-300 hover:bg-red-50 hover:border-red-400"
-                    >
-                      3 PM
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        updateEndDateTime(endDate, '16:00');
-                      }}
-                      className="text-xs border-red-300 hover:bg-red-50 hover:border-red-400"
-                    >
-                      4 PM
-                    </Button>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => {
                         updateEndDateTime(endDate, '17:00');
                       }}
-                      className="text-xs border-red-300 hover:bg-red-50 hover:border-red-400"
+                      className="text-xs px-2 py-1 h-6 border-red-300 hover:bg-red-50"
                     >
-                      5 PM
+                      5PM
                     </Button>
                     <Button
                       variant="outline"
@@ -686,19 +596,9 @@ export const DurationTimeCalculator = () => {
                       onClick={() => {
                         updateEndDateTime(endDate, '18:00');
                       }}
-                      className="text-xs border-red-300 hover:bg-red-50 hover:border-red-400"
+                      className="text-xs px-2 py-1 h-6 border-red-300 hover:bg-red-50"
                     >
-                      6 PM
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        updateEndDateTime(endDate, '20:00');
-                      }}
-                      className="text-xs border-red-300 hover:bg-red-50 hover:border-red-400"
-                    >
-                      8 PM
+                      6PM
                     </Button>
                     <Button
                       variant="outline"
@@ -708,9 +608,9 @@ export const DurationTimeCalculator = () => {
                         tomorrow.setDate(tomorrow.getDate() + 1);
                         updateEndDateTime(dateToDateString(tomorrow), endTime);
                       }}
-                      className="text-xs border-red-300 hover:bg-red-50 hover:border-red-400"
+                      className="text-xs px-2 py-1 h-6 border-red-300 hover:bg-red-50"
                     >
-                      Tomorrow
+                      +1Day
                     </Button>
                     <Button
                       variant="outline"
@@ -720,21 +620,9 @@ export const DurationTimeCalculator = () => {
                         nextWeek.setDate(nextWeek.getDate() + 7);
                         updateEndDateTime(dateToDateString(nextWeek), endTime);
                       }}
-                      className="text-xs border-red-300 hover:bg-red-50 hover:border-red-400"
+                      className="text-xs px-2 py-1 h-6 border-red-300 hover:bg-red-50"
                     >
-                      +1 Week
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const nextMonth = new Date();
-                        nextMonth.setMonth(nextMonth.getMonth() + 1);
-                        updateEndDateTime(dateToDateString(nextMonth), endTime);
-                      }}
-                      className="text-xs border-red-300 hover:bg-red-50 hover:border-red-400"
-                    >
-                      +1 Month
+                      +1Week
                     </Button>
                     <Button
                       variant="outline"
@@ -742,335 +630,129 @@ export const DurationTimeCalculator = () => {
                       onClick={() => {
                         updateEndDateTime(endDate, '23:59');
                       }}
-                      className="text-xs border-red-300 hover:bg-red-50 hover:border-red-400"
+                      className="text-xs px-2 py-1 h-6 border-red-300 hover:bg-red-50"
                     >
-                      End of Day
+                      EOD
                     </Button>
                   </div>
                 </div>
               </div>
 
-              {/* Common Scenario Presets */}
-              <div className="space-y-3">
+              {/* Common Scenarios - Compact */}
+              <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <Calculator className="w-4 h-4 text-blue-600" />
-                  <h3 className="text-sm font-semibold text-slate-800">Common Scenarios</h3>
+                  <h3 className="text-sm font-semibold text-slate-800">Quick Scenarios</h3>
                 </div>
                 
-                {/* Work & Business */}
-                <div className="space-y-2">
-                  <h4 className="text-xs font-medium text-slate-600">Work & Business:</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const todayStr = dateToDateString(today);
-                        updateStartDateTime(todayStr, '09:00');
-                        updateEndDateTime(todayStr, '17:00');
-                      }}
-                      className="text-xs border-blue-300 hover:bg-blue-50 hover:border-blue-400"
-                    >
-                      Work Day (8h)
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const todayStr = dateToDateString(today);
-                        updateStartDateTime(todayStr, '09:00');
-                        updateEndDateTime(todayStr, '13:00');
-                      }}
-                      className="text-xs border-blue-300 hover:bg-blue-50 hover:border-blue-400"
-                    >
-                      Half Day (4h)
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const todayStr = dateToDateString(today);
-                        updateStartDateTime(todayStr, '13:00');
-                        updateEndDateTime(todayStr, '17:00');
-                      }}
-                      className="text-xs border-blue-300 hover:bg-blue-50 hover:border-blue-400"
-                    >
-                      Afternoon (4h)
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const todayStr = dateToDateString(today);
-                        updateStartDateTime(todayStr, '13:00');
-                        updateEndDateTime(todayStr, '14:00');
-                      }}
-                      className="text-xs border-blue-300 hover:bg-blue-50 hover:border-blue-400"
-                    >
-                      Lunch Break (1h)
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Shifts */}
-                <div className="space-y-2">
-                  <h4 className="text-xs font-medium text-slate-600">Work Shifts:</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const todayStr = dateToDateString(today);
-                        updateStartDateTime(todayStr, '06:00');
-                        updateEndDateTime(todayStr, '14:00');
-                      }}
-                      className="text-xs border-blue-300 hover:bg-blue-50 hover:border-blue-400"
-                    >
-                      Morning Shift (8h)
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const todayStr = dateToDateString(today);
-                        updateStartDateTime(todayStr, '14:00');
-                        updateEndDateTime(todayStr, '22:00');
-                      }}
-                      className="text-xs border-blue-300 hover:bg-blue-50 hover:border-blue-400"
-                    >
-                      Evening Shift (8h)
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const tomorrow = new Date(today);
-                        tomorrow.setDate(tomorrow.getDate() + 1);
-                        updateStartDateTime(dateToDateString(today), '22:00');
-                        updateEndDateTime(dateToDateString(tomorrow), '06:00');
-                      }}
-                      className="text-xs border-blue-300 hover:bg-blue-50 hover:border-blue-400"
-                    >
-                      Night Shift (8h)
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const todayStr = dateToDateString(today);
-                        updateStartDateTime(todayStr, '08:00');
-                        updateEndDateTime(todayStr, '20:00');
-                      }}
-                      className="text-xs border-blue-300 hover:bg-blue-50 hover:border-blue-400"
-                    >
-                      Long Shift (12h)
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Study & Activities */}
-                <div className="space-y-2">
-                  <h4 className="text-xs font-medium text-slate-600">Study & Activities:</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const todayStr = dateToDateString(today);
-                        updateStartDateTime(todayStr, '09:00');
-                        updateEndDateTime(todayStr, '12:00');
-                      }}
-                      className="text-xs border-purple-300 hover:bg-purple-50 hover:border-purple-400"
-                    >
-                      Study Session (3h)
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const todayStr = dateToDateString(today);
-                        updateStartDateTime(todayStr, '10:00');
-                        updateEndDateTime(todayStr, '12:00');
-                      }}
-                      className="text-xs border-purple-300 hover:bg-purple-50 hover:border-purple-400"
-                    >
-                      Exam (2h)
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const todayStr = dateToDateString(today);
-                        updateStartDateTime(todayStr, '14:00');
-                        updateEndDateTime(todayStr, '16:00');
-                      }}
-                      className="text-xs border-purple-300 hover:bg-purple-50 hover:border-purple-400"
-                    >
-                      Meeting (2h)
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const todayStr = dateToDateString(today);
-                        updateStartDateTime(todayStr, '18:00');
-                        updateEndDateTime(todayStr, '20:00');
-                      }}
-                      className="text-xs border-purple-300 hover:bg-purple-50 hover:border-purple-400"
-                    >
-                      Evening Class (2h)
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Travel & Events */}
-                <div className="space-y-2">
-                  <h4 className="text-xs font-medium text-slate-600">Travel & Events:</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const todayStr = dateToDateString(today);
-                        updateStartDateTime(todayStr, '08:00');
-                        updateEndDateTime(todayStr, '18:00');
-                      }}
-                      className="text-xs border-orange-300 hover:bg-orange-50 hover:border-orange-400"
-                    >
-                      Day Trip (10h)
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const endDate = new Date(today);
-                        endDate.setDate(endDate.getDate() + 2);
-                        updateStartDateTime(dateToDateString(today), '09:00');
-                        updateEndDateTime(dateToDateString(endDate), '17:00');
-                      }}
-                      className="text-xs border-orange-300 hover:bg-orange-50 hover:border-orange-400"
-                    >
-                      Weekend Trip
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const todayStr = dateToDateString(today);
-                        updateStartDateTime(todayStr, '18:00');
-                        updateEndDateTime(todayStr, '22:00');
-                      }}
-                      className="text-xs border-orange-300 hover:bg-orange-50 hover:border-orange-400"
-                    >
-                      Evening Event (4h)
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const tomorrow = new Date(today);
-                        tomorrow.setDate(tomorrow.getDate() + 1);
-                        updateStartDateTime(dateToDateString(today), '20:00');
-                        updateEndDateTime(dateToDateString(tomorrow), '02:00');
-                      }}
-                      className="text-xs border-orange-300 hover:bg-orange-50 hover:border-orange-400"
-                    >
-                      Party/Event (6h)
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Time Periods */}
-                <div className="space-y-2">
-                  <h4 className="text-xs font-medium text-slate-600">Time Periods:</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const nextWeek = new Date(today);
-                        nextWeek.setDate(nextWeek.getDate() + 7);
-                        updateStartDateTime(dateToDateString(today), '09:00');
-                        updateEndDateTime(dateToDateString(nextWeek), '17:00');
-                      }}
-                      className="text-xs border-teal-300 hover:bg-teal-50 hover:border-teal-400"
-                    >
-                      1 Week
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const twoWeeks = new Date(today);
-                        twoWeeks.setDate(twoWeeks.getDate() + 14);
-                        updateStartDateTime(dateToDateString(today), '09:00');
-                        updateEndDateTime(dateToDateString(twoWeeks), '17:00');
-                      }}
-                      className="text-xs border-teal-300 hover:bg-teal-50 hover:border-teal-400"
-                    >
-                      2 Weeks
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const nextMonth = new Date(today);
-                        nextMonth.setMonth(nextMonth.getMonth() + 1);
-                        updateStartDateTime(dateToDateString(today), '09:00');
-                        updateEndDateTime(dateToDateString(nextMonth), '17:00');
-                      }}
-                      className="text-xs border-teal-300 hover:bg-teal-50 hover:border-teal-400"
-                    >
-                      1 Month
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const quarter = new Date(today);
-                        quarter.setMonth(quarter.getMonth() + 3);
-                        updateStartDateTime(dateToDateString(today), '09:00');
-                        updateEndDateTime(dateToDateString(quarter), '17:00');
-                      }}
-                      className="text-xs border-teal-300 hover:bg-teal-50 hover:border-teal-400"
-                    >
-                      3 Months
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const today = new Date();
-                        const nextYear = new Date(today);
-                        nextYear.setFullYear(nextYear.getFullYear() + 1);
-                        updateStartDateTime(dateToDateString(today), '09:00');
-                        updateEndDateTime(dateToDateString(nextYear), '17:00');
-                      }}
-                      className="text-xs border-teal-300 hover:bg-teal-50 hover:border-teal-400"
-                    >
-                      1 Year
-                    </Button>
-                  </div>
+                <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-1">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const today = new Date();
+                      const todayStr = dateToDateString(today);
+                      updateStartDateTime(todayStr, '09:00');
+                      updateEndDateTime(todayStr, '17:00');
+                    }}
+                    className="text-xs px-1 py-1 h-6 hover:bg-blue-50"
+                  >
+                    8h
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const today = new Date();
+                      const todayStr = dateToDateString(today);
+                      updateStartDateTime(todayStr, '09:00');
+                      updateEndDateTime(todayStr, '13:00');
+                    }}
+                    className="text-xs px-1 py-1 h-6 hover:bg-blue-50"
+                  >
+                    4h
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const today = new Date();
+                      const todayStr = dateToDateString(today);
+                      updateStartDateTime(todayStr, '13:00');
+                      updateEndDateTime(todayStr, '14:00');
+                    }}
+                    className="text-xs px-1 py-1 h-6 hover:bg-blue-50"
+                  >
+                    1h
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const today = new Date();
+                      const tomorrow = new Date(today);
+                      tomorrow.setDate(tomorrow.getDate() + 1);
+                      updateStartDateTime(dateToDateString(today), '22:00');
+                      updateEndDateTime(dateToDateString(tomorrow), '06:00');
+                    }}
+                    className="text-xs px-1 py-1 h-6 hover:bg-purple-50"
+                  >
+                    8h
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const today = new Date();
+                      const todayStr = dateToDateString(today);
+                      updateStartDateTime(todayStr, '14:00');
+                      updateEndDateTime(todayStr, '16:00');
+                    }}
+                    className="text-xs px-1 py-1 h-6 hover:bg-green-50"
+                  >
+                    2h
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const today = new Date();
+                      const todayStr = dateToDateString(today);
+                      updateStartDateTime(todayStr, '09:00');
+                      updateEndDateTime(todayStr, '12:00');
+                    }}
+                    className="text-xs px-1 py-1 h-6 hover:bg-green-50"
+                  >
+                    3h
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const today = new Date();
+                      const nextWeek = new Date(today);
+                      nextWeek.setDate(nextWeek.getDate() + 7);
+                      updateStartDateTime(dateToDateString(today), '09:00');
+                      updateEndDateTime(dateToDateString(nextWeek), '17:00');
+                    }}
+                    className="text-xs px-1 py-1 h-6 hover:bg-orange-50"
+                  >
+                    1w
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      const today = new Date();
+                      const nextMonth = new Date(today);
+                      nextMonth.setMonth(nextMonth.getMonth() + 1);
+                      updateStartDateTime(dateToDateString(today), '09:00');
+                      updateEndDateTime(dateToDateString(nextMonth), '17:00');
+                    }}
+                    className="text-xs px-1 py-1 h-6 hover:bg-orange-50"
+                  >
+                    1m
+                  </Button>
                 </div>
               </div>
 
