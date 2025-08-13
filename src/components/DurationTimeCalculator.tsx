@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Calendar, Plus, ArrowRight, Timer, CalendarDays, Calculator, Briefcase } from 'lucide-react';
+import { Calendar, Plus, Timer, CalendarDays, Calculator } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-import { DatePicker } from '@/components/ui/date-time-picker';
 import { TimezoneTimePicker } from '@/components/ui/timezone-time-picker';
 import { DatePicker as CalendarDatePicker } from '@/components/ui/date-picker';
 import { useNumberSystem } from '@/hooks/useNumberSystem';
@@ -82,12 +80,9 @@ export const DurationTimeCalculator = () => {
 
   // Age Calculator State
   const [birthDate, setBirthDate] = useState('');
+  const [birthDateOnly, setBirthDateOnly] = useState('');
   const [targetDate, setTargetDate] = useState(() => getTodayString());
-
-  // Working Days Calculator State
-  const [workStartDate, setWorkStartDate] = useState('');
-  const [workEndDate, setWorkEndDate] = useState('');
-  const [includeWeekends, setIncludeWeekends] = useState(false);
+  const [targetDateOnly, setTargetDateOnly] = useState(() => getTodayString());
 
   const formatDisplayNumber = (value: number): string => {
     return formatNumber(value, numberSystem, 2);
@@ -160,7 +155,20 @@ export const DurationTimeCalculator = () => {
     setBaseDateOnly(todayStr);
     setBaseTimeOnly('09:00');
     setBaseDateTime(`${todayStr}T09:00:00`);
+    setTargetDateOnly(todayStr);
+    setTargetDate(todayStr);
   }, []);
+
+  // Helper functions for age calculator
+  const updateBirthDate = (dateStr: string) => {
+    setBirthDateOnly(dateStr);
+    setBirthDate(dateStr);
+  };
+
+  const updateTargetDate = (dateStr: string) => {
+    setTargetDateOnly(dateStr);
+    setTargetDate(dateStr);
+  };
 
   // Update combined datetime when separate components change
   const updateStartDateTime = (date: string, time: string) => {
@@ -416,57 +424,6 @@ export const DurationTimeCalculator = () => {
     }
   };
 
-  const calculateWorkingDays = (): DurationResult[] => {
-    if (!workStartDate || !workEndDate) return [];
-
-    try {
-      const start = new Date(workStartDate);
-      const end = new Date(workEndDate);
-
-      if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-        return [{ value: 'Invalid date', label: 'Error', description: 'Please check your date inputs' }];
-      }
-
-      if (start > end) {
-        return [{ value: 'Invalid range', label: 'Error', description: 'Start date must be before end date' }];
-      }
-
-      const totalDays = Math.floor((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
-      let workingDays = 0;
-      let weekends = 0;
-
-      for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-        const dayOfWeek = d.getDay();
-        if (dayOfWeek === 0 || dayOfWeek === 6) { // Sunday or Saturday
-          weekends++;
-          if (includeWeekends) {
-            workingDays++;
-          }
-        } else {
-          workingDays++;
-        }
-      }
-
-      const weeks = Math.floor(totalDays / 7);
-      const workingWeeks = Math.floor(workingDays / (includeWeekends ? 7 : 5));
-
-      return [
-        { value: formatDisplayNumber(totalDays), label: 'Total Days' },
-        { value: formatDisplayNumber(workingDays), label: includeWeekends ? 'Days (including weekends)' : 'Working Days (Mon-Fri)' },
-        { value: formatDisplayNumber(weekends), label: 'Weekend Days' },
-        { value: formatDisplayNumber(weeks), label: 'Total Weeks' },
-        { value: formatDisplayNumber(workingWeeks), label: includeWeekends ? 'Weeks' : 'Working Weeks' },
-        { 
-          value: formatDisplayNumber(workingDays * 8), 
-          label: 'Working Hours', 
-          description: 'Assuming 8 hours per working day' 
-        },
-      ];
-    } catch {
-      return [{ value: 'Calculation error', label: 'Error', description: 'Please check your inputs' }];
-    }
-  };
-
   const ResultCard = ({ results }: { results: DurationResult[] }) => {
     if (results.length === 0) return null;
 
@@ -543,7 +500,7 @@ export const DurationTimeCalculator = () => {
 
       <Tabs defaultValue="difference" className="space-y-6">
         <div className="flex justify-center">
-          <TabsList className="inline-flex grid-cols-2 lg:grid-cols-4 gap-2 h-auto p-1.5 bg-white/90 backdrop-blur-sm border border-slate-200 shadow-lg rounded-xl">
+          <TabsList className="inline-flex grid-cols-2 lg:grid-cols-3 gap-2 h-auto p-1.5 bg-white/90 backdrop-blur-sm border border-slate-200 shadow-lg rounded-xl">
             <TabsTrigger 
               value="difference" 
               className="flex flex-col items-center p-3 text-xs font-medium rounded-lg transition-all duration-200 data-[state=active]:bg-gradient-to-br data-[state=active]:from-blue-50 data-[state=active]:to-blue-100 data-[state=active]:text-blue-700 data-[state=active]:shadow-md hover:bg-slate-50"
@@ -564,13 +521,6 @@ export const DurationTimeCalculator = () => {
             >
               <CalendarDays className="w-4 h-4 mb-1" />
               <span>Age Calc</span>
-            </TabsTrigger>
-            <TabsTrigger 
-              value="working" 
-              className="flex flex-col items-center p-3 text-xs font-medium rounded-lg transition-all duration-200 data-[state=active]:bg-gradient-to-br data-[state=active]:from-orange-50 data-[state=active]:to-orange-100 data-[state=active]:text-orange-700 data-[state=active]:shadow-md hover:bg-slate-50"
-            >
-              <Briefcase className="w-4 h-4 mb-1" />
-              <span>Work Days</span>
             </TabsTrigger>
           </TabsList>
         </div>
@@ -1165,30 +1115,145 @@ export const DurationTimeCalculator = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <DatePicker
-                  label="Birth Date"
-                  value={birthDate ? `${birthDate}T00:00` : ''}
-                  onChange={(value) => setBirthDate(value.split('T')[0])}
-                  className="bg-white/80"
-                  placeholder="Select birth date"
-                />
+              {/* Birth Date Section */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <CalendarDays className="w-4 h-4 text-purple-600" />
+                  <h3 className="text-sm font-semibold text-slate-800">Birth Date</h3>
+                </div>
+                
+                <div className="space-y-1">
+                  <label className="block text-xs font-medium text-gray-700">Select Birth Date</label>
+                  <div className="w-full max-w-md">
+                    <CalendarDatePicker
+                      selectedDate={birthDateOnly ? dateStringToDate(birthDateOnly) : new Date()}
+                      onDateSelect={(date) => updateBirthDate(dateToDateString(date))}
+                    />
+                  </div>
+                </div>
 
-                <DatePicker
-                  label="Calculate Age On"
-                  value={targetDate ? `${targetDate}T00:00` : ''}
-                  onChange={(value) => setTargetDate(value.split('T')[0])}
-                  className="bg-white/80"
-                  placeholder="Select target date"
-                />
+                {/* Birth Date Quick Presets */}
+                <div className="space-y-2">
+                  <h4 className="text-xs font-medium text-slate-600">Quick Birth Years:</h4>
+                  <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        const year = new Date().getFullYear() - 25;
+                        updateBirthDate(`${year}-01-01`);
+                      }}
+                      className="text-xs px-2 py-2 h-8 hover:bg-purple-50 border-purple-200 flex flex-col items-center gap-0.5"
+                    >
+                      <span className="font-medium">25 yrs</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        const year = new Date().getFullYear() - 30;
+                        updateBirthDate(`${year}-01-01`);
+                      }}
+                      className="text-xs px-2 py-2 h-8 hover:bg-purple-50 border-purple-200 flex flex-col items-center gap-0.5"
+                    >
+                      <span className="font-medium">30 yrs</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        const year = new Date().getFullYear() - 35;
+                        updateBirthDate(`${year}-01-01`);
+                      }}
+                      className="text-xs px-2 py-2 h-8 hover:bg-purple-50 border-purple-200 flex flex-col items-center gap-0.5"
+                    >
+                      <span className="font-medium">35 yrs</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        const year = new Date().getFullYear() - 40;
+                        updateBirthDate(`${year}-01-01`);
+                      }}
+                      className="text-xs px-2 py-2 h-8 hover:bg-purple-50 border-purple-200 flex flex-col items-center gap-0.5"
+                    >
+                      <span className="font-medium">40 yrs</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        const year = new Date().getFullYear() - 50;
+                        updateBirthDate(`${year}-01-01`);
+                      }}
+                      className="text-xs px-2 py-2 h-8 hover:bg-purple-50 border-purple-200 flex flex-col items-center gap-0.5"
+                    >
+                      <span className="font-medium">50 yrs</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        const year = new Date().getFullYear() - 60;
+                        updateBirthDate(`${year}-01-01`);
+                      }}
+                      className="text-xs px-2 py-2 h-8 hover:bg-purple-50 border-purple-200 flex flex-col items-center gap-0.5"
+                    >
+                      <span className="font-medium">60 yrs</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        const year = new Date().getFullYear() - 21;
+                        updateBirthDate(`${year}-01-01`);
+                      }}
+                      className="text-xs px-2 py-2 h-8 hover:bg-purple-50 border-purple-200 flex flex-col items-center gap-0.5"
+                    >
+                      <span className="font-medium">21 yrs</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        const year = new Date().getFullYear() - 18;
+                        updateBirthDate(`${year}-01-01`);
+                      }}
+                      className="text-xs px-2 py-2 h-8 hover:bg-purple-50 border-purple-200 flex flex-col items-center gap-0.5"
+                    >
+                      <span className="font-medium">18 yrs</span>
+                    </Button>
+                  </div>
+                </div>
+              </div>
 
-                <div className="flex flex-col justify-end">
-                  <div className="flex gap-2">
+              {/* Target Date Section */}
+              <div className="border-t pt-4 space-y-4">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-blue-600" />
+                  <h3 className="text-sm font-semibold text-slate-800">Calculate Age On</h3>
+                </div>
+                
+                <div className="space-y-1">
+                  <label className="block text-xs font-medium text-gray-700">Select Target Date</label>
+                  <div className="w-full max-w-md">
+                    <CalendarDatePicker
+                      selectedDate={targetDateOnly ? dateStringToDate(targetDateOnly) : dateStringToDate(getTodayString())}
+                      onDateSelect={(date) => updateTargetDate(dateToDateString(date))}
+                    />
+                  </div>
+                </div>
+
+                {/* Target Date Quick Presets */}
+                <div className="space-y-2">
+                  <h4 className="text-xs font-medium text-slate-600">Quick Target Dates:</h4>
+                  <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
                     <Button 
                       variant="outline" 
                       size="sm"
-                      onClick={() => setTargetDate(getTodayString())}
-                      className="text-xs border-slate-300 hover:bg-slate-50"
+                      onClick={() => updateTargetDate(getTodayString())}
+                      className="text-xs px-2 py-2 h-8 hover:bg-blue-50 border-blue-200"
                     >
                       <Calendar className="w-3 h-3 mr-1" />
                       Today
@@ -1198,22 +1263,64 @@ export const DurationTimeCalculator = () => {
                       size="sm"
                       onClick={() => {
                         const nextBirthday = new Date();
-                        if (birthDate) {
-                          const birth = new Date(birthDate);
+                        if (birthDateOnly) {
+                          const birth = new Date(birthDateOnly);
                           nextBirthday.setFullYear(nextBirthday.getFullYear());
                           nextBirthday.setMonth(birth.getMonth());
                           nextBirthday.setDate(birth.getDate());
                           if (nextBirthday < new Date()) {
                             nextBirthday.setFullYear(nextBirthday.getFullYear() + 1);
                           }
-                          setTargetDate(nextBirthday.toISOString().split('T')[0]);
+                          updateTargetDate(dateToDateString(nextBirthday));
                         }
                       }}
-                      disabled={!birthDate}
-                      className="text-xs border-slate-300 hover:bg-slate-50"
+                      disabled={!birthDateOnly}
+                      className="text-xs px-2 py-2 h-8 hover:bg-blue-50 border-blue-200"
                     >
                       <CalendarDays className="w-3 h-3 mr-1" />
                       Next Birthday
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => {
+                        const newYear = new Date();
+                        newYear.setFullYear(newYear.getFullYear() + 1, 0, 1);
+                        updateTargetDate(dateToDateString(newYear));
+                      }}
+                      className="text-xs px-2 py-2 h-8 hover:bg-blue-50 border-blue-200"
+                    >
+                      New Year
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => {
+                        const endOfYear = new Date();
+                        endOfYear.setFullYear(endOfYear.getFullYear(), 11, 31);
+                        updateTargetDate(dateToDateString(endOfYear));
+                      }}
+                      className="text-xs px-2 py-2 h-8 hover:bg-blue-50 border-blue-200"
+                    >
+                      End of Year
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => {
+                        const retirement = new Date();
+                        if (birthDateOnly) {
+                          const birth = new Date(birthDateOnly);
+                          retirement.setFullYear(birth.getFullYear() + 65);
+                          retirement.setMonth(birth.getMonth());
+                          retirement.setDate(birth.getDate());
+                          updateTargetDate(dateToDateString(retirement));
+                        }
+                      }}
+                      disabled={!birthDateOnly}
+                      className="text-xs px-2 py-2 h-8 hover:bg-blue-50 border-blue-200"
+                    >
+                      Retirement (65)
                     </Button>
                   </div>
                 </div>
@@ -1221,80 +1328,6 @@ export const DurationTimeCalculator = () => {
 
               <div className="border-t pt-4">
                 <ResultCard results={calculateAge()} />
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="working" className="space-y-4">
-          <Card className="bg-white/95 backdrop-blur-md border-slate-200 shadow-md">
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Briefcase className="w-5 h-5 text-orange-600" />
-                Working Days Calculator
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <DatePicker
-                  label="Start Date"
-                  value={workStartDate ? `${workStartDate}T00:00` : ''}
-                  onChange={(value) => setWorkStartDate(value.split('T')[0])}
-                  className="bg-white/80"
-                  placeholder="Select start date"
-                />
-                
-                <DatePicker
-                  label="End Date"
-                  value={workEndDate ? `${workEndDate}T00:00` : ''}
-                  onChange={(value) => setWorkEndDate(value.split('T')[0])}
-                  className="bg-white/80"
-                  placeholder="Select end date"
-                />
-
-                <div className="flex flex-col justify-center">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="includeWeekends"
-                      checked={includeWeekends}
-                      onCheckedChange={(checked) => setIncludeWeekends(!!checked)}
-                    />
-                    <Label htmlFor="includeWeekends" className="text-sm text-slate-700">
-                      Include weekends
-                    </Label>
-                  </div>
-                </div>
-
-                <div className="flex flex-col justify-end">
-                  <div className="flex gap-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => setWorkStartDate(getTodayString())}
-                      className="text-xs border-slate-300 hover:bg-slate-50"
-                    >
-                      <Calendar className="w-3 h-3 mr-1" />
-                      Today
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => {
-                        const nextWeek = new Date();
-                        nextWeek.setDate(nextWeek.getDate() + 7);
-                        setWorkEndDate(nextWeek.toISOString().split('T')[0]);
-                      }}
-                      className="text-xs border-slate-300 hover:bg-slate-50"
-                    >
-                      <ArrowRight className="w-3 h-3 mr-1" />
-                      +1 Week
-                    </Button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="border-t pt-4">
-                <ResultCard results={calculateWorkingDays()} />
               </div>
             </CardContent>
           </Card>
