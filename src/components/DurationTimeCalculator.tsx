@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { DateTimePicker, DatePicker } from '@/components/ui/date-time-picker';
+import { DatePicker } from '@/components/ui/date-time-picker';
 import { TimezoneTimePicker } from '@/components/ui/timezone-time-picker';
 import { DatePicker as CalendarDatePicker } from '@/components/ui/date-picker';
 import { useNumberSystem } from '@/hooks/useNumberSystem';
@@ -68,6 +68,14 @@ export const DurationTimeCalculator = () => {
 
   // Duration Addition Calculator State
   const [baseDateTime, setBaseDateTime] = useState('');
+  const [baseDateOnly, setBaseDateOnly] = useState(() => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  });
+  const [baseTimeOnly, setBaseTimeOnly] = useState('09:00');
   const [durationValue, setDurationValue] = useState('');
   const [durationUnit, setDurationUnit] = useState('hours');
   const [operation, setOperation] = useState<'add' | 'subtract'>('add');
@@ -134,6 +142,25 @@ export const DurationTimeCalculator = () => {
     const day = date.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
+
+  // Update combined datetime when separate components change for duration
+  const updateBaseDuration = (date: string, time: string) => {
+    setBaseDateOnly(date);
+    setBaseTimeOnly(time);
+    setBaseDateTime(combineDateAndTime(date, time));
+  };
+
+  // Initialize combined datetime values for base duration
+  useEffect(() => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const todayStr = `${year}-${month}-${day}`;
+    setBaseDateOnly(todayStr);
+    setBaseTimeOnly('09:00');
+    setBaseDateTime(`${todayStr}T09:00:00`);
+  }, []);
 
   // Update combined datetime when separate components change
   const updateStartDateTime = (date: string, time: string) => {
@@ -869,15 +896,112 @@ export const DurationTimeCalculator = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <DateTimePicker
-                  label="Base Date & Time"
-                  value={baseDateTime}
-                  onChange={setBaseDateTime}
-                  className="bg-white/80"
-                  placeholder="Select base date & time"
-                />
+              {/* Base Date & Time Input Section */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-green-600" />
+                  <h3 className="text-sm font-semibold text-slate-800">Base Date & Time</h3>
+                </div>
+                
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="flex-1 space-y-1">
+                    <label className="block text-xs font-medium text-gray-700">Base Date</label>
+                    <div className="w-full min-w-0">
+                      <CalendarDatePicker
+                        selectedDate={dateStringToDate(baseDateOnly)}
+                        onDateSelect={(date) => updateBaseDuration(dateToDateString(date), baseTimeOnly)}
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="flex-1 space-y-1">
+                    <div className="w-full min-w-0">
+                      <TimezoneTimePicker
+                        timezoneValue="UTC"
+                        setTime={createCustomTime(baseTimeOnly)}
+                        onTimeChange={(hour: number, minute: number, ampm: 'AM' | 'PM') => {
+                          const timeStr = convertTimePickerToTime(hour, minute, ampm);
+                          updateBaseDuration(baseDateOnly, timeStr);
+                        }}
+                        label="Base Time"
+                        variant="outline"
+                        size="default"
+                        className="bg-white/80 w-full min-w-0"
+                      />
+                    </div>
+                  </div>
+                </div>
 
+                {/* Base DateTime Quick Presets */}
+                <div className="space-y-2">
+                  <h4 className="text-xs font-medium text-slate-600">Quick Base Time:</h4>
+                  <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        const now = new Date();
+                        const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+                        const todayStr = dateToDateString(now);
+                        updateBaseDuration(todayStr, currentTime);
+                      }}
+                      className="text-xs px-2 py-1.5 h-7 border-green-300 hover:bg-green-50"
+                    >
+                      Now
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        const today = getTodayString();
+                        updateBaseDuration(today, baseTimeOnly);
+                      }}
+                      className="text-xs px-2 py-1.5 h-7 border-green-300 hover:bg-green-50"
+                    >
+                      Today
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        updateBaseDuration(baseDateOnly, '09:00');
+                      }}
+                      className="text-xs px-2 py-1.5 h-7 border-green-300 hover:bg-green-50"
+                    >
+                      9AM
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        updateBaseDuration(baseDateOnly, '12:00');
+                      }}
+                      className="text-xs px-2 py-1.5 h-7 border-green-300 hover:bg-green-50"
+                    >
+                      12PM
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        updateBaseDuration(baseDateOnly, '17:00');
+                      }}
+                      className="text-xs px-2 py-1.5 h-7 border-green-300 hover:bg-green-50"
+                    >
+                      5PM
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Duration Configuration */}
+              <div className="border-t pt-4 space-y-4">
+                <div className="flex items-center gap-2">
+                  <Calculator className="w-4 h-4 text-blue-600" />
+                  <h3 className="text-sm font-semibold text-slate-800">Duration Configuration</h3>
+                </div>
+                
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="space-y-2">
                   <Label className="text-sm font-medium text-slate-700">Operation</Label>
                   <Select value={operation} onValueChange={(value: 'add' | 'subtract') => setOperation(value)}>
@@ -928,6 +1052,102 @@ export const DurationTimeCalculator = () => {
                   </Select>
                 </div>
               </div>
+
+              {/* Quick Duration Presets */}
+              <div className="space-y-2">
+                <h4 className="text-xs font-medium text-slate-600">Quick Duration:</h4>
+                <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setDurationValue('30');
+                      setDurationUnit('minutes');
+                    }}
+                    className="text-xs px-2 py-2 h-8 hover:bg-blue-50 border-blue-200 flex flex-col items-center gap-0.5"
+                  >
+                    <span className="font-medium">30min</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setDurationValue('1');
+                      setDurationUnit('hours');
+                    }}
+                    className="text-xs px-2 py-2 h-8 hover:bg-blue-50 border-blue-200 flex flex-col items-center gap-0.5"
+                  >
+                    <span className="font-medium">1hr</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setDurationValue('2');
+                      setDurationUnit('hours');
+                    }}
+                    className="text-xs px-2 py-2 h-8 hover:bg-blue-50 border-blue-200 flex flex-col items-center gap-0.5"
+                  >
+                    <span className="font-medium">2hr</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setDurationValue('8');
+                      setDurationUnit('hours');
+                    }}
+                    className="text-xs px-2 py-2 h-8 hover:bg-blue-50 border-blue-200 flex flex-col items-center gap-0.5"
+                  >
+                    <span className="font-medium">8hr</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setDurationValue('1');
+                      setDurationUnit('days');
+                    }}
+                    className="text-xs px-2 py-2 h-8 hover:bg-blue-50 border-blue-200 flex flex-col items-center gap-0.5"
+                  >
+                    <span className="font-medium">1day</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setDurationValue('1');
+                      setDurationUnit('weeks');
+                    }}
+                    className="text-xs px-2 py-2 h-8 hover:bg-blue-50 border-blue-200 flex flex-col items-center gap-0.5"
+                  >
+                    <span className="font-medium">1wk</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setDurationValue('1');
+                      setDurationUnit('months');
+                    }}
+                    className="text-xs px-2 py-2 h-8 hover:bg-blue-50 border-blue-200 flex flex-col items-center gap-0.5"
+                  >
+                    <span className="font-medium">1mo</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setDurationValue('1');
+                      setDurationUnit('years');
+                    }}
+                    className="text-xs px-2 py-2 h-8 hover:bg-blue-50 border-blue-200 flex flex-col items-center gap-0.5"
+                  >
+                    <span className="font-medium">1yr</span>
+                  </Button>
+                </div>
+              </div>
+            </div>
 
               <div className="border-t pt-4">
                 <ResultCard results={calculateDurationAddition()} />
