@@ -22,6 +22,15 @@ interface DurationResult {
 export const DurationTimeCalculator = () => {
   const { numberSystem } = useNumberSystem();
 
+  // Helper function to get today's date string in local timezone
+  const getTodayString = (): string => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   // Time Difference Calculator State
   const [startDateTime, setStartDateTime] = useState('');
   const [endDateTime, setEndDateTime] = useState('');
@@ -29,20 +38,32 @@ export const DurationTimeCalculator = () => {
   // Separate date and time state for better UX
   const [startDate, setStartDate] = useState(() => {
     const today = new Date();
-    return today.toISOString().split('T')[0];
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   });
   const [startTime, setStartTime] = useState('09:00');
   const [endDate, setEndDate] = useState(() => {
     const today = new Date();
-    return today.toISOString().split('T')[0];
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   });
   const [endTime, setEndTime] = useState('17:00');
 
   // Initialize combined datetime values
   useEffect(() => {
-    const today = new Date().toISOString().split('T')[0];
-    setStartDateTime(`${today}T09:00:00`);
-    setEndDateTime(`${today}T17:00:00`);
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const todayStr = `${year}-${month}-${day}`;
+    setStartDate(todayStr);
+    setEndDate(todayStr);
+    setStartDateTime(`${todayStr}T09:00:00`);
+    setEndDateTime(`${todayStr}T17:00:00`);
   }, []);
 
   // Duration Addition Calculator State
@@ -53,7 +74,7 @@ export const DurationTimeCalculator = () => {
 
   // Age Calculator State
   const [birthDate, setBirthDate] = useState('');
-  const [targetDate, setTargetDate] = useState(new Date().toISOString().split('T')[0]);
+  const [targetDate, setTargetDate] = useState(() => getTodayString());
 
   // Working Days Calculator State
   const [workStartDate, setWorkStartDate] = useState('');
@@ -91,13 +112,27 @@ export const DurationTimeCalculator = () => {
     return `${dateStr}T${timeStr}:00`;
   };
 
-  // Helper functions to convert between Date objects and date strings
+  // Helper functions to convert between Date objects and date strings  
   const dateStringToDate = (dateStr: string): Date => {
-    return dateStr ? new Date(dateStr + 'T00:00:00') : new Date();
+    if (!dateStr) return new Date();
+    // Simple parsing: YYYY-MM-DD format
+    const parts = dateStr.split('-');
+    const year = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1; // JavaScript months are 0-indexed
+    const day = parseInt(parts[2], 10);
+    
+    const date = new Date();
+    date.setFullYear(year, month, day);
+    date.setHours(0, 0, 0, 0); // Reset time to start of day
+    return date;
   };
 
   const dateToDateString = (date: Date): string => {
-    return date.toISOString().split('T')[0];
+    // Simple formatting: YYYY-MM-DD
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   };
 
   // Update combined datetime when separate components change
@@ -114,6 +149,7 @@ export const DurationTimeCalculator = () => {
   };
 
   const formatDateTime = (date: Date): string => {
+    // Use local date methods to avoid timezone issues
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
@@ -125,7 +161,7 @@ export const DurationTimeCalculator = () => {
     
     const timeStr = `${String(displayHours).padStart(2, '0')}:${minutes} ${ampm}`;
     
-    return `${day}-${month}-${year} ${timeStr}`;
+    return `${day}/${month}/${year} ${timeStr}`;
   };
 
   const calculateTimeDifference = (): DurationResult[] => {
@@ -151,29 +187,21 @@ export const DurationTimeCalculator = () => {
 
       const remainingHours = hours % 24;
       const remainingMinutes = minutes % 60;
+      const remainingSeconds = seconds % 60;
 
       const isEarlier = end.getTime() < start.getTime();
       const direction = isEarlier ? 'earlier' : 'later';
 
-      const results: DurationResult[] = [
-        { value: formatDisplayNumber(diffMs), label: 'Total Milliseconds' },
-        { value: formatDisplayNumber(seconds), label: 'Total Seconds' },
-        { value: formatDisplayNumber(minutes), label: 'Total Minutes' },
-        { value: formatDisplayNumber(hours), label: 'Total Hours' },
-        { value: formatDisplayNumber(days), label: 'Total Days' },
-      ];
+      // Calculate business-related values
+      const businessHours = Math.floor(hours / 8); // Assuming 8-hour workdays
+      const businessDays = Math.floor(days * (5/7)); // Assuming 5-day work week
+      const weekendDays = days - businessDays;
 
-      if (weeks > 0) {
-        results.push({ value: formatDisplayNumber(weeks), label: 'Total Weeks' });
-      }
-
-      if (months > 0) {
-        results.push({ value: formatDisplayNumber(months), label: 'Total Months (approx)' });
-      }
-
-      if (years > 0) {
-        results.push({ value: formatDisplayNumber(years), label: 'Total Years (approx)' });
-      }
+      // Calculate percentage of common time periods
+      const percentOfDay = (hours % 24) / 24 * 100;
+      const percentOfWeek = (days % 7) / 7 * 100;
+      const percentOfMonth = (days % 30.44) / 30.44 * 100;
+      const percentOfYear = (days % 365.25) / 365.25 * 100;
 
       // Human readable format
       let humanReadable = '';
@@ -181,13 +209,53 @@ export const DurationTimeCalculator = () => {
       if (months % 12 > 0) humanReadable += `${months % 12} month${months % 12 !== 1 ? 's' : ''} `;
       if (days % 30 > 0) humanReadable += `${days % 30} day${days % 30 !== 1 ? 's' : ''} `;
       if (remainingHours > 0) humanReadable += `${remainingHours} hour${remainingHours !== 1 ? 's' : ''} `;
-      if (remainingMinutes > 0) humanReadable += `${remainingMinutes} minute${remainingMinutes !== 1 ? 's' : ''}`;
+      if (remainingMinutes > 0) humanReadable += `${remainingMinutes} minute${remainingMinutes !== 1 ? 's' : ''} `;
+      if (remainingSeconds > 0 && days === 0) humanReadable += `${remainingSeconds} second${remainingSeconds !== 1 ? 's' : ''}`;
 
-      results.push({ 
-        value: humanReadable.trim() || '0 minutes', 
-        label: 'Duration', 
-        description: `End time is ${direction} than start time`
-      });
+      const results: DurationResult[] = [
+        { 
+          value: humanReadable.trim() || '0 seconds', 
+          label: 'Human Readable Duration', 
+          description: `End time is ${direction} than start time`
+        },
+        { value: formatDisplayNumber(days), label: 'Total Days', description: `${Math.floor(days)} full days` },
+        { value: formatDisplayNumber(hours), label: 'Total Hours', description: `${Math.floor(hours)} hours total` },
+        { value: formatDisplayNumber(minutes), label: 'Total Minutes', description: `${Math.floor(minutes)} minutes total` },
+        { value: formatDisplayNumber(seconds), label: 'Total Seconds', description: `${Math.floor(seconds)} seconds total` },
+        
+        // Business time calculations
+        { value: formatDisplayNumber(businessDays), label: 'Business Days', description: 'Approximate weekdays (Mon-Fri)' },
+        { value: formatDisplayNumber(weekendDays), label: 'Weekend Days', description: 'Approximate weekend days' },
+        { value: formatDisplayNumber(businessHours), label: 'Work Days (8h)', description: 'Equivalent 8-hour work days' },
+        
+        // Time unit conversions
+        { value: formatDisplayNumber(weeks), label: 'Weeks', description: `${Math.floor(weeks)} full weeks` },
+        { value: formatDisplayNumber(months), label: 'Months (approx)', description: 'Based on 30.44 days/month average' },
+        { value: formatDisplayNumber(years), label: 'Years (approx)', description: 'Based on 365.25 days/year average' },
+        
+        // Milliseconds and timestamps
+        { value: formatDisplayNumber(diffMs), label: 'Milliseconds', description: 'Total milliseconds difference' },
+        { value: Math.floor(start.getTime() / 1000), label: 'Start Unix Timestamp', description: 'Seconds since Jan 1, 1970 UTC' },
+        { value: Math.floor(end.getTime() / 1000), label: 'End Unix Timestamp', description: 'Seconds since Jan 1, 1970 UTC' },
+        
+        // Formatted dates
+        { value: formatDateTime(start), label: 'Start Date & Time', description: 'Formatted start time' },
+        { value: formatDateTime(end), label: 'End Date & Time', description: 'Formatted end time' },
+      ];
+
+      // Add percentage calculations only if relevant
+      if (hours >= 1 && percentOfDay > 0.1) {
+        results.push({ value: `${formatDisplayNumber(percentOfDay)}%`, label: 'Percent of Day', description: 'Percentage of a 24-hour day' });
+      }
+      if (days >= 1 && percentOfWeek > 0.1) {
+        results.push({ value: `${formatDisplayNumber(percentOfWeek)}%`, label: 'Percent of Week', description: 'Percentage of a 7-day week' });
+      }
+      if (days >= 7 && percentOfMonth > 0.1) {
+        results.push({ value: `${formatDisplayNumber(percentOfMonth)}%`, label: 'Percent of Month', description: 'Percentage of an average month' });
+      }
+      if (days >= 30 && percentOfYear > 0.1) {
+        results.push({ value: `${formatDisplayNumber(percentOfYear)}%`, label: 'Percent of Year', description: 'Percentage of an average year' });
+      }
 
       return results;
     } catch {
@@ -375,37 +443,75 @@ export const DurationTimeCalculator = () => {
   const ResultCard = ({ results }: { results: DurationResult[] }) => {
     if (results.length === 0) return null;
 
+    // Group results by type for better organization
+    const primaryResults = results.slice(0, 5); // First 5 most important results
+    const otherResults = results.slice(5);
+
     return (
-      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-        {results.slice(0, 6).map((result, index) => (
-          <div 
-            key={index} 
-            className="bg-white/95 backdrop-blur-sm rounded-lg p-3 border border-slate-200/60 hover:shadow-md transition-all duration-200"
-          >
-            <div className="text-xs font-medium text-slate-500 mb-1">
-              {result.label}
-            </div>
-            <div className="text-lg font-bold text-slate-800 break-words">
-              {result.value}
-            </div>
-            {result.description && (
-              <div className="text-xs text-slate-400 mt-1">
-                {result.description}
+      <div className="space-y-6">
+        {/* Primary Results - Larger cards for most important info */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+          {primaryResults.map((result, index) => (
+            <div 
+              key={index} 
+              className="bg-gradient-to-br from-white to-slate-50 backdrop-blur-sm rounded-xl p-4 border border-slate-200/60 hover:shadow-lg hover:border-blue-200 transition-all duration-300 group"
+            >
+              <div className="text-xs font-medium text-slate-500 mb-2 group-hover:text-blue-600 transition-colors">
+                {result.label}
               </div>
-            )}
+              <div className="text-lg font-bold text-slate-800 break-words mb-1 group-hover:text-blue-700 transition-colors">
+                {result.value}
+              </div>
+              {result.description && (
+                <div className="text-xs text-slate-400 leading-relaxed">
+                  {result.description}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Additional Results - Compact grid for all other calculations */}
+        {otherResults.length > 0 && (
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <div className="w-1 h-4 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></div>
+              <h4 className="text-sm font-semibold text-slate-700">Additional Calculations</h4>
+              <div className="flex-1 h-px bg-gradient-to-r from-slate-200 to-transparent"></div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2.5">
+              {otherResults.map((result, index) => (
+                <div 
+                  key={index + primaryResults.length} 
+                  className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-slate-200/60 hover:shadow-md hover:bg-white hover:border-blue-200 transition-all duration-200 group"
+                >
+                  <div className="text-xs font-medium text-slate-500 mb-1.5 group-hover:text-blue-600 transition-colors">
+                    {result.label}
+                  </div>
+                  <div className="text-sm font-semibold text-slate-700 break-words mb-1">
+                    {result.value}
+                  </div>
+                  {result.description && (
+                    <div className="text-[10px] text-slate-400 leading-relaxed">
+                      {result.description}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
+        )}
       </div>
     );
   };
 
   return (
-    <div className="space-y-6">
-      <div className="text-center mb-6">
+    <div className="space-y-6 max-w-7xl mx-auto">
+      <div className="text-center mb-8">
         <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
           Duration & Time Calculator
         </h2>
-        <p className="text-slate-600">Calculate time differences, add durations, and analyze dates</p>
+        <p className="text-slate-600 text-base">Calculate time differences, add durations, and analyze dates</p>
       </div>
 
       <Tabs defaultValue="difference" className="space-y-6">
@@ -450,43 +556,49 @@ export const DurationTimeCalculator = () => {
                 Time Difference Calculator
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              {/* Start Date & Time with Presets */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-green-600" />
-                  <h3 className="text-sm font-semibold text-slate-800">Start Date & Time</h3>
-                </div>
+            <CardContent className="space-y-6">
+              {/* Date & Time Input Section - Responsive Container */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 xl:gap-8">
+                {/* Start Date & Time with Presets */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-green-600" />
+                    <h3 className="text-sm font-semibold text-slate-800">Start Date & Time</h3>
+                  </div>
                 
-                <div className="flex flex-col md:flex-row gap-3">
-                  <div className="space-y-1">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="flex-1 space-y-1">
                     <label className="block text-xs font-medium text-gray-700">Start Date</label>
-                    <CalendarDatePicker
-                      selectedDate={dateStringToDate(startDate)}
-                      onDateSelect={(date) => updateStartDateTime(dateToDateString(date), startTime)}
-                    />
+                    <div className="w-full min-w-0">
+                      <CalendarDatePicker
+                        selectedDate={dateStringToDate(startDate)}
+                        onDateSelect={(date) => updateStartDateTime(dateToDateString(date), startTime)}
+                      />
+                    </div>
                   </div>
                   
-                  <div className="space-y-1">
-                    <TimezoneTimePicker
-                      timezoneValue="UTC"
-                      setTime={createCustomTime(startTime)}
-                      onTimeChange={(hour: number, minute: number, ampm: 'AM' | 'PM') => {
-                        const timeStr = convertTimePickerToTime(hour, minute, ampm);
-                        updateStartDateTime(startDate, timeStr);
-                      }}
-                      label="Start Time"
-                      variant="outline"
-                      size="default"
-                      className="bg-white/80 w-fit"
-                    />
+                  <div className="flex-1 space-y-1">
+                    <div className="w-full min-w-0">
+                      <TimezoneTimePicker
+                        timezoneValue="UTC"
+                        setTime={createCustomTime(startTime)}
+                        onTimeChange={(hour: number, minute: number, ampm: 'AM' | 'PM') => {
+                          const timeStr = convertTimePickerToTime(hour, minute, ampm);
+                          updateStartDateTime(startDate, timeStr);
+                        }}
+                        label="Start Time"
+                        variant="outline"
+                        size="default"
+                        className="bg-white/80 w-full min-w-0"
+                      />
+                    </div>
                   </div>
                 </div>
 
                 {/* Start Presets */}
-                <div className="space-y-1">
+                <div className="space-y-2">
                   <h4 className="text-xs font-medium text-slate-600">Quick Start:</h4>
-                  <div className="flex flex-wrap gap-1">
+                  <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5">
                     <Button
                       variant="outline"
                       size="sm"
@@ -495,7 +607,7 @@ export const DurationTimeCalculator = () => {
                         const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
                         updateStartDateTime(startDate, currentTime);
                       }}
-                      className="text-xs px-2 py-1 h-6 border-green-300 hover:bg-green-50"
+                      className="text-xs px-2 py-1.5 h-7 border-green-300 hover:bg-green-50"
                     >
                       Now
                     </Button>
@@ -503,10 +615,10 @@ export const DurationTimeCalculator = () => {
                       variant="outline"
                       size="sm"
                       onClick={() => {
-                        const today = new Date().toISOString().split('T')[0];
+                        const today = getTodayString();
                         updateStartDateTime(today, startTime);
                       }}
-                      className="text-xs px-2 py-1 h-6 border-green-300 hover:bg-green-50"
+                      className="text-xs px-2 py-1.5 h-7 border-green-300 hover:bg-green-50"
                     >
                       Today
                     </Button>
@@ -516,7 +628,7 @@ export const DurationTimeCalculator = () => {
                       onClick={() => {
                         updateStartDateTime(startDate, '08:00');
                       }}
-                      className="text-xs px-2 py-1 h-6 border-green-300 hover:bg-green-50"
+                      className="text-xs px-2 py-1.5 h-7 border-green-300 hover:bg-green-50"
                     >
                       8AM
                     </Button>
@@ -526,7 +638,7 @@ export const DurationTimeCalculator = () => {
                       onClick={() => {
                         updateStartDateTime(startDate, '09:00');
                       }}
-                      className="text-xs px-2 py-1 h-6 border-green-300 hover:bg-green-50"
+                      className="text-xs px-2 py-1.5 h-7 border-green-300 hover:bg-green-50"
                     >
                       9AM
                     </Button>
@@ -536,7 +648,7 @@ export const DurationTimeCalculator = () => {
                       onClick={() => {
                         updateStartDateTime(startDate, '00:00');
                       }}
-                      className="text-xs px-2 py-1 h-6 border-green-300 hover:bg-green-50"
+                      className="text-xs px-2 py-1.5 h-7 border-green-300 hover:bg-green-50"
                     >
                       00:00
                     </Button>
@@ -545,48 +657,52 @@ export const DurationTimeCalculator = () => {
               </div>
 
               {/* End Date & Time with Presets */}
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <div className="flex items-center gap-2">
                   <Timer className="w-4 h-4 text-red-600" />
                   <h3 className="text-sm font-semibold text-slate-800">End Date & Time</h3>
                 </div>
                 
-                <div className="flex flex-col md:flex-row gap-3">
-                  <div className="space-y-1">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="flex-1 space-y-1">
                     <label className="block text-xs font-medium text-gray-700">End Date</label>
-                    <CalendarDatePicker
-                      selectedDate={dateStringToDate(endDate)}
-                      onDateSelect={(date) => updateEndDateTime(dateToDateString(date), endTime)}
-                    />
+                    <div className="w-full min-w-0">
+                      <CalendarDatePicker
+                        selectedDate={dateStringToDate(endDate)}
+                        onDateSelect={(date) => updateEndDateTime(dateToDateString(date), endTime)}
+                      />
+                    </div>
                   </div>
                   
-                  <div className="space-y-1">
-                    <TimezoneTimePicker
-                      timezoneValue="UTC"
-                      setTime={createCustomTime(endTime)}
-                      onTimeChange={(hour: number, minute: number, ampm: 'AM' | 'PM') => {
-                        const timeStr = convertTimePickerToTime(hour, minute, ampm);
-                        updateEndDateTime(endDate, timeStr);
-                      }}
-                      label="End Time"
-                      variant="outline"
-                      size="default"
-                      className="bg-white/80 w-fit"
-                    />
+                  <div className="flex-1 space-y-1">
+                    <div className="w-full min-w-0">
+                      <TimezoneTimePicker
+                        timezoneValue="UTC"
+                        setTime={createCustomTime(endTime)}
+                        onTimeChange={(hour: number, minute: number, ampm: 'AM' | 'PM') => {
+                          const timeStr = convertTimePickerToTime(hour, minute, ampm);
+                          updateEndDateTime(endDate, timeStr);
+                        }}
+                        label="End Time"
+                        variant="outline"
+                        size="default"
+                        className="bg-white/80 w-full min-w-0"
+                      />
+                    </div>
                   </div>
                 </div>
 
                 {/* End Presets */}
-                <div className="space-y-1">
+                <div className="space-y-2">
                   <h4 className="text-xs font-medium text-slate-600">Quick End:</h4>
-                  <div className="flex flex-wrap gap-1">
+                  <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5">
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => {
                         updateEndDateTime(endDate, '17:00');
                       }}
-                      className="text-xs px-2 py-1 h-6 border-red-300 hover:bg-red-50"
+                      className="text-xs px-2 py-1.5 h-7 border-red-300 hover:bg-red-50"
                     >
                       5PM
                     </Button>
@@ -596,7 +712,7 @@ export const DurationTimeCalculator = () => {
                       onClick={() => {
                         updateEndDateTime(endDate, '18:00');
                       }}
-                      className="text-xs px-2 py-1 h-6 border-red-300 hover:bg-red-50"
+                      className="text-xs px-2 py-1.5 h-7 border-red-300 hover:bg-red-50"
                     >
                       6PM
                     </Button>
@@ -608,7 +724,7 @@ export const DurationTimeCalculator = () => {
                         tomorrow.setDate(tomorrow.getDate() + 1);
                         updateEndDateTime(dateToDateString(tomorrow), endTime);
                       }}
-                      className="text-xs px-2 py-1 h-6 border-red-300 hover:bg-red-50"
+                      className="text-xs px-2 py-1.5 h-7 border-red-300 hover:bg-red-50"
                     >
                       +1Day
                     </Button>
@@ -620,7 +736,7 @@ export const DurationTimeCalculator = () => {
                         nextWeek.setDate(nextWeek.getDate() + 7);
                         updateEndDateTime(dateToDateString(nextWeek), endTime);
                       }}
-                      className="text-xs px-2 py-1 h-6 border-red-300 hover:bg-red-50"
+                      className="text-xs px-2 py-1.5 h-7 border-red-300 hover:bg-red-50"
                     >
                       +1Week
                     </Button>
@@ -630,22 +746,23 @@ export const DurationTimeCalculator = () => {
                       onClick={() => {
                         updateEndDateTime(endDate, '23:59');
                       }}
-                      className="text-xs px-2 py-1 h-6 border-red-300 hover:bg-red-50"
+                      className="text-xs px-2 py-1.5 h-7 border-red-300 hover:bg-red-50"
                     >
                       EOD
                     </Button>
                   </div>
                 </div>
+                </div>
               </div>
 
-              {/* Common Scenarios - Compact */}
-              <div className="space-y-2">
+              {/* Common Scenarios - Better Responsive Grid */}
+              <div className="space-y-3 border-t pt-4">
                 <div className="flex items-center gap-2">
                   <Calculator className="w-4 h-4 text-blue-600" />
                   <h3 className="text-sm font-semibold text-slate-800">Quick Scenarios</h3>
                 </div>
                 
-                <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-1">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
                   <Button
                     variant="outline"
                     size="sm"
@@ -655,9 +772,10 @@ export const DurationTimeCalculator = () => {
                       updateStartDateTime(todayStr, '09:00');
                       updateEndDateTime(todayStr, '17:00');
                     }}
-                    className="text-xs px-1 py-1 h-6 hover:bg-blue-50"
+                    className="text-xs px-2 py-2 h-8 hover:bg-blue-50 border-blue-200 flex flex-col items-center gap-0.5"
                   >
-                    8h
+                    <span className="font-medium">Work Day</span>
+                    <span className="text-[10px] opacity-70">8h</span>
                   </Button>
                   <Button
                     variant="outline"
@@ -668,9 +786,10 @@ export const DurationTimeCalculator = () => {
                       updateStartDateTime(todayStr, '09:00');
                       updateEndDateTime(todayStr, '13:00');
                     }}
-                    className="text-xs px-1 py-1 h-6 hover:bg-blue-50"
+                    className="text-xs px-2 py-2 h-8 hover:bg-blue-50 border-blue-200 flex flex-col items-center gap-0.5"
                   >
-                    4h
+                    <span className="font-medium">Half Day</span>
+                    <span className="text-[10px] opacity-70">4h</span>
                   </Button>
                   <Button
                     variant="outline"
@@ -681,9 +800,10 @@ export const DurationTimeCalculator = () => {
                       updateStartDateTime(todayStr, '13:00');
                       updateEndDateTime(todayStr, '14:00');
                     }}
-                    className="text-xs px-1 py-1 h-6 hover:bg-blue-50"
+                    className="text-xs px-2 py-2 h-8 hover:bg-green-50 border-green-200 flex flex-col items-center gap-0.5"
                   >
-                    1h
+                    <span className="font-medium">Lunch</span>
+                    <span className="text-[10px] opacity-70">1h</span>
                   </Button>
                   <Button
                     variant="outline"
@@ -695,35 +815,10 @@ export const DurationTimeCalculator = () => {
                       updateStartDateTime(dateToDateString(today), '22:00');
                       updateEndDateTime(dateToDateString(tomorrow), '06:00');
                     }}
-                    className="text-xs px-1 py-1 h-6 hover:bg-purple-50"
+                    className="text-xs px-2 py-2 h-8 hover:bg-purple-50 border-purple-200 flex flex-col items-center gap-0.5"
                   >
-                    8h
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      const today = new Date();
-                      const todayStr = dateToDateString(today);
-                      updateStartDateTime(todayStr, '14:00');
-                      updateEndDateTime(todayStr, '16:00');
-                    }}
-                    className="text-xs px-1 py-1 h-6 hover:bg-green-50"
-                  >
-                    2h
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      const today = new Date();
-                      const todayStr = dateToDateString(today);
-                      updateStartDateTime(todayStr, '09:00');
-                      updateEndDateTime(todayStr, '12:00');
-                    }}
-                    className="text-xs px-1 py-1 h-6 hover:bg-green-50"
-                  >
-                    3h
+                    <span className="font-medium">Night Shift</span>
+                    <span className="text-[10px] opacity-70">8h</span>
                   </Button>
                   <Button
                     variant="outline"
@@ -733,11 +828,12 @@ export const DurationTimeCalculator = () => {
                       const nextWeek = new Date(today);
                       nextWeek.setDate(nextWeek.getDate() + 7);
                       updateStartDateTime(dateToDateString(today), '09:00');
-                      updateEndDateTime(dateToDateString(nextWeek), '17:00');
+                      updateEndDateTime(dateToDateString(nextWeek), '09:00');
                     }}
-                    className="text-xs px-1 py-1 h-6 hover:bg-orange-50"
+                    className="text-xs px-2 py-2 h-8 hover:bg-orange-50 border-orange-200 flex flex-col items-center gap-0.5"
                   >
-                    1w
+                    <span className="font-medium">1 Week</span>
+                    <span className="text-[10px] opacity-70">7d</span>
                   </Button>
                   <Button
                     variant="outline"
@@ -746,12 +842,13 @@ export const DurationTimeCalculator = () => {
                       const today = new Date();
                       const nextMonth = new Date(today);
                       nextMonth.setMonth(nextMonth.getMonth() + 1);
-                      updateStartDateTime(dateToDateString(today), '09:00');
-                      updateEndDateTime(dateToDateString(nextMonth), '17:00');
+                      updateStartDateTime(dateToDateString(today), '00:00');
+                      updateEndDateTime(dateToDateString(nextMonth), '00:00');
                     }}
-                    className="text-xs px-1 py-1 h-6 hover:bg-orange-50"
+                    className="text-xs px-2 py-2 h-8 hover:bg-pink-50 border-pink-200 flex flex-col items-center gap-0.5"
                   >
-                    1m
+                    <span className="font-medium">1 Month</span>
+                    <span className="text-[10px] opacity-70">30d</span>
                   </Button>
                 </div>
               </div>
@@ -870,7 +967,7 @@ export const DurationTimeCalculator = () => {
                     <Button 
                       variant="outline" 
                       size="sm"
-                      onClick={() => setTargetDate(new Date().toISOString().split('T')[0])}
+                      onClick={() => setTargetDate(getTodayString())}
                       className="text-xs border-slate-300 hover:bg-slate-50"
                     >
                       <Calendar className="w-3 h-3 mr-1" />
@@ -953,7 +1050,7 @@ export const DurationTimeCalculator = () => {
                     <Button 
                       variant="outline" 
                       size="sm"
-                      onClick={() => setWorkStartDate(new Date().toISOString().split('T')[0])}
+                      onClick={() => setWorkStartDate(getTodayString())}
                       className="text-xs border-slate-300 hover:bg-slate-50"
                     >
                       <Calendar className="w-3 h-3 mr-1" />
