@@ -140,3 +140,31 @@ export const validateMagicLinkRequest = [
     .withMessage('Please provide a valid email address'),
   handleValidationErrors
 ];
+
+export const validateSignupMagicLinkRequest = [
+  body('email')
+    .isEmail()
+    .normalizeEmail()
+    .withMessage('Please provide a valid email address'),
+  body('firstName')
+    .trim()
+    .isLength({ min: 1, max: 50 })
+    .withMessage('First name is required and must be less than 50 characters'),
+  body('lastName')
+    .trim()
+    .isLength({ min: 1, max: 50 })
+    .withMessage('Last name is required and must be less than 50 characters'),
+  handleValidationErrors
+];
+
+export const validateSignupMagicLinkCompletion = [
+  body('token')
+    .notEmpty()
+    .withMessage('Magic link token is required'),
+  body('password')
+    .isLength({ min: 8 })
+    .withMessage('Password must be at least 8 characters long')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+    .withMessage('Password must contain at least one lowercase letter, one uppercase letter, and one number'),
+  handleValidationErrors
+];

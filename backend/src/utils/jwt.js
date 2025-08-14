@@ -40,6 +40,14 @@ export const generateMagicLinkToken = (userId) => {
   );
 };
 
+export const generateSignupMagicLinkToken = (email, firstName, lastName) => {
+  return jsonwebtoken.sign(
+    { email, firstName, lastName, type: 'signup_magic_link' },
+    process.env.JWT_EMAIL_SECRET,
+    { expiresIn: '15m' }
+  );
+};
+
 export const verifyToken = (token, secret) => {
   try {
     return jsonwebtoken.verify(token, secret);

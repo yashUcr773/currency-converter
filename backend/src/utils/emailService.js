@@ -89,13 +89,17 @@ class EmailService {
   }
 
   // Simplified email methods
-  async sendWelcomeEmail(user, verificationUrl) {
+  async sendWelcomeEmail(user, verificationUrl = null) {
+    const content = verificationUrl 
+      ? `<p>Hi ${user.name},</p><p>Thanks for joining Trip Tools! Please verify your email to get started.</p>`
+      : `<p>Hi ${user.name},</p><p>Welcome to Trip Tools! Your account has been created and is ready to use.</p>`;
+    
     await this.sendEmail(
       user.email,
       'Welcome to Trip Tools!',
-      `<p>Hi ${user.name},</p><p>Thanks for joining Trip Tools! Please verify your email to get started.</p>`,
+      content,
       verificationUrl,
-      'Verify Email'
+      verificationUrl ? 'Verify Email' : null
     );
   }
 
@@ -124,6 +128,47 @@ class EmailService {
       `<p>Hi ${user.name},</p><p>Click the button below to sign in to your account:</p>`,
       magicLinkUrl,
       'Sign In'
+    );
+  }
+
+  async sendAccountNotFoundEmail(email, signupMagicLinkUrl) {
+    await this.sendEmail(
+      email,
+      'Account Not Found - Trip Tools',
+      `<p>Hi there,</p><p>We received a request for a magic link for ${email}, but we don't have an account associated with this email address.</p><p>If you'd like to create an account using magic link signup, click the button below:</p>`,
+      signupMagicLinkUrl,
+      'Create Account with Magic Link'
+    );
+  }
+
+  async sendSignupMagicLinkEmail(email, signupMagicLinkUrl) {
+    await this.sendEmail(
+      email,
+      'Complete Your Registration - Trip Tools',
+      `<p>Hi there,</p><p>Click the button below to complete your account registration:</p><p><small>This link will expire in 15 minutes for security.</small></p>`,
+      signupMagicLinkUrl,
+      'Complete Registration'
+    );
+  }
+
+  async sendLoginNotificationEmail(user, loginInfo) {
+    const content = `
+      <p>Hi ${user.name},</p>
+      <p>We noticed a recent login to your Trip Tools account.</p>
+      <div style="background: #f5f5f5; padding: 15px; margin: 15px 0; border-radius: 5px;">
+        <p><strong>Login Details:</strong></p>
+        <p>Time: ${loginInfo.timestamp.toLocaleString()}</p>
+        <p>Method: ${loginInfo.method}</p>
+        <p>IP Address: ${loginInfo.ipAddress}</p>
+        <p>Device: ${loginInfo.userAgent}</p>
+      </div>
+      <p>If this wasn't you, please secure your account immediately by changing your password.</p>
+    `;
+    
+    await this.sendEmail(
+      user.email,
+      'Login Notification - Trip Tools',
+      content
     );
   }
 }

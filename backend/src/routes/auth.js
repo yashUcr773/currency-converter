@@ -6,6 +6,7 @@ import {
   generateEmailVerificationToken,
   generatePasswordResetToken,
   generateMagicLinkToken,
+  generateSignupMagicLinkToken,
   verifyToken 
 } from '../utils/jwt.js';
 import { generateOTP, generateSecureToken, getClientIP, sanitizeUserAgent } from '../utils/helpers.js';
@@ -18,7 +19,9 @@ import {
   validatePasswordReset,
   validateOTPRequest,
   validateOTPLogin,
-  validateMagicLinkRequest
+  validateMagicLinkRequest,
+  validateSignupMagicLinkRequest,
+  validateSignupMagicLinkCompletion
 } from '../middleware/validation.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 
@@ -477,7 +480,11 @@ router.post('/request-magic-link', strictAuthLimiter, validateMagicLinkRequest, 
   const user = await User.findOne({ email });
   console.log("🚀 ~ user:", user)
   if (!user) {
-    // Don't reveal if user exists or not
+    // Send an informative email to non-existent users with signup magic link
+    const signupToken = generateSignupMagicLinkToken(email, 'New', 'User');
+    const signupMagicLinkUrl = `${process.env.FRONTEND_URL}/signup-magic?token=${signupToken}`;
+    await emailService.sendAccountNotFoundEmail(email, signupMagicLinkUrl);
+    
     return res.json({
       message: 'If an account with this email exists, a magic link has been sent.'
     });
@@ -578,6 +585,124 @@ router.post('/magic-login', asyncHandler(async (req, res) => {
     res.status(401).json({
       error: 'Invalid or expired magic link',
       code: 'INVALID_MAGIC_LINK'
+    });
+  }
+}));
+
+// REQUEST SIGNUP MAGIC LINK
+router.post('/request-signup-magic-link', strictAuthLimiter, validateSignupMagicLinkRequest, asyncHandler(async (req, res) => {
+  const { email, firstName, lastName } = req.body;
+
+  // Check if user already exists
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    return res.status(400).json({
+      error: 'An account with this email already exists. Try logging in instead.',
+      code: 'EMAIL_EXISTS'
+    });
+  }
+
+  // Generate signup magic link token
+  const signupToken = generateSignupMagicLinkToken(email, firstName, lastName);
+  
+  // Send signup magic link email
+  const signupMagicLinkUrl = `${process.env.FRONTEND_URL}/signup-magic?token=${signupToken}`;
+  await emailService.sendSignupMagicLinkEmail(email, signupMagicLinkUrl);
+
+  res.json({
+    message: 'Signup magic link sent successfully to your email address'
+  });
+}));
+
+// COMPLETE SIGNUP WITH MAGIC LINK
+router.post('/signup-magic', validateSignupMagicLinkCompletion, asyncHandler(async (req, res) => {
+  const { token, password } = req.body;
+
+  if (!token) {
+    return res.status(400).json({
+      error: 'Signup magic link token required',
+      code: 'NO_TOKEN'
+    });
+  }
+
+  try {
+    const decoded = verifyToken(token, process.env.JWT_EMAIL_SECRET);
+    
+    // Verify it's a signup magic link token
+    if (decoded.type !== 'signup_magic_link') {
+      return res.status(400).json({
+        error: 'Invalid token type',
+        code: 'INVALID_TOKEN_TYPE'
+      });
+    }
+
+    const { email, firstName, lastName } = decoded;
+
+    // Check if user already exists (double check for race conditions)
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        error: 'An account with this email already exists',
+        code: 'EMAIL_EXISTS'
+      });
+    }
+
+    // Create new user
+    const user = new User({
+      email,
+      password,
+      firstName,
+      lastName,
+      isEmailVerified: true // Email is pre-verified through magic link
+    });
+
+    await user.save();
+
+    // Update last login
+    user.lastLogin = new Date();
+    await user.save();
+
+    // Generate tokens
+    const accessToken = generateAccessToken(user._id);
+    const refreshToken = generateRefreshToken(user._id);
+
+    // Save refresh token
+    user.refreshTokens.push({
+      token: refreshToken,
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+      deviceInfo: sanitizeUserAgent(req.headers['user-agent']),
+      ipAddress: getClientIP(req)
+    });
+    await user.save();
+
+    // Send welcome email
+    await emailService.sendWelcomeEmail(user, null); // No verification needed as email is already verified
+
+    // Send login notification email
+    const loginInfo = {
+      timestamp: new Date(),
+      ipAddress: getClientIP(req),
+      userAgent: sanitizeUserAgent(req.headers['user-agent']),
+      method: 'Magic Link Signup'
+    };
+    
+    emailService.sendLoginNotificationEmail(user, loginInfo).catch(err => 
+      console.error('Failed to send login notification email:', err)
+    );
+
+    res.status(201).json({
+      message: 'Account created and logged in successfully',
+      user: user.toJSON(),
+      tokens: {
+        accessToken,
+        refreshToken
+      },
+      requiresEmailVerification: false
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: 'Invalid or expired signup magic link',
+      code: 'INVALID_SIGNUP_MAGIC_LINK'
     });
   }
 }));
