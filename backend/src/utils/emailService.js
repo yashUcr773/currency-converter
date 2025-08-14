@@ -6,7 +6,6 @@ class EmailService {
   constructor() {
     // Check if email credentials are available
     const hasCredentials = process.env.EMAIL_USER && process.env.EMAIL_PASS;
-    console.log("🚀 ~ EmailService ~ constructor ~ process.env:", process.env)
     
     if (!hasCredentials) {
       console.log('⚠️  Email credentials not configured - email features will be disabled');
@@ -36,7 +35,6 @@ class EmailService {
       await this.transporter.verify();
       console.log('✅ Email service ready');
     } catch (error) {
-      console.log("🚀 ~ EmailService ~ verifyConnection ~ error:", error)
       console.error('❌ Email service error:', error.message);
     }
   }
