@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken';
+import jsonwebtoken from 'jsonwebtoken';
 
 export const generateAccessToken = (userId) => {
-  return jwt.sign(
+  return jsonwebtoken.sign(
     { userId, type: 'access' },
     process.env.JWT_ACCESS_SECRET,
     { expiresIn: '15m' }
@@ -9,7 +9,7 @@ export const generateAccessToken = (userId) => {
 };
 
 export const generateRefreshToken = (userId) => {
-  return jwt.sign(
+  return jsonwebtoken.sign(
     { userId, type: 'refresh' },
     process.env.JWT_REFRESH_SECRET,
     { expiresIn: '7d' }
@@ -17,7 +17,7 @@ export const generateRefreshToken = (userId) => {
 };
 
 export const generateEmailVerificationToken = (userId) => {
-  return jwt.sign(
+  return jsonwebtoken.sign(
     { userId, type: 'email_verification' },
     process.env.JWT_EMAIL_SECRET,
     { expiresIn: '24h' }
@@ -25,7 +25,7 @@ export const generateEmailVerificationToken = (userId) => {
 };
 
 export const generatePasswordResetToken = (userId) => {
-  return jwt.sign(
+  return jsonwebtoken.sign(
     { userId, type: 'password_reset' },
     process.env.JWT_EMAIL_SECRET,
     { expiresIn: '30m' }
@@ -33,7 +33,7 @@ export const generatePasswordResetToken = (userId) => {
 };
 
 export const generateMagicLinkToken = (userId) => {
-  return jwt.sign(
+  return jsonwebtoken.sign(
     { userId, type: 'magic_link' },
     process.env.JWT_EMAIL_SECRET,
     { expiresIn: '15m' }
@@ -42,12 +42,12 @@ export const generateMagicLinkToken = (userId) => {
 
 export const verifyToken = (token, secret) => {
   try {
-    return jwt.verify(token, secret);
+    return jsonwebtoken.verify(token, secret);
   } catch (error) {
     throw error;
   }
 };
 
 export const decodeToken = (token) => {
-  return jwt.decode(token);
+  return jsonwebtoken.decode(token);
 };

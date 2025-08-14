@@ -2,7 +2,10 @@ export const errorHandler = (err, req, res, next) => {
   let error = { ...err };
   error.message = err.message;
 
-  console.error('Error:', err);
+  // Only log in development
+  if (process.env.NODE_ENV !== 'test') {
+    console.error('Error:', err);
+  }
 
   // Mongoose bad ObjectId
   if (err.name === 'CastError') {

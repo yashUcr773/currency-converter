@@ -33,9 +33,13 @@ class EmailService {
     
     try {
       await this.transporter.verify();
-      console.log('✅ Email service ready');
+      if (process.env.NODE_ENV !== 'test') {
+        console.log('✅ Email service ready');
+      }
     } catch (error) {
-      console.error('❌ Email service error:', error.message);
+      if (process.env.NODE_ENV !== 'test') {
+        console.error('❌ Email service error:', error.message);
+      }
     }
   }
 
