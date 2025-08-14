@@ -26,7 +26,7 @@ const router = express.Router();
 
 // Apply rate limiting to auth routes
 const authLimiter = authRateLimit(15 * 60 * 1000, 5); // 5 attempts per 15 minutes
-const strictAuthLimiter = authRateLimit(15 * 60 * 1000, 3); // 3 attempts per 15 minutes
+const strictAuthLimiter = authRateLimit(15 * 60 * 1000, 10); // 3 attempts per 15 minutes
 
 // REGISTER USER
 router.post('/register', authLimiter, validateRegistration, asyncHandler(async (req, res) => {
@@ -475,6 +475,7 @@ router.post('/request-magic-link', strictAuthLimiter, validateMagicLinkRequest, 
   const { email } = req.body;
 
   const user = await User.findOne({ email });
+  console.log("🚀 ~ user:", user)
   if (!user) {
     // Don't reveal if user exists or not
     return res.json({
