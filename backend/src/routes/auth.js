@@ -590,7 +590,7 @@ router.post('/magic-login', asyncHandler(async (req, res) => {
 }));
 
 // REQUEST SIGNUP MAGIC LINK
-router.post('/request-signup-magic-link', strictAuthLimiter, validateSignupMagicLinkRequest, asyncHandler(async (req, res) => {
+router.post('/signup-magic-link', strictAuthLimiter, validateSignupMagicLinkRequest, asyncHandler(async (req, res) => {
   const { email, firstName, lastName } = req.body;
 
   // Check if user already exists

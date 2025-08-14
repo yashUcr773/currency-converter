@@ -213,6 +213,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
+  const signupWithMagicLink = async (email: string, firstName: string, lastName: string) => {
+    try {
+      clearError();
+      return await AuthAPI.signupWithMagicLink(email, firstName, lastName);
+    } catch (error) {
+      handleError(error);
+      throw error;
+    }
+  };
+
   const loginWithMagicLink = async (token: string, rememberMe = false): Promise<AuthResponse> => {
     try {
       setLoading(true);
@@ -244,6 +254,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     requestOTP,
     loginWithOTP,
     requestMagicLink,
+    signupWithMagicLink,
     loginWithMagicLink,
     clearError,
     error,

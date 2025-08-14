@@ -8,14 +8,18 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { LoadingSpinner } from './LoadingSpinner';
-import { Mail, Zap, AlertCircle, CheckCircle, ExternalLink } from 'lucide-react';
+import { Mail, User, Zap, AlertCircle, CheckCircle } from 'lucide-react';
 
-const MagicLinkLoginForm: React.FC = () => {
+const MagicLinkSignupForm: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { requestMagicLink, loading, error, clearError, isAuthenticated } = useAuth();
+  const { signupWithMagicLink, loading, error, clearError, isAuthenticated } = useAuth();
 
-  const [email, setEmail] = useState('');
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLinkSent, setIsLinkSent] = useState(false);
   const [countdown, setCountdown] = useState(0);
@@ -35,21 +39,29 @@ const MagicLinkLoginForm: React.FC = () => {
     }
   }, [countdown]);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!email) return;
+    if (!formData.email || !formData.firstName || !formData.lastName) return;
 
     setIsSubmitting(true);
     clearError();
 
     try {
-      await requestMagicLink(email);
+      await signupWithMagicLink(formData.email, formData.firstName, formData.lastName);
       setIsLinkSent(true);
       setCountdown(60); // 60 seconds countdown
     } catch (error) {
       // Error is handled by the context
-      console.error('Magic link request failed:', error);
+      console.error('Magic link signup request failed:', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -61,7 +73,7 @@ const MagicLinkLoginForm: React.FC = () => {
     clearError();
 
     try {
-      await requestMagicLink(email);
+      await signupWithMagicLink(formData.email, formData.firstName, formData.lastName);
       setCountdown(60);
     } catch (error) {
       console.error('Resend magic link failed:', error);
@@ -72,6 +84,8 @@ const MagicLinkLoginForm: React.FC = () => {
     setIsLinkSent(false);
     clearError();
   };
+
+  const isFormValid = formData.email && formData.firstName && formData.lastName;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4">
@@ -93,16 +107,17 @@ const MagicLinkLoginForm: React.FC = () => {
 
       <Card className="w-full max-w-md mt-24 bg-white/95 backdrop-blur-md border-0 shadow-lg">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl">
+          <CardTitle className="text-2xl flex items-center justify-center gap-2">
+            <Zap className="w-6 h-6 text-blue-600" />
             {isLinkSent 
-              ? t('auth.magicLink.sentTitle', 'Check your email')
-              : t('auth.magicLink.title', 'Sign in with Magic Link')
+              ? t('auth.magicLinkSignup.sentTitle', 'Check your email')
+              : t('auth.magicLinkSignup.title', 'Sign up with Magic Link')
             }
           </CardTitle>
           <CardDescription>
             {isLinkSent 
-              ? t('auth.magicLink.sentSubtitle', 'We\'ve sent you a secure sign-in link')
-              : t('auth.magicLink.subtitle', 'We\'ll send you a secure link to sign in')
+              ? t('auth.magicLinkSignup.sentSubtitle', 'We\'ve sent you a magic signup link')
+              : t('auth.magicLinkSignup.subtitle', 'No password needed - just enter your details')
             }
           </CardDescription>
         </CardHeader>
@@ -117,9 +132,51 @@ const MagicLinkLoginForm: React.FC = () => {
 
           {!isLinkSent ? (
             <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-2 gap-2">
+                <div className="space-y-2">
+                  <Label htmlFor="firstName">
+                    {t('auth.fields.firstName', 'First name')}
+                  </Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="firstName"
+                      name="firstName"
+                      type="text"
+                      placeholder={t('auth.fields.firstNamePlaceholder', 'John')}
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      className="pl-10"
+                      required
+                      autoComplete="given-name"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="lastName">
+                    {t('auth.fields.lastName', 'Last name')}
+                  </Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="lastName"
+                      name="lastName"
+                      type="text"
+                      placeholder={t('auth.fields.lastNamePlaceholder', 'Doe')}
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      className="pl-10"
+                      required
+                      autoComplete="family-name"
+                    />
+                  </div>
+                </div>
+              </div>
+
               <div className="space-y-2">
                 <Label htmlFor="email">
-                  {t('auth.fields.email', 'Email')}
+                  {t('auth.fields.email', 'Email address')}
                 </Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -128,29 +185,32 @@ const MagicLinkLoginForm: React.FC = () => {
                     name="email"
                     type="email"
                     placeholder={t('auth.fields.emailPlaceholder', 'Enter your email')}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={formData.email}
+                    onChange={handleInputChange}
                     className="pl-10"
                     required
                     autoComplete="email"
                   />
                 </div>
+                <p className="text-xs text-muted-foreground">
+                  {t('auth.magicLinkSignup.helpText', 'We\'ll send you a secure link to complete your registration')}
+                </p>
               </div>
 
               <Button
                 type="submit"
                 className="w-full"
-                disabled={!email || isSubmitting || loading}
+                disabled={!isFormValid || isSubmitting || loading}
               >
                 {isSubmitting || loading ? (
                   <>
                     <LoadingSpinner size={16} className="mr-2" />
-                    {t('auth.magicLink.sending', 'Sending link...')}
+                    {t('auth.magicLinkSignup.sending', 'Sending magic link...')}
                   </>
                 ) : (
                   <>
                     <Zap className="w-4 h-4 mr-2" />
-                    {t('auth.magicLink.sendLink', 'Send magic link')}
+                    {t('auth.magicLinkSignup.sendLink', 'Send Magic Link')}
                   </>
                 )}
               </Button>
@@ -162,49 +222,39 @@ const MagicLinkLoginForm: React.FC = () => {
                   <CheckCircle className="w-8 h-8 text-primary" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2">
-                  {t('auth.magicLink.linkSent', 'Magic link sent!')}
+                  {t('auth.magicLinkSignup.checkInbox', 'Check your inbox')}
                 </h3>
                 <p className="text-muted-foreground text-sm mb-4">
-                  {t('auth.magicLink.checkEmail', 'Check your email and click the secure link to sign in. The link will expire in 15 minutes.')}
+                  {t('auth.magicLinkSignup.emailSent', 'We\'ve sent a magic signup link to:')}
                 </p>
-                <div className="text-xs text-muted-foreground bg-muted rounded p-2">
-                  <strong>{email}</strong>
+                <div className="bg-white/50 border border-muted rounded-lg px-3 py-2 font-medium text-sm">
+                  {formData.email}
                 </div>
+                <p className="text-xs text-muted-foreground mt-4">
+                  {t('auth.magicLinkSignup.linkExpiry', 'This link will expire in 15 minutes for security.')}
+                </p>
               </div>
 
-              <Alert>
-                <ExternalLink className="h-4 w-4" />
-                <AlertDescription>
-                  {t('auth.magicLink.clickLink', 'Click the link in your email to continue. You can close this tab once you\'ve clicked the link.')}
-                </AlertDescription>
-              </Alert>
-
-              <div className="space-y-2">
-                <div className="text-sm text-muted-foreground text-center">
-                  {t('auth.magicLink.noEmail', "Didn't receive the email?")}
-                </div>
-                <div className="flex flex-col space-y-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={handleResendLink}
-                    disabled={countdown > 0}
-                    className="w-full"
-                  >
-                    {countdown > 0 
-                      ? t('auth.magicLink.resendIn', `Resend in ${countdown}s`)
-                      : t('auth.magicLink.resend', 'Resend magic link')
-                    }
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    onClick={handleBack}
-                    className="w-full"
-                  >
-                    {t('auth.magicLink.tryDifferentEmail', 'Try a different email')}
-                  </Button>
-                </div>
+              <div className="flex items-center justify-between">
+                <Button
+                  variant="outline"
+                  onClick={handleBack}
+                  size="sm"
+                >
+                  {t('auth.magicLinkSignup.backToForm', 'Back to form')}
+                </Button>
+                
+                <Button
+                  variant="outline"
+                  onClick={handleResendLink}
+                  disabled={countdown > 0}
+                  size="sm"
+                >
+                  {countdown > 0 
+                    ? t('auth.magicLinkSignup.resendTimer', `Resend in ${countdown}s`)
+                    : t('auth.magicLinkSignup.resend', 'Resend link')
+                  }
+                </Button>
               </div>
             </div>
           )}
@@ -212,22 +262,22 @@ const MagicLinkLoginForm: React.FC = () => {
 
         <CardFooter className="flex flex-col space-y-4">
           <div className="text-sm text-center">
-            {t('auth.magicLink.backToLogin', 'Want to use password instead?')}{' '}
+            {t('auth.magicLinkSignup.hasAccount', 'Already have an account?')}{' '}
             <Link
               to="/login"
               className="text-primary hover:underline font-medium"
             >
-              {t('auth.magicLink.passwordLogin', 'Password login')}
+              {t('auth.magicLinkSignup.signIn', 'Sign in')}
             </Link>
           </div>
           
           <div className="text-sm text-center">
-            {t('auth.login.noAccount', "Don't have an account?")}{' '}
+            {t('auth.magicLinkSignup.preferPassword', 'Prefer a password?')}{' '}
             <Link
               to="/register"
               className="text-primary hover:underline font-medium"
             >
-              {t('auth.login.signUp', 'Sign up')}
+              {t('auth.magicLinkSignup.regularSignup', 'Regular signup')}
             </Link>
           </div>
         </CardFooter>
@@ -236,4 +286,4 @@ const MagicLinkLoginForm: React.FC = () => {
   );
 };
 
-export default MagicLinkLoginForm;
+export default MagicLinkSignupForm;

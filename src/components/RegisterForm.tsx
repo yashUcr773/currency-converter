@@ -7,8 +7,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Separator } from '@/components/ui/separator';
 import { LoadingSpinner } from './LoadingSpinner';
-import { Eye, EyeOff, Mail, Lock, User, AlertCircle, CheckCircle } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User, AlertCircle, CheckCircle, Zap } from 'lucide-react';
 
 interface PasswordStrength {
   score: number;
@@ -137,13 +138,29 @@ const RegisterForm: React.FC = () => {
   const passwordsMatch = !formData.confirmPassword || formData.password === formData.confirmPassword;
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl text-center">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4">
+      {/* Header Bar */}
+      <div className="fixed top-0 left-0 right-0 z-10 bg-white/80 backdrop-blur-sm shadow-lg border-b border-slate-200">
+        <div className="max-w-6xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-center gap-3">
+            <div className="p-2 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg shadow-lg">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+              </svg>
+            </div>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Currency Converter
+            </h1>
+          </div>
+        </div>
+      </div>
+
+      <Card className="w-full max-w-md mt-24 bg-white/95 backdrop-blur-md border-0 shadow-lg">
+        <CardHeader className="space-y-1 text-center">
+          <CardTitle className="text-2xl">
             {t('auth.register.title', 'Create account')}
           </CardTitle>
-          <CardDescription className="text-center">
+          <CardDescription>
             {t('auth.register.subtitle', 'Enter your details to get started')}
           </CardDescription>
         </CardHeader>
@@ -333,6 +350,31 @@ const RegisterForm: React.FC = () => {
               )}
             </Button>
           </form>
+
+          <div className="mt-4">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <Separator className="w-full" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                  {t('auth.or', 'Or')}
+                </span>
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <Button
+                variant="outline"
+                type="button"
+                onClick={() => navigate('/register/magic-link')}
+                className="w-full"
+              >
+                <Zap className="w-4 h-4 mr-2" />
+                {t('auth.register.withMagicLink', 'Sign up with Magic Link')}
+              </Button>
+            </div>
+          </div>
         </CardContent>
 
         <CardFooter className="flex flex-col space-y-4">

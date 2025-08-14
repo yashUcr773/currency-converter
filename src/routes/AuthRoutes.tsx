@@ -6,6 +6,8 @@ import ProtectedRoute from '../components/ProtectedRoute';
 // Lazy load auth components
 const LoginForm = React.lazy(() => import('../components/LoginForm'));
 const RegisterForm = React.lazy(() => import('../components/RegisterForm'));
+const MagicLinkSignupForm = React.lazy(() => import('../components/MagicLinkSignupForm'));
+const MagicLinkSignupPage = React.lazy(() => import('../components/MagicLinkSignupPage'));
 const OTPLoginForm = React.lazy(() => import('../components/OTPLoginForm'));
 const MagicLinkLoginForm = React.lazy(() => import('../components/MagicLinkLoginForm'));
 const MagicLinkLoginPage = React.lazy(() => import('../components/MagicLinkLoginPage'));
@@ -28,6 +30,8 @@ const AuthRoutes: React.FC = () => {
         {/* Authentication Routes */}
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
+        <Route path="/register/magic-link" element={<MagicLinkSignupForm />} />
+        <Route path="/magic-signup" element={<MagicLinkSignupPage />} />
         <Route path="/login/otp" element={<OTPLoginForm />} />
         <Route path="/login/magic-link" element={<MagicLinkLoginForm />} />
         <Route path="/magic-login" element={<MagicLinkLoginPage />} />

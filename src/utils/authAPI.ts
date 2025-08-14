@@ -127,6 +127,13 @@ export class AuthAPI {
     });
   }
 
+  static async signupWithMagicLink(email: string, firstName: string, lastName: string): Promise<{ message: string }> {
+    return this.makeRequest('/auth/signup-magic-link', {
+      method: 'POST',
+      body: JSON.stringify({ email, firstName, lastName }),
+    });
+  }
+
   static async loginWithMagicLink(token: string, rememberMe = false): Promise<AuthResponse> {
     return this.makeRequest('/auth/magic-login', {
       method: 'POST',

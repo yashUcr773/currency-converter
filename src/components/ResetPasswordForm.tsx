@@ -148,13 +148,29 @@ const ResetPasswordForm: React.FC = () => {
   // Invalid token state
   if (!isTokenValid) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl text-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4">
+        {/* Header Bar */}
+        <div className="fixed top-0 left-0 right-0 z-10 bg-white/80 backdrop-blur-sm shadow-lg border-b border-slate-200">
+          <div className="max-w-6xl mx-auto px-4 py-4">
+            <div className="flex items-center justify-center gap-3">
+              <div className="p-2 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg shadow-lg">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                </svg>
+              </div>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Currency Converter
+              </h1>
+            </div>
+          </div>
+        </div>
+
+        <Card className="w-full max-w-md mt-24 bg-white/95 backdrop-blur-md border-0 shadow-lg">
+          <CardHeader className="space-y-1 text-center">
+            <CardTitle className="text-2xl">
               {t('auth.resetPassword.invalidTitle', 'Invalid reset link')}
             </CardTitle>
-            <CardDescription className="text-center">
+            <CardDescription>
               {t('auth.resetPassword.invalidSubtitle', 'This password reset link is invalid or expired')}
             </CardDescription>
           </CardHeader>
@@ -193,13 +209,29 @@ const ResetPasswordForm: React.FC = () => {
   // Success state
   if (isSuccess) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl text-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4">
+        {/* Header Bar */}
+        <div className="fixed top-0 left-0 right-0 z-10 bg-white/80 backdrop-blur-sm shadow-lg border-b border-slate-200">
+          <div className="max-w-6xl mx-auto px-4 py-4">
+            <div className="flex items-center justify-center gap-3">
+              <div className="p-2 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg shadow-lg">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                </svg>
+              </div>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Currency Converter
+              </h1>
+            </div>
+          </div>
+        </div>
+
+        <Card className="w-full max-w-md mt-24 bg-white/95 backdrop-blur-md border-0 shadow-lg">
+          <CardHeader className="space-y-1 text-center">
+            <CardTitle className="text-2xl">
               {t('auth.resetPassword.successTitle', 'Password reset successful!')}
             </CardTitle>
-            <CardDescription className="text-center">
+            <CardDescription>
               {t('auth.resetPassword.successSubtitle', 'Your password has been successfully reset')}
             </CardDescription>
           </CardHeader>
@@ -224,8 +256,24 @@ const ResetPasswordForm: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4">
+      {/* Header Bar */}
+      <div className="fixed top-0 left-0 right-0 z-10 bg-white/80 backdrop-blur-sm shadow-lg border-b border-slate-200">
+        <div className="max-w-6xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-center gap-3">
+            <div className="p-2 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg shadow-lg">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+              </svg>
+            </div>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Currency Converter
+            </h1>
+          </div>
+        </div>
+      </div>
+
+      <Card className="w-full max-w-md mt-24 bg-white/95 backdrop-blur-md border-0 shadow-lg">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl text-center">
             {t('auth.resetPassword.title', 'Reset your password')}
