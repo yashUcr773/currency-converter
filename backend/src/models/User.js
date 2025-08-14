@@ -160,8 +160,8 @@ userSchema.index({ createdAt: -1 });
 
 // Pre-save middleware to hash password
 userSchema.pre('save', async function(next) {
-  // Only hash the password if it has been modified (or is new)
-  if (!this.isModified('password')) return next();
+  // Only hash the password if it has been modified (or is new) AND exists
+  if (!this.isModified('password') || !this.password) return next();
   
   try {
     // Hash password with cost of 12

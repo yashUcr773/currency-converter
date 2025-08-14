@@ -31,7 +31,7 @@ const AuthRoutes: React.FC = () => {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/register/magic-link" element={<MagicLinkSignupForm />} />
-        <Route path="/magic-signup" element={<MagicLinkSignupPage />} />
+        <Route path="/signup-magic" element={<MagicLinkSignupPage />} />
         <Route path="/login/otp" element={<OTPLoginForm />} />
         <Route path="/login/magic-link" element={<MagicLinkLoginForm />} />
         <Route path="/magic-login" element={<MagicLinkLoginPage />} />

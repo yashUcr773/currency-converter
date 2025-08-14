@@ -1,7 +1,7 @@
 import type { AuthTokens, AuthResponse, LoginCredentials, RegisterCredentials, User } from '../types/auth';
 
 // API Configuration
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
 
 // Storage keys
 export const STORAGE_KEYS = {
@@ -131,6 +131,13 @@ export class AuthAPI {
     return this.makeRequest('/auth/signup-magic-link', {
       method: 'POST',
       body: JSON.stringify({ email, firstName, lastName }),
+    });
+  }
+
+  static async completeSignupWithMagicLink(token: string, password?: string): Promise<AuthResponse> {
+    return this.makeRequest('/auth/signup-magic', {
+      method: 'POST',
+      body: JSON.stringify({ token, password }),
     });
   }
 

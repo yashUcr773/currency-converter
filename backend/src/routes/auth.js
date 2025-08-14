@@ -617,6 +617,7 @@ router.post('/signup-magic-link', strictAuthLimiter, validateSignupMagicLinkRequ
 // COMPLETE SIGNUP WITH MAGIC LINK
 router.post('/signup-magic', validateSignupMagicLinkCompletion, asyncHandler(async (req, res) => {
   const { token, password } = req.body;
+  console.log("🚀 ~ req.body:", req.body)
 
   if (!token) {
     return res.status(400).json({
@@ -627,6 +628,7 @@ router.post('/signup-magic', validateSignupMagicLinkCompletion, asyncHandler(asy
 
   try {
     const decoded = verifyToken(token, process.env.JWT_EMAIL_SECRET);
+    console.log("🚀 ~ decoded:", decoded)
     
     // Verify it's a signup magic link token
     if (decoded.type !== 'signup_magic_link') {
@@ -637,9 +639,11 @@ router.post('/signup-magic', validateSignupMagicLinkCompletion, asyncHandler(asy
     }
 
     const { email, firstName, lastName } = decoded;
+    console.log("🚀 ~ email, firstName, lastName:", email, firstName, lastName)
 
     // Check if user already exists (double check for race conditions)
     const existingUser = await User.findOne({ email });
+    console.log("🚀 ~ existingUser:", existingUser)
     if (existingUser) {
       return res.status(400).json({
         error: 'An account with this email already exists',
@@ -648,13 +652,20 @@ router.post('/signup-magic', validateSignupMagicLinkCompletion, asyncHandler(asy
     }
 
     // Create new user
-    const user = new User({
+    const userData = {
       email,
-      password,
       firstName,
       lastName,
       isEmailVerified: true // Email is pre-verified through magic link
-    });
+    };
+
+    // Only add password if provided
+    if (password) {
+      userData.password = password;
+    }
+
+    const user = new User(userData);
+    console.log("🚀 ~ user:", user)
 
     await user.save();
 
@@ -664,7 +675,9 @@ router.post('/signup-magic', validateSignupMagicLinkCompletion, asyncHandler(asy
 
     // Generate tokens
     const accessToken = generateAccessToken(user._id);
+    console.log("🚀 ~ accessToken:", accessToken)
     const refreshToken = generateRefreshToken(user._id);
+    console.log("🚀 ~ refreshToken:", refreshToken)
 
     // Save refresh token
     user.refreshTokens.push({
@@ -685,6 +698,7 @@ router.post('/signup-magic', validateSignupMagicLinkCompletion, asyncHandler(asy
       userAgent: sanitizeUserAgent(req.headers['user-agent']),
       method: 'Magic Link Signup'
     };
+    console.log("🚀 ~ loginInfo:", loginInfo)
     
     emailService.sendLoginNotificationEmail(user, loginInfo).catch(err => 
       console.error('Failed to send login notification email:', err)
@@ -700,6 +714,7 @@ router.post('/signup-magic', validateSignupMagicLinkCompletion, asyncHandler(asy
       requiresEmailVerification: false
     });
   } catch (error) {
+    console.log("🚀 ~ error:", error)
     res.status(400).json({
       error: 'Invalid or expired signup magic link',
       code: 'INVALID_SIGNUP_MAGIC_LINK'

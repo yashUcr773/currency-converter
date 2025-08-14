@@ -162,6 +162,7 @@ export const validateSignupMagicLinkCompletion = [
     .notEmpty()
     .withMessage('Magic link token is required'),
   body('password')
+    .optional()
     .isLength({ min: 8 })
     .withMessage('Password must be at least 8 characters long')
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)

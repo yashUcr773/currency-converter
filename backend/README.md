@@ -70,7 +70,7 @@ Create `.env` file with:
 
 ```env
 NODE_ENV=development
-PORT=3001
+PORT=3000
 MONGODB_URI=mongodb://localhost:27017/auth-db
 JWT_ACCESS_SECRET=your-access-secret
 JWT_REFRESH_SECRET=your-refresh-secret

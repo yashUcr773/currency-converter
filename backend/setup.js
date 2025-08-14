@@ -61,7 +61,7 @@ console.log('1. Enable 2-Factor Authentication');
 console.log('2. Generate an App Password in Google Account Settings');
 console.log('3. Use the app password as SMTP_PASS in .env\n');
 
-console.log('🔗 API will be available at: http://localhost:3001');
-console.log('📊 Health check: http://localhost:3001/api/health\n');
+console.log('🔗 API will be available at: http://localhost:0');
+console.log('📊 Health check: http://localhost:3000/api/health\n');
 
 console.log('Happy coding! 🎉');

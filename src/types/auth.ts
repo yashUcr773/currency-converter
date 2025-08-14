@@ -71,6 +71,7 @@ export interface AuthContextType {
   // Magic Link Login & Signup
   requestMagicLink: (email: string) => Promise<{ message: string }>;
   signupWithMagicLink: (email: string, firstName: string, lastName: string) => Promise<{ message: string }>;
+  completeSignupWithMagicLink: (token: string, password?: string) => Promise<AuthResponse>;
   loginWithMagicLink: (token: string, rememberMe?: boolean) => Promise<AuthResponse>;
   
   // Utility

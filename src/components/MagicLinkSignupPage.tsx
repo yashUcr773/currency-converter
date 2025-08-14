@@ -14,7 +14,7 @@ const MagicLinkSignupPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { loginWithMagicLink, loading, error, clearError, isAuthenticated } = useAuth();
+  const { completeSignupWithMagicLink, loading, error, clearError, isAuthenticated } = useAuth();
 
   const [status, setStatus] = useState<MagicSignupStatus>('loading');
   const [token, setToken] = useState<string | null>(null);
@@ -44,7 +44,7 @@ const MagicLinkSignupPage: React.FC = () => {
     clearError();
 
     try {
-      await loginWithMagicLink(token, true); // Remember the user since they're signing up
+      await completeSignupWithMagicLink(token);
       setStatus('success');
       
       // Redirect after a brief delay
