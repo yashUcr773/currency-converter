@@ -9,7 +9,6 @@ import { OfflineNotice } from './components/OfflineNotice';
 import { RefreshWarningModal } from './components/RefreshWarningModal';
 import { DonateButton } from './components/DonateButton';
 import { SEO, StructuredData } from './components/SEO';
-import { PersistenceIndicator } from './components/PersistenceIndicator';
 import { AuthHeader } from './components/AuthHeader';
 import { usePWA } from './hooks/usePWA';
 import { Button } from '@/components/ui/button';
@@ -30,18 +29,11 @@ function App() {
   const { t } = useTranslation();
   const [pwaStatus] = usePWA();
   const [activeTab, setActiveTab] = useState<TabType>(() => getActiveTab());
-  const [showPersistenceIndicator, setShowPersistenceIndicator] = useState(false);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   // Save active tab to localStorage whenever it changes
   useEffect(() => {
-    if (!isInitialLoad) {
-      saveActiveTab(activeTab);
-      setShowPersistenceIndicator(true);
-    } else {
-      setIsInitialLoad(false);
-    }
-  }, [activeTab, isInitialLoad]);
+    saveActiveTab(activeTab);
+  }, [activeTab]);
   const {
     pinnedCurrencies,
     exchangeRates,
@@ -313,9 +305,6 @@ function App() {
           </p>
         </div>
       </main>
-
-      {/* Persistence Indicator */}
-      <PersistenceIndicator isActive={showPersistenceIndicator} />
     </div>
   );
 }

@@ -1,7 +1,13 @@
-import { useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import type { NumberSystem } from '../utils/numberSystem';
-import { NumberSystemContext } from './NumberSystemContextTypes';
+
+interface NumberSystemContextType {
+  numberSystem: NumberSystem;
+  setNumberSystem: (system: NumberSystem) => void;
+}
+
+const NumberSystemContext = createContext<NumberSystemContextType | undefined>(undefined);
 
 interface NumberSystemProviderProps {
   children: ReactNode;
@@ -30,3 +36,5 @@ export const NumberSystemProvider = ({ children }: NumberSystemProviderProps) =>
     </NumberSystemContext.Provider>
   );
 };
+
+export { NumberSystemContext };

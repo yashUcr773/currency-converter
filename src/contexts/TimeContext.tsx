@@ -1,21 +1,16 @@
-import React, { memo } from 'react';
-import { TimeContext } from './TimeContextTypes';
+import React, { createContext, memo } from 'react';
+
+interface TimeContextValue {
+  getCurrentTime: (timezone: string) => Date;
+}
+
+const TimeContext = createContext<TimeContextValue | null>(null);
 
 /**
  * Global time provider - now optimized to avoid global re-renders
  * Individual timer components handle their own updates via direct DOM manipulation
  */
 export const TimeProvider = memo(({ children }: { children: React.ReactNode }) => {
-  // Removed: const [, forceUpdate] = useState(0);
-
-  // Removed: Single global timer that forces a re-render every second
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     forceUpdate(prev => prev + 1);
-  //   }, 1000);
-  //   return () => clearInterval(interval);
-  // }, []);
-
   const getCurrentTime = (timezone: string): Date => {
     try {
       const now = new Date();
@@ -36,3 +31,5 @@ export const TimeProvider = memo(({ children }: { children: React.ReactNode }) =
 });
 
 TimeProvider.displayName = 'TimeProvider';
+
+export { TimeContext };

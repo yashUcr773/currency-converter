@@ -1,5 +1,5 @@
-import { useContext } from 'react';
-import { NumberSystemContext } from '../contexts/NumberSystemContextTypes';
+import { useContext } from "react";
+import { NumberSystemContext } from "../contexts/NumberSystemContext";
 
 export const useNumberSystem = () => {
   const context = useContext(NumberSystemContext);
