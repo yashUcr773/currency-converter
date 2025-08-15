@@ -10,6 +10,7 @@ import { RefreshWarningModal } from './components/RefreshWarningModal';
 import { DonateButton } from './components/DonateButton';
 import { SEO, StructuredData } from './components/SEO';
 import { PersistenceIndicator } from './components/PersistenceIndicator';
+import { AuthHeader } from './components/AuthHeader';
 import { usePWA } from './hooks/usePWA';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -110,6 +111,11 @@ function App() {
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm shadow-lg border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6 py-3 sm:py-4 lg:py-8">
+          <div className="flex items-start justify-between mb-4">
+            <div></div> {/* Spacer */}
+            <AuthHeader />
+          </div>
+          
           <div className="text-center">
             <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2 sm:mb-3 lg:mb-4">
               <div className="p-1.5 sm:p-2 lg:p-3 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg sm:rounded-xl shadow-lg">
