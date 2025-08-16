@@ -8,7 +8,7 @@ import { TimelineCalendar } from './TimelineCalendar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Plus, Calendar, List, Clock, CalendarDays, TrendingUp, Activity, Star } from 'lucide-react';
+import { Plus, Calendar, List, Clock, CalendarDays } from 'lucide-react';
 import type { ItineraryItem } from '@/types/itinerary';
 
 // Itinerary Manager Component - manages calendar, list, and timeline views
@@ -22,7 +22,6 @@ export const ItineraryManager: React.FC = () => {
     updateItem,
     deleteItem,
     duplicateItem,
-    getItemsForDate,
     navigateDate,
     setViewType,
     goToToday,
@@ -104,76 +103,6 @@ export const ItineraryManager: React.FC = () => {
           <Plus className="h-4 w-4" />
           Add Activity
         </Button>
-      </div>
-
-      {/* Quick Stats */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-l-4 border-l-blue-500">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Activities</CardTitle>
-            <Calendar className="h-4 w-4 text-blue-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{items.length}</div>
-            <p className="text-xs text-muted-foreground">
-              Activities planned
-            </p>
-          </CardContent>
-        </Card>
-        
-        <Card className="border-l-4 border-l-green-500">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Today's Activities</CardTitle>
-            <Activity className="h-4 w-4 text-green-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {getItemsForDate(new Date()).length}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Scheduled for today
-            </p>
-          </CardContent>
-        </Card>
-        
-        <Card className="border-l-4 border-l-orange-500">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Upcoming</CardTitle>
-            <TrendingUp className="h-4 w-4 text-orange-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {items.filter(item => new Date(item.startDate) > new Date()).length}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Future activities
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-l-4 border-l-purple-500">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">This Week</CardTitle>
-            <Star className="h-4 w-4 text-purple-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {(() => {
-                const now = new Date();
-                const weekStart = new Date(now.setDate(now.getDate() - now.getDay()));
-                const weekEnd = new Date(weekStart);
-                weekEnd.setDate(weekStart.getDate() + 6);
-                return items.filter(item => {
-                  const itemDate = new Date(item.startDate);
-                  return itemDate >= weekStart && itemDate <= weekEnd;
-                }).length;
-              })()}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Activities this week
-            </p>
-          </CardContent>
-        </Card>
       </div>
 
       {/* Main Content */}
