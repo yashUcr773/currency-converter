@@ -196,7 +196,13 @@ export const CombinedHeader = ({
                       ? "hover:bg-blue-50 hover:text-blue-700 text-slate-600"
                       : "hover:bg-orange-50 hover:text-orange-700 text-slate-500"
                   )}
-                  title={isOnline ? t('statusBar.refreshTitle') : t('statusBar.tryRefreshTitle')}
+                  title={
+                    syncing 
+                      ? t('statusBar.syncing', 'Refreshing data...')
+                      : isOnline 
+                        ? `${t('statusBar.refreshTitle', 'Refresh exchange rates')} • Last updated: ${formatLastSync(lastSync)}`
+                        : `${t('statusBar.tryRefreshTitle', 'Try to refresh rates')} • You're offline, but cached data is available`
+                  }
                 >
                   <RefreshCw 
                     size={12} 

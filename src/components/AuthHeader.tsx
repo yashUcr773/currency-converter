@@ -9,22 +9,27 @@ export function AuthHeader() {
   return (
     <div className="flex items-center gap-2">
       <SignedOut>
-        <div className="flex items-center gap-1">
-          <SignUpButton mode="modal">
-            <Button variant="default" size="sm" className="gap-1 px-2 py-1 h-auto text-xs">
-              <UserPlus className="w-3 h-3" />
-              <span className="hidden lg:inline">{t('auth.signUp', 'Sign Up')}</span>
-              <span className="lg:hidden">Join</span>
-            </Button>
-          </SignUpButton>
-          
-          <SignInButton mode="modal">
-            <Button variant="outline" size="sm" className="gap-1 px-2 py-1 h-auto text-xs">
-              <LogIn className="w-3 h-3" />
-              <span className="hidden lg:inline">{t('auth.signIn', 'Sign In')}</span>
-              <span className="lg:hidden">In</span>
-            </Button>
-          </SignInButton>
+        <div className="flex items-center gap-2">
+          <span className="hidden xl:inline text-xs text-muted-foreground">
+            Save to cloud:
+          </span>
+          <div className="flex items-center gap-1">
+            <SignUpButton mode="modal">
+              <Button variant="default" size="sm" className="gap-1 px-2 py-1 h-auto text-xs">
+                <UserPlus className="w-3 h-3" />
+                <span className="hidden lg:inline">{t('auth.signUp', 'Sign Up')}</span>
+                <span className="lg:hidden">Join</span>
+              </Button>
+            </SignUpButton>
+            
+            <SignInButton mode="modal">
+              <Button variant="outline" size="sm" className="gap-1 px-2 py-1 h-auto text-xs">
+                <LogIn className="w-3 h-3" />
+                <span className="hidden lg:inline">{t('auth.signIn', 'Sign In')}</span>
+                <span className="lg:hidden">In</span>
+              </Button>
+            </SignInButton>
+          </div>
         </div>
       </SignedOut>
       

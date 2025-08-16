@@ -115,6 +115,13 @@ export function CloudSyncStatus() {
             onClick={performFullSync}
             disabled={!canSync || syncState.status === 'syncing'}
             className="flex items-center gap-2"
+            title={
+              !canSync 
+                ? "Sync unavailable - check your connection and cloud configuration"
+                : syncState.status === 'syncing'
+                ? "Sync in progress - please wait"
+                : "Sync all data between local storage and cloud"
+            }
           >
             <RefreshCw className={`h-3 w-3 ${syncState.status === 'syncing' ? 'animate-spin' : ''}`} />
             Sync All
@@ -126,6 +133,13 @@ export function CloudSyncStatus() {
             onClick={uploadToCloud}
             disabled={!canSync || syncState.status === 'syncing'}
             className="flex items-center gap-2"
+            title={
+              !canSync 
+                ? "Upload unavailable - check your connection and cloud configuration"
+                : syncState.status === 'syncing'
+                ? "Sync in progress - please wait"
+                : "Upload your local data to the cloud (overwrites cloud data)"
+            }
           >
             <Upload className="h-3 w-3" />
             Upload
@@ -137,6 +151,13 @@ export function CloudSyncStatus() {
             onClick={downloadFromCloud}
             disabled={!canSync || syncState.status === 'syncing'}
             className="flex items-center gap-2"
+            title={
+              !canSync 
+                ? "Download unavailable - check your connection and cloud configuration"
+                : syncState.status === 'syncing'
+                ? "Sync in progress - please wait"
+                : "Download cloud data to local storage (overwrites local data)"
+            }
           >
             <Download className="h-3 w-3" />
             Download
@@ -162,6 +183,7 @@ export function CloudSyncStatus() {
                   variant="outline"
                   onClick={stopPeriodicSync}
                   className="h-6 px-2 text-xs"
+                  title="Stop automatic background sync every 5 minutes"
                 >
                   Stop
                 </Button>
@@ -172,6 +194,11 @@ export function CloudSyncStatus() {
                   onClick={startPeriodicSync}
                   disabled={!canSync}
                   className="h-6 px-2 text-xs"
+                  title={
+                    !canSync 
+                      ? "Auto-sync unavailable - check your connection and cloud configuration"
+                      : "Start automatic background sync every 5 minutes"
+                  }
                 >
                   Start
                 </Button>
@@ -215,43 +242,66 @@ export function CloudSyncIndicator() {
   };
 
   const getStatusText = () => {
-    if (!syncState.isOnline) return 'Offline';
-    if (!syncState.cloudAvailable) return 'Cloud unavailable';
+    if (!syncState.isOnline) return 'Cloud sync offline • Your data is stored locally and will sync when you\'re back online';
+    if (!syncState.cloudAvailable) return 'Cloud service unavailable • Check your configuration or try again later';
     
     let baseStatus = '';
+    let additionalInfo = '';
+    
     switch (syncState.status) {
       case 'syncing':
-        baseStatus = 'Syncing...';
+        baseStatus = 'Syncing data to cloud...';
+        additionalInfo = 'Please wait while your data synchronizes';
         break;
       case 'success':
-        baseStatus = 'Synced';
+        baseStatus = 'Cloud sync successful';
+        additionalInfo = syncState.lastSync 
+          ? `Last synced: ${new Date(syncState.lastSync).toLocaleString()}`
+          : 'Your data is up to date';
         break;
       case 'error':
-        baseStatus = 'Sync failed';
+        baseStatus = 'Cloud sync failed';
+        additionalInfo = 'Click to retry syncing your data';
         break;
       default:
-        baseStatus = 'Ready';
+        baseStatus = 'Ready to sync';
+        additionalInfo = 'Click to manually sync your data to the cloud';
     }
     
-    const periodicStatus = isPeriodicSyncActive() ? 'Auto-sync: ON' : 'Auto-sync: OFF';
-    return `${baseStatus} • ${periodicStatus}`;
+    const periodicStatus = isPeriodicSyncActive() 
+      ? 'Auto-sync: ON (every 5 min)' 
+      : 'Auto-sync: OFF';
+    
+    return `${baseStatus} • ${periodicStatus}${additionalInfo ? ` • ${additionalInfo}` : ''}`;
   };
 
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      onClick={performFullSync}
-      disabled={syncState.status === 'syncing' || !syncState.isOnline || !syncState.cloudAvailable}
-      className="flex items-center gap-1 px-2 relative"
-      title={getStatusText()}
-    >
-      {getIcon()}
-      {/* Small indicator dot for active periodic sync */}
-      {isPeriodicSyncActive() && syncState.isOnline && syncState.cloudAvailable && (
-        <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full border border-white"></div>
-      )}
-      <span className="sr-only">Cloud sync</span>
-    </Button>
+    <div className="flex items-center gap-1">
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={performFullSync}
+        disabled={syncState.status === 'syncing' || !syncState.isOnline || !syncState.cloudAvailable}
+        className="flex items-center gap-1 px-2 relative"
+        title={getStatusText()}
+      >
+        {getIcon()}
+        {/* Small indicator dot for active periodic sync */}
+        {isPeriodicSyncActive() && syncState.isOnline && syncState.cloudAvailable && (
+          <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full border border-white"></div>
+        )}
+        <span className="sr-only">Cloud sync</span>
+      </Button>
+      
+      {/* Sync Status Text */}
+      <span className="text-xs text-muted-foreground hidden lg:inline">
+        {syncState.status === 'syncing' ? 'Syncing...' :
+         syncState.status === 'success' ? 'Synced' :
+         syncState.status === 'error' ? 'Error' :
+         !syncState.isOnline ? 'Offline' :
+         !syncState.cloudAvailable ? 'Unavailable' :
+         'Ready'}
+      </span>
+    </div>
   );
 }
