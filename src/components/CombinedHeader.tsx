@@ -17,13 +17,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { cn } from '@/lib/utils';
 import { usePWA } from '../hooks/usePWA';
 import { UpdatePrompt } from './UpdatePrompt';
-import { MiniCalculator } from './MiniCalculator';
-import { NumberSystemToggle } from './NumberSystemToggle';
 import { LanguagePicker } from './LanguagePicker';
 import { AuthHeader } from './AuthHeader';
-import { logger } from '../utils/env';
-import type { NumberSystem } from '../utils/numberSystem';
-import type { PinnedCurrency } from '../types';
 import type { TabType } from '../utils/tabStorage';
 
 interface CombinedHeaderProps {
@@ -33,7 +28,6 @@ interface CombinedHeaderProps {
   areRatesExpired: boolean;
   syncing: boolean;
   onRefresh: (showModal?: boolean) => void;
-  pinnedCurrencies?: PinnedCurrency[];
   
   // Header props
   activeTab: TabType;
@@ -46,7 +40,6 @@ export const CombinedHeader = ({
   areRatesExpired,
   syncing,
   onRefresh,
-  pinnedCurrencies = [],
   activeTab,
   onTabChange
 }: CombinedHeaderProps) => {
@@ -54,22 +47,6 @@ export const CombinedHeader = ({
   const [status, actions] = usePWA();
   const [showClearCacheDialog, setShowClearCacheDialog] = useState(false);
   const [showUpdatePrompt, setShowUpdatePrompt] = useState(false);
-  const [numberSystem, setNumberSystemState] = useState<NumberSystem>('international');
-
-  // Load number system preference from localStorage
-  useEffect(() => {
-    const saved = localStorage.getItem('number-system-preference');
-    if (saved === 'indian' || saved === 'international') {
-      setNumberSystemState(saved);
-    }
-  }, []);
-
-  // Save number system preference to localStorage
-  const setNumberSystem = (system: NumberSystem) => {
-    setNumberSystemState(system);
-    localStorage.setItem('number-system-preference', system);
-    window.dispatchEvent(new CustomEvent('numberSystemChanged', { detail: system }));
-  };
 
   const handleClearCache = () => {
     if (!status.isOnline) {
@@ -265,18 +242,6 @@ export const CombinedHeader = ({
                 )}
 
                 {/* Utility Tools */}
-                <NumberSystemToggle 
-                  system={numberSystem}
-                  onToggle={setNumberSystem}
-                />
-
-                <MiniCalculator 
-                  pinnedCurrencies={pinnedCurrencies}
-                  onResult={(value) => {
-                    logger.log('Calculator result received:', value);
-                  }}
-                />
-
                 <LanguagePicker variant="compact" />
               </div>
             </div>

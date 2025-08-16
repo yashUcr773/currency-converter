@@ -8,11 +8,14 @@ import { LoadingSpinner } from './components/LoadingSpinner';
 import { RefreshWarningModal } from './components/RefreshWarningModal';
 import { DonateButton } from './components/DonateButton';
 import { SEO, StructuredData } from './components/SEO';
+import { MiniCalculator } from './components/MiniCalculator';
+import { NumberSystemToggle } from './components/NumberSystemToggle';
 import { usePWA } from './hooks/usePWA';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { AlertTriangle } from 'lucide-react';
 import { saveActiveTab, getActiveTab, type TabType } from './utils/tabStorage';
+import type { NumberSystem } from './utils/numberSystem';
 import './App.css';
 
 // Lazy load non-critical components
@@ -27,6 +30,22 @@ function App() {
   const { t } = useTranslation();
   const [pwaStatus] = usePWA();
   const [activeTab, setActiveTab] = useState<TabType>(() => getActiveTab());
+  const [numberSystem, setNumberSystemState] = useState<NumberSystem>('international');
+
+  // Load number system preference from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('number-system-preference');
+    if (saved === 'indian' || saved === 'international') {
+      setNumberSystemState(saved);
+    }
+  }, []);
+
+  // Save number system preference to localStorage
+  const setNumberSystem = (system: NumberSystem) => {
+    setNumberSystemState(system);
+    localStorage.setItem('number-system-preference', system);
+    window.dispatchEvent(new CustomEvent('numberSystemChanged', { detail: system }));
+  };
 
   // Save active tab to localStorage whenever it changes
   useEffect(() => {
@@ -105,7 +124,6 @@ function App() {
         areRatesExpired={areRatesExpired()}
         syncing={syncing}
         onRefresh={refreshRates}
-        pinnedCurrencies={pinnedCurrencies}
         activeTab={activeTab}
         onTabChange={setActiveTab}
       />
@@ -114,17 +132,39 @@ function App() {
       <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-12">
         {activeTab === 'currency' ? (
           <>
-            {/* Base Currency Indicator */}
+            {/* Combined Currency Info & Tools Island */}
             {exchangeRates && (
               <div className="mb-4 sm:mb-6 lg:mb-8 text-center">
-                <div className="inline-flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2 lg:gap-3 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 bg-card/80 backdrop-blur-sm rounded-lg sm:rounded-xl border border-border shadow-lg max-w-full">
-                  <span className="text-muted-foreground font-medium text-xs sm:text-sm lg:text-base">
-                    {t('app.ratesRelativeTo') as string}
-                  </span>
-                  <span className="font-bold text-sm sm:text-base lg:text-lg text-primary">{baseCurrency}</span>
-                  <span className="text-muted-foreground text-xs hidden sm:block">
-                    {t('app.tapRateToChangeBase') as string}
-                  </span>
+                <div className="inline-flex flex-col sm:flex-row items-center gap-3 sm:gap-4 lg:gap-6 px-3 sm:px-4 lg:px-6 py-3 sm:py-4 bg-card/80 backdrop-blur-sm rounded-lg sm:rounded-xl border border-border shadow-lg max-w-full">
+                  {/* Base Currency Info */}
+                  <div className="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2">
+                    <span className="text-muted-foreground font-medium text-xs sm:text-sm lg:text-base">
+                      {t('app.ratesRelativeTo') as string}
+                    </span>
+                    <span className="font-bold text-sm sm:text-base lg:text-lg text-primary">{baseCurrency}</span>
+                    <span className="text-muted-foreground text-xs hidden lg:block">
+                      {t('app.tapRateToChangeBase') as string}
+                    </span>
+                  </div>
+                  
+                  {/* Separator */}
+                  <div className="w-full sm:w-px h-px sm:h-6 bg-border"></div>
+                  
+                  {/* Currency Tools */}
+                  <div className="flex items-center gap-2">
+                    <NumberSystemToggle 
+                      system={numberSystem}
+                      onToggle={setNumberSystem}
+                    />
+                    <div className="w-px h-6 bg-border"></div>
+                    <MiniCalculator 
+                      pinnedCurrencies={pinnedCurrencies}
+                      onResult={(value) => {
+                        // Handle calculator result if needed
+                        console.log('Calculator result:', value);
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             )}
