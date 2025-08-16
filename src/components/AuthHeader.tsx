@@ -1,6 +1,6 @@
-import { SignedIn, SignedOut, UserButton, SignInButton } from '@clerk/clerk-react';
+import { SignedIn, SignedOut, UserButton, SignInButton, SignUpButton } from '@clerk/clerk-react';
 import { Button } from '@/components/ui/button';
-import { User, Settings } from 'lucide-react';
+import { Settings, LogIn, UserPlus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
@@ -10,39 +10,42 @@ export function AuthHeader() {
   return (
     <div className="flex items-center gap-2">
       <SignedOut>
-        <div className="flex items-center gap-2">
-          <Link to="/join">
-            <Button variant="default" size="sm" className="gap-2">
-              <User className="w-4 h-4" />
-              {t('auth.signUp', 'Join Free')}
+        <div className="flex items-center gap-1">
+          <SignUpButton mode="modal">
+            <Button variant="default" size="sm" className="gap-1 px-2 py-1 h-auto text-xs">
+              <UserPlus className="w-3 h-3" />
+              <span className="hidden lg:inline">{t('auth.signUp', 'Sign Up')}</span>
+              <span className="lg:hidden">Join</span>
             </Button>
-          </Link>
+          </SignUpButton>
           
           <SignInButton mode="modal">
-            <Button variant="outline" size="sm" className="gap-2">
-              <User className="w-4 h-4" />
-              {t('auth.signIn', 'Sign In')}
+            <Button variant="outline" size="sm" className="gap-1 px-2 py-1 h-auto text-xs">
+              <LogIn className="w-3 h-3" />
+              <span className="hidden lg:inline">{t('auth.signIn', 'Sign In')}</span>
+              <span className="lg:hidden">In</span>
             </Button>
           </SignInButton>
         </div>
       </SignedOut>
       
       <SignedIn>
-        <div className="flex items-center gap-2">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={() => window.location.href = '/settings'}
-            className="gap-2"
-          >
-            <Settings className="w-4 h-4" />
-            <span className="hidden sm:inline">Settings</span>
-          </Button>
+        <div className="flex items-center gap-1">
+          <Link to="/settings">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="gap-1 px-2 py-1 h-auto text-xs"
+            >
+              <Settings className="w-3 h-3" />
+              <span className="hidden lg:inline">Settings</span>
+            </Button>
+          </Link>
           
           <UserButton 
             appearance={{
               elements: {
-                avatarBox: "w-8 h-8",
+                avatarBox: "w-6 h-6",
               },
               variables: {
                 colorPrimary: "hsl(var(--primary))",

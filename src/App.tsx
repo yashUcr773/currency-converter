@@ -3,17 +3,15 @@ import { useCurrencyConverter } from './hooks/useCurrencyConverter';
 import { useTranslation } from 'react-i18next';
 import { CurrencyInput } from './components/CurrencyInput';
 import { CurrencySelector } from './components/CurrencySelector';
-import { StatusBar } from './components/StatusBar';
+import { CombinedHeader } from './components/CombinedHeader';
 import { LoadingSpinner } from './components/LoadingSpinner';
-import { OfflineNotice } from './components/OfflineNotice';
 import { RefreshWarningModal } from './components/RefreshWarningModal';
 import { DonateButton } from './components/DonateButton';
 import { SEO, StructuredData } from './components/SEO';
-import { AuthHeader } from './components/AuthHeader';
 import { usePWA } from './hooks/usePWA';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { AlertTriangle, DollarSign, Clock, Calculator, MapPin } from 'lucide-react';
+import { AlertTriangle } from 'lucide-react';
 import { saveActiveTab, getActiveTab, type TabType } from './utils/tabStorage';
 import './App.css';
 
@@ -100,116 +98,20 @@ function App() {
       {/* Refresh Warning Modal */}
       <RefreshWarningModal />
       
-      {/* Header */}
-      <header className="bg-card/80 backdrop-blur-sm shadow-lg border-b border-border">
-        <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6 py-3 sm:py-4 lg:py-8">
-          <div className="flex items-start justify-between mb-4">
-            <div></div> {/* Spacer */}
-            <AuthHeader />
-          </div>
-          
-          <div className="text-center">
-            <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2 sm:mb-3 lg:mb-4">
-              <div className="p-1.5 sm:p-2 lg:p-3 bg-primary rounded-lg sm:rounded-xl shadow-lg">
-                <svg className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                </svg>
-              </div>
-              <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-primary">
-              {activeTab === 'currency' ? t('app.title') as string : 
-               activeTab === 'timezone' ? 'Timezone Converter' : 
-               activeTab === 'units' ? 'Unit Converter' :
-               activeTab === 'calculators' ? 'Duration & Time Calculator' : 
-               'Travel Itinerary'}
-            </h1>
-          </div>
-          <p className="text-muted-foreground text-xs sm:text-sm lg:text-base xl:text-lg font-medium px-2 sm:px-4">
-            {activeTab === 'currency' ? t('app.subtitle') as string : 
-             activeTab === 'timezone' ? 'Real-time timezone conversion across the globe' : 
-             activeTab === 'units' ? 'Convert between different units of measurement' :
-             activeTab === 'calculators' ? 'Calculate time differences, add durations, and analyze dates':
-             'Plan and organize your complete trip itinerary'}
-          </p>
-
-          {/* Tab Navigation */}
-          <div className="mt-4 sm:mt-6 flex justify-center">
-            <div className="inline-flex bg-card/80 backdrop-blur-sm rounded-lg border border-border shadow-sm p-1">
-              <button
-                onClick={() => setActiveTab('currency')}
-                className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                  activeTab === 'currency'
-                    ? 'bg-primary text-primary-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-primary hover:bg-accent'
-                }`}
-              >
-                <DollarSign className="w-4 h-4" />
-                <span className="hidden sm:inline">Currency</span>
-              </button>
-              <button
-                onClick={() => setActiveTab('timezone')}
-                className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                  activeTab === 'timezone'
-                    ? 'bg-primary text-primary-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-primary hover:bg-accent'
-                }`}
-              >
-                <Clock className="w-4 h-4" />
-                <span className="hidden sm:inline">Timezone</span>
-              </button>
-              <button
-                onClick={() => setActiveTab('units')}
-                className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                  activeTab === 'units'
-                    ? 'bg-primary text-primary-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-primary hover:bg-accent'
-                }`}
-              >
-                <Calculator className="w-4 h-4" />
-                <span className="hidden sm:inline">Units</span>
-              </button>
-              <button
-                onClick={() => setActiveTab('calculators')}
-                className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                  activeTab === 'calculators'
-                    ? 'bg-primary text-primary-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-primary hover:bg-accent'
-                }`}
-              >
-                <Clock className="w-4 h-4" />
-                <span className="hidden sm:inline">Duration</span>
-              </button>
-              <button
-                onClick={() => setActiveTab('itinerary')}
-                className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                  activeTab === 'itinerary'
-                    ? 'bg-primary text-primary-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-primary hover:bg-accent'
-                }`}
-              >
-                <MapPin className="w-4 h-4" />
-                <span className="hidden sm:inline">Itinerary</span>
-              </button>
-            </div>
-          </div>
-          </div>
-        </div>
-        
-        {/* Combined Status Bar */}
-        <StatusBar
-          isOnline={pwaStatus.isOnline}
-          lastSync={lastSync}
-          areRatesExpired={areRatesExpired()}
-          syncing={syncing}
-          onRefresh={refreshRates}
-          pinnedCurrencies={pinnedCurrencies}
-        />
-      </header>
+      {/* Combined Header */}
+      <CombinedHeader
+        isOnline={pwaStatus.isOnline}
+        lastSync={lastSync}
+        areRatesExpired={areRatesExpired()}
+        syncing={syncing}
+        onRefresh={refreshRates}
+        pinnedCurrencies={pinnedCurrencies}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+      />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-12">
-        {/* Offline Notice */}
-        <OfflineNotice />
-        
         {activeTab === 'currency' ? (
           <>
             {/* Base Currency Indicator */}

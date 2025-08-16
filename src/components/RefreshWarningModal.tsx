@@ -39,25 +39,8 @@ export function RefreshWarningModal() {
       }
     };
 
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      console.log('[RefreshWarning] Browser refresh/unload detected');
-      
-      // Always prevent the unload and show our modal
-      event.preventDefault();
-      
-      // Show modal if not already shown
-      if (!showModal) {
-        setShowModal(true);
-      }
-      
-      // Set return value to ensure browser shows confirmation
-      event.returnValue = 'RateVault uses cached data. Refreshing won\'t update data.';
-      return 'RateVault uses cached data. Refreshing won\'t update data.';
-    };
-
     // Add event listeners with high priority
     document.addEventListener('keydown', handleKeyDown, { capture: true, passive: false });
-    window.addEventListener('beforeunload', handleBeforeUnload, { passive: false });
     
     // Development testing function
     if (process.env.NODE_ENV === 'development') {
@@ -69,7 +52,6 @@ export function RefreshWarningModal() {
     
     return () => {
       document.removeEventListener('keydown', handleKeyDown, { capture: true });
-      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, [showModal]);
 
