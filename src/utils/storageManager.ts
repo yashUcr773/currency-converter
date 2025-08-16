@@ -1,5 +1,6 @@
 // Centralized Storage Manager
 // Provides a unified interface for all local storage operations with versioning and error handling
+// Integrates with cloud sync for logged-in users
 
 import type { ExchangeRates } from '../types';
 import type { ItineraryItem } from '@/types/itinerary';
@@ -146,6 +147,13 @@ class StorageManager {
     try {
       localStorage.setItem(key, JSON.stringify(data));
       this.updateMetadata();
+      
+      // Emit custom event for cloud sync
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('storageChanged', { 
+          detail: { key, action: 'set' } 
+        }));
+      }
     } catch (error) {
       logger.error(`Error saving to localStorage (${key}):`, error);
     }
@@ -155,6 +163,13 @@ class StorageManager {
     try {
       localStorage.removeItem(key);
       this.updateMetadata();
+      
+      // Emit custom event for cloud sync
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('storageChanged', { 
+          detail: { key, action: 'remove' } 
+        }));
+      }
     } catch (error) {
       logger.error(`Error removing from localStorage (${key}):`, error);
     }

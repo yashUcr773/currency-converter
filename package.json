@@ -58,6 +58,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.868.0",
+    "@aws-sdk/lib-dynamodb": "^3.868.0",
     "@clerk/clerk-react": "^5.42.1",
     "@radix-ui/react-checkbox": "^1.3.2",
     "@radix-ui/react-dialog": "^1.1.14",

@@ -19,6 +19,7 @@ import { usePWA } from '../hooks/usePWA';
 import { UpdatePrompt } from './UpdatePrompt';
 import { LanguagePicker } from './LanguagePicker';
 import { AuthHeader } from './AuthHeader';
+import { CloudSyncIndicator } from './CloudSyncStatus';
 import type { TabType } from '../utils/tabStorage';
 
 interface CombinedHeaderProps {
@@ -174,6 +175,9 @@ export const CombinedHeader = ({
                   {getStatusIcon()}
                   <span className="hidden sm:inline">{getStatusText()}</span>
                 </div>
+
+                {/* Cloud Sync Indicator */}
+                <CloudSyncIndicator />
 
                 {/* Last Sync */}
                 <span className="text-xs text-muted-foreground font-medium hidden md:inline">
