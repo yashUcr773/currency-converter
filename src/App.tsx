@@ -15,8 +15,14 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { AlertTriangle } from 'lucide-react';
 import { saveActiveTab, getActiveTab, type TabType } from './utils/tabStorage';
+import { storageManager } from './utils/storageManager';
 import type { NumberSystem } from './utils/numberSystem';
 import './App.css';
+
+// Import debug utilities in development
+if (process.env.NODE_ENV === 'development') {
+  import('./utils/storageDebug');
+}
 
 // Lazy load non-critical components
 const AboutButton = lazy(() => import('./components/AboutPage').then(module => ({ default: module.AboutButton })));
@@ -31,19 +37,53 @@ function App() {
   const [pwaStatus] = usePWA();
   const [activeTab, setActiveTab] = useState<TabType>(() => getActiveTab());
   const [numberSystem, setNumberSystemState] = useState<NumberSystem>('international');
+  const [migrationComplete, setMigrationComplete] = useState(false);
 
-  // Load number system preference from localStorage
+  // Initialize storage and migrate legacy data
   useEffect(() => {
-    const saved = localStorage.getItem('number-system-preference');
-    if (saved === 'indian' || saved === 'international') {
-      setNumberSystemState(saved);
-    }
+    const initializeStorage = async () => {
+      try {
+        // Always run migration on page load to ensure cleanup
+        storageManager.migrateFromLegacyStorage();
+        
+        // Also run aggressive cleanup to remove any remaining legacy keys
+        storageManager.cleanupLegacyKeys();
+        
+        setMigrationComplete(true);
+        
+        // Log current storage state in development
+        if (process.env.NODE_ENV === 'development') {
+          console.log('🔄 Storage migration completed');
+          console.log('📊 Current storage state:', storageManager.getStorageInfo());
+        }
+      } catch (error) {
+        console.error('Failed to initialize storage:', error);
+        setMigrationComplete(true); // Continue even if migration fails
+      }
+    };
+
+    initializeStorage();
   }, []);
 
-  // Save number system preference to localStorage
+  // Load number system preference from centralized storage
+  useEffect(() => {
+    if (!migrationComplete) return;
+    
+    const preferences = storageManager.getPreferences();
+    const saved = preferences?.numberSystem;
+    if (saved === 'eastern') {
+      setNumberSystemState('indian');
+    } else if (saved === 'western') {
+      setNumberSystemState('international');
+    }
+  }, [migrationComplete]);
+
+  // Save number system preference to centralized storage
   const setNumberSystem = (system: NumberSystem) => {
     setNumberSystemState(system);
-    localStorage.setItem('number-system-preference', system);
+    storageManager.updatePreferences({ 
+      numberSystem: system === 'indian' ? 'eastern' : 'western' 
+    });
     window.dispatchEvent(new CustomEvent('numberSystemChanged', { detail: system }));
   };
 

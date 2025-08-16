@@ -1,4 +1,5 @@
 // Service Worker utilities for timezone caching
+import { storageManager } from './storageManager';
 import { logger } from './env';
 
 // Cache timezone data in service worker
@@ -63,12 +64,8 @@ export const getTimezoneDataFromCache = async (key: string): Promise<unknown | n
 
 // Enhanced localStorage with service worker backup
 export const setTimezoneData = async (key: string, data: unknown): Promise<void> => {
-  // Save to localStorage first
-  try {
-    localStorage.setItem(key, JSON.stringify(data));
-  } catch (error) {
-    logger.error('Error saving to localStorage:', error);
-  }
+  // Save to centralized storage manager first
+  storageManager.setTimezoneData(key, data);
   
   // Backup to service worker cache
   await cacheTimezoneData(key, data);
@@ -76,27 +73,20 @@ export const setTimezoneData = async (key: string, data: unknown): Promise<void>
 
 // Enhanced retrieving with service worker fallback
 export const getTimezoneData = async (key: string): Promise<unknown | null> => {
-  // Try localStorage first
-  try {
-    const stored = localStorage.getItem(key);
-    if (stored) {
-      return JSON.parse(stored);
-    }
-  } catch (error) {
-    logger.error('Error reading from localStorage:', error);
+  // Try centralized storage manager first
+  const stored = storageManager.getTimezoneData(key);
+  if (stored) {
+    return stored;
   }
   
   // Fallback to service worker cache
   return await getTimezoneDataFromCache(key);
-};// Clear all timezone data
+};
+
+// Clear all timezone data
 export const clearTimezoneData = async (): Promise<void> => {
-  // Clear localStorage
-  const keys = Object.keys(localStorage);
-  keys.forEach(key => {
-    if (key.startsWith('timezone-')) {
-      localStorage.removeItem(key);
-    }
-  });
+  // Clear centralized storage
+  storageManager.clearTimezoneCache();
   
   // Clear service worker cache
   if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
