@@ -92,7 +92,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-background">
       {/* SEO and structured data */}
       <SEO />
       <StructuredData />
@@ -101,7 +101,7 @@ function App() {
       <RefreshWarningModal />
       
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm shadow-lg border-b border-slate-200">
+      <header className="bg-card/80 backdrop-blur-sm shadow-lg border-b border-border">
         <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6 py-3 sm:py-4 lg:py-8">
           <div className="flex items-start justify-between mb-4">
             <div></div> {/* Spacer */}
@@ -110,12 +110,12 @@ function App() {
           
           <div className="text-center">
             <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2 sm:mb-3 lg:mb-4">
-              <div className="p-1.5 sm:p-2 lg:p-3 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg sm:rounded-xl shadow-lg">
-                <svg className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="p-1.5 sm:p-2 lg:p-3 bg-primary rounded-lg sm:rounded-xl shadow-lg">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
                 </svg>
               </div>
-              <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-primary">
               {activeTab === 'currency' ? t('app.title') as string : 
                activeTab === 'timezone' ? 'Timezone Converter' : 
                activeTab === 'units' ? 'Unit Converter' :
@@ -123,7 +123,7 @@ function App() {
                'Travel Itinerary'}
             </h1>
           </div>
-          <p className="text-slate-600 text-xs sm:text-sm lg:text-base xl:text-lg font-medium px-2 sm:px-4">
+          <p className="text-muted-foreground text-xs sm:text-sm lg:text-base xl:text-lg font-medium px-2 sm:px-4">
             {activeTab === 'currency' ? t('app.subtitle') as string : 
              activeTab === 'timezone' ? 'Real-time timezone conversion across the globe' : 
              activeTab === 'units' ? 'Convert between different units of measurement' :
@@ -133,13 +133,13 @@ function App() {
 
           {/* Tab Navigation */}
           <div className="mt-4 sm:mt-6 flex justify-center">
-            <div className="inline-flex bg-white/80 backdrop-blur-sm rounded-lg border border-slate-200 shadow-sm p-1">
+            <div className="inline-flex bg-card/80 backdrop-blur-sm rounded-lg border border-border shadow-sm p-1">
               <button
                 onClick={() => setActiveTab('currency')}
                 className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                   activeTab === 'currency'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50'
+                    ? 'bg-primary text-primary-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-primary hover:bg-accent'
                 }`}
               >
                 <DollarSign className="w-4 h-4" />
@@ -149,8 +149,8 @@ function App() {
                 onClick={() => setActiveTab('timezone')}
                 className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                   activeTab === 'timezone'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50'
+                    ? 'bg-primary text-primary-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-primary hover:bg-accent'
                 }`}
               >
                 <Clock className="w-4 h-4" />
@@ -160,8 +160,8 @@ function App() {
                 onClick={() => setActiveTab('units')}
                 className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                   activeTab === 'units'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50'
+                    ? 'bg-primary text-primary-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-primary hover:bg-accent'
                 }`}
               >
                 <Calculator className="w-4 h-4" />
@@ -171,8 +171,8 @@ function App() {
                 onClick={() => setActiveTab('calculators')}
                 className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                   activeTab === 'calculators'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50'
+                    ? 'bg-primary text-primary-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-primary hover:bg-accent'
                 }`}
               >
                 <Clock className="w-4 h-4" />
@@ -182,8 +182,8 @@ function App() {
                 onClick={() => setActiveTab('itinerary')}
                 className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                   activeTab === 'itinerary'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50'
+                    ? 'bg-primary text-primary-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-primary hover:bg-accent'
                 }`}
               >
                 <MapPin className="w-4 h-4" />
@@ -215,12 +215,12 @@ function App() {
             {/* Base Currency Indicator */}
             {exchangeRates && (
               <div className="mb-4 sm:mb-6 lg:mb-8 text-center">
-                <div className="inline-flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2 lg:gap-3 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 bg-white/80 backdrop-blur-sm rounded-lg sm:rounded-xl border border-slate-200 shadow-lg max-w-full">
-                  <span className="text-slate-600 font-medium text-xs sm:text-sm lg:text-base">
+                <div className="inline-flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2 lg:gap-3 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 bg-card/80 backdrop-blur-sm rounded-lg sm:rounded-xl border border-border shadow-lg max-w-full">
+                  <span className="text-muted-foreground font-medium text-xs sm:text-sm lg:text-base">
                     {t('app.ratesRelativeTo') as string}
                   </span>
-                  <span className="font-bold text-sm sm:text-base lg:text-lg text-blue-600">{baseCurrency}</span>
-                  <span className="text-slate-400 text-xs hidden sm:block">
+                  <span className="font-bold text-sm sm:text-base lg:text-lg text-primary">{baseCurrency}</span>
+                  <span className="text-muted-foreground text-xs hidden sm:block">
                     {t('app.tapRateToChangeBase') as string}
                   </span>
                 </div>
@@ -272,10 +272,10 @@ function App() {
 
         {/* Footer Info */}
         <div className="mt-8 sm:mt-12 lg:mt-16 text-center">
-          <div className="inline-flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2 lg:gap-3 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 bg-white/80 backdrop-blur-sm rounded-full border border-slate-200 shadow-lg">
+          <div className="inline-flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2 lg:gap-3 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 bg-card/80 backdrop-blur-sm rounded-full border border-border shadow-lg">
             <div className="flex items-center gap-1.5 sm:gap-2">
-              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-slate-600 text-xs sm:text-sm font-medium">
+              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-success rounded-full animate-pulse"></div>
+              <span className="text-muted-foreground text-xs sm:text-sm font-medium">
                 {activeTab === 'currency' ? t('app.liveRatesFrom') as string : 
                  activeTab === 'timezone' ? 'Real-time timezone data' : 
                  activeTab === 'units' ? 'Real-time unit conversion' :
@@ -296,7 +296,7 @@ function App() {
             </Suspense>
           </div>
           
-          <p className="mt-2 sm:mt-4 text-slate-500 text-xs px-4">
+          <p className="mt-2 sm:mt-4 text-muted-foreground text-xs px-4">
             {activeTab === 'currency' ? t('app.statusInfo') as string : 
              activeTab === 'timezone' ? 'Select a timezone card as base and enter time to convert' : 
              activeTab === 'units' ? 'Enter a value in any unit to see conversions across all other units' :

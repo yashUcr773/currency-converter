@@ -39,8 +39,8 @@ export const CurrencySelector = ({
           <CardContent className="p-3 sm:p-4 flex-1 flex flex-col items-center justify-center text-center space-y-2 sm:space-y-3">
             {/* Icon container */}
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-sm group-hover:blur-none transition-all duration-300"></div>
-              <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100 rounded-full border border-blue-200/60 shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all duration-300">
+              <div className="absolute inset-0 bg-primary/20 rounded-full blur-sm group-hover:blur-none transition-all duration-300"></div>
+              <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-primary/10 rounded-full border border-primary/20 shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all duration-300">
                 <Plus size={16} className="sm:w-5 sm:h-5 text-blue-600 group-hover:text-blue-700" />
               </div>
             </div>
@@ -97,7 +97,7 @@ export const CurrencySelector = ({
                     key={currency.code}
                     variant="ghost"
                     onClick={() => handleSelectCurrency(currency)}
-                    className="w-full justify-start h-auto p-3 text-left hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 transition-all duration-200 rounded-xl border border-transparent group touch-manipulation"
+                    className="w-full justify-start h-auto p-3 text-left hover:bg-primary/10 transition-all duration-200 rounded-xl border border-transparent group touch-manipulation"
                   >
                     <div className="flex items-center gap-3 w-full min-h-[52px]">
                       <div className="w-8 h-8 flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 rounded-lg border border-slate-300/50 shadow-sm group-hover:shadow-md transition-all duration-200 flex-shrink-0">

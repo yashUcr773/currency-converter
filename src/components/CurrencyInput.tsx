@@ -113,7 +113,7 @@ export const CurrencyInput = ({
   return (
     <Card className="group relative overflow-hidden bg-white/95 backdrop-blur-md border-0 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 touch-manipulation h-full flex flex-col rounded-xl">
       {/* Gradient background overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/20 via-white/30 to-purple-50/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background/30 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       
       <CardHeader className="relative z-10 p-2.5 pb-1.5 sm:p-3 sm:pb-2 flex-shrink-0">
         {/* Remove button */}

@@ -40,32 +40,32 @@ export function UpdatePrompt({ show, onDismiss, hasCachedData }: UpdatePromptPro
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <RefreshCw className="w-5 h-5 text-blue-600" />
+            <RefreshCw className="w-5 h-5 text-primary" />
             {t('updatePrompt.title')}
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
-          <div className="flex items-start gap-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
-            <AlertCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+          <div className="flex items-start gap-3 p-3 bg-info/10 rounded-lg border border-info/20">
+            <AlertCircle className="w-5 h-5 text-info mt-0.5 flex-shrink-0" />
             <div className="text-sm">
-              <p className="font-medium text-blue-900 mb-1">
+              <p className="font-medium text-info mb-1">
                 {t('updatePrompt.newVersionReady')}
               </p>
-              <p className="text-blue-700">
+              <p className="text-info/80">
                 {t('updatePrompt.updateDetails')}
               </p>
             </div>
           </div>
 
           {hasCachedData && (
-            <div className="flex items-start gap-3 p-3 bg-amber-50 rounded-lg border border-amber-200">
-              <Database className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
+            <div className="flex items-start gap-3 p-3 bg-warning/10 rounded-lg border border-warning/30">
+              <Database className="w-5 h-5 text-warning mt-0.5 flex-shrink-0" />
               <div className="text-sm">
-                <p className="font-medium text-amber-900 mb-1">
+                <p className="font-medium text-warning mb-1">
                   {t('updatePrompt.dataCachedTitle')}
                 </p>
-                <div className="text-amber-700 space-y-1">
+                <div className="text-warning/80 space-y-1">
                   <p>{t('updatePrompt.dataCachedDesc1')}</p>
                   {totalCacheSize > 0 && (
                     <p>{t('updatePrompt.cacheSize', { size: formatCacheSize(totalCacheSize) })}</p>
@@ -77,19 +77,19 @@ export function UpdatePrompt({ show, onDismiss, hasCachedData }: UpdatePromptPro
           )}
 
           {/* Internet access warning */}
-          <div className="flex items-start gap-3 p-3 bg-orange-50 rounded-lg border border-orange-200">
-            <AlertTriangle className="w-5 h-5 text-orange-600 mt-0.5 flex-shrink-0" />
+          <div className="flex items-start gap-3 p-3 bg-warning/10 rounded-lg border border-warning/20">
+            <AlertTriangle className="w-5 h-5 text-warning mt-0.5 flex-shrink-0" />
             <div className="text-sm">
-              <p className="font-medium text-orange-900 mb-1">
+              <p className="font-medium text-warning mb-1">
                 {t('updatePrompt.internetRequired')}
               </p>
-              <p className="text-orange-700">
+              <p className="text-warning/80">
                 {t('updatePrompt.internetWarning')}
               </p>
               {!status.isOnline && (
                 <div className="flex items-center gap-1 mt-2">
-                  <Wifi className="w-4 h-4 text-orange-600" />
-                  <span className="font-medium text-orange-800">{t('updatePrompt.currentlyOffline')}</span>
+                  <Wifi className="w-4 h-4 text-warning" />
+                  <span className="font-medium text-warning">{t('updatePrompt.currentlyOffline')}</span>
                 </div>
               )}
             </div>
@@ -99,7 +99,7 @@ export function UpdatePrompt({ show, onDismiss, hasCachedData }: UpdatePromptPro
             <Button
               onClick={handleClearCacheAndReload}
               disabled={isUpdating}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+              className="w-full bg-primary hover:bg-primary-dark text-primary-foreground"
             >
               {isUpdating ? (
                 <>
@@ -123,9 +123,9 @@ export function UpdatePrompt({ show, onDismiss, hasCachedData }: UpdatePromptPro
             </Button>
           </div>
 
-          <div className="text-xs text-gray-500 bg-gray-50 p-2 rounded border">
+          <div className="text-xs text-muted-foreground bg-muted p-2 rounded border border-border">
             <p className="font-medium mb-1">{t('updatePrompt.whatHappensOnUpdate')}</p>
-            <ul className="space-y-0.5 text-gray-600">
+            <ul className="space-y-0.5 text-muted-foreground">
               <li>{t('updatePrompt.clearAllCaches')}</li>
               <li>{t('updatePrompt.reloadWithNewVersion')}</li>
               <li>{t('updatePrompt.fetchFreshData')}</li>

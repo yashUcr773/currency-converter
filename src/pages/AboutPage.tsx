@@ -72,62 +72,62 @@ export const AboutPage = () => {
 
   const features = [
     {
-      icon: <Zap className="w-5 h-5 text-yellow-500" />,
+      icon: <Zap className="w-5 h-5 text-warning" />,
       title: t('about.features.fast'),
       description: t('about.features.fastDesc')
     },
     {
-      icon: <Coins className="w-5 h-5 text-blue-500" />,
+      icon: <Coins className="w-5 h-5 text-info" />,
       title: t('about.features.currencies'),
       description: t('about.features.currenciesDesc')
     },
     {
-      icon: <Calculator className="w-5 h-5 text-green-500" />,
+      icon: <Calculator className="w-5 h-5 text-success" />,
       title: t('about.features.calculator'),
       description: t('about.features.calculatorDesc')
     },
     {
-      icon: <MapPin className="w-5 h-5 text-red-500" />,
+      icon: <MapPin className="w-5 h-5 text-destructive" />,
       title: t('about.features.timezone'),
       description: t('about.features.timezoneDesc')
     },
     {
-      icon: <Languages className="w-5 h-5 text-purple-500" />,
+      icon: <Languages className="w-5 h-5 text-primary" />,
       title: t('about.features.multilanguage'),
       description: t('about.features.multilanguageDesc')
     },
     {
-      icon: <Smartphone className="w-5 h-5 text-indigo-500" />,
+      icon: <Smartphone className="w-5 h-5 text-info" />,
       title: t('about.features.pwa'),
       description: t('about.features.pwaDesc')
     },
     {
-      icon: <WifiOff className="w-5 h-5 text-orange-500" />,
+      icon: <WifiOff className="w-5 h-5 text-warning" />,
       title: t('about.features.offline'),
       description: t('about.features.offlineDesc')
     },
     {
-      icon: <Shield className="w-5 h-5 text-emerald-500" />,
+      icon: <Shield className="w-5 h-5 text-success" />,
       title: t('about.features.privacy'),
       description: t('about.features.privacyDesc')
     },
     {
-      icon: <Palette className="w-5 h-5 text-pink-500" />,
+      icon: <Palette className="w-5 h-5 text-primary" />,
       title: t('about.features.design'),
       description: t('about.features.designDesc')
     },
     {
-      icon: <TrendingUp className="w-5 h-5 text-cyan-500" />,
+      icon: <TrendingUp className="w-5 h-5 text-info" />,
       title: t('about.features.realtime'),
       description: t('about.features.realtimeDesc')
     },
     {
-      icon: <Settings className="w-5 h-5 text-slate-500" />,
+      icon: <Settings className="w-5 h-5 text-muted-foreground" />,
       title: t('about.features.customizable'),
       description: t('about.features.customizableDesc')
     },
     {
-      icon: <Accessibility className="w-5 h-5 text-violet-500" />,
+      icon: <Accessibility className="w-5 h-5 text-primary" />,
       title: t('about.features.accessible'),
       description: t('about.features.accessibleDesc')
     }
@@ -141,27 +141,27 @@ export const AboutPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-slate-200 z-10">
+      <header className="sticky top-0 bg-card/80 backdrop-blur-md border-b border-border z-10">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <LanguagePicker variant="compact" />
             <Link 
               to="/"
-              className="inline-flex items-center gap-2 px-3 py-2 text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors"
+              className="inline-flex items-center gap-2 px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
               <span className="font-medium">{t('navigation.backToConverter')}</span>
             </Link>
           </div>
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="p-2 bg-primary rounded-lg">
+              <svg className="w-6 h-6 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
               </svg>
             </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold text-primary">
               {t('about.title')}
             </h1>
           </div>
@@ -174,10 +174,10 @@ export const AboutPage = () => {
         {/* Hero Section */}
         <div className="text-center space-y-6">
           <div className="space-y-4">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-800">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground">
               {t('about.heroTitle')}
             </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               {t('about.description')}
             </p>
           </div>
@@ -185,9 +185,9 @@ export const AboutPage = () => {
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
             {stats.map((stat, index) => (
-              <div key={index} className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-slate-200 shadow-lg">
-                <div className="text-3xl font-bold text-blue-600 mb-2">{stat.number}</div>
-                <div className="text-sm text-slate-600 font-medium">{stat.label}</div>
+              <div key={index} className="bg-card/60 backdrop-blur-sm rounded-2xl p-6 border border-border shadow-lg">
+                <div className="text-3xl font-bold text-primary mb-2">{stat.number}</div>
+                <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -196,19 +196,19 @@ export const AboutPage = () => {
         {/* Features Grid */}
         <div className="space-y-8">
           <div className="text-center">
-            <h3 className="text-3xl font-bold text-slate-800 mb-4">{t('about.features.title')}</h3>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            <h3 className="text-3xl font-bold text-foreground mb-4">{t('about.features.title')}</h3>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               {t('about.features.subtitle')}
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, index) => (
-              <div key={index} className="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-slate-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <div key={index} className="bg-card/60 backdrop-blur-sm rounded-xl p-6 border border-border shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                 <div className="flex items-center gap-3 mb-3">
                   {feature.icon}
-                  <h4 className="font-semibold text-slate-800">{feature.title}</h4>
+                  <h4 className="font-semibold text-foreground">{feature.title}</h4>
                 </div>
-                <p className="text-slate-600 text-sm">{feature.description}</p>
+                <p className="text-muted-foreground text-sm">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -217,58 +217,58 @@ export const AboutPage = () => {
         {/* Unique Features */}
         <div className="space-y-8">
           <div className="text-center">
-            <h3 className="text-3xl font-bold text-slate-800 mb-4">{t('about.uniqueFeatures.title')}</h3>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            <h3 className="text-3xl font-bold text-foreground mb-4">{t('about.uniqueFeatures.title')}</h3>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               {t('about.uniqueFeatures.subtitle')}
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-200">
-              <h4 className="text-lg font-semibold text-slate-800 mb-3 flex items-center gap-2">
-                <Calculator className="w-5 h-5 text-blue-600" />
+            <div className="bg-info/10 rounded-2xl p-6 border border-info/20">
+              <h4 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
+                <Calculator className="w-5 h-5 text-info" />
                 {t('about.uniqueFeatures.calculator')}
               </h4>
-              <p className="text-slate-600 text-sm">{t('about.uniqueFeatures.calculatorDesc')}</p>
+              <p className="text-muted-foreground text-sm">{t('about.uniqueFeatures.calculatorDesc')}</p>
             </div>
             
-            <div className="bg-gradient-to-br from-green-50 to-teal-50 rounded-2xl p-6 border border-green-200">
-              <h4 className="text-lg font-semibold text-slate-800 mb-3 flex items-center gap-2">
-                <Globe className="w-5 h-5 text-green-600" />
+            <div className="bg-success/10 rounded-2xl p-6 border border-success/20">
+              <h4 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
+                <Globe className="w-5 h-5 text-success" />
                 {t('about.uniqueFeatures.numberSystem')}
               </h4>
-              <p className="text-slate-600 text-sm">{t('about.uniqueFeatures.numberSystemDesc')}</p>
+              <p className="text-muted-foreground text-sm">{t('about.uniqueFeatures.numberSystemDesc')}</p>
             </div>
             
-            <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 border border-purple-200">
-              <h4 className="text-lg font-semibold text-slate-800 mb-3 flex items-center gap-2">
-                <Download className="w-5 h-5 text-purple-600" />
+            <div className="bg-primary/10 rounded-2xl p-6 border border-primary/20">
+              <h4 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
+                <Download className="w-5 h-5 text-primary" />
                 {t('about.uniqueFeatures.installApp')}
               </h4>
-              <p className="text-slate-600 text-sm">{t('about.uniqueFeatures.installAppDesc')}</p>
+              <p className="text-muted-foreground text-sm">{t('about.uniqueFeatures.installAppDesc')}</p>
             </div>
             
-            <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-6 border border-orange-200">
-              <h4 className="text-lg font-semibold text-slate-800 mb-3 flex items-center gap-2">
-                <Target className="w-5 h-5 text-orange-600" />
+            <div className="bg-warning/10 rounded-2xl p-6 border border-warning/20">
+              <h4 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
+                <Target className="w-5 h-5 text-warning" />
                 {t('about.uniqueFeatures.smartBase')}
               </h4>
-              <p className="text-slate-600 text-sm">{t('about.uniqueFeatures.smartBaseDesc')}</p>
+              <p className="text-muted-foreground text-sm">{t('about.uniqueFeatures.smartBaseDesc')}</p>
             </div>
 
-            <div className="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-6 border border-cyan-200">
-              <h4 className="text-lg font-semibold text-slate-800 mb-3 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-cyan-600" />
+            <div className="bg-info/10 rounded-2xl p-6 border border-info/20">
+              <h4 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
+                <Clock className="w-5 h-5 text-info" />
                 {t('about.uniqueFeatures.timezone')}
               </h4>
-              <p className="text-slate-600 text-sm">{t('about.uniqueFeatures.timezoneDesc')}</p>
+              <p className="text-muted-foreground text-sm">{t('about.uniqueFeatures.timezoneDesc')}</p>
             </div>
 
-            <div className="bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl p-6 border border-emerald-200">
-              <h4 className="text-lg font-semibold text-slate-800 mb-3 flex items-center gap-2">
-                <RefreshCw className="w-5 h-5 text-emerald-600" />
+            <div className="bg-success/10 rounded-2xl p-6 border border-success/20">
+              <h4 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
+                <RefreshCw className="w-5 h-5 text-success" />
                 {t('about.uniqueFeatures.updates')}
               </h4>
-              <p className="text-slate-600 text-sm">{t('about.uniqueFeatures.updatesDesc')}</p>
+              <p className="text-muted-foreground text-sm">{t('about.uniqueFeatures.updatesDesc')}</p>
             </div>
           </div>
         </div>
@@ -276,25 +276,25 @@ export const AboutPage = () => {
         {/* Use Cases */}
         <div className="space-y-8">
           <div className="text-center">
-            <h3 className="text-3xl font-bold text-slate-800 mb-4">{t('about.useCases.title')}</h3>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            <h3 className="text-3xl font-bold text-foreground mb-4">{t('about.useCases.title')}</h3>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               {t('about.useCases.subtitle')}
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {useCases.map((useCase, index) => (
-              <div key={index} className="bg-gradient-to-br from-white to-slate-50 rounded-2xl p-6 border border-slate-200 shadow-lg hover:shadow-xl transition-all duration-300">
+              <div key={index} className="bg-card/60 backdrop-blur-sm rounded-2xl p-6 border border-border shadow-lg hover:shadow-xl transition-all duration-300">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="p-3 bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg text-blue-600">
+                  <div className="p-3 bg-primary/20 rounded-lg text-primary">
                     {useCase.icon}
                   </div>
-                  <h4 className="text-lg font-semibold text-slate-800">{useCase.title}</h4>
+                  <h4 className="text-lg font-semibold text-foreground">{useCase.title}</h4>
                 </div>
-                <p className="text-slate-600 mb-4 leading-relaxed">{useCase.description}</p>
+                <p className="text-muted-foreground mb-4 leading-relaxed">{useCase.description}</p>
                 <div className="space-y-2">
                   {useCase.examples.map((example, exampleIndex) => (
-                    <div key={exampleIndex} className="flex items-center gap-2 text-sm text-slate-500">
-                      <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                    <div key={exampleIndex} className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
                       {example}
                     </div>
                   ))}
@@ -305,10 +305,10 @@ export const AboutPage = () => {
         </div>
 
         {/* Developer & Links */}
-        <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-3xl p-8 border border-purple-200">
+        <div className="bg-primary/10 rounded-3xl p-8 border border-primary/20">
           <div className="text-center">
-            <h3 className="text-3xl font-bold text-slate-800 mb-4">{t('about.freeOpenSource')}</h3>
-            <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
+            <h3 className="text-3xl font-bold text-foreground mb-4">{t('about.freeOpenSource')}</h3>
+            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
               {t('about.freeDescription')}
             </p>
             
@@ -317,7 +317,7 @@ export const AboutPage = () => {
                 href="https://github.com/yashUcr773/currency-converter"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-800 hover:to-black text-white font-semibold text-sm sm:text-base rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 active:scale-95 touch-manipulation group"
+                className="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-foreground hover:bg-foreground/90 text-background font-semibold text-sm sm:text-base rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 active:scale-95 touch-manipulation group"
                 title="View source code on GitHub"
               >
                 <svg className="w-4 h-4 group-hover:rotate-12 transition-transform" fill="currentColor" viewBox="0 0 24 24">
@@ -330,7 +330,7 @@ export const AboutPage = () => {
                 href="https://exchangerate-api.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-semibold text-sm sm:text-base rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 active:scale-95 touch-manipulation group"
+                className="inline-flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 bg-info hover:bg-info/90 text-info-foreground font-semibold text-sm sm:text-base rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 active:scale-95 touch-manipulation group"
                 title={t('about.links.poweredBy')}
               >
                 <ExternalLink className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -346,7 +346,7 @@ export const AboutPage = () => {
         <div className="text-center">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
           >
             <ArrowLeft className="w-5 h-5" />
             {t('navigation.startConverting')}
@@ -354,12 +354,12 @@ export const AboutPage = () => {
         </div>
 
         {/* Footer */}
-        <div className="text-center text-slate-500 text-sm space-y-2">
+        <div className="text-center text-muted-foreground text-sm space-y-2">
           <p>{t('about.footerText')}</p>
           <div className="flex items-center justify-center gap-4">
             <Link 
               to="/privacy" 
-              className="text-blue-600 hover:text-blue-700 transition-colors duration-200 flex items-center gap-1"
+              className="text-primary hover:text-primary/80 transition-colors duration-200 flex items-center gap-1"
             >
               <Shield className="w-4 h-4" />
               {t('privacy.title')}

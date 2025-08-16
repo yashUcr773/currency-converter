@@ -459,9 +459,9 @@ export const DurationTimeCalculator = () => {
         {otherResults.length > 0 && (
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <div className="w-1 h-4 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></div>
-              <h4 className="text-sm font-semibold text-slate-700">Additional Calculations</h4>
-              <div className="flex-1 h-px bg-gradient-to-r from-slate-200 to-transparent"></div>
+              <div className="w-1 h-4 bg-primary rounded-full"></div>
+              <h4 className="text-sm font-semibold text-foreground">Additional Calculations</h4>
+              <div className="flex-1 h-px bg-gradient-to-r from-border to-transparent"></div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2.5">
               {otherResults.map((result, index) => (
@@ -492,10 +492,10 @@ export const DurationTimeCalculator = () => {
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        <h2 className="text-2xl font-bold mb-2 text-primary">
           Duration & Time Calculator
         </h2>
-        <p className="text-slate-600 text-base">Calculate time differences, add durations, and analyze dates</p>
+        <p className="text-muted-foreground text-base">Calculate time differences, add durations, and analyze dates</p>
       </div>
 
       <Tabs defaultValue="difference" className="space-y-6">

@@ -21,7 +21,7 @@ body {
 @media (max-width: 640px) {
   /* Improve touch interactions */
   * {
-    -webkit-tap-highlight-color: rgba(59, 130, 246, 0.1);
+    -webkit-tap-highlight-color: oklch(0.5 0.15 260 / 0.1);
   }
   
   /* Prevent zoom on input focus on iOS */
