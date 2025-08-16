@@ -1,8 +1,7 @@
 import { SignedIn, SignedOut, UserButton, SignInButton, SignUpButton } from '@clerk/clerk-react';
 import { Button } from '@/components/ui/button';
-import { Settings, LogIn, UserPlus } from 'lucide-react';
+import { LogIn, UserPlus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 
 export function AuthHeader() {
   const { t } = useTranslation();
@@ -31,17 +30,6 @@ export function AuthHeader() {
       
       <SignedIn>
         <div className="flex items-center gap-1">
-          <Link to="/settings">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="gap-1 px-2 py-1 h-auto text-xs"
-            >
-              <Settings className="w-3 h-3" />
-              <span className="hidden lg:inline">Settings</span>
-            </Button>
-          </Link>
-          
           <UserButton 
             appearance={{
               elements: {
