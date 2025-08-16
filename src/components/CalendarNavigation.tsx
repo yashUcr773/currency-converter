@@ -85,16 +85,19 @@ export const CalendarNavigation: React.FC<CalendarNavigationProps> = ({
         </div>
 
         {/* View Controls */}
-        <div className="flex items-center gap-3">
+        <div className="flex flex-row w-fit justify-center items-center gap-3">
           {/* Date Picker */}
-          <DatePicker 
-            selectedDate={currentDate} 
-            onDateSelect={onGoToDate}
-          />
+          <div className='flex flex-row w-fit h-fit items-center'>
+            <DatePicker 
+              className='m-0'
+              selectedDate={currentDate} 
+              onDateSelect={onGoToDate}
+            />
+          </div>
           
           {/* Today Button */}
           <Button
-            variant="outline"
+            variant="default"
             size="sm"
             onClick={onGoToToday}
             className="px-3"
