@@ -77,7 +77,7 @@ function App() {
             </p>
             {pwaStatus.isOnline && (
               <Button
-                onClick={refreshRates}
+                onClick={() => refreshRates(false)}
                 disabled={syncing}
               >
                 {syncing ? t('app.retrying') as string : t('app.retry') as string}

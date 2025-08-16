@@ -32,7 +32,7 @@ interface CombinedHeaderProps {
   lastSync: number;
   areRatesExpired: boolean;
   syncing: boolean;
-  onRefresh: () => void;
+  onRefresh: (showModal?: boolean) => void;
   pinnedCurrencies?: PinnedCurrency[];
   
   // Header props
@@ -207,7 +207,7 @@ export const CombinedHeader = ({
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={onRefresh}
+                  onClick={() => onRefresh(true)}
                   disabled={syncing}
                   className={cn(
                     "h-auto px-2 py-1 text-xs flex items-center gap-1 transition-all duration-200 rounded-md",

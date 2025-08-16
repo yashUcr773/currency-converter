@@ -15,6 +15,10 @@ export function RefreshWarningModal() {
   const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
   const [isHardRefreshing, setIsHardRefreshing] = useState(false);
+  const [modalHandlers, setModalHandlers] = useState<{
+    onHardRefresh?: () => void;
+    onStayHere?: () => void;
+  }>({});
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -39,8 +43,16 @@ export function RefreshWarningModal() {
       }
     };
 
+    const handleShowRefreshModal = (event: CustomEvent) => {
+      console.log('[RefreshWarning] Custom refresh modal event received');
+      const { onHardRefresh, onStayHere } = event.detail;
+      setModalHandlers({ onHardRefresh, onStayHere });
+      setShowModal(true);
+    };
+
     // Add event listeners with high priority
     document.addEventListener('keydown', handleKeyDown, { capture: true, passive: false });
+    window.addEventListener('showRefreshModal', handleShowRefreshModal as EventListener);
     
     // Development testing function
     if (process.env.NODE_ENV === 'development') {
@@ -52,11 +64,23 @@ export function RefreshWarningModal() {
     
     return () => {
       document.removeEventListener('keydown', handleKeyDown, { capture: true });
+      window.removeEventListener('showRefreshModal', handleShowRefreshModal as EventListener);
+      if (process.env.NODE_ENV === 'development') {
+        delete window.testRefreshModal;
+      }
     };
   }, [showModal]);
 
   const handleHardRefresh = async () => {
     console.log('[RefreshWarning] Hard refresh requested');
+    
+    // Use custom handler if available (from programmatic call)
+    if (modalHandlers.onHardRefresh) {
+      modalHandlers.onHardRefresh();
+      return;
+    }
+    
+    // Default keyboard shortcut behavior
     setIsHardRefreshing(true);
     
     try {
@@ -85,6 +109,12 @@ export function RefreshWarningModal() {
 
   const handleStayHere = () => {
     console.log('[RefreshWarning] User chose to stay here');
+    
+    // Use custom handler if available (from programmatic call)
+    if (modalHandlers.onStayHere) {
+      modalHandlers.onStayHere();
+    }
+    
     setShowModal(false);
   };
 
