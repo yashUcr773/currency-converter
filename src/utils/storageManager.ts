@@ -106,7 +106,7 @@ class StorageManager {
     try {
       const metadata = this.getMetadata();
       if (!metadata) {
-        this.setMetadata({
+        this.setMetadataInternal({
           version: STORAGE_VERSION,
           createdAt: Date.now(),
           lastUpdated: Date.now()
@@ -122,7 +122,8 @@ class StorageManager {
     try {
       const metadata = this.getMetadata();
       if (metadata) {
-        this.setMetadata({
+        // Use setMetadataInternal to avoid circular calls
+        this.setMetadataInternal({
           ...metadata,
           lastUpdated: Date.now()
         });
@@ -180,8 +181,19 @@ class StorageManager {
     return this.getItem<StorageMetadata>(STORAGE_KEYS.METADATA);
   }
 
-  private setMetadata(metadata: StorageMetadata): void {
-    this.setItem(STORAGE_KEYS.METADATA, metadata);
+  private setMetadataInternal(metadata: StorageMetadata): void {
+    try {
+      localStorage.setItem(STORAGE_KEYS.METADATA, JSON.stringify(metadata));
+      
+      // Emit custom event for cloud sync
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('storageChanged', { 
+          detail: { key: STORAGE_KEYS.METADATA, action: 'set' } 
+        }));
+      }
+    } catch (error) {
+      logger.error('Error saving metadata to localStorage:', error);
+    }
   }
 
   // Main data management
@@ -470,7 +482,7 @@ class StorageManager {
 
       // Update metadata
       if (migrationNeeded || !metadata || lastMigrationVersion !== currentVersion) {
-        this.setMetadata({
+        this.setMetadataInternal({
           version: currentVersion,
           lastMigration: new Date().toISOString(),
           createdAt: metadata?.createdAt || Date.now(),

@@ -34,7 +34,7 @@ class CloudSyncManager {
   private deviceId = getDeviceId();
   private syncQueue: (() => Promise<void>)[] = [];
   private periodicSyncTimer: NodeJS.Timeout | null = null;
-  private readonly SYNC_INTERVAL = 10 * 60 * 1000; // 5 minutes in milliseconds
+  private readonly SYNC_INTERVAL = 5 * 60 * 1000; // 5 minutes in milliseconds
   
   // Conflict resolution preferences
   private conflictStrategies = {
@@ -381,8 +381,11 @@ class CloudSyncManager {
 
   // Start periodic sync service
   startPeriodicSync(userId: string): void {
-    // Clear any existing timer
-    this.stopPeriodicSync();
+    // Prevent multiple instances
+    if (this.periodicSyncTimer) {
+      logger.log('Periodic sync already running, skipping start request');
+      return;
+    }
     
     logger.log(`Starting periodic sync service (every ${this.SYNC_INTERVAL / 1000 / 60} minutes)`);
     
@@ -500,7 +503,7 @@ export function useCloudSync() {
     const handleOnline = () => {
       setSyncState(prev => ({ ...prev, isOnline: true }));
       
-      // Restart periodic sync when coming back online
+      // Only restart periodic sync if user is logged in and cloud is available
       if (isLoaded && user && syncState.cloudAvailable) {
         logger.log('Back online - restarting periodic sync');
         cloudSyncManager.startPeriodicSync(user.id);
@@ -514,12 +517,24 @@ export function useCloudSync() {
     
     const handleOffline = () => {
       setSyncState(prev => ({ ...prev, isOnline: false }));
-      // Periodic sync will automatically skip when offline, no need to stop it
-      logger.log('Gone offline - periodic sync will pause');
+      // Stop periodic sync when offline to prevent failed attempts
+      cloudSyncManager.stopPeriodicSync();
+      logger.log('Gone offline - stopping periodic sync');
     };
 
     // Listen for storage changes to trigger automatic sync
-    const handleStorageChange = () => {
+    const handleStorageChange = (event: CustomEvent) => {
+      // Skip metadata changes to prevent sync loops
+      if (event.detail?.key === 'ratevault-metadata') {
+        return;
+      }
+      
+      // Skip if sync is already in progress
+      if (syncState.status === 'syncing') {
+        logger.log('Skipping auto-sync - sync already in progress');
+        return;
+      }
+      
       if (isLoaded && user && syncState.isOnline && syncState.cloudAvailable) {
         // Debounce auto-sync to avoid excessive calls
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -528,8 +543,14 @@ export function useCloudSync() {
         
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (window as any).autoSyncTimeout = setTimeout(() => {
-          performFullSync();
-        }, 5000); // Auto-sync 5 seconds after last change
+          // Double-check sync state before executing
+          if (syncState.status !== 'syncing') {
+            logger.log('Auto-sync triggered by storage change:', event.detail?.key);
+            performFullSync();
+          } else {
+            logger.log('Skipping auto-sync - sync in progress');
+          }
+        }, 10000); // Increase debounce to 10 seconds to reduce frequency
       }
     };
 
@@ -545,55 +566,69 @@ export function useCloudSync() {
       const timeout = (window as any).autoSyncTimeout;
       if (timeout) clearTimeout(timeout);
     };
-  }, [isLoaded, user, syncState.isOnline, syncState.cloudAvailable, performFullSync]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoaded, user?.id]); // Intentionally limited dependencies to prevent restart loops
 
   // Auto-sync when user logs in and manage periodic sync
   useEffect(() => {
-    if (isLoaded && user && syncState.isOnline && syncState.cloudAvailable) {
+    let initialSyncTimer: NodeJS.Timeout;
+    let regularSyncTimer: NodeJS.Timeout;
+
+    if (isLoaded && user) {
       const hasPerformedInitialSync = localStorage.getItem(`initial-sync-${user.id}`);
       
       if (!hasPerformedInitialSync) {
         // First time login - perform initial sync
         logger.log('First login detected, performing initial sync...');
-        const timer = setTimeout(async () => {
-          const success = await cloudSyncManager.performInitialSync(user.id);
-          if (success) {
-            localStorage.setItem(`initial-sync-${user.id}`, 'true');
-            logger.log('Initial sync completed successfully');
-            
-            // Start periodic sync after successful initial sync
-            cloudSyncManager.startPeriodicSync(user.id);
+        initialSyncTimer = setTimeout(async () => {
+          // Check conditions at time of execution
+          if (syncState.isOnline && syncState.cloudAvailable) {
+            const success = await cloudSyncManager.performInitialSync(user.id);
+            if (success) {
+              localStorage.setItem(`initial-sync-${user.id}`, 'true');
+              logger.log('Initial sync completed successfully');
+              
+              // Start periodic sync after successful initial sync
+              cloudSyncManager.startPeriodicSync(user.id);
+            } else {
+              logger.error('Initial sync failed');
+            }
           } else {
-            logger.error('Initial sync failed');
+            logger.log('Skipping initial sync - offline or cloud unavailable');
           }
         }, 2000);
-
-        return () => clearTimeout(timer);
       } else {
         // Regular sync for returning user
-        const timer = setTimeout(() => {
-          performFullSync().then((success) => {
+        regularSyncTimer = setTimeout(async () => {
+          // Check conditions at time of execution
+          if (syncState.isOnline && syncState.cloudAvailable) {
+            const success = await performFullSync();
             if (success) {
               // Start periodic sync after successful regular sync
               cloudSyncManager.startPeriodicSync(user.id);
             }
-          });
+          } else {
+            logger.log('Skipping regular sync - offline or cloud unavailable');
+            // Still start periodic sync, it will handle online/offline internally
+            cloudSyncManager.startPeriodicSync(user.id);
+          }
         }, 2000);
-
-        return () => clearTimeout(timer);
       }
     } else if (isLoaded && !user) {
       // User logged out - stop periodic sync
       cloudSyncManager.stopPeriodicSync();
     }
 
-    // Cleanup periodic sync when component unmounts or user changes
+    // Cleanup timers and periodic sync when component unmounts or user changes
     return () => {
+      if (initialSyncTimer) clearTimeout(initialSyncTimer);
+      if (regularSyncTimer) clearTimeout(regularSyncTimer);
       if (!user) {
         cloudSyncManager.stopPeriodicSync();
       }
     };
-  }, [isLoaded, user, syncState.isOnline, syncState.cloudAvailable, performFullSync]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoaded, user?.id]); // Only depend on user.id to prevent sync restart loops
 
   const uploadToCloud = useCallback(async () => {
     if (!user || !syncState.isOnline || !syncState.cloudAvailable) {
