@@ -4,14 +4,21 @@ const STATIC_CACHE_NAME = 'currency-converter-static-v1.14.0';
 const DATA_CACHE_NAME = 'ratevault-data-v1.14.0';
 const TIMEZONE_CACHE_NAME = 'currency-converter-timezone-v1.14.0';
 
+// Detect if we're in development mode
+const isDevelopment = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.hostname.startsWith('192.168.') || location.hostname.startsWith('10.') || location.hostname.includes('local');
+
 // Security headers for cached responses
 const SECURITY_HEADERS = {
   'X-Content-Type-Options': 'nosniff',
-  'X-Frame-Options': 'DENY',
+  'X-Frame-Options': isDevelopment ? 'SAMEORIGIN' : 'DENY',
   'X-XSS-Protection': '1; mode=block',
-  'Referrer-Policy': 'strict-origin-when-cross-origin',
-  'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://api.exchangerate-api.com https://clerk.com; font-src 'self' data:;"
+  'Referrer-Policy': 'strict-origin-when-cross-origin'
 };
+
+// Only add CSP in production
+if (!isDevelopment) {
+  SECURITY_HEADERS['Content-Security-Policy'] = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.accounts.dev https://*.clerk.com; style-src 'self' 'unsafe-inline' https://*.clerk.accounts.dev https://*.clerk.com; img-src 'self' data: https: https://*.clerk.accounts.dev https://*.clerk.com; connect-src 'self' https://api.exchangerate-api.com https://*.clerk.accounts.dev https://*.clerk.com https://clerk.com; font-src 'self' data: https://*.clerk.accounts.dev https://*.clerk.com; frame-src https://*.clerk.accounts.dev https://*.clerk.com; worker-src 'self' blob:;";
+}
 
 // Static assets to cache immediately
 const STATIC_ASSETS = [

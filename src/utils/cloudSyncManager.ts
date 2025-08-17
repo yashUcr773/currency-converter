@@ -499,9 +499,11 @@ class CloudSyncManager {
   // Check if cloud storage is available
   async isCloudAvailable(): Promise<boolean> {
     try {
+      console.log("🚀 ~ CloudSyncManager ~ isCloudAvailable ~ this.cloudStorage:", this.cloudStorage)
       if (!this.cloudStorage) {
         return false;
       }
+      console.log("🚀 ~ CloudSyncManager ~ isCloudAvailable ~ await this.cloudStorage.isAvailable():", await this.cloudStorage.isAvailable())
       return await this.cloudStorage.isAvailable();
     } catch (error) {
       logger.error('Cloud availability check failed:', error);
@@ -616,6 +618,12 @@ export const cloudSyncManager = new CloudSyncManager();
 
 // React hook for cloud sync
 export function useCloudSync() {
+  // Check if Clerk is properly configured
+  const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+  const isClerkConfigured = PUBLISHABLE_KEY && 
+    PUBLISHABLE_KEY !== 'your_clerk_publishable_key_here' && 
+    PUBLISHABLE_KEY !== 'pk_test_your_actual_clerk_key_here';
+
   const { user, isLoaded } = useUser();
   const cloudStorage = useSecureCloudStorage();
   const [syncState, setSyncState] = useState<SyncState>({
@@ -631,14 +639,18 @@ export function useCloudSync() {
     cloudSyncManager.setCloudStorage(cloudStorage);
   }, [cloudStorage]);
 
-  // Check cloud availability on mount
+  // Check cloud availability on mount - only if Clerk is configured
   useEffect(() => {
     const checkAvailability = async () => {
+      if (!isClerkConfigured) {
+        setSyncState(prev => ({ ...prev, cloudAvailable: false }));
+        return;
+      }
       const available = await cloudSyncManager.isCloudAvailable();
       setSyncState(prev => ({ ...prev, cloudAvailable: available }));
     };
     checkAvailability();
-  }, []);
+  }, [isClerkConfigured]);
 
   const performFullSync = useCallback(async () => {
     if (!user || !syncState.isOnline || !syncState.cloudAvailable) {
@@ -859,7 +871,7 @@ export function useCloudSync() {
     startPeriodicSync,
     stopPeriodicSync,
     isPeriodicSyncActive,
-    isLoggedIn: isLoaded && !!user,
-    canSync: isLoaded && !!user && syncState.isOnline && syncState.cloudAvailable
+    isLoggedIn: isClerkConfigured && isLoaded && !!user,
+    canSync: isClerkConfigured && isLoaded && !!user && syncState.isOnline && syncState.cloudAvailable
   };
 }

@@ -30,8 +30,15 @@ export function CloudSyncStatus() {
     canSync 
   } = useCloudSync();
 
-  if (!isLoggedIn) {
-    return null; // Don't show for anonymous users
+  // Check if Clerk is configured
+  const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+  const isClerkConfigured = PUBLISHABLE_KEY && 
+    PUBLISHABLE_KEY !== 'your_clerk_publishable_key_here' && 
+    PUBLISHABLE_KEY !== 'pk_test_your_actual_clerk_key_here';
+
+  // Don't show for anonymous users or when Clerk is not configured
+  if (!isClerkConfigured || !isLoggedIn) {
+    return null;
   }
 
   const getStatusIcon = () => {
@@ -221,6 +228,18 @@ export function CloudSyncStatus() {
 export function CloudSyncIndicator() {
   const { syncState, isLoggedIn, performFullSync, isPeriodicSyncActive } = useCloudSync();
 
+  // Check if Clerk is configured
+  const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+  const isClerkConfigured = PUBLISHABLE_KEY && 
+    PUBLISHABLE_KEY !== 'your_clerk_publishable_key_here' && 
+    PUBLISHABLE_KEY !== 'pk_test_your_actual_clerk_key_here';
+
+  // If Clerk is not configured, don't show sync indicator
+  if (!isClerkConfigured) {
+    return null;
+  }
+
+  // If user is not logged in, don't show sync indicator
   if (!isLoggedIn) {
     return null;
   }

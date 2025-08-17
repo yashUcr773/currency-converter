@@ -58,6 +58,12 @@ export default defineConfig({
     },
     // Ensure manifest.json and service worker are properly served
     publicDir: 'public',
+    // Development server config
+    server: {
+        port: 5173,
+        host: true,
+        // Removed CSP headers for development to avoid Clerk conflicts
+    },
     // Production server config
     preview: {
         port: 3000,
