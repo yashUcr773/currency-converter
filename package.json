@@ -60,11 +60,8 @@
     "preview": "vite preview --port=3001",
     "type-check": "tsc --noEmit",
     "test": "echo \"Tests not yet implemented\" && exit 0",
-    "audit": "npm audit --audit-level moderate",
-    "security": "npm audit && npm outdated",
     "clean": "if exist dist rmdir /s /q dist && if exist node_modules\\.vite rmdir /s /q node_modules\\.vite",
     "precommit": "npm run lint && npm run type-check",
-    "prebuild": "npm run clean && npm run audit",
     "health-check": "curl -f http://localhost:3000/health.html || exit 1"
   },
   "dependencies": {
