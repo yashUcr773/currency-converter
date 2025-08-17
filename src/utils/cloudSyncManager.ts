@@ -4,7 +4,7 @@
 import { useUser } from '@clerk/clerk-react';
 import { useCallback, useEffect, useState } from 'react';
 import { storageManager } from './storageManager';
-import { cloudStorage } from './dynamoDBService';
+import { useSecureCloudStorage } from '../hooks/useSecureCloudStorage'; // Updated to use secure hook
 import { dataReconciler } from './dataReconciler';
 import { logger } from './env';
 
@@ -35,15 +35,23 @@ class CloudSyncManager {
   private syncQueue: (() => Promise<void>)[] = [];
   private periodicSyncTimer: NodeJS.Timeout | null = null;
   private readonly SYNC_INTERVAL = 5 * 60 * 1000; // 5 minutes in milliseconds
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private cloudStorage: any = null; // Will be set by the React hook - TODO: Type properly
   
-  // Conflict resolution preferences
+  // Conflict resolution preferences - Enhanced for multi-device sync
   private conflictStrategies = {
-    mainData: 'merge-smart' as const,
-    preferences: 'latest-wins' as const,
-    itinerary: 'merge-union' as const,
-    searchData: 'merge-union' as const,
-    timezoneCache: 'merge-union' as const
+    mainData: 'latest-wins' as const,          // Use latest for main data
+    preferences: 'latest-wins' as const,       // Use latest for preferences
+    itinerary: 'merge-by-id' as const,         // Merge itinerary items by ID across devices
+    searchData: 'merge-union' as const,        // Merge search data from all devices
+    timezoneCache: 'merge-union' as const      // Merge timezone cache from all devices
   };
+
+  // Set cloud storage instance
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setCloudStorage(storage: any): void {
+    this.cloudStorage = storage;
+  }
 
   // Queue sync operations to prevent conflicts
   private async queueSync<T>(operation: () => Promise<T>): Promise<T> {
@@ -89,13 +97,13 @@ class CloudSyncManager {
       // Upload main data
       const mainData = storageManager.getMainData();
       if (mainData) {
-        await cloudStorage.saveMainData(userId, mainData, this.deviceId);
+        await this.cloudStorage.saveMainData(userId, mainData, this.deviceId);
       }
 
       // Upload preferences
       const preferences = storageManager.getPreferences();
       if (preferences) {
-        await cloudStorage.savePreferences(userId, preferences, this.deviceId);
+        await this.cloudStorage.savePreferences(userId, preferences, this.deviceId);
       }
 
       // Upload itinerary (serialize dates)
@@ -108,19 +116,19 @@ class CloudSyncManager {
           createdAt: item.createdAt.toISOString(),
           updatedAt: item.updatedAt.toISOString()
         }));
-        await cloudStorage.saveItinerary(userId, serialized, this.deviceId);
+        await this.cloudStorage.saveItinerary(userId, serialized, this.deviceId);
       }
 
       // Upload search data
       const searchData = storageManager.getSearchData();
       if (searchData) {
-        await cloudStorage.saveSearchData(userId, searchData, this.deviceId);
+        await this.cloudStorage.saveSearchData(userId, searchData, this.deviceId);
       }
 
       // Upload timezone cache
       const timezoneCache = storageManager.getTimezoneCache();
       if (timezoneCache) {
-        await cloudStorage.saveTimezoneCache(userId, timezoneCache, this.deviceId);
+        await this.cloudStorage.saveTimezoneCache(userId, timezoneCache, this.deviceId);
       }
 
       logger.log('Upload to cloud completed successfully');
@@ -136,94 +144,251 @@ class CloudSyncManager {
     try {
       logger.log('Downloading and reconciling data from cloud...');
 
-      // Get device metadata
+      // Get or create device metadata with actual timestamps
       const deviceId = this.deviceId;
-      const localMeta = dataReconciler.createMetadata(deviceId);
+      const storageMetadata = storageManager.getMetadata();
+      
+      // Create local metadata based on actual storage metadata
+      const localMeta = dataReconciler.createMetadata(deviceId, '1.0.0');
+      if (storageMetadata) {
+        localMeta.lastModified = storageMetadata.lastUpdated;
+        localMeta.version = storageMetadata.version;
+      }
+      
+      // Cloud metadata will be updated with actual cloud data timestamps
       const cloudMeta = dataReconciler.createMetadata('cloud', '1.0.0');
 
-      // Download and reconcile main data
-      const cloudMainData = await cloudStorage.getMainData(userId);
+      // Download and reconcile main data with multi-device support
+      const cloudMainDataResponse = await this.cloudStorage.getMainData(userId, this.deviceId);
       const localMainData = storageManager.getMainData();
       
-      if (cloudMainData || localMainData) {
-        const reconciled = dataReconciler.reconcileMainData(
-          localMainData,
-          cloudMainData,
-          localMeta,
-          cloudMeta,
-          this.conflictStrategies.mainData
-        );
+      logger.log('Main data sync:', { 
+        hasCloudDevices: !!(cloudMainDataResponse?.devices?.length), 
+        hasCloudLegacy: !!cloudMainDataResponse?.legacy,
+        hasLocalData: !!localMainData,
+        deviceCount: cloudMainDataResponse?.devices?.length || 0,
+        localDataKeys: localMainData ? Object.keys(localMainData) : []
+      });
+      
+      // Handle multi-device merging
+      let mergedMainData = localMainData;
+      if (cloudMainDataResponse) {
+        const { devices = [], legacy } = cloudMainDataResponse;
         
-        dataReconciler.logReconciliation(reconciled, 'main data');
-        storageManager.setMainData(reconciled.mergedData);
+        // Start with legacy data if available
+        let cloudMainData = legacy;
+        
+        // Merge multi-device data if available
+        if (devices.length > 0) {
+          const { mergeDeviceData } = await import('./dataReconciler');
+          const mergedFromDevices = mergeDeviceData(devices, this.conflictStrategies.mainData);
+          cloudMainData = mergedFromDevices || cloudMainData;
+        }
+        
+        if (cloudMainData || localMainData) {
+          const reconciled = dataReconciler.reconcileMainData(
+            localMainData,
+            cloudMainData,
+            localMeta,
+            cloudMeta,
+            this.conflictStrategies.mainData
+          );
+          
+          dataReconciler.logReconciliation(reconciled, 'main data');
+          logger.log('Storing reconciled main data:', { 
+            dataKeys: Object.keys(reconciled.mergedData),
+            hasConflicts: reconciled.hasConflicts 
+          });
+          mergedMainData = reconciled.mergedData;
+        }
+      }
+      
+      if (mergedMainData) {
+        storageManager.setMainData(mergedMainData);
       }
 
-      // Download and reconcile preferences
-      const cloudPreferences = await cloudStorage.getPreferences(userId);
+      // Download and reconcile preferences with multi-device support
+      const cloudPreferencesResponse = await this.cloudStorage.getPreferences(userId, this.deviceId);
       const localPreferences = storageManager.getPreferences();
       
-      if (cloudPreferences || localPreferences) {
-        const reconciled = dataReconciler.reconcilePreferences(
-          localPreferences,
-          cloudPreferences,
-          localMeta,
-          cloudMeta,
-          this.conflictStrategies.preferences
-        );
+      logger.log('Preferences sync:', { 
+        hasCloudDevices: !!(cloudPreferencesResponse?.devices?.length), 
+        hasCloudLegacy: !!cloudPreferencesResponse?.legacy,
+        hasLocalData: !!localPreferences,
+        deviceCount: cloudPreferencesResponse?.devices?.length || 0
+      });
+      
+      // Handle multi-device merging
+      let mergedPreferences = localPreferences;
+      if (cloudPreferencesResponse) {
+        const { devices = [], legacy } = cloudPreferencesResponse;
         
-        dataReconciler.logReconciliation(reconciled, 'preferences');
-        storageManager.setPreferences(reconciled.mergedData);
+        // Start with legacy data if available
+        let cloudPreferences = legacy;
+        
+        // Merge multi-device data if available
+        if (devices.length > 0) {
+          const { mergeDeviceData } = await import('./dataReconciler');
+          const mergedFromDevices = mergeDeviceData(devices, this.conflictStrategies.preferences);
+          cloudPreferences = mergedFromDevices || cloudPreferences;
+        }
+        
+        if (cloudPreferences || localPreferences) {
+          const reconciled = dataReconciler.reconcilePreferences(
+            localPreferences,
+            cloudPreferences,
+            localMeta,
+            cloudMeta,
+            this.conflictStrategies.preferences
+          );
+          
+          dataReconciler.logReconciliation(reconciled, 'preferences');
+          logger.log('Storing reconciled preferences:', reconciled.mergedData);
+          mergedPreferences = reconciled.mergedData;
+        }
+      }
+      
+      if (mergedPreferences) {
+        storageManager.setPreferences(mergedPreferences);
       }
 
-      // Download and reconcile itinerary
-      const cloudItinerary = await cloudStorage.getItinerary(userId);
+      // Download and reconcile itinerary with multi-device support
+      const cloudItineraryResponse = await this.cloudStorage.getItinerary(userId, this.deviceId);
       const localItinerary = storageManager.getItineraryItems();
       
-      if (cloudItinerary || localItinerary.length > 0) {
-        const reconciled = dataReconciler.reconcileItinerary(
-          localItinerary,
-          cloudItinerary || [],
-          localMeta,
-          cloudMeta,
-          this.conflictStrategies.itinerary
-        );
+      logger.log('Itinerary sync:', { 
+        hasCloudDevices: !!(cloudItineraryResponse?.devices?.length), 
+        hasCloudLegacy: !!cloudItineraryResponse?.legacy,
+        hasLocalData: localItinerary.length > 0,
+        deviceCount: cloudItineraryResponse?.devices?.length || 0,
+        localItemCount: localItinerary.length
+      });
+      
+      // Handle multi-device merging
+      let mergedItinerary = localItinerary;
+      if (cloudItineraryResponse) {
+        const { devices = [], legacy } = cloudItineraryResponse;
         
-        dataReconciler.logReconciliation(reconciled, 'itinerary');
-        storageManager.setItineraryItems(reconciled.mergedData);
+        // Start with legacy data if available
+        let cloudItinerary = legacy || [];
+        
+        // Merge multi-device data if available
+        if (devices.length > 0) {
+          const { mergeDeviceData } = await import('./dataReconciler');
+          const mergedFromDevices = mergeDeviceData(devices, this.conflictStrategies.itinerary);
+          cloudItinerary = mergedFromDevices || cloudItinerary;
+        }
+        
+        if (cloudItinerary.length > 0 || localItinerary.length > 0) {
+          const reconciled = dataReconciler.reconcileItinerary(
+            localItinerary,
+            cloudItinerary,
+            localMeta,
+            cloudMeta,
+            this.conflictStrategies.itinerary
+          );
+          
+          dataReconciler.logReconciliation(reconciled, 'itinerary');
+          logger.log('Storing reconciled itinerary:', { 
+            itemCount: reconciled.mergedData.length,
+            hasConflicts: reconciled.hasConflicts 
+          });
+          mergedItinerary = reconciled.mergedData;
+        }
+      }
+      
+      if (mergedItinerary) {
+        storageManager.setItineraryItems(mergedItinerary);
       }
 
-      // Download and reconcile search data
-      const cloudSearchData = await cloudStorage.getSearchData(userId);
+      // Download and reconcile search data with multi-device support
+      const cloudSearchDataResponse = await this.cloudStorage.getSearchData(userId, this.deviceId);
       const localSearchData = storageManager.getSearchData();
       
-      if (cloudSearchData || localSearchData) {
-        const reconciled = dataReconciler.reconcileSearchData(
-          localSearchData,
-          cloudSearchData,
-          localMeta,
-          cloudMeta,
-          this.conflictStrategies.searchData
-        );
+      logger.log('Search data sync:', { 
+        hasCloudDevices: !!(cloudSearchDataResponse?.devices?.length), 
+        hasCloudLegacy: !!cloudSearchDataResponse?.legacy,
+        hasLocalData: !!localSearchData,
+        deviceCount: cloudSearchDataResponse?.devices?.length || 0
+      });
+      
+      // Handle multi-device merging
+      let mergedSearchData = localSearchData;
+      if (cloudSearchDataResponse) {
+        const { devices = [], legacy } = cloudSearchDataResponse;
         
-        dataReconciler.logReconciliation(reconciled, 'search data');
-        storageManager.setSearchData(reconciled.mergedData);
+        // Start with legacy data if available
+        let cloudSearchData = legacy;
+        
+        // Merge multi-device data if available
+        if (devices.length > 0) {
+          const { mergeDeviceData } = await import('./dataReconciler');
+          const mergedFromDevices = mergeDeviceData(devices, this.conflictStrategies.searchData);
+          cloudSearchData = mergedFromDevices || cloudSearchData;
+        }
+        
+        if (cloudSearchData || localSearchData) {
+          const reconciled = dataReconciler.reconcileSearchData(
+            localSearchData,
+            cloudSearchData,
+            localMeta,
+            cloudMeta,
+            this.conflictStrategies.searchData
+          );
+          
+          dataReconciler.logReconciliation(reconciled, 'search data');
+          logger.log('Storing reconciled search data:', reconciled.mergedData);
+          mergedSearchData = reconciled.mergedData;
+        }
+      }
+      
+      if (mergedSearchData) {
+        storageManager.setSearchData(mergedSearchData);
       }
 
-      // Download and reconcile timezone cache
-      const cloudTimezoneCache = await cloudStorage.getTimezoneCache(userId);
+      // Download and reconcile timezone cache with multi-device support
+      const cloudTimezoneCacheResponse = await this.cloudStorage.getTimezoneCache(userId, this.deviceId);
       const localTimezoneCache = storageManager.getTimezoneCache();
       
-      if (cloudTimezoneCache || localTimezoneCache) {
-        const reconciled = dataReconciler.reconcileTimezoneCache(
-          localTimezoneCache,
-          cloudTimezoneCache,
-          localMeta,
-          cloudMeta,
-          this.conflictStrategies.timezoneCache
-        );
+      logger.log('Timezone cache sync:', { 
+        hasCloudDevices: !!(cloudTimezoneCacheResponse?.devices?.length), 
+        hasCloudLegacy: !!cloudTimezoneCacheResponse?.legacy,
+        hasLocalData: !!localTimezoneCache,
+        deviceCount: cloudTimezoneCacheResponse?.devices?.length || 0
+      });
+      
+      // Handle multi-device merging
+      let mergedTimezoneCache = localTimezoneCache;
+      if (cloudTimezoneCacheResponse) {
+        const { devices = [], legacy } = cloudTimezoneCacheResponse;
         
-        dataReconciler.logReconciliation(reconciled, 'timezone cache');
-        storageManager.setTimezoneCache(reconciled.mergedData);
+        // Start with legacy data if available
+        let cloudTimezoneCache = legacy;
+        
+        // Merge multi-device data if available
+        if (devices.length > 0) {
+          const { mergeDeviceData } = await import('./dataReconciler');
+          const mergedFromDevices = mergeDeviceData(devices, this.conflictStrategies.timezoneCache);
+          cloudTimezoneCache = mergedFromDevices || cloudTimezoneCache;
+        }
+        
+        if (cloudTimezoneCache || localTimezoneCache) {
+          const reconciled = dataReconciler.reconcileTimezoneCache(
+            localTimezoneCache,
+            cloudTimezoneCache,
+            localMeta,
+            cloudMeta,
+            this.conflictStrategies.timezoneCache
+          );
+          
+          dataReconciler.logReconciliation(reconciled, 'timezone cache');
+          logger.log('Storing reconciled timezone cache:', reconciled.mergedData);
+          mergedTimezoneCache = reconciled.mergedData;
+        }
+      }
+      
+      if (mergedTimezoneCache) {
+        storageManager.setTimezoneCache(mergedTimezoneCache);
       }
 
       logger.log('Download and reconciliation from cloud completed successfully');
@@ -234,21 +399,13 @@ class CloudSyncManager {
     }
   }
 
-  // Full bidirectional sync with intelligent reconciliation
+  // Full bidirectional sync with multi-device awareness
   async performFullSync(userId: string): Promise<boolean> {
     return this.queueSync(async () => {
-      logger.log('Starting full bidirectional sync with reconciliation...');
+      logger.log('Starting multi-device bidirectional sync...');
       
-      // Step 1: Download and reconcile cloud data with local data
-      const downloadSuccess = await this.downloadFromCloud(userId);
-      
-      if (!downloadSuccess) {
-        logger.error('Download phase failed during full sync');
-        return false;
-      }
-      
-      // Step 2: Upload the reconciled data back to cloud
-      // This ensures cloud has the merged result
+      // Step 1: Upload current device data to cloud
+      // This will trigger server-side merging with other device data
       const uploadSuccess = await this.uploadToCloud(userId);
       
       if (!uploadSuccess) {
@@ -256,7 +413,16 @@ class CloudSyncManager {
         return false;
       }
       
-      logger.log('Full bidirectional sync completed successfully');
+      // Step 2: Download merged data from cloud
+      // The backend has already merged data from all devices
+      const downloadSuccess = await this.downloadFromCloud(userId);
+      
+      if (!downloadSuccess) {
+        logger.error('Download phase failed during full sync');
+        return false;
+      }
+      
+      logger.log('Multi-device bidirectional sync completed successfully');
       return true;
     });
   }
@@ -272,14 +438,14 @@ class CloudSyncManager {
           case 'main': {
             const data = storageManager.getMainData();
             if (data) {
-              return await cloudStorage.saveMainData(userId, data, this.deviceId);
+              return await this.cloudStorage.saveMainData(userId, data, this.deviceId);
             }
             break;
           }
           case 'preferences': {
             const data = storageManager.getPreferences();
             if (data) {
-              return await cloudStorage.savePreferences(userId, data, this.deviceId);
+              return await this.cloudStorage.savePreferences(userId, data, this.deviceId);
             }
             break;
           }
@@ -293,21 +459,21 @@ class CloudSyncManager {
                 createdAt: item.createdAt.toISOString(),
                 updatedAt: item.updatedAt.toISOString()
               }));
-              return await cloudStorage.saveItinerary(userId, serialized, this.deviceId);
+              return await this.cloudStorage.saveItinerary(userId, serialized, this.deviceId);
             }
             break;
           }
           case 'search': {
             const data = storageManager.getSearchData();
             if (data) {
-              return await cloudStorage.saveSearchData(userId, data, this.deviceId);
+              return await this.cloudStorage.saveSearchData(userId, data, this.deviceId);
             }
             break;
           }
           case 'timezone': {
             const data = storageManager.getTimezoneCache();
             if (data) {
-              return await cloudStorage.saveTimezoneCache(userId, data, this.deviceId);
+              return await this.cloudStorage.saveTimezoneCache(userId, data, this.deviceId);
             }
             break;
           }
@@ -323,7 +489,7 @@ class CloudSyncManager {
   // Delete all cloud data for user
   async deleteCloudData(userId: string): Promise<boolean> {
     try {
-      return await cloudStorage.deleteAll(userId);
+      return await this.cloudStorage.deleteAll(userId);
     } catch (error) {
       logger.error('Failed to delete cloud data:', error);
       return false;
@@ -333,7 +499,10 @@ class CloudSyncManager {
   // Check if cloud storage is available
   async isCloudAvailable(): Promise<boolean> {
     try {
-      return await cloudStorage.isAvailable();
+      if (!this.cloudStorage) {
+        return false;
+      }
+      return await this.cloudStorage.isAvailable();
     } catch (error) {
       logger.error('Cloud availability check failed:', error);
       return false;
@@ -368,9 +537,9 @@ class CloudSyncManager {
   // Check if user has existing data in cloud
   private async hasExistingCloudData(userId: string): Promise<boolean> {
     try {
-      const hasMain = !!(await cloudStorage.getMainData(userId));
-      const hasPrefs = !!(await cloudStorage.getPreferences(userId));
-      const hasItinerary = !!(await cloudStorage.getItinerary(userId));
+      const hasMain = !!(await this.cloudStorage.getMainData(userId, this.deviceId));
+      const hasPrefs = !!(await this.cloudStorage.getPreferences(userId, this.deviceId));
+      const hasItinerary = !!(await this.cloudStorage.getItinerary(userId, this.deviceId));
       
       return hasMain || hasPrefs || hasItinerary;
     } catch (error) {
@@ -448,6 +617,7 @@ export const cloudSyncManager = new CloudSyncManager();
 // React hook for cloud sync
 export function useCloudSync() {
   const { user, isLoaded } = useUser();
+  const cloudStorage = useSecureCloudStorage();
   const [syncState, setSyncState] = useState<SyncState>({
     status: 'idle',
     lastSync: null,
@@ -455,6 +625,11 @@ export function useCloudSync() {
     isOnline: navigator.onLine,
     cloudAvailable: false
   });
+
+  // Set cloud storage instance in the manager
+  useEffect(() => {
+    cloudSyncManager.setCloudStorage(cloudStorage);
+  }, [cloudStorage]);
 
   // Check cloud availability on mount
   useEffect(() => {
@@ -508,10 +683,9 @@ export function useCloudSync() {
         logger.log('Back online - restarting periodic sync');
         cloudSyncManager.startPeriodicSync(user.id);
         
-        // Also trigger an immediate sync when coming back online
-        setTimeout(() => {
-          performFullSync();
-        }, 1000);
+        // Remove immediate sync when coming back online to prevent sync loops
+        // Periodic sync will handle synchronization automatically
+        logger.log('Skipping immediate sync - periodic sync will handle this');
       }
     };
     
@@ -535,23 +709,12 @@ export function useCloudSync() {
         return;
       }
       
-      if (isLoaded && user && syncState.isOnline && syncState.cloudAvailable) {
-        // Debounce auto-sync to avoid excessive calls
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const timeout = (window as any).autoSyncTimeout;
-        if (timeout) clearTimeout(timeout);
-        
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (window as any).autoSyncTimeout = setTimeout(() => {
-          // Double-check sync state before executing
-          if (syncState.status !== 'syncing') {
-            logger.log('Auto-sync triggered by storage change:', event.detail?.key);
-            performFullSync();
-          } else {
-            logger.log('Skipping auto-sync - sync in progress');
-          }
-        }, 10000); // Increase debounce to 10 seconds to reduce frequency
-      }
+      // Disable auto-sync on storage changes to prevent infinite loops
+      // Periodic sync will handle synchronization automatically
+      logger.log('Storage changed, but skipping auto-sync to prevent loops. Periodic sync will handle this.');
+      
+      // Only log the storage change for debugging
+      logger.log('Storage change detected:', event.detail?.key);
     };
 
     window.addEventListener('online', handleOnline);

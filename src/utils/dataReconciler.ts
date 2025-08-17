@@ -20,6 +20,7 @@ export type ConflictStrategy =
   | 'latest-wins'     // Most recently modified wins
   | 'merge-smart'     // Intelligent merge based on data type
   | 'merge-union'     // Union of both datasets (for arrays)
+  | 'merge-by-id'     // Merge by unique ID (for arrays with ID fields)
   | 'user-choice';    // Prompt user to choose (future enhancement)
 
 // Conflict information
@@ -289,6 +290,10 @@ class DataReconciler {
           case 'latest-wins':
             finalItem = cloudUpdated > localUpdated ? cloudItem : localItem;
             break;
+          case 'merge-by-id':
+            // For merge-by-id, use the item with the latest updatedAt timestamp
+            finalItem = cloudUpdated > localUpdated ? cloudItem : localItem;
+            break;
           case 'merge-smart':
             // Intelligent merge: use latest updatedAt, but preserve local modifications if newer
             finalItem = cloudUpdated > localUpdated ? {
@@ -510,3 +515,124 @@ class DataReconciler {
 
 // Export singleton instance
 export const dataReconciler = new DataReconciler();
+
+// Client-side data merging for multi-device sync
+export function mergeDeviceData<T>(
+  devices: Array<{ deviceId: string; data: T; lastUpdated: number; version: string; }>,
+  strategy: ConflictStrategy = 'latest-wins'
+): T | null {
+  if (!devices || devices.length === 0) {
+    return null;
+  }
+
+  if (devices.length === 1) {
+    return devices[0].data;
+  }
+
+  // Sort by lastUpdated (most recent first)
+  const sortedDevices = devices.sort((a, b) => b.lastUpdated - a.lastUpdated);
+
+  switch (strategy) {
+    case 'latest-wins':
+      return sortedDevices[0].data;
+
+    case 'merge-by-id':
+      // Handle array data specifically
+      if (Array.isArray(sortedDevices[0].data)) {
+        const allItems = sortedDevices.flatMap(d => Array.isArray(d.data) ? d.data : []);
+        return mergeByUniqueId(allItems as Record<string, unknown>[]) as T;
+      }
+      return sortedDevices[0].data;
+
+    case 'merge-smart':
+    case 'merge-union':
+      return mergeUnion(sortedDevices.map(d => d.data));
+
+    default:
+      return sortedDevices[0].data;
+  }
+}
+
+// Merge arrays by unique ID, taking latest timestamp for conflicts
+export function mergeByUniqueId<T extends Record<string, unknown>>(items: T[], idField: string = 'id', mergeStrategy: 'latest' | 'first' = 'latest'): T[] {
+  const seen = new Map<string, T>();
+  
+  for (const item of items) {
+    const id = item[idField] as string;
+    if (!id) continue;
+    
+    const existing = seen.get(id);
+    if (!existing) {
+      seen.set(id, item);
+    } else if (mergeStrategy === 'latest') {
+      // Use latest timestamp or last seen
+      const itemTime = (item.updatedAt || item.createdAt || item.timestamp || item.lastUsed) as string | number | undefined;
+      const existingTime = (existing.updatedAt || existing.createdAt || existing.timestamp || existing.lastUsed) as string | number | undefined;
+      
+      let shouldReplace = false;
+      if (!existingTime) {
+        shouldReplace = true;
+      } else if (itemTime) {
+        if (typeof itemTime === 'string' && typeof existingTime === 'string') {
+          shouldReplace = new Date(itemTime).getTime() > new Date(existingTime).getTime();
+        } else if (typeof itemTime === 'number' && typeof existingTime === 'number') {
+          shouldReplace = itemTime > existingTime;
+        }
+      }
+      
+      if (shouldReplace) {
+        seen.set(id, item);
+      }
+    }
+  }
+  
+  return Array.from(seen.values());
+}
+
+// Merge arrays and objects by union
+function mergeUnion<T>(dataArray: T[]): T {
+  if (!dataArray || dataArray.length === 0) {
+    return null as T;
+  }
+
+  const firstData = dataArray[0];
+  
+  // Handle array merging
+  if (Array.isArray(firstData)) {
+    const combined = [];
+    const seen = new Set<string>();
+    
+    for (const data of dataArray) {
+      if (Array.isArray(data)) {
+        for (const item of data) {
+          const key = (item && typeof item === 'object' && 'id' in item) 
+            ? item.id 
+            : JSON.stringify(item);
+          
+          if (!seen.has(key)) {
+            seen.add(key);
+            combined.push(item);
+          }
+        }
+      }
+    }
+    
+    return combined as T;
+  }
+
+  // Handle object merging
+  if (typeof firstData === 'object' && firstData !== null) {
+    const merged = { ...firstData };
+    
+    for (const data of dataArray.slice(1)) {
+      if (typeof data === 'object' && data !== null) {
+        Object.assign(merged, data);
+      }
+    }
+    
+    return merged;
+  }
+
+  // For primitive types, return the first value
+  return firstData;
+}

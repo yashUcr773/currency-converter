@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Backend Test</title>
+</head>
+<body>
+    <h1>Backend Connection Test</h1>
+    <button onclick="testBackend()">Test Backend Connection</button>
+    <button onclick="testHealth()">Test Health Endpoint</button>
+    <button onclick="testDatabase()">Test Database Connection</button>
+    <button onclick="testSyncMainNoAuth()">Test /test-sync/main (No Auth)</button>
+    <button onclick="testSyncMain()">Test /api/sync/main (Will fail - no auth)</button>
+    <pre id="result"></pre>
+
+    <script>
+        const BACKEND_URL = 'http://localhost:3000';
+        
+        async function testBackend() {
+            const result = document.getElementById('result');
+            result.textContent = 'Testing backend connection...';
+            
+            try {
+                const response = await fetch(`${BACKEND_URL}/test`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    result.textContent = `✅ SUCCESS:\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    result.textContent = `❌ ERROR: ${response.status} ${response.statusText}`;
+                }
+            } catch (error) {
+                result.textContent = `❌ ERROR: ${error.message}`;
+            }
+        }
+        
+        async function testHealth() {
+            const result = document.getElementById('result');
+            result.textContent = 'Testing health endpoint...';
+            
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/health`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    result.textContent = `✅ HEALTH SUCCESS:\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    result.textContent = `❌ HEALTH ERROR: ${response.status} ${response.statusText}`;
+                }
+            } catch (error) {
+                result.textContent = `❌ HEALTH ERROR: ${error.message}`;
+            }
+        }
+        
+        async function testDatabase() {
+            const result = document.getElementById('result');
+            result.textContent = 'Testing database connection...';
+            
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+                
+                const response = await fetch(`${BACKEND_URL}/test-db`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    result.textContent = `✅ DATABASE SUCCESS:\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    result.textContent = `❌ DATABASE ERROR: ${response.status} ${response.statusText}`;
+                }
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    result.textContent = `❌ DATABASE TIMEOUT: Request took longer than 10 seconds`;
+                } else {
+                    result.textContent = `❌ DATABASE ERROR: ${error.message}`;
+                }
+            }
+        }
+        
+        async function testSyncMainNoAuth() {
+            const result = document.getElementById('result');
+            result.textContent = 'Testing /test-sync/main endpoint (no auth required)...';
+            
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+                
+                const response = await fetch(`${BACKEND_URL}/test-sync/main`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    result.textContent = `✅ SYNC NO AUTH SUCCESS:\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    const errorText = await response.text();
+                    result.textContent = `❌ SYNC NO AUTH ERROR (${response.status}):\n${errorText}`;
+                }
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    result.textContent = `❌ SYNC NO AUTH TIMEOUT: Request took longer than 10 seconds`;
+                } else {
+                    result.textContent = `❌ SYNC NO AUTH ERROR: ${error.message}`;
+                }
+            }
+        }
+        
+        async function testSyncMain() {
+            const result = document.getElementById('result');
+            result.textContent = 'Testing /api/sync/main endpoint (should return 401)...';
+            
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+                
+                const response = await fetch(`${BACKEND_URL}/api/sync/main`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                const data = await response.text();
+                result.textContent = `Response (${response.status}):\n${data}`;
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    result.textContent = `❌ TIMEOUT: Request took longer than 10 seconds`;
+                } else {
+                    result.textContent = `❌ ERROR: ${error.message}`;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

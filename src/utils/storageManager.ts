@@ -44,6 +44,7 @@ export interface UserPreferences {
 }
 
 export interface RecentCountry {
+  id: string;                    // Unique ID for proper merging
   name: string;
   flag: string;
   lastUsed: number;
@@ -51,6 +52,7 @@ export interface RecentCountry {
 }
 
 export interface SearchHistoryItem {
+  id: string;                    // Unique ID for proper merging
   term: string;
   lastUsed: number;
   resultCount: number;
@@ -316,11 +318,35 @@ class StorageManager {
 
   // Search data management
   getSearchData(): SearchData | null {
-    return this.getItem<SearchData>(STORAGE_KEYS.SEARCH_DATA);
+    const data = this.getItem<SearchData>(STORAGE_KEYS.SEARCH_DATA);
+    if (!data) return null;
+    
+    // Ensure backward compatibility by adding IDs to items that don't have them
+    return {
+      recentCountries: (data.recentCountries || []).map(country => ({
+        ...country,
+        id: country.id || `country-${country.name}-${country.flag}`
+      })),
+      searchHistory: (data.searchHistory || []).map(item => ({
+        ...item,
+        id: item.id || `search-${item.term}-${item.lastUsed}`
+      }))
+    };
   }
 
   setSearchData(data: SearchData): void {
-    this.setItem(STORAGE_KEYS.SEARCH_DATA, data);
+    // Ensure all items have unique IDs before storing
+    const dataWithIds = {
+      recentCountries: data.recentCountries.map(country => ({
+        ...country,
+        id: country.id || crypto.randomUUID()
+      })),
+      searchHistory: data.searchHistory.map(item => ({
+        ...item,
+        id: item.id || crypto.randomUUID()
+      }))
+    };
+    this.setItem(STORAGE_KEYS.SEARCH_DATA, dataWithIds);
   }
 
   updateSearchData(updates: Partial<SearchData>): void {
