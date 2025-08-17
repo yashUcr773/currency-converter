@@ -157,9 +157,11 @@ const startServer = async () => {
   }
 };
 
-// Start the server
+
+// Only start the server locally (not on Vercel)
 if (require.main === module) {
   startServer();
 }
 
-export default app;
+// For Vercel serverless: export the app as the handler
+module.exports = app;
