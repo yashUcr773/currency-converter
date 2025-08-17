@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multi-Device Sync Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .device { border: 1px solid #ccc; margin: 10px; padding: 15px; border-radius: 5px; }
+        .device h3 { margin-top: 0; }
+        button { margin: 5px; padding: 10px; }
+        pre { background: #f5f5f5; padding: 10px; white-space: pre-wrap; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Multi-Device Sync Test</h1>
+    <p>This test simulates multiple devices sending data to test the intelligent merging functionality.</p>
+    
+    <div class="device">
+        <h3>Device 1 (Phone)</h3>
+        <button onclick="sendFromDevice1()">Send Search Data from Device 1</button>
+        <pre id="device1-result"></pre>
+    </div>
+    
+    <div class="device">
+        <h3>Device 2 (Laptop)</h3>
+        <button onclick="sendFromDevice2()">Send Search Data from Device 2</button>
+        <pre id="device2-result"></pre>
+    </div>
+    
+    <div class="device">
+        <h3>Device 3 (Tablet)</h3>
+        <button onclick="sendFromDevice3()">Send Search Data from Device 3</button>
+        <pre id="device3-result"></pre>
+    </div>
+    
+    <div class="device">
+        <h3>Merged Data</h3>
+        <button onclick="getMergedData()">Get Merged Data from Server</button>
+        <pre id="merged-result"></pre>
+    </div>
+
+    <script>
+        const BACKEND_URL = 'http://localhost:3000';
+        
+        async function sendFromDevice1() {
+            const result = document.getElementById('device1-result');
+            result.textContent = 'Sending data from Device 1...';
+            
+            const data = {
+                data: {
+                    recentCountries: [
+                        { id: "device1-1", code: "USD", name: "US Dollar", lastUsed: 1700000000 },
+                        { id: "device1-2", code: "EUR", name: "Euro", lastUsed: 1700000100 }
+                    ],
+                    searchHistory: [
+                        { id: "device1-search-1", query: "USD to EUR", timestamp: 1700000000 }
+                    ]
+                }
+            };
+            
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/sync/test-user-123/device1-phone/search`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer test-token'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    const responseData = await response.json();
+                    result.innerHTML = `<span class="success">✅ SUCCESS:</span>\n${JSON.stringify(responseData, null, 2)}`;
+                } else {
+                    result.innerHTML = `<span class="error">❌ ERROR:</span> ${response.status} ${response.statusText}`;
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ ERROR:</span> ${error.message}`;
+            }
+        }
+        
+        async function sendFromDevice2() {
+            const result = document.getElementById('device2-result');
+            result.textContent = 'Sending data from Device 2...';
+            
+            const data = {
+                data: {
+                    recentCountries: [
+                        { id: "device2-1", code: "GBP", name: "British Pound", lastUsed: 1700000200 },
+                        { id: "device2-2", code: "JPY", name: "Japanese Yen", lastUsed: 1700000300 },
+                        { id: "device1-1", code: "USD", name: "US Dollar", lastUsed: 1700000500 } // Conflict: same ID, newer timestamp
+                    ],
+                    searchHistory: [
+                        { id: "device2-search-1", query: "GBP to USD", timestamp: 1700000200 },
+                        { id: "device1-search-1", query: "USD to EUR updated", timestamp: 1700000400 } // Conflict: same ID, newer timestamp
+                    ]
+                }
+            };
+            
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/sync/test-user-123/device2-laptop/search`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer test-token'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    const responseData = await response.json();
+                    result.innerHTML = `<span class="success">✅ SUCCESS:</span>\n${JSON.stringify(responseData, null, 2)}`;
+                } else {
+                    result.innerHTML = `<span class="error">❌ ERROR:</span> ${response.status} ${response.statusText}`;
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ ERROR:</span> ${error.message}`;
+            }
+        }
+        
+        async function sendFromDevice3() {
+            const result = document.getElementById('device3-result');
+            result.textContent = 'Sending data from Device 3...';
+            
+            const data = {
+                data: {
+                    recentCountries: [
+                        { id: "device3-1", code: "CAD", name: "Canadian Dollar", lastUsed: 1700000600 },
+                        { id: "device3-2", code: "AUD", name: "Australian Dollar", lastUsed: 1700000700 }
+                    ],
+                    searchHistory: [
+                        { id: "device3-search-1", query: "CAD to AUD", timestamp: 1700000600 }
+                    ]
+                }
+            };
+            
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/sync/test-user-123/device3-tablet/search`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer test-token'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    const responseData = await response.json();
+                    result.innerHTML = `<span class="success">✅ SUCCESS:</span>\n${JSON.stringify(responseData, null, 2)}`;
+                } else {
+                    result.innerHTML = `<span class="error">❌ ERROR:</span> ${response.status} ${response.statusText}`;
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ ERROR:</span> ${error.message}`;
+            }
+        }
+        
+        async function getMergedData() {
+            const result = document.getElementById('merged-result');
+            result.textContent = 'Retrieving merged data...';
+            
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/sync/test-user-123/web/search`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer test-token'
+                    }
+                });
+                
+                if (response.ok) {
+                    const responseData = await response.json();
+                    result.innerHTML = `<span class="success">✅ MERGED DATA:</span>\n${JSON.stringify(responseData, null, 2)}`;
+                } else {
+                    result.innerHTML = `<span class="error">❌ ERROR:</span> ${response.status} ${response.statusText}`;
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ ERROR:</span> ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

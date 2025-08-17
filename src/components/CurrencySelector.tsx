@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Plus, Search } from 'lucide-react';
 import type { Currency } from '../types';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -16,6 +17,7 @@ export const CurrencySelector = ({
   availableCurrencies,
   onSelectCurrency
 }: CurrencySelectorProps) => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -33,21 +35,33 @@ export const CurrencySelector = ({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Card className="group cursor-pointer transition-all duration-200 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1 bg-white/80 backdrop-blur-sm border-2 border-dashed border-slate-200 hover:border-blue-400">
-          <CardContent className="p-6 min-h-[160px] flex flex-col items-center justify-center">
-            <div className="p-4 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl border border-slate-200 mb-4 group-hover:scale-110 transition-transform duration-200">
-              <Plus size={24} className="text-blue-600" />
+        <Card className="group cursor-pointer overflow-hidden bg-gradient-to-br from-slate-50/90 to-white/90 backdrop-blur-md border border-dashed border-slate-300 hover:border-blue-400 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 touch-manipulation h-full flex flex-col rounded-xl">
+          <CardContent className="p-3 sm:p-4 flex-1 flex flex-col items-center justify-center text-center space-y-2 sm:space-y-3">
+            {/* Icon container */}
+            <div className="relative">
+              <div className="absolute inset-0 bg-primary/20 rounded-full blur-sm group-hover:blur-none transition-all duration-300"></div>
+              <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-primary/10 rounded-full border border-primary/20 shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all duration-300">
+                <Plus size={16} className="sm:w-5 sm:h-5 text-blue-600 group-hover:text-blue-700" />
+              </div>
             </div>
-            <span className="font-bold text-lg text-slate-800 group-hover:text-blue-600 transition-colors duration-200">Add Currency</span>
-            <span className="text-sm text-slate-600 mt-1 font-medium">Choose from 150+ currencies</span>
+            
+            {/* Text content */}
+            <div className="space-y-0.5 sm:space-y-1">
+              <h3 className="font-bold text-xs sm:text-sm text-slate-800 group-hover:text-blue-600 transition-colors duration-200">
+                {t('converter.addCurrencyTitle')}
+              </h3>
+              <p className="text-xs text-slate-600 font-medium leading-tight">
+                {t('converter.currenciesCount')}
+              </p>
+            </div>
           </CardContent>
         </Card>
       </DialogTrigger>
       
-      <DialogContent className="max-w-md bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 backdrop-blur-sm">
+      <DialogContent className="max-w-sm mx-auto bg-white/95 backdrop-blur-md border-0 shadow-2xl rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Select Currency
+          <DialogTitle className="text-lg font-bold text-slate-800 text-center">
+            {t('converter.addCurrencyTitle')}
           </DialogTitle>
         </DialogHeader>
         
@@ -57,23 +71,24 @@ export const CurrencySelector = ({
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500" size={16} />
             <Input
               type="text"
-              placeholder="Search currencies..."
+              inputMode="search"
+              placeholder={t('converter.searchCurrency')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 bg-white/80 border-slate-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all duration-200 rounded-lg"
+              className="pl-10 bg-slate-50/80 border-2 border-slate-200 focus:border-blue-400 focus:ring-4 focus:ring-blue-400/20 transition-all duration-200 rounded-xl h-12 text-base touch-manipulation"
               autoFocus
             />
           </div>
           
-          <div className="text-xs text-slate-600 bg-white/60 px-3 py-2 rounded-lg font-medium border border-slate-200">
-            {filteredCurrencies.length} of {availableCurrencies.length} currencies
+          <div className="text-xs text-slate-600 bg-blue-50/60 px-3 py-2 rounded-xl font-medium border border-blue-200/60">
+            {t('converter.currencyCount', { filtered: filteredCurrencies.length, total: availableCurrencies.length })}
           </div>
 
           {/* Currency List */}
-          <ScrollArea className="h-80 bg-white/40 rounded-lg border border-slate-200">
+          <ScrollArea className="h-72 bg-slate-50/60 rounded-xl border border-slate-200">
             {filteredCurrencies.length === 0 ? (
-              <div className="p-4 text-center text-slate-600 font-medium">
-                No currencies found for "{searchTerm}"
+              <div className="p-6 text-center text-slate-600 font-medium">
+                {t('converter.noCurrenciesFound')} "{searchTerm}"
               </div>
             ) : (
               <div className="space-y-1 p-2">
@@ -82,15 +97,17 @@ export const CurrencySelector = ({
                     key={currency.code}
                     variant="ghost"
                     onClick={() => handleSelectCurrency(currency)}
-                    className="w-full justify-start h-auto p-3 text-left hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:border-blue-200 transition-all duration-200 rounded-lg border border-transparent group"
+                    className="w-full justify-start h-auto p-3 text-left hover:bg-primary/10 transition-all duration-200 rounded-xl border border-transparent group touch-manipulation"
                   >
-                    <div className="flex items-center gap-3 w-full">
-                      <span className="text-2xl flex-shrink-0 group-hover:scale-110 transition-transform duration-200">{currency.flag}</span>
-                      <div className="flex-grow min-w-0">
-                        <div className="font-bold text-slate-800 group-hover:text-slate-900">{currency.code}</div>
-                        <div className="text-sm text-slate-600 truncate group-hover:text-slate-700 font-medium">{currency.name}</div>
+                    <div className="flex items-center gap-3 w-full min-h-[52px]">
+                      <div className="w-8 h-8 flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 rounded-lg border border-slate-300/50 shadow-sm group-hover:shadow-md transition-all duration-200 flex-shrink-0">
+                        <span className="text-lg">{currency.flag}</span>
                       </div>
-                      <div className="text-slate-600 font-bold flex-shrink-0 group-hover:text-slate-800">
+                      <div className="flex-grow min-w-0">
+                        <div className="font-bold text-sm text-slate-800 group-hover:text-slate-900">{currency.code}</div>
+                        <div className="text-xs text-slate-600 truncate group-hover:text-slate-700 font-medium">{currency.name}</div>
+                      </div>
+                      <div className="text-slate-600 font-bold flex-shrink-0 group-hover:text-slate-800 text-sm bg-slate-100 px-2 py-1 rounded-lg">
                         {currency.symbol}
                       </div>
                     </div>

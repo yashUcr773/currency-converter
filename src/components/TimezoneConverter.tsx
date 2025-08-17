@@ -1,0 +1,108 @@
+import { useTimezoneConverter } from '../hooks/useTimezoneConverter';
+import { TimezoneInput } from './TimezoneInput';
+import { TimezoneSelector } from './TimezoneSelector';
+import { Globe, RotateCcw } from 'lucide-react';
+import { getTimezoneInfo } from '../constants-timezone-comprehensive';
+import { Button } from './ui/button';
+
+export const TimezoneConverter = () => {
+  const {
+    pinnedTimezones,
+    baseTimezone,
+    setTimeInTimezone,
+    resetToCurrentTime,
+    pinTimezone,
+    unpinTimezone,
+    setBaseTimezone,
+    getAvailableTimezones
+  } = useTimezoneConverter();
+
+  if (pinnedTimezones.length === 0) {
+    return (
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6">
+        {/* Header for empty state */}
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-slate-200 shadow-sm">
+            <Globe className="w-4 h-4 text-blue-600" />
+            <span className="text-sm font-medium text-slate-700">
+              No timezones added yet
+            </span>
+          </div>
+        </div>
+
+        {/* Single timezone selector card in center */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+          <div className="max-w-sm mx-auto md:mx-0 w-full">
+            <TimezoneSelector
+              availableTimezones={getAvailableTimezones()}
+              onSelectTimezone={pinTimezone}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6">
+      {/* Header Info */}
+      <div className="text-center mb-6 sm:mb-8">
+        <div className="flex items-center justify-center gap-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-slate-200 shadow-sm">
+            <Globe className="w-4 h-4 text-blue-600" />
+            <span className="text-sm font-medium text-slate-700">
+              {pinnedTimezones.length} timezone{pinnedTimezones.length !== 1 ? 's' : ''} • Live updates
+            </span>
+          </div>
+          
+          {/* Reset button - only show if any timezone has custom time */}
+          {pinnedTimezones.some(tz => tz.time !== null) && (
+            <Button
+              onClick={resetToCurrentTime}
+              variant="outline"
+              size="sm"
+              className="inline-flex items-center gap-2 px-3 py-1.5 text-xs bg-white/80 backdrop-blur-sm border border-slate-200 hover:border-slate-300 rounded-full shadow-sm hover:shadow-md transition-all duration-200"
+            >
+              <RotateCcw className="w-3 h-3" />
+              Reset to Current
+            </Button>
+          )}
+        </div>
+      </div>
+
+      {/* Timezone Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        {pinnedTimezones.map((pinnedTimezone) => {
+          // Get base timezone offset for difference calculation
+          const baseTimezoneInfo = getTimezoneInfo(baseTimezone);
+          const baseTimezoneOffset = baseTimezoneInfo?.utcOffset || 0;
+          
+          return (
+            <div key={pinnedTimezone.timezone.id} className="w-full min-h-[200px] sm:min-h-[240px]">
+              <TimezoneInput
+                pinnedTimezone={pinnedTimezone}
+                onTimeChange={(hour, minute, ampm) => {
+                  setTimeInTimezone(pinnedTimezone.timezone.value, hour, minute, ampm);
+                }}
+                onUnpin={() => unpinTimezone(pinnedTimezone.timezone.value)}
+                isBaseTimezone={pinnedTimezone.timezone.value === baseTimezone}
+                onSetBaseTimezone={() => setBaseTimezone(pinnedTimezone.timezone.value)}
+                baseTimezoneOffset={baseTimezoneOffset}
+              />
+            </div>
+          );
+        })}
+
+        {/* Timezone Selector */}
+        <div className="w-full min-h-[200px] sm:min-h-[240px]">
+          <TimezoneSelector
+            availableTimezones={getAvailableTimezones()}
+            onSelectTimezone={pinTimezone}
+          />
+        </div>
+      </div>
+
+
+    </div>
+  );
+};

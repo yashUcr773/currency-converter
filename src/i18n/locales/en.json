@@ -1,0 +1,520 @@
+{
+
+ "featureRequest": {
+    "githubTitle": "GitHub Issues",
+    "githubDescription": "Create an issue on our GitHub repository",
+    "githubAction": "Open GitHub",
+    "quickTitle": "Quick Feedback",
+    "quickDescription": "Send a quick message with your suggestions",
+    "quickAction": "Quick Message",
+    "historicalTitle": "Historical Rate Charts",
+    "historicalDescription": "View currency trends over time",
+    "alertsTitle": "Rate Alerts",
+    "alertsDescription": "Get notified when rates hit your target",
+    "cryptoTitle": "Cryptocurrency Support",
+    "cryptoDescription": "Convert between crypto and fiat currencies",
+    "portfoliosTitle": "Multiple Portfolios",
+    "portfoliosDescription": "Save different currency combinations",
+    "exportTitle": "Export Data",
+    "exportDescription": "Export conversion history to CSV",
+    "darkModeTitle": "Dark Mode",
+    "darkModeDescription": "Toggle between light and dark themes"
+  },
+  "donateButton": {
+    "buyMeCoffee": "Buy Me a Coffee",
+    "supportWithCoffee": "Support with a coffee",
+    "supportThisApp": "Support This App",
+    "supportProject": "Support This Project",
+    "helpfulMessage": "Found this helpful?",
+    "anySupport": "Any support is appreciated!",
+    "arrow": "→"
+  },
+
+  "pwaStatus": {
+    "installApp": "Install App",
+    "install": "Install",
+    "installable": "Installable",
+    "installTitle": "Install this app for quick access",
+    "installHint": "This app can be installed! Look for 'Install' or 'Add to Home Screen' in your browser menu.",
+    "updateAvailable": "Update Available",
+    "update": "Update",
+    "refresh": "Refresh",
+    "clear": "Clear",
+    "installed": "Installed",
+    "testUpdate": "Test Update",
+    "clearCacheOfflineTitle": "Clear Cache While Offline?",
+    "clearCacheOfflineDesc": "You're currently <strong>offline</strong>. Clearing the cache will remove all stored data including:",
+    "clearCacheOfflineList1": "Cached exchange rates",
+    "clearCacheOfflineList2": "Offline functionality",
+    "clearCacheOfflineList3": "Previously loaded currency data",
+    "clearCacheOfflineWarn": "⚠️ The app may not work properly without an internet connection after clearing the cache.",
+    "cancel": "Cancel",
+    "clearAnyway": "Clear Anyway",
+    "clearCacheOfflineMessage": "You're currently offline. Clearing the cache will remove all stored data and the app may not work properly without an internet connection.",
+    "offlineTitle": "You're Offline",
+    "offlineDesc": "The app is running on cached data. Some features may be limited until you reconnect to the internet."
+  },
+  "updatePrompt": {
+    "title": "New Version Available",
+    "newVersionReady": "A new version of the app is ready to install",
+    "updateDetails": "This update may include bug fixes, performance improvements, and new features.",
+    "dataCachedTitle": "Your data is safely cached",
+    "dataCachedDesc1": "• Currency exchange rates and preferences are stored locally",
+    "dataCachedDesc2": "• All your pinned currencies will be preserved",
+    "cacheSize": "• Cache size: {{size}}",
+    "offlineNotice": "You're currently offline - cached data keeps the app working",
+    "internetRequired": "Internet Access Required",
+    "internetWarning": "Only clear cache and reload when you have a stable internet connection. This will remove all cached data.",
+    "currentlyOffline": "You are currently offline",
+    "clearCacheAndReload": "Clear Cache and Hard Reload",
+    "clearingAndReloading": "Clearing Cache and Reloading...",
+    "useExistingVersion": "Use Existing Version",
+    "whatHappensOnUpdate": "What happens when you clear cache and reload:",
+    "clearAllCaches": "• All cached data will be cleared",
+    "reloadWithNewVersion": "• The app will reload with the latest version",
+    "fetchFreshData": "• Fresh exchange rates will be fetched",
+    "preferencesPreserved": "• Your preferences will be preserved",
+    "updateNow": "Update Now",
+    "updating": "Updating...",
+    "updateLater": "Update Later",
+    "whatHappens": "What happens when you update:",
+    "reload": "• The app will perform a hard refresh with the latest version",
+    "dataSafe": "• Your cached data and preferences remain safe",
+    "freshRates": "• Fresh exchange rates will be fetched when online",
+    "allPreserved": "• All functionality will be preserved"
+  },
+  "app": {
+    "title": "Trip Tools",
+    "subtitle": "Every Tool You Need for Every Trip",
+    "loading": "Loading Trip Tools",
+    "loadingSubtitle": "Fetching latest exchange rates",
+    "noRatesAvailable": "No Exchange Rates Available",
+    "noRatesMessage": "Unable to load exchange rates. Please check your internet connection and try again.",
+    "retrying": "Retrying...",
+    "retry": "Retry",
+    "statusInfo": "Cached locally • Auto-updates • 5-decimal precision",
+    "ratesRelativeTo": "Rates relative to",
+    "tapRateToChangeBase": "Tap any rate to change base currency",
+    "liveRatesFrom": "Live rates from ExchangeRate-API"
+  },
+  "navigation": {
+    "about": "About",
+    "backToConverter": "Back to Trip Tools",
+    "startConverting": "Start Converting"
+  },
+  "converter": {
+    "amount": "Amount",
+    "from": "From",
+    "to": "To",
+    "convert": "Convert",
+    "result": "Result",
+    "exchangeRate": "Exchange Rate",
+    "lastUpdated": "Last updated",
+    "refreshRates": "Refresh Rates",
+    "addCurrency": "Add Currency",
+    "pinCurrency": "Pin Currency",
+    "unpinCurrency": "Unpin Currency",
+    "baseCurrency": "Base Currency",
+    "setAsBase": "Set as Base",
+    "searchCurrency": "Search currencies...",
+    "noCurrenciesFound": "No currencies found",
+    "errorLoadingRates": "Error loading exchange rates",
+    "retryLoading": "Retry Loading",
+    "offlineMode": "Offline Mode",
+    "ratesExpired": "Rates may be outdated",
+    "addCurrencyTitle": "Add Currency",
+    "currenciesCount": "150+ currencies",
+    "baseCurrencyLabel": "BASE",
+    "currencyCount": "{{filtered}} of {{total}} currencies",
+    "amountPlaceholder": "0.00"
+  },
+  "statusBar": {
+    "never": "Never",
+    "hoursMinutesAgo": "{{hours}}h {{minutes}}m ago",
+    "minutesAgo": "{{minutes}}m ago",
+    "justNow": "Just now",
+    "offlineMode": "Offline",
+    "ratesExpired": "Rates expired",
+    "online": "Online",
+    "lastUpdated": "Last updated",
+    "updated": "Updated",
+    "refreshTitle": "Refresh exchange rates",
+    "tryRefreshTitle": "Try to refresh rates",
+    "syncing": "Syncing...",
+    "refresh": "Refresh",
+    "tryRefresh": "Try refresh",
+    "sync": "Sync"
+  },
+  "calculator": {
+    "title": "Calculator",
+    "tipCalculator": "Tip Calculator",
+    "clear": "Clear",
+    "equals": "Equals",
+    "billAmount": "Bill Amount",
+    "tipPercent": "Tip %",
+    "customTip": "Custom",
+    "tipAmount": "Tip",
+    "total": "Total",
+    "calculation": "Calculation:",
+    "selectCurrency": "Select Currency",
+    "presets": "Presets"
+  },
+  "miniCalculator": {
+    "title": "Calculator",
+    "openCalculator": "Open Calculator",
+    "calc": "Calc",
+    "calculatorTab": "Calculator",
+    "tipTab": "Tip Calculator",
+    "applyResultTo": "Apply result to:",
+    "clear": "Clear",
+    "pinCurrenciesFirst": "Pin some currencies first to use this feature",
+    "applyXToY": "Apply {{result}} to {{currency}}",
+    "selectCurrencyFirst": "Select a currency first",
+    "billAmount": "Bill Amount",
+    "enterBillAmount": "Enter bill amount",
+    "currency": "Currency",
+    "tipPercentage": "Tip Percentage",
+    "customPercent": "Custom %",
+    "apply": "Apply",
+    "resetTipCalculator": "Reset Calculator",
+    "billAmountLabel": "Bill Amount",
+    "tipLabel": "Tip",
+    "calculation": "Calculation:",
+    "totalLabel": "Total"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "numberSystem": "Number System",
+    "international": "International",
+    "indian": "Indian",
+    "theme": "Theme",
+    "darkMode": "Dark Mode",
+    "notifications": "Notifications",
+    "privacy": "Privacy"
+  },
+  "numberSystemToggle": {
+    "intl": "Intl",
+    "in": "IN",
+    "switchTo": "Switch to {{system}} system"
+  },
+  "debug": {
+    "current": "Current",
+    "title": "Title",
+    "toggleLang": "Toggle EN/ES"
+  },
+  "about": {
+    "title": "About RateVault",
+    "heroTitle": "Currency and Timezone Conversion — in One Vault",
+    "subtitle": "The Conversion Tool You Actually Want to Use",
+    "description": "RateVault combines currency and timezone conversion in one elegant vault. Quick, reliable, and private with offline support.",
+    "freeOpenSource": "Free & Open Source",
+    "freeDescription": "Free to use conversion tools with no ads or tracking. Source code is available for anyone to review, modify, or learn from.",
+    "features": {
+      "title": "Key Features",
+      "subtitle": "Simple features for everyday currency conversion",
+      "fast": "Fast",
+      "fastDesc": "Instant conversions with quick loading",
+      "currencies": "150+ Currencies",
+      "currenciesDesc": "Comprehensive global currency support",
+      "calculator": "Built-in Calculator",
+      "calculatorDesc": "Integrated calculator with tip calculator for quick math and currency conversions",
+      "timezone": "Timezone Conversion", 
+      "timezoneDesc": "Convert time between different timezones worldwide",
+      "multilanguage": "Multi-Language",
+      "multilanguageDesc": "Support for 10+ languages with automatic detection and RTL support",
+      "pwa": "Progressive Web App",
+      "pwaDesc": "Install as a native app on any device, works offline with service worker caching",
+      "offline": "Works Offline",
+      "offlineDesc": "Install as app, works without internet",
+      "design": "Modern Design",
+      "designDesc": "Clean, intuitive interface optimized for mobile and desktop with responsive design",
+      "realtime": "Real-time Updates",
+      "realtimeDesc": "Exchange rates updated in real-time with automatic refresh every 30 minutes",
+      "customizable": "Customizable",
+      "customizableDesc": "Customize your favorite currencies and settings with persistent preferences",
+      "accessible": "Accessible",
+      "accessibleDesc": "Designed to be accessible to all users with keyboard shortcuts and screen reader support",
+      "privacy": "Privacy First",
+      "privacyDesc": "No tracking, no ads, your data stays private",
+      "fresh": "Always Fresh",
+      "freshDesc": "Updates exchange rates automatically",
+      "rich": "Rich Features",
+      "richDesc": "Calculator, number systems, pin favorites",
+      "realTimeRates": "Real-time exchange rates with automatic updates",
+      "offlineSupport": "Works perfectly offline once installed",
+      "multiCurrency": "Support for 170+ world currencies",
+      "pwaInstall": "Install as Progressive Web App",
+      "responsive": "Mobile-first responsive design",
+      "noAds": "Completely free without ads or tracking",
+      "crossPlatform": "Works on all devices and browsers",
+      "numberSystems": "International and Indian number systems",
+      "smartPinning": "Pin favorite currencies for quick access",
+      "autoRefresh": "Automatic rate updates every 30 minutes",
+      "securePrivate": "Your data stays private - no server storage",
+      "fastLoading": "Optimized for speed with instant startup",
+      "modernUI": "Clean, intuitive user interface",
+      "accessibility": "Keyboard shortcuts and screen reader support",
+      "caching": "Smart caching for reliable offline performance"
+    },
+    "uniqueFeatures": {
+      "title": "What Makes It Special",
+      "subtitle": "Features that set RateVault apart",
+      "calculator": "Built-in Calculator",
+      "calculatorDesc": "Mini calculator that integrates with currency conversions. Perform calculations and directly use results in currency fields.",
+      "numberSystem": "Number System Toggle",
+      "numberSystemDesc": "Switch between International (1,000,000) and Indian (10,00,000) number formatting systems with persistent preference storage.",
+      "installApp": "Install as App",
+      "installAppDesc": "Add to your device's home screen and use like a native app. Works even when you're offline.",
+      "smartBase": "Smart Base Currency",
+      "smartBaseDesc": "Tap any exchange rate to set it as the base currency. Dynamic conversion rates update automatically across all pinned currencies.",
+      "timezone": "Timezone Conversion",
+      "timezoneDesc": "Convert time between different timezones worldwide. See what time it is anywhere when you're planning calls or travel.",
+      "updates": "Auto-Updates",
+      "updatesDesc": "Automatically updates exchange rates and timezone data. Always get the most current information without manual refresh."
+    },
+    "useCases": {
+      "title": "Common Use Cases",
+      "subtitle": "Simple currency conversion for everyday scenarios",
+      "travel": "Travel Planning",
+      "travelDesc": "Convert currencies for trip budgeting and expense planning. Check how much your money is worth in different countries.",
+      "travelExamples": [
+        "See what $500 equals in euros",
+        "Convert hotel price to your currency",
+        "Check how much 1000 yen is worth",
+        "Convert any amount between currencies"
+      ],
+      "shopping": "Online Shopping",
+      "shoppingDesc": "Convert prices from international websites to your local currency. Compare costs across different countries.",
+      "shoppingExamples": [
+        "Convert ¥15,000 to your currency",
+        "See what £50 costs in dollars",
+        "Convert any foreign price",
+        "Check currency exchange rates"
+      ],
+      "finance": "Personal Finance",
+      "financeDesc": "Convert currencies for personal money management, remittances, and international transactions.",
+      "financeExamples": [
+        "Convert salary amounts",
+        "Check exchange rates for transfers",
+        "See foreign account values",
+        "Convert any money amounts"
+      ],
+      "work": "Remote Work",
+      "workDesc": "Convert client payments and project rates when working with international clients.",
+      "workExamples": [
+        "Convert $50/hour rate",
+        "See payment in local currency", 
+        "Check project values",
+        "Convert invoice amounts"
+      ],
+      "timezone": "International Meetings & Calls",
+      "timezoneDesc": "Schedule meetings and calls across different time zones. Know the perfect time to connect with colleagues, clients, and friends worldwide.",
+      "timezoneExamples": [
+        "Schedule 9 AM meeting in Tokyo time",
+        "Find best time for US-Europe calls",
+        "Convert conference time to local time",
+        "Plan international team meetings"
+      ],
+      "quickMath": "Quick Math & Convert",
+      "quickMathDesc": "Use the built-in calculator for math, then convert the result to any currency.",
+      "quickMathExamples": [
+        "Calculate tip amount, then convert",
+        "Do math, apply result to currency",
+        "Split amounts and convert",
+        "Quick calculations with currency"
+      ]
+    },
+    "stats": {
+      "currenciesSupported": "Currencies Supported",
+      "decimalPrecision": "Decimal Precision",
+      "cacheDuration": "Cache Duration",
+      "privacyFocused": "Privacy Focused"
+    },
+    "links": {
+      "viewGithub": "View on GitHub",
+      "exchangeRateApi": "ExchangeRate-API",
+      "donate": "Support Development"
+    },
+    "footerText": "Made with ❤️ for currency conversion needs worldwide"
+  },
+  "aboutPage": {
+    "aboutTitle": "About Converter",
+    "aboutFeatures": "Features"
+  },
+  "errors": {
+    "networkError": "Network connection error",
+    "rateLoadError": "Failed to load exchange rates",
+    "invalidAmount": "Please enter a valid amount",
+    "currencyNotFound": "Currency not found",
+    "calculationError": "Calculation error",
+    "tryAgain": "Try again"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "close": "Close",
+    "apply": "Apply",
+    "reset": "Reset",
+    "search": "Search",
+    "select": "Select",
+    "none": "None",
+    "all": "All",
+    "yes": "Yes",
+    "no": "No",
+    "testConnectivity": "Test Real Internet Connectivity"
+  },
+  "donate": {
+    "title": "Support Development",
+    "description": "Help keep this project free and open source",
+    "buyMeCoffee": "Buy me a coffee",
+    "monthly": "Monthly Support",
+    "oneTime": "One-time Support"
+  },
+  "seo": {
+    "title": "RateVault - Currency and Timezone Conversion — in One Vault",
+    "description": "Professional conversion tools with real-time exchange rates, world clock, and accurate cross-timezone conversion. Your one-stop vault for rates and time.",
+    "keywords": "ratevault, currency converter, timezone converter, exchange rates, world clock, time conversion, vault, conversion tools",
+    "structuredData": {
+      "name": "RateVault",
+      "description": "Currency and Timezone Conversion — in One Vault. Professional conversion tools with real-time rates and offline support",
+      "author": "RateVault Team",
+      "feature1": "Real-time exchange rates",
+      "feature2": "Offline support",
+      "feature3": "170+ currencies",
+      "feature4": "Progressive Web App",
+      "feature5": "Mobile responsive",
+      "feature6": "Free without registration",
+      "feature7": "Cross-platform compatibility",
+      "feature8": "Accurate currency calculations"
+    }
+  },
+  "errorBoundary": {
+    "somethingWentWrong": "Something went wrong",
+    "unexpectedHappened": "An unexpected error has occurred",
+    "errorDetails": "Error details",
+    "tryAgain": "Try Again",
+    "refreshPage": "Refresh Page"
+  },
+  "refreshWarning": {
+    "title": "Page Refresh Detected",
+    "message": "Refreshing won't update your data!",
+    "explanation": "RateVault runs on cached data for offline support. A regular refresh won't fetch new exchange rates or update the app.",
+    "tip": "Tip: Use the refresh button in the status bar to update exchange rates",
+    "hardRefresh": "Hard Refresh (Clear Cache)",
+    "hardRefreshing": "Hard Refreshing...",
+    "normalRefresh": "Refresh Anyway (Keep Cache)",
+    "stayHere": "Stay Here",
+    "note": "This message will only show once per session"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "subtitle": "Your privacy is our priority. Learn how we protect your data.",
+    "backToApp": "Back to Currency Converter",
+    "lastUpdated": "Last updated",
+    "updateDate": "July 29, 2025",
+    "overview": {
+      "title": "Privacy Overview",
+      "description": "RateVault is designed with privacy as a core principle. We collect minimal data, store everything locally on your device, and never track or monitor your usage. This policy explains our privacy practices in detail."
+    },
+    "dataCollection": {
+      "title": "Information We Collect",
+      "localStorage": {
+        "title": "Local Storage Only",
+        "description": "All your data is stored locally in your browser's storage. We never send this data to external servers.",
+        "items": [
+          "Your pinned currencies and preferences",
+          "Custom exchange rates for scenarios",
+          "App settings and display preferences",
+          "Cached exchange rates for offline use",
+          "Language and number system preferences"
+        ]
+      },
+      "noPersonalData": {
+        "title": "No Personal Information",
+        "description": "We do not collect, store, or process any personal information such as names, email addresses, phone numbers, or location data."
+      },
+      "noTracking": {
+        "title": "No Tracking or Analytics",
+        "description": "We do not use cookies, analytics tools, tracking pixels, or any other monitoring technologies to track your behavior."
+      }
+    },
+    "dataUsage": {
+      "title": "How We Use Your Data",
+      "description": "All data stored locally is used solely to enhance your experience:",
+      "purposes": [
+        "Remember your pinned currencies between sessions",
+        "Store custom exchange rates for 'what-if' scenarios",
+        "Cache exchange rates for offline functionality",
+        "Preserve your language and display preferences",
+        "Enable PWA features like offline access"
+      ]
+    },
+    "thirdParty": {
+      "title": "Third-Party Services",
+      "exchangeApi": {
+        "title": "Exchange Rate API",
+        "description": "We use ExchangeRate-API to fetch current exchange rates. This service may collect minimal data for rate limiting. We recommend reviewing their privacy policy:",
+        "linkText": "View ExchangeRate-API Privacy Policy"
+      }
+    },
+    "security": {
+      "title": "Data Security",
+      "description": "Your data security is ensured through local storage and privacy-by-design principles:",
+      "measures": [
+        "All data is stored locally on your device",
+        "No data transmission to our servers",
+        "HTTPS encryption for API requests",
+        "No user accounts or authentication required",
+        "Full user control over data deletion"
+      ]
+    },
+    "pwa": {
+      "title": "Progressive Web App Features",
+      "description": "When you install RateVault as a PWA, additional data may be cached for offline functionality:",
+      "offlineData": {
+        "title": "Offline Cache",
+        "description": "App assets and recent exchange rates are cached locally to enable offline use. This cache is managed automatically and can be cleared through your browser settings."
+      }
+    },
+    "rights": {
+      "title": "Your Data Rights",
+      "description": "Since all data is stored locally on your device, you have full control:",
+      "list": [
+        "View all stored data through browser developer tools",
+        "Delete all app data by clearing browser storage",
+        "Export your preferences manually if needed",
+        "Control what data is stored through app settings",
+        "Uninstall the PWA to remove all cached data"
+      ]
+    },
+    "changes": {
+      "title": "Changes to This Policy",
+      "description": "We may update this privacy policy periodically. Any changes will be posted on this page with an updated revision date. We encourage you to review this policy regularly."
+    },
+    "contact": {
+      "title": "Contact Us",
+      "description": "If you have questions about this privacy policy or our privacy practices, please contact us through our GitHub repository:",
+      "github": "GitHub Repository - Currency Converter"
+    }
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "profile": "Profile",
+    "account": "Account",
+    "authRequired": "Authentication Required",
+    "signInRequired": "Please sign in to access this feature.",
+    "welcome": "Welcome back!",
+    "createAccount": "Create your account",
+    "loading": "Loading authentication...",
+    "error": "Authentication error occurred",
+    "welcomeTitle": "Create an Account to Save Your Preferences",
+    "welcomeSubtitle": "Keep your favorite currencies, settings, and data synced across all your devices",
+    "joinFree": "Join Free"
+  }
+}

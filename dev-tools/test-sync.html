@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Sync Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        button { margin: 5px; padding: 10px; }
+        .log { background: #f5f5f5; padding: 10px; font-family: monospace; white-space: pre-wrap; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+    </style>
+</head>
+<body>
+    <h1>Cloud Sync Debug Test</h1>
+    
+    <div class="section">
+        <h2>Authentication Status</h2>
+        <div id="auth-status">Checking...</div>
+        <button onclick="checkAuth()">Check Auth</button>
+    </div>
+    
+    <div class="section">
+        <h2>Local Storage Data</h2>
+        <button onclick="showLocalData()">Show Local Data</button>
+        <button onclick="addTestData()">Add Test Data</button>
+        <button onclick="clearLocalData()">Clear Local Data</button>
+        <div id="local-data" class="log"></div>
+    </div>
+    
+    <div class="section">
+        <h2>Cloud Sync Operations</h2>
+        <button onclick="testCloudAvailability()">Test Cloud Availability</button>
+        <button onclick="performManualSync()">Manual Sync</button>
+        <button onclick="uploadToCloud()">Upload to Cloud</button>
+        <button onclick="downloadFromCloud()">Download from Cloud</button>
+        <div id="sync-results" class="log"></div>
+    </div>
+    
+    <div class="section">
+        <h2>Debug Logs</h2>
+        <button onclick="clearLogs()">Clear Logs</button>
+        <div id="debug-logs" class="log"></div>
+    </div>
+
+    <script>
+        let originalConsoleLog = console.log;
+        let originalConsoleError = console.error;
+        let originalConsoleWarn = console.warn;
+        
+        function logToPage(message, type = 'info') {
+            const logDiv = document.getElementById('debug-logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}\n`;
+            logDiv.innerHTML += `<span class="${type}">${logEntry}</span>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        // Override console methods to capture logs
+        console.log = function(...args) {
+            originalConsoleLog.apply(console, args);
+            logToPage(args.join(' '), 'info');
+        };
+        
+        console.error = function(...args) {
+            originalConsoleError.apply(console, args);
+            logToPage('ERROR: ' + args.join(' '), 'error');
+        };
+        
+        console.warn = function(...args) {
+            originalConsoleWarn.apply(console, args);
+            logToPage('WARN: ' + args.join(' '), 'error');
+        };
+        
+        function checkAuth() {
+            const authDiv = document.getElementById('auth-status');
+            // This would need to be integrated with your actual auth system
+            authDiv.innerHTML = 'This requires integration with your Clerk auth system';
+        }
+        
+        function showLocalData() {
+            const dataDiv = document.getElementById('local-data');
+            const data = {
+                mainData: localStorage.getItem('ratevault-data'),
+                preferences: localStorage.getItem('ratevault-preferences'),
+                itinerary: localStorage.getItem('ratevault-itinerary-items'),
+                searchData: localStorage.getItem('ratevault-search-data'),
+                timezoneCache: localStorage.getItem('ratevault-timezone-cache'),
+                metadata: localStorage.getItem('ratevault-metadata')
+            };
+            
+            dataDiv.innerHTML = JSON.stringify(data, null, 2);
+        }
+        
+        function addTestData() {
+            const testData = {
+                mainData: {
+                    exchangeRates: {
+                        USD: { EUR: 0.85, GBP: 0.73 },
+                        lastUpdate: Date.now()
+                    },
+                    pinnedCurrencies: ['USD', 'EUR', 'GBP']
+                },
+                itinerary: [
+                    {
+                        id: crypto.randomUUID(),
+                        title: 'Test Flight',
+                        description: 'Test flight to Paris',
+                        startDate: new Date().toISOString(),
+                        startTime: '10:00',
+                        location: 'Airport',
+                        color: 'blue',
+                        category: 'flight',
+                        createdAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString()
+                    }
+                ],
+                searchData: {
+                    recentCountries: [
+                        {
+                            id: crypto.randomUUID(),
+                            name: 'France',
+                            flag: '🇫🇷',
+                            lastUsed: Date.now(),
+                            timezoneCount: 12
+                        }
+                    ],
+                    searchHistory: [
+                        {
+                            id: crypto.randomUUID(),
+                            term: 'paris timezone',
+                            lastUsed: Date.now(),
+                            resultCount: 5
+                        }
+                    ]
+                }
+            };
+            
+            localStorage.setItem('ratevault-data', JSON.stringify(testData.mainData));
+            localStorage.setItem('ratevault-itinerary-items', JSON.stringify(testData.itinerary));
+            localStorage.setItem('ratevault-search-data', JSON.stringify(testData.searchData));
+            
+            // Trigger storage change event
+            window.dispatchEvent(new CustomEvent('storageChanged', { 
+                detail: { key: 'ratevault-data', action: 'set' } 
+            }));
+            
+            logToPage('Test data added to localStorage', 'success');
+            showLocalData();
+        }
+        
+        function clearLocalData() {
+            const keys = [
+                'ratevault-data',
+                'ratevault-preferences', 
+                'ratevault-itinerary-items',
+                'ratevault-search-data',
+                'ratevault-timezone-cache',
+                'ratevault-metadata'
+            ];
+            
+            keys.forEach(key => localStorage.removeItem(key));
+            logToPage('Local data cleared', 'info');
+            showLocalData();
+        }
+        
+        function testCloudAvailability() {
+            logToPage('Testing cloud availability...', 'info');
+            // This would test your cloud storage connection
+            logToPage('Cloud availability test requires backend integration', 'info');
+        }
+        
+        function performManualSync() {
+            logToPage('Triggering manual sync...', 'info');
+            // This would trigger your sync function
+            logToPage('Manual sync requires app integration', 'info');
+        }
+        
+        function uploadToCloud() {
+            logToPage('Uploading to cloud...', 'info');
+            // This would upload data to cloud
+            logToPage('Upload requires backend integration', 'info');
+        }
+        
+        function downloadFromCloud() {
+            logToPage('Downloading from cloud...', 'info');
+            // This would download data from cloud
+            logToPage('Download requires backend integration', 'info');
+        }
+        
+        function clearLogs() {
+            document.getElementById('debug-logs').innerHTML = '';
+        }
+        
+        // Initialize
+        showLocalData();
+        logToPage('Debug page loaded', 'success');
+    </script>
+</body>
+</html>

@@ -166,6 +166,6 @@ export const POPULAR_CURRENCIES: Currency[] = [
 
 export const DEFAULT_PINNED_CURRENCIES = ['USD', 'EUR', 'GBP'];
 
-export const API_BASE_URL = 'https://api.exchangerate-api.com/v4/latest';
-export const STORAGE_KEY = 'currency-converter-data';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.exchangerate-api.com/v4/latest';
+export const STORAGE_KEY = 'ratevault-data';
 export const RATES_EXPIRY_HOURS = 24;

@@ -1,0 +1,476 @@
+{
+  "featureRequest": {
+    "githubTitle": "GitHub Issues",
+    "githubDescription": "Erstellen Sie ein Issue in unserem GitHub Repository",
+    "githubAction": "GitHub öffnen",
+    "quickTitle": "Schnelles Feedback",
+    "quickDescription": "Senden Sie eine kurze Nachricht mit Ihren Vorschlägen",
+    "quickAction": "Kurze Nachricht",
+    "historicalTitle": "Historische Kurscharts",
+    "historicalDescription": "Währungstrends über Zeit anzeigen",
+    "alertsTitle": "Kurs-Benachrichtigungen",
+    "alertsDescription": "Benachrichtigung erhalten, wenn Kurse Ihr Ziel erreichen",
+    "cryptoTitle": "Kryptowährungsunterstützung",
+    "cryptoDescription": "Zwischen Krypto- und Fiat-Währungen umrechnen",
+    "portfoliosTitle": "Mehrere Portfolios",
+    "portfoliosDescription": "Verschiedene Währungskombinationen speichern",
+    "exportTitle": "Daten exportieren",
+    "exportDescription": "Umrechnungshistorie nach CSV exportieren",
+    "darkModeTitle": "Dunkler Modus",
+    "darkModeDescription": "Zwischen hellem und dunklem Design wechseln"
+  },
+  "donateButton": {
+    "buyMeCoffee": "Kauf mir einen Kaffee",
+    "supportWithCoffee": "Mit einem Kaffee unterstützen",
+    "supportThisApp": "Diese App unterstützen",
+    "supportProject": "Dieses Projekt unterstützen",
+    "helpfulMessage": "War das hilfreich?",
+    "anySupport": "Jede Unterstützung wird geschätzt!",
+    "arrow": "→"
+  },
+  "pwaStatus": {
+    "installApp": "App installieren",
+    "install": "Installieren",
+    "installable": "Installierbar",
+    "installTitle": "Diese App für schnellen Zugriff installieren",
+    "installHint": "Diese App kann installiert werden! Suchen Sie nach 'Installieren' oder 'Zum Home-Bildschirm hinzufügen' in Ihrem Browser-Menü.",
+    "updateAvailable": "Update verfügbar",
+    "update": "Aktualisieren",
+    "refresh": "Aktualisieren",
+    "clear": "Löschen",
+    "installed": "Installiert",
+    "testUpdate": "Update testen",
+    "clearCacheOfflineTitle": "Cache löschen während offline?",
+    "clearCacheOfflineDesc": "Sie sind derzeit <strong>offline</strong>. Das Löschen des Cache entfernt alle gespeicherten Daten einschließlich:",
+    "clearCacheOfflineList1": "Zwischengespeicherte Wechselkurse",
+    "clearCacheOfflineList2": "Offline-Funktionalität",
+    "clearCacheOfflineList3": "Zuvor geladene Währungsdaten",
+    "clearCacheOfflineWarn": "⚠️ Die App funktioniert möglicherweise nicht ordnungsgemäß ohne Internetverbindung nach dem Löschen des Cache.",
+    "cancel": "Abbrechen",
+    "clearAnyway": "Trotzdem löschen",
+    "clearCacheOfflineMessage": "Sie sind derzeit offline. Das Löschen des Cache entfernt alle gespeicherten Daten und die App funktioniert möglicherweise nicht ordnungsgemäß ohne Internetverbindung.",
+    "offlineTitle": "Sie sind Offline",
+    "offlineDesc": "Die App läuft mit zwischengespeicherten Daten. Einige Funktionen können eingeschränkt sein, bis Sie sich wieder mit dem Internet verbinden."
+  },
+  "updatePrompt": {
+    "title": "Neue Version verfügbar",
+    "newVersionReady": "Eine neue Version der App ist bereit zur Installation",
+    "updateDetails": "Dieses Update kann Fehlerbehebungen, Leistungsverbesserungen und neue Funktionen enthalten.",
+    "dataCachedTitle": "Ihre Daten sind sicher zwischengespeichert",
+    "dataCachedDesc1": "• Wechselkurse und Einstellungen werden lokal gespeichert",
+    "dataCachedDesc2": "• Alle Ihre gepinnten Währungen bleiben erhalten",
+    "cacheSize": "• Cache-Größe: {{size}}",
+    "offlineNotice": "Sie sind derzeit offline - zwischengespeicherte Daten halten die App am Laufen",
+    "updateNow": "Jetzt aktualisieren",
+    "updating": "Wird aktualisiert...",
+    "updateLater": "Später aktualisieren",
+    "whatHappens": "Was passiert beim Update:",
+    "reload": "• Die App wird mit der neuesten Version neu geladen",
+    "dataSafe": "• Ihre zwischengespeicherten Daten und Einstellungen bleiben sicher",
+    "freshRates": "• Neue Wechselkurse werden bei Online-Verbindung abgerufen",
+    "allPreserved": "• Alle Funktionen bleiben erhalten"
+  },
+  "app": {
+    "title": "Trip Tools",
+    "subtitle": "Alle Werkzeuge, die Sie für Jede Reise Benötigen",
+    "loading": "Trip Tools laden",
+    "loadingSubtitle": "Neueste Wechselkurse abrufen",
+    "noRatesAvailable": "Keine Wechselkurse Verfügbar",
+    "noRatesMessage": "Wechselkurse können nicht geladen werden. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
+    "retrying": "Wiederhole...",
+    "retry": "Wiederholen",
+    "statusInfo": "Lokal zwischengespeichert • Automatische Updates • 5-stellige Genauigkeit",
+    "ratesRelativeTo": "Kurse relativ zu",
+    "tapRateToChangeBase": "Tippen Sie auf einen Kurs, um die Basiswährung zu ändern",
+    "liveRatesFrom": "Live-Kurse von ExchangeRate-API"
+  },
+  "navigation": {
+    "about": "Über",
+    "backToConverter": "Zurück zu RateVault",
+    "startConverting": "Umrechnung starten"
+  },
+  "converter": {
+    "amount": "Betrag",
+    "from": "Von",
+    "to": "Nach",
+    "convert": "Umrechnen",
+    "result": "Ergebnis",
+    "exchangeRate": "Wechselkurs",
+    "lastUpdated": "Zuletzt aktualisiert",
+    "refreshRates": "Kurse aktualisieren",
+    "addCurrency": "Währung hinzufügen",
+    "pinCurrency": "Währung anheften",
+    "unpinCurrency": "Währung lösen",
+    "baseCurrency": "Basiswährung",
+    "setAsBase": "Als Basis festlegen",
+    "searchCurrency": "Währungen suchen...",
+    "noCurrenciesFound": "Keine Währungen gefunden",
+    "errorLoadingRates": "Fehler beim Laden der Wechselkurse",
+    "retryLoading": "Laden wiederholen",
+    "offlineMode": "Offline-Modus",
+    "ratesExpired": "Kurse könnten veraltet sein",
+    "addCurrencyTitle": "Währung Hinzufügen",
+    "currenciesCount": "150+ Währungen",
+    "baseCurrencyLabel": "BASIS",
+    "currencyCount": "{{filtered}} von {{total}} Währungen",
+    "amountPlaceholder": "0,00"
+  },
+  "statusBar": {
+    "never": "Nie",
+    "hoursMinutesAgo": "vor {{hours}}h {{minutes}}m",
+    "minutesAgo": "vor {{minutes}}m",
+    "justNow": "Gerade eben",
+    "offlineMode": "Offline",
+    "ratesExpired": "Kurse abgelaufen",
+    "online": "Online",
+    "lastUpdated": "Zuletzt aktualisiert",
+    "updated": "Aktualisiert",
+    "refreshTitle": "Wechselkurse aktualisieren",
+    "tryRefreshTitle": "Versuche Kurse zu aktualisieren",
+    "syncing": "Synchronisiere...",
+    "refresh": "Aktualisieren",
+    "tryRefresh": "Versuche zu aktualisieren",
+    "sync": "Synchronisieren"
+  },
+  "calculator": {
+    "title": "Rechner",
+    "tipCalculator": "Trinkgeldrechner",
+    "clear": "Löschen",
+    "equals": "Gleich",
+    "billAmount": "Rechnungsbetrag",
+    "tipPercent": "Trinkgeld %",
+    "customTip": "Benutzerdefiniert",
+    "tipAmount": "Trinkgeld",
+    "total": "Gesamt",
+    "calculation": "Berechnung:",
+    "selectCurrency": "Währung auswählen",
+    "presets": "Voreinstellungen"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "language": "Sprache",
+    "numberSystem": "Zahlensystem",
+    "international": "International",
+    "indian": "Indisch",
+    "theme": "Design",
+    "darkMode": "Dunkler Modus",
+    "notifications": "Benachrichtigungen",
+    "privacy": "Datenschutz"
+  },
+  "numberSystemToggle": {
+    "intl": "Intl",
+    "in": "IN",
+    "switchTo": "Zu {{system}} System wechseln"
+  },
+  "common": {
+    "loading": "Laden...",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "close": "Schließen",
+    "apply": "Anwenden",
+    "reset": "Zurücksetzen",
+    "search": "Suchen",
+    "select": "Auswählen",
+    "none": "Keine",
+    "all": "Alle",
+    "yes": "Ja",
+    "no": "Nein",
+    "testConnectivity": "Echte Internetverbindung Testen"
+  },
+  "donate": {
+    "title": "Entwicklung unterstützen",
+    "description": "Helfen Sie, dieses Projekt kostenlos und open source zu halten",
+    "buyMeCoffee": "Kauf mir einen Kaffee",
+    "monthly": "Monatliche Unterstützung",
+    "oneTime": "Einmalige Unterstützung"
+  },
+  "seo": {
+    "title": "Währungsrechner Pro - Echtzeit-Wechselkurse",
+    "description": "Professioneller Währungsrechner mit Echtzeit-Wechselkursen, Offline-Unterstützung und schöner Benutzeroberfläche. Konvertieren Sie zwischen 170+ Währungen sofort.",
+    "keywords": "währungsrechner, wechselkurse, forex, währungstausch, geldkonverter, echtzeit-kurse",
+    "structuredData": {
+      "name": "Währungsrechner Pro",
+      "description": "Professioneller Währungsrechner mit Echtzeit-Wechselkursen und Offline-Unterstützung",
+      "author": "Währungsrechner Pro Team",
+      "feature1": "Echtzeit-Wechselkurse",
+      "feature2": "Offline-Unterstützung",
+      "feature3": "170+ Währungen",
+      "feature4": "Progressive Web-App",
+      "feature5": "Mobile-responsive Design",
+      "feature6": "Kostenlos ohne Registrierung",
+      "feature7": "Plattformübergreifende Kompatibilität",
+      "feature8": "Präzise Währungsberechnungen"
+    }
+  },
+  "miniCalculator": {
+    "title": "Rechner",
+    "openCalculator": "Rechner öffnen",
+    "calc": "Rechner",
+    "calculatorTab": "Rechner",
+    "tipTab": "Trinkgeldrechner",
+    "applyResultTo": "Ergebnis anwenden auf:",
+    "clear": "Löschen",
+    "pinCurrenciesFirst": "Pinnen Sie zuerst einige Währungen, um diese Funktion zu nutzen",
+    "applyXToY": "{{result}} auf {{currency}} anwenden",
+    "selectCurrencyFirst": "Wählen Sie zuerst eine Währung",
+    "billAmount": "Rechnungsbetrag",
+    "enterBillAmount": "Rechnungsbetrag eingeben",
+    "currency": "Währung",
+    "tipPercentage": "Trinkgeld-Prozentsatz",
+    "customPercent": "Benutzerdefiniert %",
+    "apply": "Anwenden",
+    "resetTipCalculator": "Rechner Zurücksetzen",
+    "billAmountLabel": "Rechnungsbetrag",
+    "tipLabel": "Trinkgeld",
+    "calculation": "Berechnung:",
+    "totalLabel": "Gesamt"
+  },
+  "debug": {
+    "current": "Aktuell",
+    "title": "Titel",
+    "toggleLang": "DE/EN wechseln"
+  },
+  "about": {
+    "title": "Über den Währungsrechner",
+    "heroTitle": "Der Währungsrechner, den Sie wirklich verwenden möchten",
+    "subtitle": "Der Währungsrechner, den Sie wirklich verwenden möchten",
+    "description": "Ein einfacher Währungsrechner mit Offline-Unterstützung, integriertem Rechner und mehreren Zahlenformaten. Schnell, zuverlässig und privat.",
+    "freeOpenSource": "Kostenlos und Open Source",
+    "freeDescription": "Kostenloser Währungsrechner ohne Werbung oder Tracking. Der Quellcode ist für jeden verfügbar, um ihn zu überprüfen, zu ändern oder daraus zu lernen.",
+    "features": {
+      "title": "Hauptfunktionen",
+      "subtitle": "Einfache Funktionen für die tägliche Währungsumrechnung",
+      "fast": "Schnell",
+      "fastDesc": "Sofortige Umrechnungen mit schnellem Laden",
+      "currencies": "150+ Währungen",
+      "currenciesDesc": "Umfassende globale Währungsunterstützung",
+      "privacy": "Datenschutz zuerst",
+      "privacyDesc": "Kein Tracking, keine Werbung, Ihre Daten bleiben privat",
+      "offline": "Funktioniert offline",
+      "offlineDesc": "Als App installieren, funktioniert ohne Internet",
+      "fresh": "Immer aktuell",
+      "freshDesc": "Aktualisiert Wechselkurse automatisch",
+      "rich": "Reiche Funktionen",
+      "richDesc": "Rechner, Zahlensysteme, Favoriten anheften",
+      "realTimeRates": "Echtzeit-Wechselkurse mit automatischen Updates",
+      "offlineSupport": "Funktioniert perfekt offline nach Installation",
+      "multiCurrency": "Unterstützung für 170+ Weltwährungen",
+      "pwaInstall": "Installation als Progressive Web App",
+      "responsive": "Mobile-first responsives Design",
+      "noAds": "Völlig kostenlos ohne Werbung oder Tracking",
+      "crossPlatform": "Funktioniert auf allen Geräten und Browsern",
+      "calculator": "Eingebauter Rechner mit Trinkgeldrechner",
+      "numberSystems": "Internationale und indische Zahlensysteme",
+      "smartPinning": "Lieblingswährungen für schnellen Zugriff anheften",
+      "autoRefresh": "Automatische Kursaktualisierung alle 30 Minuten",
+      "securePrivate": "Ihre Daten bleiben privat - keine Serverspeicherung",
+      "fastLoading": "Optimiert für Geschwindigkeit mit sofortigem Start",
+      "modernUI": "Saubere, intuitive Benutzeroberfläche",
+      "accessibility": "Tastaturkürzel und Screenreader-Unterstützung",
+      "caching": "Intelligente Zwischenspeicherung für zuverlässige Offline-Leistung"
+    },
+    "uniqueFeatures": {
+      "title": "Was es besonders macht",
+      "subtitle": "Funktionen, die diesen Währungsrechner auszeichnen",
+      "calculator": "Integrierter Rechner",
+      "calculatorDesc": "Mini-Rechner, der sich in Währungsumrechnungen integriert. Führen Sie Berechnungen durch und verwenden Sie die Ergebnisse direkt in Währungsfeldern.",
+      "numberSystem": "Zahlensystem-Umschaltung",
+      "numberSystemDesc": "Wechseln Sie zwischen internationalen (1.000.000) und indischen (10,00,000) Zahlenformaten mit dauerhafter Präferenzspeicherung.",
+      "installApp": "Als App installieren",
+      "installAppDesc": "Zum Startbildschirm Ihres Geräts hinzufügen und wie eine native App verwenden. Funktioniert auch offline.",
+      "smartBase": "Intelligente Basiswährung",
+      "smartBaseDesc": "Tippen Sie auf einen beliebigen Wechselkurs, um ihn als Basiswährung festzulegen. Dynamische Umrechnungskurse werden automatisch für alle gepinnten Währungen aktualisiert.",
+      "timezone": "Zeitzonenkonvertierung",
+      "timezoneDesc": "Zeit zwischen verschiedenen Zeitzonen weltweit umrechnen. Sehen Sie, wie spät es überall ist, wenn Sie Anrufe oder Reisen planen.",
+      "updates": "Automatische Updates",
+      "updatesDesc": "Aktualisiert automatisch Wechselkurse und Zeitzonendaten. Erhalten Sie immer die aktuellsten Informationen ohne manuelle Aktualisierung."
+    },
+    "useCases": {
+      "title": "Häufige Anwendungsfälle",
+      "subtitle": "Einfache Währungsumrechnung für alltägliche Szenarien",
+      "travel": "Reiseplanung",
+      "travelDesc": "Währungen für Reisebudget und Ausgabenplanung umrechnen. Prüfen Sie, wie viel Ihr Geld in verschiedenen Ländern wert ist.",
+      "travelExamples": [
+        "Sehen Sie, was $500 in Euro entspricht",
+        "Hotelpreis in Ihre Währung umrechnen",
+        "Prüfen Sie, wie viel 1000 Yen wert sind",
+        "Beliebige Beträge zwischen Währungen umrechnen"
+      ],
+      "shopping": "Online-Shopping",
+      "shoppingDesc": "Preise von internationalen Websites in Ihre lokale Währung umrechnen. Kosten zwischen verschiedenen Ländern vergleichen.",
+      "shoppingExamples": [
+        "¥15.000 in Ihre Währung umrechnen",
+        "Sehen Sie, was £50 in Dollar kostet",
+        "Beliebige ausländische Preise umrechnen",
+        "Wechselkurse prüfen"
+      ],
+      "finance": "Persönliche Finanzen",
+      "financeDesc": "Währungen für persönliches Geldmanagement, Überweisungen und internationale Transaktionen umrechnen.",
+      "financeExamples": [
+        "Gehaltsbeträge umrechnen",
+        "Wechselkurse für Überweisungen prüfen",
+        "Ausländische Kontowerte sehen",
+        "Beliebige Geldbeträge umrechnen"
+      ],
+      "work": "Remote-Arbeit",
+      "workDesc": "Kundenzahlungen und Projekttarife bei der Arbeit mit internationalen Kunden umrechnen.",
+      "workExamples": [
+        "$50/Stunde Tarif umrechnen",
+        "Zahlung in lokaler Währung sehen",
+        "Projektwerte prüfen",
+        "Rechnungsbeträge umrechnen"
+      ],
+      "timezone": "Internationale Meetings & Anrufe",
+      "timezoneDesc": "Planen Sie Meetings und Anrufe über verschiedene Zeitzonen hinweg. Finden Sie die perfekte Zeit, um sich mit Kollegen, Kunden und Freunden weltweit zu verbinden.",
+      "timezoneExamples": [
+        "9 Uhr Meeting in Tokio-Zeit planen",
+        "Beste Zeit für US-Europa Anrufe finden",
+        "Konferenzzeit in lokale Zeit umrechnen",
+        "Internationale Team-Meetings planen"
+      ],
+      "quickMath": "Schnelle Mathematik und Umrechnung",
+      "quickMathDesc": "Verwenden Sie den integrierten Rechner für Mathematik und konvertieren Sie dann das Ergebnis in jede Währung.",
+      "quickMathExamples": [
+        "Trinkgeldbetrag berechnen, dann umrechnen",
+        "Mathematik machen, Ergebnis auf Währung anwenden",
+        "Beträge aufteilen und umrechnen",
+        "Schnelle Berechnungen mit Währung"
+      ]
+    },
+    "stats": {
+      "currenciesSupported": "Unterstützte Währungen",
+      "decimalPrecision": "Dezimalgenauigkeit",
+      "cacheDuration": "Cache-Dauer",
+      "privacyFocused": "Datenschutzorientiert"
+    },
+    "links": {
+      "viewGithub": "Auf GitHub anzeigen",
+      "exchangeRateApi": "ExchangeRate-API",
+      "donate": "Entwicklung unterstützen"
+    },
+    "footerText": "Mit ❤️ für weltweite Währungsumrechnungsbedürfnisse gemacht"
+  },
+  "aboutPage": {
+    "aboutTitle": "Über den Rechner",
+    "aboutFeatures": "Funktionen"
+  },
+  "errors": {
+    "networkError": "Netzwerkverbindungsfehler",
+    "rateLoadError": "Laden der Wechselkurse fehlgeschlagen",
+    "invalidAmount": "Bitte geben Sie einen gültigen Betrag ein",
+    "currencyNotFound": "Währung nicht gefunden",
+    "calculationError": "Berechnungsfehler",
+    "tryAgain": "Erneut versuchen"
+  },
+  "errorBoundary": {
+    "somethingWentWrong": "Etwas ist schief gelaufen",
+    "unexpectedHappened": "Ein unerwarteter Fehler ist aufgetreten",
+    "errorDetails": "Fehlerdetails",
+    "tryAgain": "Erneut versuchen",
+    "refreshPage": "Seite aktualisieren"
+  },
+  "refreshWarning": {
+    "title": "Seitenaktualisierung erkannt",
+    "message": "Aktualisieren wird Ihre Daten nicht aktualisieren!",
+    "explanation": "RateVault läuft auf zwischengespeicherten Daten für Offline-Unterstützung. Eine normale Aktualisierung wird keine neuen Wechselkurse abrufen oder die App aktualisieren.",
+    "tip": "Tipp: Verwenden Sie die Aktualisierungsschaltfläche in der Statusleiste, um Wechselkurse zu aktualisieren",
+    "hardRefresh": "Harte Aktualisierung (Cache löschen)",
+    "hardRefreshing": "Harte Aktualisierung...",
+    "normalRefresh": "Trotzdem aktualisieren (Cache behalten)",
+    "stayHere": "Hier bleiben",
+    "note": "Diese Nachricht wird nur einmal pro Sitzung angezeigt"
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "subtitle": "Ihr Datenschutz ist unsere Priorität. Erfahren Sie, wie wir Ihre Daten schützen.",
+    "backToApp": "Zurück zum Währungsrechner",
+    "lastUpdated": "Zuletzt aktualisiert",
+    "updateDate": "29. Juli 2025",
+    "overview": {
+      "title": "Datenschutz-Übersicht",
+      "description": "RateVault wurde mit Datenschutz als Grundprinzip entwickelt. Wir sammeln minimale Daten, speichern alles lokal auf Ihrem Gerät und verfolgen oder überwachen niemals Ihre Nutzung. Diese Richtlinie erklärt unsere Datenschutzpraktiken im Detail."
+    },
+    "dataCollection": {
+      "title": "Informationen, die wir sammeln",
+      "localStorage": {
+        "title": "Nur lokale Speicherung",
+        "description": "Alle Ihre Daten werden lokal im Speicher Ihres Browsers gespeichert. Wir senden diese Daten niemals an externe Server.",
+        "items": [
+          "Ihre angehefteten Währungen und Einstellungen",
+          "Benutzerdefinierte Wechselkurse für Szenarien",
+          "App-Einstellungen und Anzeigeeinstellungen",
+          "Zwischengespeicherte Wechselkurse für Offline-Nutzung",
+          "Sprach- und Zahlensystemeinstellungen"
+        ]
+      },
+      "noPersonalData": {
+        "title": "Keine persönlichen Informationen",
+        "description": "Wir sammeln, speichern oder verarbeiten keine persönlichen Informationen wie Namen, E-Mail-Adressen, Telefonnummern oder Standortdaten."
+      },
+      "noTracking": {
+        "title": "Kein Tracking oder Analyse",
+        "description": "Wir verwenden keine Cookies, Analyse-Tools, Tracking-Pixel oder andere Überwachungstechnologien, um Ihr Verhalten zu verfolgen."
+      }
+    },
+    "dataUsage": {
+      "title": "Wie wir Ihre Daten verwenden",
+      "description": "Alle lokal gespeicherten Daten werden ausschließlich zur Verbesserung Ihrer Erfahrung verwendet:",
+      "purposes": [
+        "Ihre angehefteten Währungen zwischen Sitzungen merken",
+        "Benutzerdefinierte Wechselkurse für \"Was-wäre-wenn\"-Szenarien speichern",
+        "Wechselkurse für Offline-Funktionalität zwischenspeichern",
+        "Ihre Sprach- und Anzeigeeinstellungen bewahren",
+        "PWA-Funktionen wie Offline-Zugriff ermöglichen"
+      ]
+    },
+    "thirdParty": {
+      "title": "Drittanbieter-Services",
+      "exchangeApi": {
+        "title": "Wechselkurs-API",
+        "description": "Wir verwenden ExchangeRate-API, um aktuelle Wechselkurse abzurufen. Dieser Service kann minimale Daten für Rate-Limiting sammeln. Wir empfehlen, deren Datenschutzerklärung zu überprüfen:",
+        "linkText": "ExchangeRate-API Datenschutzerklärung ansehen"
+      }
+    },
+    "security": {
+      "title": "Datensicherheit",
+      "description": "Ihre Datensicherheit wird durch lokale Speicherung und Privacy-by-Design-Prinzipien gewährleistet:",
+      "measures": [
+        "Alle Daten werden lokal auf Ihrem Gerät gespeichert",
+        "Keine Datenübertragung an unsere Server",
+        "HTTPS-Verschlüsselung für API-Anfragen",
+        "Keine Benutzerkonten oder Authentifizierung erforderlich",
+        "Vollständige Benutzerkontrolle über Datenlöschung"
+      ]
+    },
+    "pwa": {
+      "title": "Progressive Web App Funktionen",
+      "description": "Wenn Sie RateVault als PWA installieren, können zusätzliche Daten für Offline-Funktionalität zwischengespeichert werden:",
+      "offlineData": {
+        "title": "Offline-Cache",
+        "description": "App-Ressourcen und aktuelle Wechselkurse werden lokal zwischengespeichert, um Offline-Nutzung zu ermöglichen. Dieser Cache wird automatisch verwaltet und kann über Ihre Browser-Einstellungen gelöscht werden."
+      }
+    },
+    "rights": {
+      "title": "Ihre Datenrechte",
+      "description": "Da alle Daten lokal auf Ihrem Gerät gespeichert werden, haben Sie vollständige Kontrolle:",
+      "list": [
+        "Alle gespeicherten Daten über Browser-Entwicklertools einsehen",
+        "Alle App-Daten durch Löschen des Browser-Speichers entfernen",
+        "Ihre Einstellungen bei Bedarf manuell exportieren",
+        "Kontrollieren, welche Daten über App-Einstellungen gespeichert werden",
+        "PWA deinstallieren, um alle zwischengespeicherten Daten zu entfernen"
+      ]
+    },
+    "changes": {
+      "title": "Änderungen an dieser Richtlinie",
+      "description": "Wir können diese Datenschutzerklärung regelmäßig aktualisieren. Alle Änderungen werden auf dieser Seite mit einem aktualisierten Überarbeitungsdatum veröffentlicht. Wir ermutigen Sie, diese Richtlinie regelmäßig zu überprüfen."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "description": "Wenn Sie Fragen zu dieser Datenschutzerklärung oder unseren Datenschutzpraktiken haben, kontaktieren Sie uns bitte über unser GitHub-Repository:",
+      "github": "GitHub-Repository - Währungsrechner"
+    }
+  }
+}

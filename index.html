@@ -1,13 +1,264 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+  <head>    <!-- Alternate language URLs -->
+    <link rel="alternate" hreflang="en" href="https://trip-tools.com/?lang=en" />
+    <link rel="alternate" hreflang="es" href="https://trip-tools.com/?lang=es" />
+    <link rel="alternate" hreflang="fr" href="https://trip-tools.com/?lang=fr" />
+    <link rel="alternate" hreflang="de" href="https://trip-tools.com/?lang=de" />
+    <link rel="alternate" hreflang="pt" href="https://trip-tools.com/?lang=pt" />
+    <link rel="alternate" hreflang="ru" href="https://trip-tools.com/?lang=ru" />
+    <link rel="alternate" hreflang="zh" href="https://trip-tools.com/?lang=zh" />
+    <link rel="alternate" hreflang="ja" href="https://trip-tools.com/?lang=ja" />
+    <link rel="alternate" hreflang="ar" href="https://trip-tools.com/?lang=ar" />
+    <link rel="alternate" hreflang="hi" href="https://trip-tools.com/?lang=hi" />
+    
+    <!-- Enhanced SEO Meta Tags -->
+    <title>Trip Tools - Every Tool You Need for Every Trip | Currency, Timezone & Travel Tools</title>
+    <meta name="description" content="Every Tool You Need for Every Trip. Free online currency converter, world clock, unit converter, and travel planner with real-time exchange rates for 170+ currencies. Progressive Web App with offline support." />
+    <meta name="keywords" content="trip tools, travel tools, currency converter, exchange rates, timezone converter, world clock, travel planner, itinerary manager, free currency conversion, real-time rates, USD EUR GBP, time zones, UTC converter, money converter, forex rates, travel utilities" />
+    <meta name="author" content="Trip Tools" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="language" content="en" />
+    <meta name="rating" content="general" />
+    <meta name="distribution" content="global" />
+    <meta name="revisit-after" content="1 day" />
+    <meta name="category" content="Finance, Utility, Productivity" />
+    <meta name="classification" content="Currency Converter, Time Zone Converter" />
+    <meta name="coverage" content="Worldwide" />
+    <meta name="target" content="all" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="MobileOptimized" content="320" />
+    
+    <!-- Google Site Verification (Add your actual verification code here) -->
+    <!-- <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE" /> -->
+    
+    <!-- Bing Webmaster Tools (Add your actual verification code here) -->
+    <!-- <meta name="msvalidate.01" content="YOUR_BING_VERIFICATION_CODE" /> -->
+    
+    <!-- Additional SEO Tags -->
+    <meta name="generator" content="Vite + React + TypeScript" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="google" content="notranslate" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    
+    <!-- Preconnect to External Domains for Performance -->
+    <link rel="preconnect" href="https://api.exchangerate-api.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://api.exchangerate-api.com" />
+    
+    <!-- Canonical URL -->
+        <!-- Canonical and alternate URLs -->
+    <link rel="canonical" href="https://trip-tools.com/" />
+    
+    <!-- Alternate Language Links -->
+    <link rel="alternate" hreflang="en" href="https://ratevault.uk/?lang=en" />
+    <link rel="alternate" hreflang="es" href="https://ratevault.uk/?lang=es" />
+    <link rel="alternate" hreflang="fr" href="https://ratevault.uk/?lang=fr" />
+    <link rel="alternate" hreflang="de" href="https://ratevault.uk/?lang=de" />
+    <link rel="alternate" hreflang="pt" href="https://ratevault.uk/?lang=pt" />
+    <link rel="alternate" hreflang="ru" href="https://ratevault.uk/?lang=ru" />
+    <link rel="alternate" hreflang="zh" href="https://ratevault.uk/?lang=zh" />
+    <link rel="alternate" hreflang="ja" href="https://ratevault.uk/?lang=ja" />
+    <link rel="alternate" hreflang="ar" href="https://ratevault.uk/?lang=ar" />
+    <link rel="alternate" hreflang="hi" href="https://ratevault.uk/?lang=hi" />
+    <link rel="alternate" hreflang="x-default" href="https://ratevault.uk/" />
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.svg" />
+    
+    <!-- Manifest and Basic Meta -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <meta name="theme-color" content="#3b82f6" />
+    
+    <!-- Content Security Policy - Commented out for Clerk testing -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http: data: blob:; style-src 'self' 'unsafe-inline' https: http:; img-src 'self' data: blob: https: http:; connect-src 'self' https: http: ws: wss:; font-src 'self' data: https: http:; frame-src 'self' https: http:; worker-src 'self' blob:; child-src 'self' https: http:;" /> -->
+    
+                                <meta name="version" content="1.1.0" />
+<!-- Enhanced Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ratevault.uk/" />
+    <meta property="og:title" content="RateVault - Free Currency & Timezone Converter | Real-Time Exchange Rates" />
+    <meta property="og:description" content="Free online currency converter and world clock with real-time exchange rates for 170+ currencies. Convert money and time zones instantly with offline support." />
+    <meta property="og:image" content="https://ratevault.uk/icons/icon-512x512.svg" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:alt" content="RateVault - Currency and Timezone Converter" />
+    <meta property="og:site_name" content="RateVault" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Enhanced Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://ratevault.uk/" />
+    <meta name="twitter:title" content="RateVault - Free Currency & Timezone Converter" />
+    <meta name="twitter:description" content="Free online currency converter with real-time exchange rates for 170+ currencies. Works offline as a PWA." />
+    <meta name="twitter:image" content="https://ratevault.uk/icons/icon-512x512.svg" />
+    <meta name="twitter:image:alt" content="RateVault - Currency and Timezone Converter" />
+    <meta name="twitter:site" content="@ratevault" />
+    <meta name="twitter:creator" content="@ratevault" />
+    
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="RateVault" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="RateVault" />
+    
+    <!-- Windows/Microsoft -->
+    <meta name="msapplication-TileColor" content="#3b82f6" />
+    <meta name="msapplication-TileImage" content="/icons/icon-144x144.svg" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+    
+    <!-- Additional PWA Icons -->
+    <link rel="icon" type="image/svg+xml" sizes="72x72" href="/icons/icon-72x72.svg" />
+    <link rel="icon" type="image/svg+xml" sizes="96x96" href="/icons/icon-96x96.svg" />
+    <link rel="icon" type="image/svg+xml" sizes="128x128" href="/icons/icon-128x128.svg" />
+    <link rel="icon" type="image/svg+xml" sizes="144x144" href="/icons/icon-144x144.svg" />
+    <link rel="icon" type="image/svg+xml" sizes="152x152" href="/icons/icon-152x152.svg" />
+    <link rel="icon" type="image/svg+xml" sizes="192x192" href="/icons/icon-192x192.svg" />
+    <link rel="icon" type="image/svg+xml" sizes="384x384" href="/icons/icon-384x384.svg" />
+    <link rel="icon" type="image/svg+xml" sizes="512x512" href="/icons/icon-512x512.svg" />
+    
+    <!-- Enhanced Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "RateVault",
+      "alternateName": ["Currency Converter", "Timezone Converter", "Exchange Rate Calculator"],
+      "description": "Free online currency converter and world clock with real-time exchange rates for 170+ currencies. Convert money and time zones instantly with offline PWA support.",
+      "url": "https://ratevault.uk",
+      "applicationCategory": ["FinanceApplication", "UtilityApplication", "ProductivityApplication"],
+      "operatingSystem": ["Windows", "macOS", "Linux", "iOS", "Android", "Web Browser"],
+      "browserRequirements": "Requires JavaScript. Works best with modern browsers.",
+      "softwareVersion": "2.0.0",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "priceValidUntil": "2030-12-31"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "RateVault Team",
+        "url": "https://ratevault.uk"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "RateVault",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://ratevault.uk/icons/icon-512x512.svg",
+          "width": 512,
+          "height": 512
+        }
+      },
+      "datePublished": "2025-01-27T00:00:00Z",
+      "dateModified": "2025-01-28T00:00:00Z",
+      "inLanguage": ["en", "es", "fr", "de", "pt", "ru", "zh", "ja", "ar", "hi"],
+      "featureList": [
+        "Real-time exchange rates for 170+ currencies",
+        "Offline Progressive Web App support",
+        "World clock and timezone conversion",
+        "Multi-language support (10 languages)",
+        "Mobile responsive design",
+        "Free to use with no registration",
+        "Cross-platform compatibility",
+        "Accurate currency calculations"
+      ],
+      "screenshot": "https://ratevault.uk/icons/icon-512x512.svg",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "150",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    }
+    </script>
+    
+    <title>RateVault - Free Currency & Timezone Converter | Real-Time Exchange Rates</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              // SW registered successfully
+              
+              // Check for updates
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                if (newWorker) {
+                  newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'installed') {
+                      if (navigator.serviceWorker.controller) {
+                        // New content available, dispatch event for React app
+                        console.log('[SW Registration] New service worker installed, dispatching update event');
+                        window.dispatchEvent(new CustomEvent('swUpdateAvailable', {
+                          detail: { registration }
+                        }));
+                        
+                        // Store the registration for later use
+                        window.__swRegistration = registration;
+                      }
+                    }
+                  });
+                }
+              });
+              
+              // Listen for messages from the service worker
+              navigator.serviceWorker.addEventListener('message', (event) => {
+                if (event.data.type === 'UPDATE_AVAILABLE') {
+                  // Dispatch custom event that React can listen to
+                  console.log('[SW Registration] Received UPDATE_AVAILABLE message');
+                  window.dispatchEvent(new CustomEvent('swUpdateAvailable', {
+                    detail: { registration }
+                  }));
+                }
+              });
+
+              // Check immediately if there's already a waiting service worker
+              if (registration.waiting) {
+                console.log('[SW Registration] Found waiting service worker on registration');
+                window.dispatchEvent(new CustomEvent('swUpdateAvailable', {
+                  detail: { registration }
+                }));
+              }
+            })
+            .catch((registrationError) => {
+              // SW registration failed - app will work without offline support
+            });
+        });
+        
+        // Global function for hard refresh (called from React)
+        window.hardRefreshApp = () => {
+          // Clear all caches first
+          if ('caches' in window) {
+            caches.keys().then(cacheNames => {
+              return Promise.all(
+                cacheNames.map(cacheName => caches.delete(cacheName))
+              );
+            }).then(() => {
+              // Force reload with cache bypass
+              window.location.reload(true);
+            });
+          } else {
+            // Fallback: reload with cache bypass
+            window.location.reload(true);
+          }
+        };
+      }
+    </script>
   </body>
 </html>

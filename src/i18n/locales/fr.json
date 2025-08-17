@@ -1,0 +1,487 @@
+{
+  "featureRequest": {
+    "githubTitle": "Issues GitHub",
+    "githubDescription": "Créer un issue dans notre dépôt GitHub",
+    "githubAction": "Ouvrir GitHub",
+    "quickTitle": "Commentaires Rapides",
+    "quickDescription": "Envoyer un message rapide avec vos suggestions",
+    "quickAction": "Message Rapide",
+    "historicalTitle": "Graphiques de Taux Historiques",
+    "historicalDescription": "Voir les tendances des devises dans le temps",
+    "alertsTitle": "Alertes de Taux",
+    "alertsDescription": "Recevez des notifications lorsque les taux atteignent votre cible",
+    "cryptoTitle": "Support des Cryptomonnaies",
+    "cryptoDescription": "Convertir entre cryptomonnaies et devises fiduciaires",
+    "portfoliosTitle": "Portefeuilles Multiples",
+    "portfoliosDescription": "Sauvegarder différentes combinaisons de devises",
+    "exportTitle": "Exporter les Données",
+    "exportDescription": "Exporter l'historique des conversions vers CSV",
+    "darkModeTitle": "Mode Sombre",
+    "darkModeDescription": "Basculer entre les thèmes clairs et sombres"
+  },
+  "donateButton": {
+    "buyMeCoffee": "Offrez-moi un café",
+    "supportWithCoffee": "Soutenir avec un café",
+    "supportThisApp": "Soutenir cette App",
+    "supportProject": "Soutenir ce Projet",
+    "helpfulMessage": "Cela vous a-t-il été utile ?",
+    "anySupport": "Tout soutien est apprécié !",
+    "arrow": "→"
+  },
+  "pwaStatus": {
+    "installApp": "Installer l'App",
+    "install": "Installer",
+    "installable": "Installable",
+    "installTitle": "Installer cette app pour un accès rapide",
+    "installHint": "Cette app peut être installée ! Cherchez 'Installer' ou 'Ajouter à l'écran d'accueil' dans le menu de votre navigateur.",
+    "updateAvailable": "Mise à Jour Disponible",
+    "update": "Mettre à jour",
+    "refresh": "Actualiser",
+    "clear": "Effacer",
+    "installed": "Installé",
+    "testUpdate": "Tester la Mise à Jour",
+    "clearCacheOfflineTitle": "Vider le cache hors ligne ?",
+    "clearCacheOfflineDesc": "Vous êtes actuellement <strong>hors ligne</strong>. Vider le cache supprimera toutes les données stockées y compris :",
+    "clearCacheOfflineList1": "Taux de change mis en cache",
+    "clearCacheOfflineList2": "Fonctionnalité hors ligne",
+    "clearCacheOfflineList3": "Données de devises précédemment chargées",
+    "clearCacheOfflineWarn": "⚠️ L'app peut ne pas fonctionner correctement sans connexion internet après avoir vidé le cache.",
+    "cancel": "Annuler",
+    "clearAnyway": "Vider Quand Même",
+    "clearCacheOfflineMessage": "Vous êtes actuellement hors ligne. Vider le cache supprimera toutes les données stockées et l'app peut ne pas fonctionner correctement sans connexion internet.",
+    "offlineTitle": "Vous êtes Hors Ligne",
+    "offlineDesc": "L'app fonctionne avec des données en cache. Certaines fonctionnalités peuvent être limitées jusqu'à ce que vous vous reconnectiez à internet."
+  },
+  "updatePrompt": {
+    "title": "Nouvelle Version Disponible",
+    "newVersionReady": "Une nouvelle version de l'app est prête à être installée",
+    "updateDetails": "Cette mise à jour peut inclure des corrections de bugs, des améliorations de performance et de nouvelles fonctionnalités.",
+    "dataCachedTitle": "Vos données sont sauvegardées en cache de manière sécurisée",
+    "dataCachedDesc1": "• Les taux de change et préférences sont stockés localement",
+    "dataCachedDesc2": "• Toutes vos devises épinglées seront préservées",
+    "cacheSize": "• Taille du cache : {{size}}",
+    "offlineNotice": "Vous êtes actuellement hors ligne - les données en cache maintiennent l'app en fonctionnement",
+    "internetRequired": "Accès Internet Requis",
+    "internetWarning": "Ne videz le cache et rechargez que lorsque vous avez une connexion internet stable. Cela supprimera toutes les données en cache.",
+    "currentlyOffline": "Vous êtes actuellement hors ligne",
+    "clearCacheAndReload": "Vider le Cache et Rechargement Complet",
+    "clearingAndReloading": "Vidage du Cache et Rechargement...",
+    "useExistingVersion": "Utiliser la Version Existante",
+    "whatHappensOnUpdate": "Ce qui se passe quand vous videz le cache et rechargez :",
+    "clearAllCaches": "• Toutes les données en cache seront supprimées",
+    "reloadWithNewVersion": "• L'app sera rechargée avec la dernière version",
+    "fetchFreshData": "• De nouveaux taux de change seront récupérés",
+    "preferencesPreserved": "• Vos préférences seront préservées",
+    "updateNow": "Mettre à Jour Maintenant",
+    "updating": "Mise à jour...",
+    "updateLater": "Mettre à Jour Plus Tard",
+    "whatHappens": "Ce qui se passe lors de la mise à jour :",
+    "reload": "• L'app sera rechargée avec la dernière version",
+    "dataSafe": "• Vos données en cache et préférences restent sécurisées",
+    "freshRates": "• De nouveaux taux de change seront récupérés quand vous serez en ligne",
+    "allPreserved": "• Toutes les fonctionnalités seront préservées"
+  },
+  "app": {
+    "title": "Trip Tools",
+    "subtitle": "Tous les Outils Dont Vous Avez Besoin pour Chaque Voyage",
+    "loading": "Chargement de Trip Tools",
+    "loadingSubtitle": "Récupération des derniers taux de change",
+    "noRatesAvailable": "Aucun Taux de Change Disponible",
+    "noRatesMessage": "Impossible de charger les taux de change. Veuillez vérifier votre connexion internet et réessayer.",
+    "retrying": "Nouvelle tentative...",
+    "retry": "Réessayer",
+    "statusInfo": "Mis en cache localement • Mises à jour automatiques • Précision à 5 décimales",
+    "ratesRelativeTo": "Taux relatifs à",
+    "tapRateToChangeBase": "Appuyez sur n'importe quel taux pour changer la devise de base",
+    "liveRatesFrom": "Taux en direct de ExchangeRate-API"
+  },
+  "navigation": {
+    "about": "À propos",
+    "backToConverter": "Retour à RateVault",
+    "startConverting": "Commencer à Convertir"
+  },
+  "converter": {
+    "amount": "Montant",
+    "from": "De",
+    "to": "À",
+    "convert": "Convertir",
+    "result": "Résultat",
+    "exchangeRate": "Taux de Change",
+    "lastUpdated": "Dernière mise à jour",
+    "refreshRates": "Actualiser les Taux",
+    "addCurrency": "Ajouter une Devise",
+    "pinCurrency": "Épingler la Devise",
+    "unpinCurrency": "Désépingler la Devise",
+    "baseCurrency": "Devise de Base",
+    "setAsBase": "Définir comme Base",
+    "searchCurrency": "Rechercher des devises...",
+    "noCurrenciesFound": "Aucune devise trouvée",
+    "errorLoadingRates": "Erreur lors du chargement des taux de change",
+    "retryLoading": "Réessayer le Chargement",
+    "offlineMode": "Mode Hors Ligne",
+    "ratesExpired": "Les taux peuvent être obsolètes",
+    "addCurrencyTitle": "Ajouter une Devise",
+    "currenciesCount": "150+ devises",
+    "baseCurrencyLabel": "BASE",
+    "currencyCount": "{{filtered}} sur {{total}} devises",
+    "amountPlaceholder": "0,00"
+  },
+  "statusBar": {
+    "never": "Jamais",
+    "hoursMinutesAgo": "il y a {{hours}}h {{minutes}}m",
+    "minutesAgo": "il y a {{minutes}}m",
+    "justNow": "À l'instant",
+    "offlineMode": "Hors ligne",
+    "ratesExpired": "Taux expirés",
+    "online": "En ligne",
+    "lastUpdated": "Dernière mise à jour",
+    "updated": "Mis à jour",
+    "refreshTitle": "Actualiser les taux de change",
+    "tryRefreshTitle": "Essayer d'actualiser les taux",
+    "syncing": "Synchronisation...",
+    "refresh": "Actualiser",
+    "tryRefresh": "Essayer d'actualiser",
+    "sync": "Synchroniser"
+  },
+  "calculator": {
+    "title": "Calculatrice",
+    "tipCalculator": "Calculatrice de Pourboires",
+    "clear": "Effacer",
+    "equals": "Égal",
+    "billAmount": "Montant de l'Addition",
+    "tipPercent": "Pourboire %",
+    "customTip": "Personnalisé",
+    "tipAmount": "Pourboire",
+    "total": "Total",
+    "calculation": "Calcul :",
+    "selectCurrency": "Sélectionner une Devise",
+    "presets": "Préréglages"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "language": "Langue",
+    "numberSystem": "Système Numérique",
+    "international": "International",
+    "indian": "Indien",
+    "theme": "Thème",
+    "darkMode": "Mode Sombre",
+    "notifications": "Notifications",
+    "privacy": "Confidentialité"
+  },
+  "numberSystemToggle": {
+    "intl": "Intl",
+    "in": "IN",
+    "switchTo": "Basculer vers le système {{system}}"
+  },
+  "debug": {
+    "current": "Actuel",
+    "title": "Titre",
+    "toggleLang": "Basculer EN/FR"
+  },
+  "about": {
+    "title": "À Propos du Convertisseur de Devises",
+    "heroTitle": "Le Convertisseur de Devises Que Vous Voulez Vraiment Utiliser",
+    "subtitle": "Le Convertisseur de Devises Que Vous Voulez Vraiment Utiliser",
+    "description": "Un convertisseur de devises simple avec support hors ligne, calculatrice intégrée et formats numériques multiples. Rapide, fiable et privé.",
+    "freeOpenSource": "Gratuit et Open Source",
+    "freeDescription": "Convertisseur de devises gratuit sans publicités ni suivi. Le code source est disponible pour que quiconque puisse l'examiner, le modifier ou en apprendre.",
+    "features": {
+      "title": "Fonctionnalités Clés",
+      "subtitle": "Fonctionnalités simples pour la conversion quotidienne de devises",
+      "fast": "Rapide",
+      "fastDesc": "Conversions instantanées avec chargement rapide",
+      "currencies": "150+ Devises",
+      "currenciesDesc": "Support complet des devises mondiales",
+      "calculator": "Calculatrice Intégrée",
+      "calculatorDesc": "Calculatrice intégrée avec calculatrice de pourboires pour les mathématiques rapides et les conversions de devises",
+      "timezone": "Conversion de Fuseau Horaire", 
+      "timezoneDesc": "Convertir l'heure entre différents fuseaux horaires mondiaux",
+      "multilanguage": "Multilingue",
+      "multilanguageDesc": "Support pour 10+ langues avec détection automatique et support RTL",
+      "pwa": "Application Web Progressive",
+      "pwaDesc": "Installer comme application native sur tout appareil, fonctionne hors ligne avec mise en cache du service worker",
+      "offline": "Fonctionne Hors Ligne",
+      "offlineDesc": "Installer comme application, fonctionne sans internet",
+      "design": "Design Moderne",
+      "designDesc": "Interface propre et intuitive optimisée pour mobile et bureau avec design réactif",
+      "realtime": "Mises À Jour Temps Réel",
+      "realtimeDesc": "Taux de change mis à jour en temps réel avec actualisation automatique toutes les 30 minutes",
+      "customizable": "Personnalisable",
+      "customizableDesc": "Personnalisez vos devises préférées et paramètres avec préférences persistantes",
+      "accessible": "Accessible",
+      "accessibleDesc": "Conçu pour être accessible à tous les utilisateurs avec raccourcis clavier et support de lecteur d'écran",
+      "fresh": "Toujours Frais",
+      "freshDesc": "Met à jour les taux de change automatiquement",
+      "rich": "Fonctionnalités Riches",
+      "richDesc": "Calculatrice, systèmes numériques, favoris épinglés"
+    },
+    "uniqueFeatures": {
+      "title": "Ce Qui Le Rend Spécial",
+      "subtitle": "Fonctionnalités qui distinguent ce convertisseur de devises",
+      "calculator": "Calculatrice Intégrée",
+      "calculatorDesc": "Mini calculatrice qui s'intègre avec les conversions de devises. Effectuez des calculs et utilisez directement les résultats dans les champs de devises.",
+      "numberSystem": "Basculement du Système Numérique",
+      "numberSystemDesc": "Basculez entre les systèmes de formatage numérique International (1,000,000) et Indien (10,00,000) avec stockage persistant des préférences.",
+      "installApp": "Installer comme Application",
+      "installAppDesc": "Ajoutez à l'écran d'accueil de votre appareil et utilisez comme une application native. Fonctionne même hors ligne.",
+      "smartBase": "Devise de Base Intelligente",
+      "smartBaseDesc": "Appuyez sur n'importe quel taux de change pour le définir comme devise de base. Les taux de conversion dynamiques se mettent à jour automatiquement pour toutes les devises épinglées.",
+      "timezone": "Conversion de Fuseau Horaire",
+      "timezoneDesc": "Convertissez l'heure entre différents fuseaux horaires mondiaux. Voyez quelle heure il est n'importe où lors de la planification d'appels ou de voyages.",
+      "updates": "Mises à Jour Automatiques",
+      "updatesDesc": "Met à jour automatiquement les taux de change et les données de fuseau horaire. Obtenez toujours les informations les plus récentes sans actualisation manuelle."
+    },
+    "useCases": {
+      "title": "Cas d'Usage Courants",
+      "subtitle": "Conversion simple de devises pour les scénarios quotidiens",
+      "travel": "Planification de Voyage",
+      "travelDesc": "Convertissez les devises pour la budgétisation de voyage et la planification des dépenses. Vérifiez combien vaut votre argent dans différents pays.",
+      "travelExamples": [
+        "Voir ce que 500$ équivaut en euros",
+        "Convertir le prix d'hôtel vers votre devise",
+        "Vérifier combien valent 1000 yens",
+        "Convertir n'importe quel montant entre devises"
+      ],
+      "shopping": "Achats en Ligne",
+      "shoppingDesc": "Convertissez les prix des sites web internationaux vers votre devise locale. Comparez les coûts entre différents pays.",
+      "shoppingExamples": [
+        "Convertir ¥15 000 vers votre devise",
+        "Voir ce que £50 coûte en dollars",
+        "Convertir n'importe quel prix étranger",
+        "Vérifier les taux de change"
+      ],
+      "finance": "Finances Personnelles",
+      "financeDesc": "Convertissez les devises pour la gestion de l'argent personnel, les transferts et les transactions internationales.",
+      "financeExamples": [
+        "Convertir les montants de salaire",
+        "Vérifier les taux de change pour les transferts",
+        "Voir les valeurs de comptes étrangers",
+        "Convertir n'importe quels montants d'argent"
+      ],
+      "work": "Travail à Distance",
+      "workDesc": "Convertissez les paiements clients et les tarifs de projets en travaillant avec des clients internationaux.",
+      "workExamples": [
+        "Convertir le taux de 50$/heure",
+        "Voir le paiement en devise locale",
+        "Vérifier les valeurs de projets",
+        "Convertir les montants de factures"
+      ],
+      "timezone": "Réunions et Appels Internationaux",
+      "timezoneDesc": "Planifiez des réunions et des appels à travers différents fuseaux horaires. Trouvez le moment parfait pour vous connecter avec des collègues, clients et amis du monde entier.",
+      "timezoneExamples": [
+        "Programmer réunion à 9h heure de Tokyo",
+        "Trouver meilleur moment pour appels US-Europe",
+        "Convertir l'heure de conférence en heure locale",
+        "Planifier réunions d'équipe internationale"
+      ],
+      "quickMath": "Mathématiques Rapides et Conversion",
+      "quickMathDesc": "Utilisez la calculatrice intégrée pour les mathématiques, puis convertissez le résultat vers n'importe quelle devise.",
+      "quickMathExamples": [
+        "Calculer le montant du pourboire, puis convertir",
+        "Faire des maths, appliquer le résultat à la devise",
+        "Diviser les montants et convertir",
+        "Calculs rapides avec devise"
+      ]
+    },
+    "stats": {
+      "currenciesSupported": "Devises Supportées",
+      "languagesSupported": "Langues Supportées",
+      "decimalPrecision": "Précision Décimale",
+      "cacheDuration": "Durée de Cache",
+      "privacyFocused": "Axé sur la Confidentialité"
+    },
+    "links": {
+      "viewGithub": "Voir sur GitHub",
+      "poweredBy": "Alimenté par",
+      "exchangeRateApi": "ExchangeRate-API",
+      "donate": "Soutenir le Développement"
+    },
+    "footerText": "Fait avec ❤️ pour les besoins de conversion de devises dans le monde entier"
+  },
+  "errors": {
+    "networkError": "Erreur de connexion réseau",
+    "rateLoadError": "Échec du chargement des taux de change",
+    "invalidAmount": "Veuillez entrer un montant valide",
+    "currencyNotFound": "Devise introuvable",
+    "calculationError": "Erreur de calcul",
+    "tryAgain": "Réessayer"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "close": "Fermer",
+    "apply": "Appliquer",
+    "reset": "Réinitialiser",
+    "search": "Rechercher",
+    "select": "Sélectionner",
+    "none": "Aucun",
+    "all": "Tous",
+    "yes": "Oui",
+    "no": "Non",
+    "testConnectivity": "Tester la Connectivité Internet Réelle"
+  },
+  "donate": {
+    "title": "Soutenir le Développement",
+    "description": "Aidez à garder ce projet gratuit et open source",
+    "buyMeCoffee": "Offrez-moi un café",
+    "monthly": "Soutien Mensuel",
+    "oneTime": "Soutien Unique"
+  },
+  "seo": {
+    "title": "Convertisseur de Devises Pro - Taux de Change en Temps Réel",
+    "description": "Convertisseur de devises professionnel avec taux de change en temps réel, support hors ligne et interface élégante. Convertissez entre 170+ devises instantanément.",
+    "keywords": "convertisseur de devises, taux de change, forex, change de devises, convertisseur d'argent, taux en temps réel",
+    "structuredData": {
+      "name": "Convertisseur de Devises Pro",
+      "description": "Convertisseur de devises professionnel avec taux de change en temps réel et support hors ligne",
+      "author": "Équipe Convertisseur de Devises Pro",
+      "feature1": "Taux de change en temps réel",
+      "feature2": "Support hors ligne",
+      "feature3": "170+ devises",
+      "feature4": "Application Web Progressive",
+      "feature5": "Design réactif mobile",
+      "feature6": "Gratuit sans inscription",
+      "feature7": "Compatibilité multiplateforme",
+      "feature8": "Calculs de devises précis"
+    }
+  },
+  "miniCalculator": {
+    "title": "Calculatrice",
+    "openCalculator": "Ouvrir la Calculatrice",
+    "calc": "Calc",
+    "calculatorTab": "Calculatrice",
+    "tipTab": "Calculatrice de Pourboires",
+    "applyResultTo": "Appliquer le résultat à :",
+    "clear": "Effacer",
+    "pinCurrenciesFirst": "Épinglez d'abord quelques devises pour utiliser cette fonction",
+    "applyXToY": "Appliquer {{result}} à {{currency}}",
+    "selectCurrencyFirst": "Sélectionnez d'abord une devise",
+    "billAmount": "Montant de l'Addition",
+    "billAmountLabel": "Montant facture",
+    "enterBillAmount": "Entrez le montant de l'addition",
+    "currency": "Devise",
+    "tipPercentage": "Pourcentage de Pourboire",
+    "tipLabel": "Pourboire",
+    "customPercent": "% Personnalisé",
+    "apply": "Appliquer",
+    "calculation": "Calcul :",
+    "totalLabel": "Total",
+    "resetTipCalculator": "Réinitialiser la Calculatrice"
+  },
+  "aboutPage": {
+    "aboutTitle": "À Propos du Convertisseur",
+    "aboutFeatures": "Fonctionnalités À Propos"
+  },
+  "errorBoundary": {
+    "somethingWentWrong": "Quelque chose s'est mal passé",
+    "unexpectedHappened": "Une erreur inattendue s'est produite",
+    "errorDetails": "Détails de l'erreur",
+    "tryAgain": "Réessayer",
+    "refreshPage": "Actualiser la page"
+  },
+  "refreshWarning": {
+    "title": "Actualisation de Page Détectée",
+    "message": "L'actualisation ne mettra pas à jour vos données !",
+    "explanation": "RateVault fonctionne avec des données en cache pour le support hors ligne. Une actualisation normale ne récupérera pas de nouveaux taux de change ou ne mettra pas à jour l'application.",
+    "tip": "Astuce : Utilisez le bouton d'actualisation dans la barre d'état pour mettre à jour les taux de change",
+    "hardRefresh": "Actualisation Forcée (Vider le Cache)",
+    "hardRefreshing": "Actualisation forcée...",
+    "normalRefresh": "Actualiser Quand Même (Garder le Cache)",
+    "stayHere": "Rester Ici",
+    "note": "Ce message ne sera affiché qu'une fois par session"
+  },
+  "privacy": {
+    "title": "Politique de Confidentialité",
+    "subtitle": "Votre vie privée est notre priorité. Découvrez comment nous protégeons vos données.",
+    "backToApp": "Retour au Convertisseur de Devises",
+    "lastUpdated": "Dernière mise à jour",
+    "updateDate": "29 juillet 2025",
+    "overview": {
+      "title": "Aperçu de la Confidentialité",
+      "description": "RateVault est conçu avec la confidentialité comme principe fondamental. Nous collectons un minimum de données, stockons tout localement sur votre appareil et ne suivons ni ne surveillons jamais votre utilisation. Cette politique explique nos pratiques de confidentialité en détail."
+    },
+    "dataCollection": {
+      "title": "Informations que Nous Collectons",
+      "localStorage": {
+        "title": "Stockage Local Uniquement",
+        "description": "Toutes vos données sont stockées localement dans le stockage de votre navigateur. Nous n'envoyons jamais ces données vers des serveurs externes.",
+        "items": [
+          "Vos devises épinglées et préférences",
+          "Taux de change personnalisés pour les scénarios",
+          "Paramètres de l'application et préférences d'affichage",
+          "Taux de change mis en cache pour une utilisation hors ligne",
+          "Préférences de langue et de système numérique"
+        ]
+      },
+      "noPersonalData": {
+        "title": "Aucune Information Personnelle",
+        "description": "Nous ne collectons, stockons ou traitons aucune information personnelle telle que les noms, adresses e-mail, numéros de téléphone ou données de localisation."
+      },
+      "noTracking": {
+        "title": "Aucun Suivi ou Analyse",
+        "description": "Nous n'utilisons pas de cookies, outils d'analyse, pixels de suivi ou toute autre technologie de surveillance pour suivre votre comportement."
+      }
+    },
+    "dataUsage": {
+      "title": "Comment Nous Utilisons Vos Données",
+      "description": "Toutes les données stockées localement sont utilisées uniquement pour améliorer votre expérience :",
+      "purposes": [
+        "Se souvenir de vos devises épinglées entre les sessions",
+        "Stocker des taux de change personnalisés pour des scénarios \"et si\"",
+        "Mettre en cache les taux de change pour la fonctionnalité hors ligne",
+        "Préserver vos préférences de langue et d'affichage",
+        "Activer les fonctionnalités PWA comme l'accès hors ligne"
+      ]
+    },
+    "thirdParty": {
+      "title": "Services Tiers",
+      "exchangeApi": {
+        "title": "API de Taux de Change",
+        "description": "Nous utilisons ExchangeRate-API pour récupérer les taux de change actuels. Ce service peut collecter des données minimales pour la limitation du débit. Nous recommandons de consulter leur politique de confidentialité :",
+        "linkText": "Voir la Politique de Confidentialité d'ExchangeRate-API"
+      }
+    },
+    "security": {
+      "title": "Sécurité des Données",
+      "description": "La sécurité de vos données est assurée par le stockage local et les principes de confidentialité dès la conception :",
+      "measures": [
+        "Toutes les données sont stockées localement sur votre appareil",
+        "Aucune transmission de données vers nos serveurs",
+        "Chiffrement HTTPS pour les requêtes API",
+        "Aucun compte utilisateur ou authentification requis",
+        "Contrôle complet de l'utilisateur sur la suppression des données"
+      ]
+    },
+    "pwa": {
+      "title": "Fonctionnalités de l'Application Web Progressive",
+      "description": "Lorsque vous installez RateVault comme PWA, des données supplémentaires peuvent être mises en cache pour la fonctionnalité hors ligne :",
+      "offlineData": {
+        "title": "Cache Hors Ligne",
+        "description": "Les ressources de l'application et les taux de change récents sont mis en cache localement pour permettre l'utilisation hors ligne. Ce cache est géré automatiquement et peut être effacé via les paramètres de votre navigateur."
+      }
+    },
+    "rights": {
+      "title": "Vos Droits sur les Données",
+      "description": "Puisque toutes les données sont stockées localement sur votre appareil, vous avez un contrôle total :",
+      "list": [
+        "Voir toutes les données stockées via les outils de développement du navigateur",
+        "Supprimer toutes les données de l'application en effaçant le stockage du navigateur",
+        "Exporter vos préférences manuellement si nécessaire",
+        "Contrôler quelles données sont stockées via les paramètres de l'application",
+        "Désinstaller la PWA pour supprimer toutes les données mises en cache"
+      ]
+    },
+    "changes": {
+      "title": "Modifications de Cette Politique",
+      "description": "Nous pouvons mettre à jour cette politique de confidentialité périodiquement. Tout changement sera publié sur cette page avec une date de révision mise à jour. Nous vous encourageons à consulter régulièrement cette politique."
+    },
+    "contact": {
+      "title": "Nous Contacter",
+      "description": "Si vous avez des questions sur cette politique de confidentialité ou nos pratiques de confidentialité, veuillez nous contacter via notre dépôt GitHub :",
+      "github": "Dépôt GitHub - Convertisseur de Devises"
+    }
+  }
+}

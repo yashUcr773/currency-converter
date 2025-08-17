@@ -1,0 +1,490 @@
+{
+  "featureRequest": {
+    "githubTitle": "Issues do GitHub",
+    "githubDescription": "Criar um issue no nosso repositório GitHub",
+    "githubAction": "Abrir GitHub",
+    "quickTitle": "Feedback Rápido",
+    "quickDescription": "Envie uma mensagem rápida com suas sugestões",
+    "quickAction": "Mensagem Rápida",
+    "historicalTitle": "Gráficos de Taxas Históricas",
+    "historicalDescription": "Ver tendências de moedas ao longo do tempo",
+    "alertsTitle": "Alertas de Taxa",
+    "alertsDescription": "Receba notificações quando as taxas atingirem seu objetivo",
+    "cryptoTitle": "Suporte a Criptomoedas",
+    "cryptoDescription": "Converter entre criptomoedas e moedas fiduciárias",
+    "portfoliosTitle": "Múltiplos Portfólios",
+    "portfoliosDescription": "Salvar diferentes combinações de moedas",
+    "exportTitle": "Exportar Dados",
+    "exportDescription": "Exportar histórico de conversões para CSV",
+    "darkModeTitle": "Modo Escuro",
+    "darkModeDescription": "Alternar entre temas claro e escuro"
+  },
+  "donateButton": {
+    "buyMeCoffee": "Me pague um café",
+    "supportWithCoffee": "Apoiar com um café",
+    "supportThisApp": "Apoiar este App",
+    "supportProject": "Apoiar este Projeto",
+    "helpfulMessage": "Achou útil?",
+    "anySupport": "Qualquer apoio é apreciado!",
+    "arrow": "→"
+  },
+  "pwaStatus": {
+    "installApp": "Instalar App",
+    "install": "Instalar",
+    "installable": "Instalável",
+    "installTitle": "Instale este app para acesso rápido",
+    "installHint": "Este app pode ser instalado! Procure por 'Instalar' ou 'Adicionar à Tela Inicial' no menu do seu navegador.",
+    "updateAvailable": "Atualização Disponível",
+    "update": "Atualizar",
+    "refresh": "Atualizar",
+    "clear": "Limpar",
+    "installed": "Instalado",
+    "testUpdate": "Testar Atualização",
+    "clearCacheOfflineTitle": "Limpar cache enquanto offline?",
+    "clearCacheOfflineDesc": "Você está atualmente <strong>offline</strong>. Limpar o cache removerá todos os dados armazenados incluindo:",
+    "clearCacheOfflineList1": "Taxas de câmbio em cache",
+    "clearCacheOfflineList2": "Funcionalidade offline",
+    "clearCacheOfflineList3": "Dados de moeda carregados anteriormente",
+    "clearCacheOfflineWarn": "⚠️ O app pode não funcionar adequadamente sem conexão à internet após limpar o cache.",
+    "cancel": "Cancelar",
+    "clearAnyway": "Limpar Mesmo Assim",
+    "clearCacheOfflineMessage": "Você está offline no momento. Limpar o cache removerá todos os dados armazenados e o app pode não funcionar adequadamente sem conexão à internet.",
+    "offlineTitle": "Você Está Offline",
+    "offlineDesc": "O app está funcionando com dados em cache. Alguns recursos podem estar limitados até você se reconectar à internet."
+  },
+  "updatePrompt": {
+    "title": "Nova Versão Disponível",
+    "newVersionReady": "Uma nova versão do app está pronta para instalar",
+    "updateDetails": "Esta atualização pode incluir correções de bugs, melhorias de performance e novos recursos.",
+    "dataCachedTitle": "Seus dados estão salvos em cache com segurança",
+    "dataCachedDesc1": "• Taxas de câmbio e preferências são armazenadas localmente",
+    "dataCachedDesc2": "• Todas suas moedas fixadas serão preservadas",
+    "cacheSize": "• Tamanho do cache: {{size}}",
+    "offlineNotice": "Você está atualmente offline - dados em cache mantêm o app funcionando",
+    "updateNow": "Atualizar Agora",
+    "updating": "Atualizando...",
+    "updateLater": "Atualizar Depois",
+    "whatHappens": "O que acontece quando você atualiza:",
+    "reload": "• O app será recarregado com a versão mais recente",
+    "dataSafe": "• Seus dados em cache e preferências permanecem seguros",
+    "freshRates": "• Taxas de câmbio atualizadas serão obtidas quando online",
+    "allPreserved": "• Toda funcionalidade será preservada"
+  },
+  "app": {
+    "title": "Conversor de Moedas",
+    "subtitle": "Conversão de moedas em tempo real • Fixe suas favoritas",
+    "loading": "Carregando Conversor de Moedas",
+    "loadingSubtitle": "Obtendo as últimas taxas de câmbio",
+    "noRatesAvailable": "Nenhuma Taxa de Câmbio Disponível",
+    "noRatesMessage": "Não foi possível carregar as taxas de câmbio. Verifique sua conexão com a internet e tente novamente.",
+    "retrying": "Tentando novamente...",
+    "retry": "Tentar novamente",
+    "statusInfo": "Cache local • Atualizações automáticas • Precisão de 5 decimais",
+    "ratesRelativeTo": "Taxas relativas a",
+    "tapRateToChangeBase": "Toque em qualquer taxa para alterar a moeda base",
+    "liveRatesFrom": "Taxas ao vivo do ExchangeRate-API"
+  },
+  "navigation": {
+    "about": "Sobre",
+    "backToConverter": "Voltar ao RateVault",
+    "startConverting": "Começar a Converter Moedas"
+  },
+  "converter": {
+    "amount": "Valor",
+    "from": "De",
+    "to": "Para",
+    "convert": "Converter",
+    "result": "Resultado",
+    "exchangeRate": "Taxa de Câmbio",
+    "lastUpdated": "Última atualização",
+    "refreshRates": "Atualizar Taxas",
+    "addCurrency": "Adicionar Moeda",
+    "pinCurrency": "Fixar Moeda",
+    "unpinCurrency": "Desfixar Moeda",
+    "baseCurrency": "Moeda Base",
+    "setAsBase": "Definir como Base",
+    "searchCurrency": "Pesquisar moedas...",
+    "noCurrenciesFound": "Nenhuma moeda encontrada",
+    "errorLoadingRates": "Erro ao carregar taxas de câmbio",
+    "retryLoading": "Tentar Novamente",
+    "offlineMode": "Modo Offline",
+    "ratesExpired": "Taxas podem estar desatualizadas",
+    "addCurrencyTitle": "Adicionar Moeda",
+    "currenciesCount": "150+ moedas",
+    "baseCurrencyLabel": "Base",
+    "currencyCount": "{{filtered}} de {{total}} moedas",
+    "amountPlaceholder": "0,00"
+  },
+  "statusBar": {
+    "never": "nunca",
+    "hoursMinutesAgo": "{{hours}} horas {{minutes}} minutos atrás",
+    "minutesAgo": "{{minutes}} minutos atrás",
+    "justNow": "agora mesmo",
+    "offlineMode": "offline",
+    "ratesExpired": "taxas expiradas",
+    "online": "online",
+    "lastUpdated": "última atualização",
+    "updated": "atualizado",
+    "refreshTitle": "Atualizar taxas de câmbio",
+    "tryRefreshTitle": "Tentar atualizar taxas",
+    "syncing": "sincronizando...",
+    "refresh": "atualizar",
+    "tryRefresh": "tentar atualizar",
+    "sync": "sincronizar"
+  },
+  "seo": {
+    "title": "Conversor de Moedas - Taxas ao Vivo para 150+ Moedas",
+    "description": "Use nosso conversor de moedas online gratuito para conversão instantânea. Taxas de câmbio ao vivo para 150+ moedas, modo offline e cálculos precisos.",
+    "keywords": "conversor de moedas, taxa de câmbio, conversão de moeda, taxas ao vivo, USD, EUR, GBP, JPY",
+    "author": "Equipe do Conversor de Moedas",
+    "canonicalUrl": "https://ratevault.uk/",
+    "ogTitle": "Conversor de Moedas - Taxas ao Vivo para 150+ Moedas",
+    "ogDescription": "Use nosso conversor de moedas online gratuito para conversão instantânea. Taxas de câmbio ao vivo para 150+ moedas.",
+    "ogType": "website",
+    "twitterTitle": "Conversor de Moedas - Taxas ao Vivo para 150+ Moedas",
+    "twitterDescription": "Use nosso conversor de moedas online gratuito para conversão instantânea.",
+    "twitterCard": "summary_large_image",
+    "structuredDataName": "Conversor de Moedas",
+    "structuredDataDescription": "Conversor de moedas online gratuito com taxas de câmbio ao vivo para 150+ moedas",
+    "structuredDataPurpose": "Ferramenta de conversão de moedas",
+    "structuredDataFeatures": [
+      "Suporte para 150+ moedas",
+      "Taxas de câmbio ao vivo",
+      "Modo offline",
+      "Cálculos em tempo real",
+      "Visualização multi-moeda"
+    ],
+    "structuredData": {
+      "name": "Conversor de Moedas Pro",
+      "description": "Conversor de moedas profissional com taxas de câmbio em tempo real e suporte offline",
+      "author": "Equipe Conversor de Moedas Pro",
+      "feature1": "Taxas de câmbio em tempo real",
+      "feature2": "Suporte offline",
+      "feature3": "170+ moedas",
+      "feature4": "Progressive Web App",
+      "feature5": "Design responsivo móvel",
+      "feature6": "Gratuito sem registro",
+      "feature7": "Compatibilidade multiplataforma",
+      "feature8": "Cálculos de moeda precisos"
+    }
+  },
+  "miniCalculator": {
+    "title": "Calculadora",
+    "openCalculator": "Abrir Calculadora",
+    "calc": "Calc",
+    "calculatorTab": "Calculadora",
+    "tipTab": "Calculadora de Gorjeta",
+    "applyResultTo": "Aplicar resultado a:",
+    "clear": "Limpar",
+    "pinCurrenciesFirst": "Fixe algumas moedas primeiro para usar esta função",
+    "applyXToY": "Aplicar {{result}} a {{currency}}",
+    "selectCurrencyFirst": "Selecione uma moeda primeiro",
+    "billAmount": "Valor da Conta",
+    "enterBillAmount": "Digite o valor da conta",
+    "currency": "Moeda",
+    "tipPercentage": "Porcentagem de Gorjeta",
+    "customPercent": "% Personalizado",
+    "apply": "Aplicar",
+    "resetTipCalculator": "Reiniciar Calculadora",
+    "billAmountLabel": "Valor da conta",
+    "tipLabel": "Gorjeta",
+    "calculation": "Cálculo:",
+    "totalLabel": "Total"
+  },
+  "calculator": {
+    "title": "Calculadora",
+    "tipCalculator": "Calculadora de Gorjeta",
+    "clear": "Limpar",
+    "equals": "Igual",
+    "billAmount": "Valor da Conta",
+    "tipPercent": "Gorjeta %",
+    "customTip": "Personalizada",
+    "tipAmount": "Gorjeta",
+    "total": "Total",
+    "calculation": "Cálculo:",
+    "selectCurrency": "Selecionar Moeda",
+    "presets": "Predefinições"
+  },
+  "settings": {
+    "title": "Configurações",
+    "language": "Idioma",
+    "numberSystem": "Sistema Numérico",
+    "international": "Internacional",
+    "indian": "Indiano",
+    "theme": "Tema",
+    "darkMode": "Modo Escuro",
+    "notifications": "Notificações",
+    "privacy": "Privacidade"
+  },
+  "numberSystemToggle": {
+    "intl": "Intl",
+    "in": "IN",
+    "switchTo": "Alternar para sistema {{system}}"
+  },
+  "common": {
+    "loading": "Carregando...",
+    "error": "Erro",
+    "success": "Sucesso",
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "close": "Fechar",
+    "apply": "Aplicar",
+    "reset": "Redefinir",
+    "search": "Pesquisar",
+    "select": "Selecionar",
+    "none": "Nenhum",
+    "all": "Todos",
+    "yes": "Sim",
+    "no": "Não",
+    "testConnectivity": "Testar Conectividade Real da Internet"
+  },
+  "debug": {
+    "current": "Atual",
+    "title": "Título",
+    "toggleLang": "Alternar PT/EN"
+  },
+  "about": {
+    "heroTitle": "O Conversor de Moedas Que Você Realmente Quer Usar",
+    "title": "Sobre o Conversor de Moedas",
+    "subtitle": "O Conversor de Moedas Que Você Realmente Quer Usar",
+    "description": "Um conversor de moedas simples com suporte offline, calculadora embutida e múltiplos formatos numéricos. Rápido, confiável e privado.",
+    "freeOpenSource": "Gratuito e Código Aberto",
+    "freeDescription": "Conversor de moedas gratuito sem anúncios ou rastreamento. O código fonte está disponível para qualquer um revisar, modificar ou aprender.",
+    "features": {
+      "title": "Recursos Principais",
+      "subtitle": "Recursos simples para conversão diária de moedas",
+      "fast": "Rápido",
+      "fastDesc": "Conversões instantâneas com carregamento rápido",
+      "currencies": "150+ Moedas",
+      "currenciesDesc": "Suporte abrangente a moedas globais",
+      "privacy": "Privacidade em Primeiro",
+      "privacyDesc": "Sem rastreamento, sem anúncios, seus dados permanecem privados",
+      "offline": "Funciona Offline",
+      "offlineDesc": "Instale como app, funciona sem internet",
+      "fresh": "Sempre Atualizado",
+      "freshDesc": "Atualiza taxas de câmbio automaticamente",
+      "rich": "Recursos Ricos",
+      "richDesc": "Calculadora, sistemas numéricos, favoritos fixos",
+      "realTimeRates": "Taxas de câmbio em tempo real com atualizações automáticas",
+      "offlineSupport": "Funciona perfeitamente offline após instalação",
+      "multiCurrency": "Suporte para 170+ moedas mundiais",
+      "pwaInstall": "Instalar como Progressive Web App",
+      "responsive": "Design responsivo mobile-first",
+      "noAds": "Completamente gratuito sem anúncios ou rastreamento",
+      "crossPlatform": "Funciona em todos os dispositivos e navegadores",
+      "calculator": "Calculadora integrada com calculadora de gorjetas",
+      "numberSystems": "Sistemas numéricos internacional e indiano",
+      "smartPinning": "Fixar moedas favoritas para acesso rápido",
+      "autoRefresh": "Atualização automática de taxas a cada 30 minutos",
+      "securePrivate": "Seus dados permanecem privados - sem armazenamento no servidor",
+      "fastLoading": "Otimizado para velocidade com inicialização instantânea",
+      "modernUI": "Interface de usuário limpa e intuitiva",
+      "accessibility": "Atalhos de teclado e suporte a leitor de tela",
+      "caching": "Cache inteligente para desempenho offline confiável"
+    },
+    "uniqueFeatures": {
+      "title": "O Que O Torna Especial",
+      "subtitle": "Recursos que distinguem este conversor de moedas",
+      "calculator": "Calculadora Integrada",
+      "calculatorDesc": "Mini calculadora que se integra com conversões de moedas. Realize cálculos e use resultados diretamente em campos de moeda.",
+      "numberSystem": "Alternância de Sistema Numérico",
+      "numberSystemDesc": "Alterne entre sistemas de formatação numérica Internacional (1.000.000) e Indiano (10,00,000) com armazenamento persistente de preferências.",
+      "installApp": "Instalar como App",
+      "installAppDesc": "Adicione à tela inicial do seu dispositivo e use como um app nativo. Funciona mesmo quando offline.",
+      "smartBase": "Moeda Base Inteligente",
+      "smartBaseDesc": "Toque em qualquer taxa de câmbio para defini-la como moeda base. Taxas de conversão dinâmicas atualizam automaticamente em todas as moedas fixadas."
+    },
+    "useCases": {
+      "title": "Casos de Uso Comuns",
+      "subtitle": "Conversão simples de moedas para cenários cotidianos",
+      "travel": "Planejamento de Viagem",
+      "travelDesc": "Converta moedas para orçamento de viagem e planejamento de gastos. Verifique quanto seu dinheiro vale em diferentes países.",
+      "travelExamples": [
+        "Veja quanto $500 vale em euros",
+        "Converta preço de hotel para sua moeda",
+        "Verifique quanto vale 1000 ienes",
+        "Converta qualquer quantia entre moedas"
+      ],
+      "shopping": "Compras Online",
+      "shoppingDesc": "Converta preços de sites internacionais para sua moeda local. Compare custos entre diferentes países.",
+      "shoppingExamples": [
+        "Converta ¥15.000 para sua moeda",
+        "Veja quanto £50 custa em dólares",
+        "Converta qualquer preço estrangeiro",
+        "Verifique taxas de câmbio"
+      ],
+      "finance": "Finanças Pessoais",
+      "financeDesc": "Converta moedas para gestão de dinheiro pessoal, remessas e transações internacionais.",
+      "financeExamples": [
+        "Converta valores de salário",
+        "Verifique taxas de câmbio para remessas",
+        "Veja valores de contas estrangeiras",
+        "Converta quaisquer quantias em dinheiro"
+      ],
+      "work": "Trabalho Remoto",
+      "workDesc": "Converta pagamentos de clientes e taxas de projetos ao trabalhar com clientes internacionais.",
+      "workExamples": [
+        "Converta taxa de $50/hora",
+        "Veja pagamento em moeda local",
+        "Verifique valores de projetos",
+        "Converta valores de faturas"
+      ],
+      "timezone": "Reuniões e Chamadas Internacionais",
+      "timezoneDesc": "Agende reuniões e chamadas em diferentes fusos horários. Saiba o horário perfeito para se conectar com colegas, clientes e amigos ao redor do mundo.",
+      "timezoneExamples": [
+        "Agendar reunião às 9h no horário de Tóquio",
+        "Encontrar melhor horário para chamadas EUA-Europa",
+        "Converter horário da conferência para hora local",
+        "Planejar reuniões de equipe internacional"
+      ],
+      "quickMath": "Matemática Rápida e Conversão",
+      "quickMathDesc": "Use a calculadora integrada para matemática, depois converta o resultado para qualquer moeda.",
+      "quickMathExamples": [
+        "Calcule valor da gorjeta, depois converta",
+        "Faça matemática, aplique resultado à moeda",
+        "Divida quantias e converta",
+        "Cálculos rápidos com moeda"
+      ]
+    },
+    "stats": {
+      "currenciesSupported": "Moedas Suportadas",
+      "decimalPrecision": "Precisão Decimal",
+      "cacheDuration": "Duração do Cache",
+      "privacyFocused": "Focado na Privacidade"
+    },
+    "links": {
+      "viewGithub": "Ver no GitHub",
+      "exchangeRateApi": "ExchangeRate-API",
+      "donate": "Apoiar Desenvolvimento"
+    },
+    "footerText": "Feito com ❤️ para necessidades de conversão de moeda em todo o mundo"
+  },
+  "errors": {
+    "networkError": "Erro de conexão de rede",
+    "rateLoadError": "Falha ao carregar taxas de câmbio",
+    "invalidAmount": "Por favor insira um valor válido",
+    "currencyNotFound": "Moeda não encontrada",
+    "calculationError": "Erro de cálculo",
+    "tryAgain": "Tentar novamente"
+  },
+  "donate": {
+    "title": "Apoiar Desenvolvimento",
+    "description": "Ajude a manter este projeto gratuito e código aberto",
+    "buyMeCoffee": "Me pague um café",
+    "monthly": "Apoio Mensal",
+    "oneTime": "Apoio Único"
+  },
+  "aboutPage": {
+    "aboutTitle": "Sobre o Conversor",
+    "aboutFeatures": "Sobre Recursos"
+  },
+  "errorBoundary": {
+    "somethingWentWrong": "Algo deu errado",
+    "unexpectedHappened": "Ocorreu um erro inesperado",
+    "errorDetails": "Detalhes do erro",
+    "tryAgain": "Tentar novamente",
+    "refreshPage": "Atualizar página"
+  },
+  "refreshWarning": {
+    "title": "Atualização da Página Detectada",
+    "message": "Atualizar não atualizará seus dados!",
+    "explanation": "RateVault funciona com dados em cache para suporte offline. Uma atualização normal não buscará novas taxas de câmbio ou atualizará o aplicativo.",
+    "tip": "Dica: Use o botão de atualização na barra de status para atualizar as taxas de câmbio",
+    "hardRefresh": "Atualização Forçada (Limpar Cache)",
+    "hardRefreshing": "Atualizando Forçadamente...",
+    "normalRefresh": "Atualizar Mesmo Assim (Manter Cache)",
+    "stayHere": "Ficar Aqui",
+    "note": "Esta mensagem será mostrada apenas uma vez por sessão"
+  },
+  "privacy": {
+    "title": "Política de Privacidade",
+    "subtitle": "Sua privacidade é nossa prioridade. Saiba como protegemos seus dados.",
+    "backToApp": "Voltar ao Conversor de Moedas",
+    "lastUpdated": "Última atualização",
+    "updateDate": "29 de julho de 2025",
+    "overview": {
+      "title": "Visão Geral da Privacidade",
+      "description": "RateVault é projetado com privacidade como princípio fundamental. Coletamos dados mínimos, armazenamos tudo localmente em seu dispositivo e nunca rastreamos ou monitoramos seu uso."
+    },
+    "dataCollection": {
+      "title": "Informações que Coletamos",
+      "localStorage": {
+        "title": "Apenas Armazenamento Local",
+        "description": "Todos os seus dados são armazenados localmente no armazenamento do seu navegador. Nunca enviamos esses dados para servidores externos.",
+        "items": [
+          "Suas moedas fixadas e preferências",
+          "Taxas de câmbio personalizadas para cenários",
+          "Configurações do aplicativo e preferências de exibição",
+          "Taxas de câmbio em cache para uso offline",
+          "Preferências de idioma e sistema numérico"
+        ]
+      },
+      "noPersonalData": {
+        "title": "Nenhuma Informação Pessoal",
+        "description": "Não coletamos, armazenamos ou processamos informações pessoais como nomes, endereços de e-mail, números de telefone ou dados de localização."
+      },
+      "noTracking": {
+        "title": "Sem Rastreamento ou Análise",
+        "description": "Não usamos cookies, ferramentas de análise, pixels de rastreamento ou qualquer outra tecnologia de monitoramento para rastrear seu comportamento."
+      }
+    },
+    "dataUsage": {
+      "title": "Como Usamos Seus Dados",
+      "description": "Todos os dados armazenados localmente são usados exclusivamente para melhorar sua experiência:",
+      "purposes": [
+        "Lembrar suas moedas fixadas entre sessões",
+        "Armazenar taxas de câmbio personalizadas para cenários \"e se\"",
+        "Cache de taxas de câmbio para funcionalidade offline",
+        "Preservar suas preferências de idioma e exibição",
+        "Habilitar recursos PWA como acesso offline"
+      ]
+    },
+    "thirdParty": {
+      "title": "Serviços de Terceiros",
+      "exchangeApi": {
+        "title": "API de Taxa de Câmbio",
+        "description": "Usamos ExchangeRate-API para buscar taxas de câmbio atuais. Este serviço pode coletar dados mínimos para limitação de taxa. Recomendamos revisar sua política de privacidade:",
+        "linkText": "Ver Política de Privacidade do ExchangeRate-API"
+      }
+    },
+    "security": {
+      "title": "Segurança de Dados",
+      "description": "A segurança dos seus dados é garantida através de armazenamento local e princípios de privacidade por design:",
+      "measures": [
+        "Todos os dados são armazenados localmente em seu dispositivo",
+        "Nenhuma transmissão de dados para nossos servidores",
+        "Criptografia HTTPS para solicitações de API",
+        "Não são necessárias contas de usuário ou autenticação",
+        "Controle total do usuário sobre exclusão de dados"
+      ]
+    },
+    "pwa": {
+      "title": "Recursos de Aplicação Web Progressiva",
+      "description": "Quando você instala RateVault como PWA, dados adicionais podem ser armazenados em cache para funcionalidade offline:",
+      "offlineData": {
+        "title": "Cache Offline",
+        "description": "Recursos do aplicativo e taxas de câmbio recentes são armazenados em cache localmente para permitir uso offline. Este cache é gerenciado automaticamente e pode ser limpo através das configurações do seu navegador."
+      }
+    },
+    "rights": {
+      "title": "Seus Direitos de Dados",
+      "description": "Como todos os dados são armazenados localmente em seu dispositivo, você tem controle total:",
+      "list": [
+        "Ver todos os dados armazenados através das ferramentas de desenvolvedor do navegador",
+        "Excluir todos os dados do aplicativo limpando o armazenamento do navegador",
+        "Exportar suas preferências manualmente se necessário",
+        "Controlar quais dados são armazenados através das configurações do aplicativo",
+        "Desinstalar o PWA para remover todos os dados em cache"
+      ]
+    },
+    "changes": {
+      "title": "Mudanças nesta Política",
+      "description": "Podemos atualizar esta política de privacidade periodicamente. Quaisquer mudanças serão postadas nesta página com uma data de revisão atualizada."
+    },
+    "contact": {
+      "title": "Entre em Contato",
+      "description": "Se você tiver dúvidas sobre esta política de privacidade ou nossas práticas de privacidade, entre em contato conosco através do nosso repositório GitHub:",
+      "github": "Repositório GitHub - Conversor de Moedas"
+    }
+  }
+}

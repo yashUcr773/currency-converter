@@ -1,12 +1,33 @@
+import type { NumberSystem } from './numberSystem';
+import { storageManager } from './storageManager';
+
 /**
- * Format number with international number system (commas as thousands separators)
+ * Get the current number system preference from centralized storage
+ */
+function getCurrentNumberSystem(): NumberSystem {
+  const preferences = storageManager.getPreferences();
+  const saved = preferences?.numberSystem;
+  
+  // Map the old 'indian'/'international' to new 'eastern'/'western'
+  if (saved === 'eastern') return 'indian';
+  if (saved === 'western') return 'international';
+  
+  // Fallback for legacy values or if not set
+  return 'international';
+}
+
+/**
+ * Format number with selected number system (commas as thousands separators)
  * and up to 5 decimal places, removing trailing zeros
  */
-export function formatCurrencyAmount(amount: number): string {
+export function formatCurrencyAmount(amount: number, system?: NumberSystem): string {
   if (amount === 0) return '';
   
-  // Create a number formatter for the user's locale
-  const formatter = new Intl.NumberFormat(undefined, {
+  const numberSystem = system || getCurrentNumberSystem();
+  
+  // Create a number formatter for the appropriate locale
+  const locale = numberSystem === 'indian' ? 'en-IN' : 'en-US';
+  const formatter = new Intl.NumberFormat(locale, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 5,
     useGrouping: true, // This adds commas/spaces as thousands separators
@@ -42,6 +63,21 @@ export function formatForInput(amount: number): string {
 /**
  * Format number for display (with commas and proper locale formatting)
  */
-export function formatForDisplay(amount: number): string {
-  return formatCurrencyAmount(amount);
+export function formatForDisplay(amount: number, system?: NumberSystem): string {
+  return formatCurrencyAmount(amount, system);
+}
+
+/**
+ * Listen for number system changes and re-format displays
+ */
+export function onNumberSystemChange(callback: (system: NumberSystem) => void): () => void {
+  const handler = (event: CustomEvent<NumberSystem>) => {
+    callback(event.detail);
+  };
+  
+  window.addEventListener('numberSystemChanged', handler as EventListener);
+  
+  return () => {
+    window.removeEventListener('numberSystemChanged', handler as EventListener);
+  };
 }

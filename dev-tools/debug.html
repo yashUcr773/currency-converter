@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Debug Helper</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #f5f5f5; }
+        .debug-panel { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .error { color: red; background: #ffe6e6; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .success { color: green; background: #e6ffe6; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .info { color: blue; background: #e6f3ff; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        button { padding: 10px 15px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        #logs { max-height: 300px; overflow-y: auto; background: #f8f9fa; padding: 10px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>PWA Debug Helper</h1>
+    
+    <div class="debug-panel">
+        <h3>Service Worker Status</h3>
+        <div id="sw-status"></div>
+        <button class="btn-primary" onclick="registerServiceWorker()">Register SW</button>
+        <button class="btn-danger" onclick="unregisterServiceWorker()">Unregister SW</button>
+        <button class="btn-success" onclick="updateServiceWorker()">Update SW</button>
+    </div>
+    
+    <div class="debug-panel">
+        <h3>PWA Features</h3>
+        <div id="pwa-status"></div>
+        <button class="btn-primary" onclick="testOffline()">Test Offline</button>
+        <button class="btn-primary" onclick="clearCaches()">Clear All Caches</button>
+    </div>
+    
+    <div class="debug-panel">
+        <h3>Console Logs</h3>
+        <div id="logs"></div>
+        <button class="btn-primary" onclick="clearLogs()">Clear Logs</button>
+    </div>
+
+    <script>
+        const logElement = document.getElementById('logs');
+        const swStatus = document.getElementById('sw-status');
+        const pwaStatus = document.getElementById('pwa-status');
+
+        // Override console methods to capture logs
+        const originalConsole = {
+            log: console.log,
+            error: console.error,
+            warn: console.warn
+        };
+
+        function addLog(type, message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = type;
+            logEntry.innerHTML = `[${timestamp}] ${message}`;
+            logElement.appendChild(logEntry);
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        console.log = (...args) => {
+            originalConsole.log(...args);
+            addLog('info', args.join(' '));
+        };
+
+        console.error = (...args) => {
+            originalConsole.error(...args);
+            addLog('error', args.join(' '));
+        };
+
+        console.warn = (...args) => {
+            originalConsole.warn(...args);
+            addLog('error', args.join(' '));
+        };
+
+        // Service Worker functions
+        async function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registration = await navigator.serviceWorker.register('/sw.js');
+                    console.log('SW registered successfully:', registration);
+                    updateSWStatus();
+                } catch (error) {
+                    console.error('SW registration failed:', error);
+                }
+            } else {
+                console.error('Service Workers not supported');
+            }
+        }
+
+        async function unregisterServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    if (registration) {
+                        await registration.unregister();
+                        console.log('SW unregistered successfully');
+                        updateSWStatus();
+                    }
+                } catch (error) {
+                    console.error('SW unregistration failed:', error);
+                }
+            }
+        }
+
+        async function updateServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    if (registration) {
+                        await registration.update();
+                        console.log('SW update requested');
+                    }
+                } catch (error) {
+                    console.error('SW update failed:', error);
+                }
+            }
+        }
+
+        async function updateSWStatus() {
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    if (registration) {
+                        swStatus.innerHTML = `
+                            <div class="success">Service Worker registered</div>
+                            <div>State: ${registration.active ? registration.active.state : 'No active worker'}</div>
+                            <div>Scope: ${registration.scope}</div>
+                        `;
+                    } else {
+                        swStatus.innerHTML = '<div class="error">Service Worker not registered</div>';
+                    }
+                } catch (error) {
+                    swStatus.innerHTML = `<div class="error">Error checking SW: ${error.message}</div>`;
+                }
+            } else {
+                swStatus.innerHTML = '<div class="error">Service Workers not supported</div>';
+            }
+        }
+
+        function testOffline() {
+            console.log('Testing offline functionality...');
+            console.log('Navigator online:', navigator.onLine);
+            
+            // Test fetch to API
+            fetch('https://api.exchangerate-api.com/v4/latest/USD')
+                .then(response => {
+                    console.log('API fetch successful:', response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('API data received:', Object.keys(data));
+                })
+                .catch(error => {
+                    console.error('API fetch failed:', error);
+                });
+        }
+
+        async function clearCaches() {
+            try {
+                const cacheNames = await caches.keys();
+                console.log('Found caches:', cacheNames);
+                
+                for (const cacheName of cacheNames) {
+                    await caches.delete(cacheName);
+                    console.log('Deleted cache:', cacheName);
+                }
+                
+                console.log('All caches cleared');
+            } catch (error) {
+                console.error('Failed to clear caches:', error);
+            }
+        }
+
+        function clearLogs() {
+            logElement.innerHTML = '';
+        }
+
+        function updatePWAStatus() {
+            const features = [];
+            
+            if ('serviceWorker' in navigator) features.push('✅ Service Workers');
+            else features.push('❌ Service Workers');
+            
+            if ('caches' in window) features.push('✅ Cache API');
+            else features.push('❌ Cache API');
+            
+            if ('PushManager' in window) features.push('✅ Push Notifications');
+            else features.push('❌ Push Notifications');
+            
+            if (window.matchMedia('(display-mode: standalone)').matches) features.push('✅ Running as PWA');
+            else features.push('❌ Running in browser');
+            
+            pwaStatus.innerHTML = features.map(f => `<div>${f}</div>`).join('');
+        }
+
+        // Initialize
+        updateSWStatus();
+        updatePWAStatus();
+        
+        // Auto-register service worker
+        if ('serviceWorker' in navigator) {
+            registerServiceWorker();
+        }
+
+        console.log('PWA Debug Helper loaded');
+    </script>
+</body>
+</html>
