@@ -14,7 +14,7 @@ export async function clearCacheAndReload() {
         );
         return;
       }
-    } catch (error) {
+    } catch {
       // fallback to reload
     }
   }

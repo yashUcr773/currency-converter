@@ -98,13 +98,13 @@ export const TimezoneSelector = ({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Card className="group cursor-pointer overflow-hidden bg-gradient-to-br from-slate-50/90 to-white/90 backdrop-blur-md border border-dashed border-slate-300 hover:border-blue-400 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 touch-manipulation h-full flex flex-col rounded-xl">
+        <Card className="group cursor-pointer overflow-hidden bg-card/90 backdrop-blur-md border border-dashed border-border hover:border-primary shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 touch-manipulation h-full flex flex-col rounded-xl">
           <CardContent className="p-3 sm:p-4 flex-1 flex flex-col items-center justify-center text-center space-y-2 sm:space-y-3">
             {/* Icon container */}
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-sm group-hover:blur-none transition-all duration-300"></div>
-              <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100 rounded-full border border-blue-200/60 shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all duration-300">
-                <Plus size={16} className="sm:w-5 sm:h-5 text-blue-600 group-hover:text-blue-700" />
+              <div className="absolute inset-0 bg-primary/20 rounded-full blur-sm group-hover:blur-none transition-all duration-300"></div>
+              <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center bg-primary/10 rounded-full border border-primary/20 shadow-sm group-hover:shadow-md group-hover:scale-105 transition-all duration-300">
+                <Plus size={16} className="sm:w-5 sm:h-5 text-primary group-hover:text-primary/80" />
               </div>
             </div>
             
@@ -209,11 +209,11 @@ export const TimezoneSelector = ({
                     key={timezone.id}
                     variant="ghost"
                     onClick={() => handleTimezoneSelect(timezone)}
-                    className={`w-full justify-start h-auto p-3 text-left hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 transition-all duration-200 rounded-xl border border-transparent group touch-manipulation`}
+                    className={`w-full justify-start h-auto p-3 text-left hover:bg-primary/10 transition-all duration-200 rounded-xl border border-transparent group touch-manipulation`}
                   >
                     <div className="flex items-center gap-3 w-full">
                       {/* Flag */}
-                      <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 rounded-lg group-hover:shadow-sm transition-shadow">
+                      <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-muted rounded-lg group-hover:shadow-sm transition-shadow">
                         <span className="text-sm">{timezone.flag}</span>
                       </div>
                       

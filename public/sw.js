@@ -1,8 +1,24 @@
 // Currency Converter PWA Service Worker with Timezone Support
 const CACHE_VERSION = 'v1.12.0';
-const STATIC_CACHE_NAME = 'currency-converter-static-v1.13.0';
-const DATA_CACHE_NAME = 'ratevault-data-v1.13.0';
-const TIMEZONE_CACHE_NAME = 'currency-converter-timezone-v1.13.0';
+const STATIC_CACHE_NAME = 'currency-converter-static-v1.14.0';
+const DATA_CACHE_NAME = 'ratevault-data-v1.14.0';
+const TIMEZONE_CACHE_NAME = 'currency-converter-timezone-v1.14.0';
+
+// Detect if we're in development mode
+const isDevelopment = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.hostname.startsWith('192.168.') || location.hostname.startsWith('10.') || location.hostname.includes('local');
+
+// Security headers for cached responses
+const SECURITY_HEADERS = {
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': isDevelopment ? 'SAMEORIGIN' : 'DENY',
+  'X-XSS-Protection': '1; mode=block',
+  'Referrer-Policy': 'strict-origin-when-cross-origin'
+};
+
+// Only add CSP in production
+if (!isDevelopment) {
+  SECURITY_HEADERS['Content-Security-Policy'] = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.accounts.dev https://*.clerk.com; style-src 'self' 'unsafe-inline' https://*.clerk.accounts.dev https://*.clerk.com; img-src 'self' data: https: https://*.clerk.accounts.dev https://*.clerk.com; connect-src 'self' https://api.exchangerate-api.com https://*.clerk.accounts.dev https://*.clerk.com https://clerk.com; font-src 'self' data: https://*.clerk.accounts.dev https://*.clerk.com; frame-src https://*.clerk.accounts.dev https://*.clerk.com; worker-src 'self' blob:;";
+}
 
 // Static assets to cache immediately
 const STATIC_ASSETS = [
@@ -26,6 +42,25 @@ const TIMEZONE_DATA_KEYS = [
   'timezone-country-mapping',
   'timezone-constants'
 ];
+
+// Helper function to add security headers to responses
+function addSecurityHeaders(response) {
+  if (!response) return response;
+  
+  // Clone the response so we can modify headers
+  const newResponse = new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: new Headers(response.headers)
+  });
+  
+  // Add security headers
+  Object.entries(SECURITY_HEADERS).forEach(([key, value]) => {
+    newResponse.headers.set(key, value);
+  });
+  
+  return newResponse;
+}
 
 // Install event - cache static assets
 self.addEventListener('install', (event) => {
@@ -146,7 +181,7 @@ async function handleApiRequestSimple(request) {
       const cachedResponse = await cache.match(request);
       if (cachedResponse) {
         console.log('[SW] Serving from cache (simple):', request.url);
-        return cachedResponse;
+        return addSecurityHeaders(cachedResponse);
       }
     }
     
@@ -215,7 +250,7 @@ async function handleApiRequest(request) {
       const cachedResponse = await cache.match(request);
       if (cachedResponse) {
         console.log('[SW] Serving from cache (offline):', request.url);
-        return cachedResponse;
+        return addSecurityHeaders(cachedResponse);
       }
       
       // If no cache available and we're offline, return offline response
@@ -257,7 +292,7 @@ async function handleStaticRequest(request) {
   // Try cache first for static assets
   const cachedResponse = await cache.match(request);
   if (cachedResponse) {
-    return cachedResponse;
+    return addSecurityHeaders(cachedResponse);
   }
   
   // If not in cache, try network and cache the response
@@ -268,13 +303,13 @@ async function handleStaticRequest(request) {
       const responseClone = networkResponse.clone();
       await cache.put(request, responseClone);
     }
-    return networkResponse;
+    return addSecurityHeaders(networkResponse);
   } catch (error) {
     // If it's the main page and we're offline, serve from cache or show offline page
     if (request.mode === 'navigate') {
       const cachedIndex = await cache.match('/index.html');
       if (cachedIndex) {
-        return cachedIndex;
+        return addSecurityHeaders(cachedIndex);
       }
     }
     

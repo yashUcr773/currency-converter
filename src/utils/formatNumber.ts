@@ -1,11 +1,19 @@
 import type { NumberSystem } from './numberSystem';
+import { storageManager } from './storageManager';
 
 /**
- * Get the current number system preference from localStorage
+ * Get the current number system preference from centralized storage
  */
 function getCurrentNumberSystem(): NumberSystem {
-  const saved = localStorage.getItem('number-system-preference');
-  return (saved === 'indian' || saved === 'international') ? saved : 'international';
+  const preferences = storageManager.getPreferences();
+  const saved = preferences?.numberSystem;
+  
+  // Map the old 'indian'/'international' to new 'eastern'/'western'
+  if (saved === 'eastern') return 'indian';
+  if (saved === 'western') return 'international';
+  
+  // Fallback for legacy values or if not set
+  return 'international';
 }
 
 /**

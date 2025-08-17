@@ -1,58 +1,12 @@
-import type { ItineraryItem, ItineraryColor, ItineraryCategory } from '@/types/itinerary';
-import { logger } from './env';
-
-const ITINERARY_STORAGE_KEY = 'ratevault-itinerary-items';
-
-interface SerializedItineraryItem {
-  id: string;
-  title: string;
-  description?: string;
-  startDate: string;
-  endDate?: string;
-  startTime: string;
-  endTime?: string;
-  location?: string;
-  color: string;
-  category?: string;
-  isAllDay?: boolean;
-  notes?: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import type { ItineraryItem } from '@/types/itinerary';
+import { storageManager } from './storageManager';
 
 export const saveItineraryItems = (items: ItineraryItem[]): void => {
-  try {
-    const serializedItems = JSON.stringify(items, (key, value) => {
-      if (key === 'startDate' || key === 'endDate' || key === 'createdAt' || key === 'updatedAt') {
-        return value instanceof Date ? value.toISOString() : value;
-      }
-      return value;
-    });
-    localStorage.setItem(ITINERARY_STORAGE_KEY, serializedItems);
-  } catch (error) {
-    logger.warn('Failed to save itinerary items to localStorage:', error);
-  }
+  storageManager.setItineraryItems(items);
 };
 
 export const getItineraryItems = (): ItineraryItem[] => {
-  try {
-    const saved = localStorage.getItem(ITINERARY_STORAGE_KEY);
-    if (!saved) return [];
-    
-    const parsed: SerializedItineraryItem[] = JSON.parse(saved);
-    return parsed.map((item: SerializedItineraryItem) => ({
-      ...item,
-      startDate: new Date(item.startDate),
-      endDate: item.endDate ? new Date(item.endDate) : undefined,
-      createdAt: new Date(item.createdAt),
-      updatedAt: new Date(item.updatedAt),
-      color: item.color as ItineraryColor,
-      category: item.category as ItineraryCategory
-    }));
-  } catch (error) {
-    logger.warn('Failed to load itinerary items from localStorage:', error);
-    return [];
-  }
+  return storageManager.getItineraryItems();
 };
 
 export const addItineraryItem = (item: Omit<ItineraryItem, 'id' | 'createdAt' | 'updatedAt'>): ItineraryItem => {

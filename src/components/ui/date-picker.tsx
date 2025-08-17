@@ -6,10 +6,11 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from 'lucide-reac
 
 interface DatePickerProps {
   selectedDate: Date;
+  className?: string
   onDateSelect: (date: Date) => void;
 }
 
-export const DatePicker: React.FC<DatePickerProps> = ({ selectedDate, onDateSelect }) => {
+export const DatePicker: React.FC<DatePickerProps> = ({ selectedDate, className = '', onDateSelect }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1));
   const [isOpen, setIsOpen] = useState(false);
 
@@ -88,7 +89,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({ selectedDate, onDateSele
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" className="flex items-center gap-2 w-full mt-2">
+        <Button variant="outline" size="sm" className={`flex items-center gap-2 w-full mt-2 ${className}`}>
           <CalendarIcon className="h-4 w-4" />
           {selectedDate.getDate()} {selectedDate.toLocaleDateString('en-US', { month: 'short' })}, {selectedDate.getFullYear()}
         </Button>

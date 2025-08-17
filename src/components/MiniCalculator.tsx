@@ -291,7 +291,7 @@ export const MiniCalculator = ({ onResult, pinnedCurrencies = [] }: MiniCalculat
       
       <DialogContent className="flex flex-col w-full max-w-sm mx-auto bg-white/95 backdrop-blur-md border-0 shadow-2xl rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-slate-700">
+          <DialogTitle className="flex items-center gap-2 text-foreground">
             <Calculator className="w-4 h-4" />
             {t('miniCalculator.title')}
           </DialogTitle>

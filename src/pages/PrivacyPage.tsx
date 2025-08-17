@@ -18,14 +18,14 @@ export const PrivacyPage = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm shadow-lg border-b border-slate-200">
+      <header className="bg-card/80 backdrop-blur-sm shadow-lg border-b border-border">
         <div className="max-w-4xl mx-auto px-4 py-6">
           <div className="flex items-center gap-4 mb-4">
             <Link 
               to="/" 
-              className="flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors duration-200"
+              className="flex items-center gap-2 text-primary hover:text-primary-dark transition-colors duration-200"
             >
               <ArrowLeft className="w-5 h-5" />
               <span className="font-medium">{t('privacy.backToApp')}</span>
@@ -34,17 +34,17 @@ export const PrivacyPage = () => {
           
           <div className="text-center">
             <div className="flex items-center justify-center gap-3 mb-3">
-              <div className="p-3 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl shadow-lg">
-                <Shield className="w-8 h-8 text-white" />
+              <div className="p-3 bg-primary rounded-xl shadow-lg">
+                <Shield className="w-8 h-8 text-primary-foreground" />
               </div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-3xl font-bold text-primary">
                 {t('privacy.title')}
               </h1>
             </div>
-            <p className="text-slate-600 text-lg">
+            <p className="text-muted-foreground text-lg">
               {t('privacy.subtitle')}
             </p>
-            <p className="text-sm text-slate-500 mt-2">
+            <p className="text-sm text-muted-foreground mt-2">
               <Calendar className="w-4 h-4 inline mr-1" />
               {t('privacy.lastUpdated')}: {t('privacy.updateDate')}
             </p>
@@ -54,62 +54,62 @@ export const PrivacyPage = () => {
 
       {/* Content */}
       <main className="max-w-4xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
+        <div className="bg-card rounded-xl shadow-lg border border-border overflow-hidden">
           
           {/* Overview Section */}
-          <div className="p-6 border-b border-slate-200 bg-gradient-to-r from-blue-50 to-purple-50">
+          <div className="p-6 border-b border-border bg-accent/50">
             <div className="flex items-center gap-3 mb-4">
-              <Eye className="w-6 h-6 text-blue-600" />
-              <h2 className="text-xl font-semibold text-slate-800">{t('privacy.overview.title')}</h2>
+              <Eye className="w-6 h-6 text-primary" />
+              <h2 className="text-xl font-semibold text-foreground">{t('privacy.overview.title')}</h2>
             </div>
-            <p className="text-slate-600 leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed">
               {t('privacy.overview.description')}
             </p>
           </div>
 
           {/* Information We Collect */}
-          <div className="p-6 border-b border-slate-200">
+          <div className="p-6 border-b border-border">
             <div className="flex items-center gap-3 mb-4">
-              <Database className="w-6 h-6 text-green-600" />
-              <h2 className="text-xl font-semibold text-slate-800">{t('privacy.dataCollection.title')}</h2>
+              <Database className="w-6 h-6 text-success" />
+              <h2 className="text-xl font-semibold text-foreground">{t('privacy.dataCollection.title')}</h2>
             </div>
             <div className="space-y-4">
-              <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-                <h3 className="font-medium text-green-800 mb-2">{t('privacy.dataCollection.localStorage.title')}</h3>
-                <p className="text-green-700 text-sm">{t('privacy.dataCollection.localStorage.description')}</p>
-                <ul className="mt-2 text-sm text-green-700 space-y-1">
+              <div className="bg-success/10 p-4 rounded-lg border border-success/20">
+                <h3 className="font-medium text-success mb-2">{t('privacy.dataCollection.localStorage.title')}</h3>
+                <p className="text-success/80 text-sm">{t('privacy.dataCollection.localStorage.description')}</p>
+                <ul className="mt-2 text-sm text-success/80 space-y-1">
                   {(t('privacy.dataCollection.localStorage.items', { returnObjects: true }) as string[]).map((item, index) => (
                     <li key={index} className="flex items-start gap-2">
-                      <span className="text-green-500 mt-0.5">•</span>
+                      <span className="text-success mt-0.5">•</span>
                       {item}
                     </li>
                   ))}
                 </ul>
               </div>
               
-              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                <h3 className="font-medium text-blue-800 mb-2">{t('privacy.dataCollection.noPersonalData.title')}</h3>
-                <p className="text-blue-700 text-sm">{t('privacy.dataCollection.noPersonalData.description')}</p>
+              <div className="bg-info/10 p-4 rounded-lg border border-info/20">
+                <h3 className="font-medium text-info mb-2">{t('privacy.dataCollection.noPersonalData.title')}</h3>
+                <p className="text-info/80 text-sm">{t('privacy.dataCollection.noPersonalData.description')}</p>
               </div>
               
-              <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
-                <h3 className="font-medium text-purple-800 mb-2">{t('privacy.dataCollection.noTracking.title')}</h3>
-                <p className="text-purple-700 text-sm">{t('privacy.dataCollection.noTracking.description')}</p>
+              <div className="bg-primary/10 p-4 rounded-lg border border-primary/20">
+                <h3 className="font-medium text-primary mb-2">{t('privacy.dataCollection.noTracking.title')}</h3>
+                <p className="text-primary/80 text-sm">{t('privacy.dataCollection.noTracking.description')}</p>
               </div>
             </div>
           </div>
 
           {/* How We Use Information */}
-          <div className="p-6 border-b border-slate-200">
+          <div className="p-6 border-b border-border">
             <div className="flex items-center gap-3 mb-4">
-              <RefreshCw className="w-6 h-6 text-blue-600" />
-              <h2 className="text-xl font-semibold text-slate-800">{t('privacy.dataUsage.title')}</h2>
+              <RefreshCw className="w-6 h-6 text-primary" />
+              <h2 className="text-xl font-semibold text-foreground">{t('privacy.dataUsage.title')}</h2>
             </div>
-            <p className="text-slate-600 mb-4">{t('privacy.dataUsage.description')}</p>
+            <p className="text-muted-foreground mb-4">{t('privacy.dataUsage.description')}</p>
             <ul className="space-y-2">
               {(t('privacy.dataUsage.purposes', { returnObjects: true }) as string[]).map((purpose, index) => (
-                <li key={index} className="flex items-start gap-2 text-slate-600">
-                  <span className="text-blue-500 mt-0.5">•</span>
+                <li key={index} className="flex items-start gap-2 text-muted-foreground">
+                  <span className="text-primary mt-0.5">•</span>
                   {purpose}
                 </li>
               ))}
@@ -117,19 +117,19 @@ export const PrivacyPage = () => {
           </div>
 
           {/* Third-Party Services */}
-          <div className="p-6 border-b border-slate-200">
+          <div className="p-6 border-b border-border">
             <div className="flex items-center gap-3 mb-4">
-              <Globe className="w-6 h-6 text-orange-600" />
-              <h2 className="text-xl font-semibold text-slate-800">{t('privacy.thirdParty.title')}</h2>
+              <Globe className="w-6 h-6 text-warning" />
+              <h2 className="text-xl font-semibold text-foreground">{t('privacy.thirdParty.title')}</h2>
             </div>
-            <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
-              <h3 className="font-medium text-orange-800 mb-2">{t('privacy.thirdParty.exchangeApi.title')}</h3>
-              <p className="text-orange-700 text-sm mb-2">{t('privacy.thirdParty.exchangeApi.description')}</p>
+            <div className="bg-warning/10 p-4 rounded-lg border border-warning/20">
+              <h3 className="font-medium text-warning mb-2">{t('privacy.thirdParty.exchangeApi.title')}</h3>
+              <p className="text-warning/80 text-sm mb-2">{t('privacy.thirdParty.exchangeApi.description')}</p>
               <a 
                 href="https://exchangerate-api.com/terms" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-orange-600 hover:text-orange-700 font-medium text-sm transition-colors"
+                className="inline-flex items-center gap-1 text-warning hover:text-warning/80 font-medium text-sm transition-colors"
               >
                 {t('privacy.thirdParty.exchangeApi.linkText')}
                 <Globe className="w-4 h-4" />
@@ -138,18 +138,18 @@ export const PrivacyPage = () => {
           </div>
 
           {/* Data Security */}
-          <div className="p-6 border-b border-slate-200">
+          <div className="p-6 border-b border-border">
             <div className="flex items-center gap-3 mb-4">
-              <Lock className="w-6 h-6 text-green-600" />
-              <h2 className="text-xl font-semibold text-slate-800">{t('privacy.security.title')}</h2>
+              <Lock className="w-6 h-6 text-success" />
+              <h2 className="text-xl font-semibold text-foreground">{t('privacy.security.title')}</h2>
             </div>
-            <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-              <p className="text-green-700 text-sm">{t('privacy.security.description')}</p>
-              <ul className="mt-2 text-sm text-green-700 space-y-1">
+            <div className="bg-success/10 p-4 rounded-lg border border-success/20">
+              <p className="text-success/80 text-sm">{t('privacy.security.description')}</p>
+              <ul className="mt-2 text-sm text-success/80 space-y-1">
                 {(t('privacy.security.measures', { returnObjects: true }) as string[]).map((measure, index) => (
                   <li key={index} className="flex items-start gap-2">
-                    <span className="text-green-500 mt-0.5">•</span>
-                    {measure}
+                    <div className="w-1.5 h-1.5 bg-success mt-2 rounded-full flex-shrink-0"></div>
+                    <span>{measure}</span>
                   </li>
                 ))}
               </ul>
@@ -157,29 +157,29 @@ export const PrivacyPage = () => {
           </div>
 
           {/* PWA and Offline Features */}
-          <div className="p-6 border-b border-slate-200">
+          <div className="p-6 border-b border-border">
             <div className="flex items-center gap-3 mb-4">
-              <Download className="w-6 h-6 text-indigo-600" />
-              <h2 className="text-xl font-semibold text-slate-800">{t('privacy.pwa.title')}</h2>
+              <Download className="w-6 h-6 text-info" />
+              <h2 className="text-xl font-semibold text-foreground">{t('privacy.pwa.title')}</h2>
             </div>
-            <p className="text-slate-600 mb-4">{t('privacy.pwa.description')}</p>
-            <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-200">
-              <h3 className="font-medium text-indigo-800 mb-2">{t('privacy.pwa.offlineData.title')}</h3>
-              <p className="text-indigo-700 text-sm">{t('privacy.pwa.offlineData.description')}</p>
+            <p className="text-muted-foreground mb-4">{t('privacy.pwa.description')}</p>
+            <div className="bg-info/10 p-4 rounded-lg border border-info/20">
+              <h3 className="font-medium text-info mb-2">{t('privacy.pwa.offlineData.title')}</h3>
+              <p className="text-info/80 text-sm">{t('privacy.pwa.offlineData.description')}</p>
             </div>
           </div>
 
           {/* Your Rights */}
-          <div className="p-6 border-b border-slate-200">
+          <div className="p-6 border-b border-border">
             <div className="flex items-center gap-3 mb-4">
-              <AlertTriangle className="w-6 h-6 text-yellow-600" />
-              <h2 className="text-xl font-semibold text-slate-800">{t('privacy.rights.title')}</h2>
+              <AlertTriangle className="w-6 h-6 text-warning" />
+              <h2 className="text-xl font-semibold text-foreground">{t('privacy.rights.title')}</h2>
             </div>
-            <p className="text-slate-600 mb-4">{t('privacy.rights.description')}</p>
+            <p className="text-muted-foreground mb-4">{t('privacy.rights.description')}</p>
             <ul className="space-y-2">
               {(t('privacy.rights.list', { returnObjects: true }) as string[]).map((right, index) => (
-                <li key={index} className="flex items-start gap-2 text-slate-600">
-                  <span className="text-yellow-500 mt-0.5">•</span>
+                <li key={index} className="flex items-start gap-2 text-muted-foreground">
+                  <span className="text-warning mt-0.5">•</span>
                   {right}
                 </li>
               ))}
@@ -187,27 +187,27 @@ export const PrivacyPage = () => {
           </div>
 
           {/* Changes to Policy */}
-          <div className="p-6 border-b border-slate-200">
+          <div className="p-6 border-b border-border">
             <div className="flex items-center gap-3 mb-4">
-              <RefreshCw className="w-6 h-6 text-purple-600" />
-              <h2 className="text-xl font-semibold text-slate-800">{t('privacy.changes.title')}</h2>
+              <RefreshCw className="w-6 h-6 text-primary" />
+              <h2 className="text-xl font-semibold text-foreground">{t('privacy.changes.title')}</h2>
             </div>
-            <p className="text-slate-600">{t('privacy.changes.description')}</p>
+            <p className="text-muted-foreground">{t('privacy.changes.description')}</p>
           </div>
 
           {/* Contact */}
           <div className="p-6">
             <div className="flex items-center gap-3 mb-4">
-              <Mail className="w-6 h-6 text-blue-600" />
-              <h2 className="text-xl font-semibold text-slate-800">{t('privacy.contact.title')}</h2>
+              <Mail className="w-6 h-6 text-info" />
+              <h2 className="text-xl font-semibold text-foreground">{t('privacy.contact.title')}</h2>
             </div>
-            <p className="text-slate-600 mb-4">{t('privacy.contact.description')}</p>
-            <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+            <p className="text-muted-foreground mb-4">{t('privacy.contact.description')}</p>
+            <div className="bg-info/10 p-4 rounded-lg border border-info/20">
               <a 
                 href="https://github.com/yashUcr773/currency-converter" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                className="inline-flex items-center gap-2 text-info hover:text-info/80 font-medium transition-colors"
               >
                 <Globe className="w-4 h-4" />
                 {t('privacy.contact.github')}
@@ -220,7 +220,7 @@ export const PrivacyPage = () => {
         <div className="mt-8 text-center">
           <Link 
             to="/" 
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-all duration-200 shadow-lg hover:shadow-xl"
           >
             <ArrowLeft className="w-5 h-5" />
             {t('privacy.backToApp')}

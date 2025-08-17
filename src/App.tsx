@@ -3,19 +3,26 @@ import { useCurrencyConverter } from './hooks/useCurrencyConverter';
 import { useTranslation } from 'react-i18next';
 import { CurrencyInput } from './components/CurrencyInput';
 import { CurrencySelector } from './components/CurrencySelector';
-import { StatusBar } from './components/StatusBar';
+import { CombinedHeader } from './components/CombinedHeader';
 import { LoadingSpinner } from './components/LoadingSpinner';
-import { OfflineNotice } from './components/OfflineNotice';
 import { RefreshWarningModal } from './components/RefreshWarningModal';
 import { DonateButton } from './components/DonateButton';
 import { SEO, StructuredData } from './components/SEO';
-import { PersistenceIndicator } from './components/PersistenceIndicator';
+import { MiniCalculator } from './components/MiniCalculator';
+import { NumberSystemToggle } from './components/NumberSystemToggle';
 import { usePWA } from './hooks/usePWA';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { AlertTriangle, DollarSign, Clock, Calculator, MapPin } from 'lucide-react';
+import { AlertTriangle } from 'lucide-react';
 import { saveActiveTab, getActiveTab, type TabType } from './utils/tabStorage';
+import { storageManager } from './utils/storageManager';
+import type { NumberSystem } from './utils/numberSystem';
 import './App.css';
+
+// Import debug utilities in development
+if (process.env.NODE_ENV === 'development') {
+  import('../dev-tools/storageDebug');
+}
 
 // Lazy load non-critical components
 const AboutButton = lazy(() => import('./components/AboutPage').then(module => ({ default: module.AboutButton })));
@@ -29,18 +36,61 @@ function App() {
   const { t } = useTranslation();
   const [pwaStatus] = usePWA();
   const [activeTab, setActiveTab] = useState<TabType>(() => getActiveTab());
-  const [showPersistenceIndicator, setShowPersistenceIndicator] = useState(false);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [numberSystem, setNumberSystemState] = useState<NumberSystem>('international');
+  const [migrationComplete, setMigrationComplete] = useState(false);
+
+  // Initialize storage and migrate legacy data
+  useEffect(() => {
+    const initializeStorage = async () => {
+      try {
+        // Always run migration on page load to ensure cleanup
+        storageManager.migrateFromLegacyStorage();
+        
+        // Also run aggressive cleanup to remove any remaining legacy keys
+        storageManager.cleanupLegacyKeys();
+        
+        setMigrationComplete(true);
+        
+        // Log current storage state in development
+        if (process.env.NODE_ENV === 'development') {
+          console.log('🔄 Storage migration completed');
+          console.log('📊 Current storage state:', storageManager.getStorageInfo());
+        }
+      } catch (error) {
+        console.error('Failed to initialize storage:', error);
+        setMigrationComplete(true); // Continue even if migration fails
+      }
+    };
+
+    initializeStorage();
+  }, []);
+
+  // Load number system preference from centralized storage
+  useEffect(() => {
+    if (!migrationComplete) return;
+    
+    const preferences = storageManager.getPreferences();
+    const saved = preferences?.numberSystem;
+    if (saved === 'eastern') {
+      setNumberSystemState('indian');
+    } else if (saved === 'western') {
+      setNumberSystemState('international');
+    }
+  }, [migrationComplete]);
+
+  // Save number system preference to centralized storage
+  const setNumberSystem = (system: NumberSystem) => {
+    setNumberSystemState(system);
+    storageManager.updatePreferences({ 
+      numberSystem: system === 'indian' ? 'eastern' : 'western' 
+    });
+    window.dispatchEvent(new CustomEvent('numberSystemChanged', { detail: system }));
+  };
 
   // Save active tab to localStorage whenever it changes
   useEffect(() => {
-    if (!isInitialLoad) {
-      saveActiveTab(activeTab);
-      setShowPersistenceIndicator(true);
-    } else {
-      setIsInitialLoad(false);
-    }
-  }, [activeTab, isInitialLoad]);
+    saveActiveTab(activeTab);
+  }, [activeTab]);
   const {
     pinnedCurrencies,
     exchangeRates,
@@ -86,7 +136,7 @@ function App() {
             </p>
             {pwaStatus.isOnline && (
               <Button
-                onClick={refreshRates}
+                onClick={() => refreshRates(false)}
                 disabled={syncing}
               >
                 {syncing ? t('app.retrying') as string : t('app.retry') as string}
@@ -99,7 +149,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-background">
       {/* SEO and structured data */}
       <SEO />
       <StructuredData />
@@ -107,124 +157,54 @@ function App() {
       {/* Refresh Warning Modal */}
       <RefreshWarningModal />
       
-      {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm shadow-lg border-b border-slate-200">
-        <div className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6 py-3 sm:py-4 lg:py-8">
-          <div className="text-center">
-            <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2 sm:mb-3 lg:mb-4">
-              <div className="p-1.5 sm:p-2 lg:p-3 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg sm:rounded-xl shadow-lg">
-                <svg className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                </svg>
-              </div>
-              <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              {activeTab === 'currency' ? t('app.title') as string : 
-               activeTab === 'timezone' ? 'Timezone Converter' : 
-               activeTab === 'units' ? 'Unit Converter' :
-               activeTab === 'calculators' ? 'Duration & Time Calculator' : 
-               'Travel Itinerary'}
-            </h1>
-          </div>
-          <p className="text-slate-600 text-xs sm:text-sm lg:text-base xl:text-lg font-medium px-2 sm:px-4">
-            {activeTab === 'currency' ? t('app.subtitle') as string : 
-             activeTab === 'timezone' ? 'Real-time timezone conversion across the globe' : 
-             activeTab === 'units' ? 'Convert between different units of measurement' :
-             activeTab === 'calculators' ? 'Calculate time differences, add durations, and analyze dates':
-             'Plan and organize your complete trip itinerary'}
-          </p>
-
-          {/* Tab Navigation */}
-          <div className="mt-4 sm:mt-6 flex justify-center">
-            <div className="inline-flex bg-white/80 backdrop-blur-sm rounded-lg border border-slate-200 shadow-sm p-1">
-              <button
-                onClick={() => setActiveTab('currency')}
-                className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                  activeTab === 'currency'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50'
-                }`}
-              >
-                <DollarSign className="w-4 h-4" />
-                <span className="hidden sm:inline">Currency</span>
-              </button>
-              <button
-                onClick={() => setActiveTab('timezone')}
-                className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                  activeTab === 'timezone'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50'
-                }`}
-              >
-                <Clock className="w-4 h-4" />
-                <span className="hidden sm:inline">Timezone</span>
-              </button>
-              <button
-                onClick={() => setActiveTab('units')}
-                className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                  activeTab === 'units'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50'
-                }`}
-              >
-                <Calculator className="w-4 h-4" />
-                <span className="hidden sm:inline">Units</span>
-              </button>
-              <button
-                onClick={() => setActiveTab('calculators')}
-                className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                  activeTab === 'calculators'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50'
-                }`}
-              >
-                <Clock className="w-4 h-4" />
-                <span className="hidden sm:inline">Duration</span>
-              </button>
-              <button
-                onClick={() => setActiveTab('itinerary')}
-                className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                  activeTab === 'itinerary'
-                    ? 'bg-blue-600 text-white shadow-sm'
-                    : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50'
-                }`}
-              >
-                <MapPin className="w-4 h-4" />
-                <span className="hidden sm:inline">Itinerary</span>
-              </button>
-            </div>
-          </div>
-          </div>
-        </div>
-        
-        {/* Combined Status Bar */}
-        <StatusBar
-          isOnline={pwaStatus.isOnline}
-          lastSync={lastSync}
-          areRatesExpired={areRatesExpired()}
-          syncing={syncing}
-          onRefresh={refreshRates}
-          pinnedCurrencies={pinnedCurrencies}
-        />
-      </header>
+      {/* Combined Header */}
+      <CombinedHeader
+        isOnline={pwaStatus.isOnline}
+        lastSync={lastSync}
+        areRatesExpired={areRatesExpired()}
+        syncing={syncing}
+        onRefresh={refreshRates}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+      />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-12">
-        {/* Offline Notice */}
-        <OfflineNotice />
-        
         {activeTab === 'currency' ? (
           <>
-            {/* Base Currency Indicator */}
+            {/* Combined Currency Info & Tools Island */}
             {exchangeRates && (
               <div className="mb-4 sm:mb-6 lg:mb-8 text-center">
-                <div className="inline-flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2 lg:gap-3 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 bg-white/80 backdrop-blur-sm rounded-lg sm:rounded-xl border border-slate-200 shadow-lg max-w-full">
-                  <span className="text-slate-600 font-medium text-xs sm:text-sm lg:text-base">
-                    {t('app.ratesRelativeTo') as string}
-                  </span>
-                  <span className="font-bold text-sm sm:text-base lg:text-lg text-blue-600">{baseCurrency}</span>
-                  <span className="text-slate-400 text-xs hidden sm:block">
-                    {t('app.tapRateToChangeBase') as string}
-                  </span>
+                <div className="inline-flex flex-col sm:flex-row items-center gap-3 sm:gap-4 lg:gap-6 px-3 sm:px-4 lg:px-6 py-3 sm:py-4 bg-card/80 backdrop-blur-sm rounded-lg sm:rounded-xl border border-border shadow-lg max-w-full">
+                  {/* Base Currency Info */}
+                  <div className="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2">
+                    <span className="text-muted-foreground font-medium text-xs sm:text-sm lg:text-base">
+                      {t('app.ratesRelativeTo') as string}
+                    </span>
+                    <span className="font-bold text-sm sm:text-base lg:text-lg text-primary">{baseCurrency}</span>
+                    <span className="text-muted-foreground text-xs hidden lg:block">
+                      {t('app.tapRateToChangeBase') as string}
+                    </span>
+                  </div>
+                  
+                  {/* Separator */}
+                  <div className="w-full sm:w-px h-px sm:h-6 bg-border"></div>
+                  
+                  {/* Currency Tools */}
+                  <div className="flex items-center gap-2">
+                    <NumberSystemToggle 
+                      system={numberSystem}
+                      onToggle={setNumberSystem}
+                    />
+                    <div className="w-px h-6 bg-border"></div>
+                    <MiniCalculator 
+                      pinnedCurrencies={pinnedCurrencies}
+                      onResult={(value) => {
+                        // Handle calculator result if needed
+                        console.log('Calculator result:', value);
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             )}
@@ -274,10 +254,10 @@ function App() {
 
         {/* Footer Info */}
         <div className="mt-8 sm:mt-12 lg:mt-16 text-center">
-          <div className="inline-flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2 lg:gap-3 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 bg-white/80 backdrop-blur-sm rounded-full border border-slate-200 shadow-lg">
+          <div className="inline-flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2 lg:gap-3 px-3 sm:px-4 lg:px-6 py-2 sm:py-3 bg-card/80 backdrop-blur-sm rounded-full border border-border shadow-lg">
             <div className="flex items-center gap-1.5 sm:gap-2">
-              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-slate-600 text-xs sm:text-sm font-medium">
+              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-success rounded-full animate-pulse"></div>
+              <span className="text-muted-foreground text-xs sm:text-sm font-medium">
                 {activeTab === 'currency' ? t('app.liveRatesFrom') as string : 
                  activeTab === 'timezone' ? 'Real-time timezone data' : 
                  activeTab === 'units' ? 'Real-time unit conversion' :
@@ -298,7 +278,7 @@ function App() {
             </Suspense>
           </div>
           
-          <p className="mt-2 sm:mt-4 text-slate-500 text-xs px-4">
+          <p className="mt-2 sm:mt-4 text-muted-foreground text-xs px-4">
             {activeTab === 'currency' ? t('app.statusInfo') as string : 
              activeTab === 'timezone' ? 'Select a timezone card as base and enter time to convert' : 
              activeTab === 'units' ? 'Enter a value in any unit to see conversions across all other units' :
@@ -307,9 +287,6 @@ function App() {
           </p>
         </div>
       </main>
-
-      {/* Persistence Indicator */}
-      <PersistenceIndicator isActive={showPersistenceIndicator} />
     </div>
   );
 }

@@ -500,5 +500,21 @@
       "description": "If you have questions about this privacy policy or our privacy practices, please contact us through our GitHub repository:",
       "github": "GitHub Repository - Currency Converter"
     }
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out",
+    "profile": "Profile",
+    "account": "Account",
+    "authRequired": "Authentication Required",
+    "signInRequired": "Please sign in to access this feature.",
+    "welcome": "Welcome back!",
+    "createAccount": "Create your account",
+    "loading": "Loading authentication...",
+    "error": "Authentication error occurred",
+    "welcomeTitle": "Create an Account to Save Your Preferences",
+    "welcomeSubtitle": "Keep your favorite currencies, settings, and data synced across all your devices",
+    "joinFree": "Join Free"
   }
 }

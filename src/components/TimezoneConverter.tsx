@@ -71,14 +71,14 @@ export const TimezoneConverter = () => {
       </div>
 
       {/* Timezone Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
         {pinnedTimezones.map((pinnedTimezone) => {
           // Get base timezone offset for difference calculation
           const baseTimezoneInfo = getTimezoneInfo(baseTimezone);
           const baseTimezoneOffset = baseTimezoneInfo?.utcOffset || 0;
           
           return (
-            <div key={pinnedTimezone.timezone.id} className="w-full">
+            <div key={pinnedTimezone.timezone.id} className="w-full min-h-[200px] sm:min-h-[240px]">
               <TimezoneInput
                 pinnedTimezone={pinnedTimezone}
                 onTimeChange={(hour, minute, ampm) => {
@@ -92,14 +92,14 @@ export const TimezoneConverter = () => {
             </div>
           );
         })}
-      </div>
 
-      {/* Timezone Selector */}
-      <div className="min-h-[200px] sm:min-h-[240px]">
-        <TimezoneSelector
-          availableTimezones={getAvailableTimezones()}
-          onSelectTimezone={pinTimezone}
-        />
+        {/* Timezone Selector */}
+        <div className="w-full min-h-[200px] sm:min-h-[240px]">
+          <TimezoneSelector
+            availableTimezones={getAvailableTimezones()}
+            onSelectTimezone={pinTimezone}
+          />
+        </div>
       </div>
 
 

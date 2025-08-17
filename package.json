@@ -2,7 +2,7 @@
   "name": "trip-tools",
   "displayName": "Trip Tools",
   "description": "Every Tool You Need for Every Trip. Professional PWA for currency conversion, timezone management, calculation tools, and travel planning. Supports 150+ currencies, 10+ languages, and works completely offline.",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "private": false,
   "type": "module",
   "keywords": [
@@ -54,10 +54,23 @@
   "scripts": {
     "dev": "node scripts/inject-version.js && vite",
     "build": "node scripts/inject-version.js && tsc -b && vite build",
+    "build:analyze": "npm run build && npx vite-bundle-analyzer dist",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "lint:fix": "eslint . --fix",
+    "preview": "vite preview --port=3001",
+    "type-check": "tsc --noEmit",
+    "test": "echo \"Tests not yet implemented\" && exit 0",
+    "audit": "npm audit --audit-level moderate",
+    "security": "npm audit && npm outdated",
+    "clean": "if exist dist rmdir /s /q dist && if exist node_modules\\.vite rmdir /s /q node_modules\\.vite",
+    "precommit": "npm run lint && npm run type-check",
+    "prebuild": "npm run clean && npm run audit",
+    "health-check": "curl -f http://localhost:3000/health.html || exit 1"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.868.0",
+    "@aws-sdk/lib-dynamodb": "^3.868.0",
+    "@clerk/clerk-react": "^5.42.1",
     "@radix-ui/react-checkbox": "^1.3.2",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-label": "^2.1.7",
@@ -95,7 +108,8 @@
     "tw-animate-css": "^1.3.5",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1",
-    "vite": "^7.0.4"
+    "vite": "^7.0.4",
+    "vite-bundle-analyzer": "^1.2.1"
   },
   "optionalDependencies": {
     "@esbuild/linux-x64": "^0.25.8"
