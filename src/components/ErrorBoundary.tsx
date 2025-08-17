@@ -40,9 +40,36 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
       errorInfo
     });
 
-    // In production, you might want to send this to an error reporting service
-    if (import.meta.env.PROD) {
-      // Example: sendToErrorReporting(error, errorInfo);
+    // In production, send to error reporting service
+    if (import.meta.env.PROD && import.meta.env.VITE_ENABLE_ERROR_REPORTING === 'true') {
+      this.sendErrorReport(error, errorInfo);
+    }
+  }
+
+  private sendErrorReport = async (error: Error, errorInfo: React.ErrorInfo) => {
+    try {
+      const errorReport = {
+        message: error.message,
+        stack: error.stack,
+        componentStack: errorInfo.componentStack,
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent,
+        url: window.location.href,
+        version: (window as Window & { __APP_VERSION__?: string }).__APP_VERSION__ || 'unknown',
+        buildTime: (window as Window & { __BUILD_TIME__?: string }).__BUILD_TIME__ || 'unknown'
+      };
+
+      // You can replace this with your error reporting service
+      console.error('Production Error Report:', errorReport);
+      
+      // Example: Send to a monitoring service
+      // await fetch('/api/errors', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(errorReport)
+      // });
+    } catch (reportingError) {
+      logger.error('Failed to send error report:', reportingError);
     }
   }
 

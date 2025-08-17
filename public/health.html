@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Tools - Health Check</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f8fafc;
+        }
+        .status {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .healthy {
+            background: #dcfce7;
+            border: 1px solid #16a34a;
+            color: #15803d;
+        }
+        .unhealthy {
+            background: #fecaca;
+            border: 1px solid #dc2626;
+            color: #b91c1c;
+        }
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+        .timestamp {
+            font-size: 0.9em;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <h1>Trip Tools - Health Check</h1>
+    
+    <div id="app-status" class="status">
+        <strong>Application Status:</strong> <span id="status-text">Checking...</span>
+        <div class="timestamp">Last checked: <span id="timestamp"></span></div>
+    </div>
+
+    <div class="status healthy">
+        <strong>System Metrics:</strong>
+        <div class="metric">
+            <span>Service Worker:</span>
+            <span id="sw-status">Loading...</span>
+        </div>
+        <div class="metric">
+            <span>Local Storage:</span>
+            <span id="storage-status">Loading...</span>
+        </div>
+        <div class="metric">
+            <span>API Connectivity:</span>
+            <span id="api-status">Loading...</span>
+        </div>
+        <div class="metric">
+            <span>PWA Install:</span>
+            <span id="pwa-status">Loading...</span>
+        </div>
+    </div>
+
+    <script>
+        async function runHealthCheck() {
+            const timestamp = new Date().toISOString();
+            document.getElementById('timestamp').textContent = timestamp;
+            
+            let allHealthy = true;
+            const appStatus = document.getElementById('app-status');
+            const statusText = document.getElementById('status-text');
+
+            // Check Service Worker
+            const swStatus = 'serviceWorker' in navigator ? 'Available' : 'Not Available';
+            document.getElementById('sw-status').textContent = swStatus;
+            if (swStatus === 'Not Available') allHealthy = false;
+
+            // Check Local Storage
+            try {
+                localStorage.setItem('health-check', 'test');
+                localStorage.removeItem('health-check');
+                document.getElementById('storage-status').textContent = 'Working';
+            } catch (error) {
+                document.getElementById('storage-status').textContent = 'Error';
+                allHealthy = false;
+            }
+
+            // Check API Connectivity
+            try {
+                const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+                if (response.ok) {
+                    document.getElementById('api-status').textContent = 'Connected';
+                } else {
+                    document.getElementById('api-status').textContent = 'Error';
+                    allHealthy = false;
+                }
+            } catch (error) {
+                document.getElementById('api-status').textContent = 'Offline';
+                allHealthy = false;
+            }
+
+            // Check PWA Installability
+            const pwaStatus = window.matchMedia('(display-mode: standalone)').matches ? 'Installed' : 'Browser';
+            document.getElementById('pwa-status').textContent = pwaStatus;
+
+            // Update overall status
+            if (allHealthy) {
+                appStatus.className = 'status healthy';
+                statusText.textContent = 'Healthy';
+            } else {
+                appStatus.className = 'status unhealthy';
+                statusText.textContent = 'Issues Detected';
+            }
+        }
+
+        // Run health check on load and every 30 seconds
+        runHealthCheck();
+        setInterval(runHealthCheck, 30000);
+
+        // Add build info
+        document.addEventListener('DOMContentLoaded', () => {
+            const buildInfo = document.createElement('div');
+            buildInfo.className = 'timestamp';
+            buildInfo.innerHTML = `
+                <p>Version: ${window.__APP_VERSION__ || 'Development'}</p>
+                <p>Build Time: ${window.__BUILD_TIME__ || 'Unknown'}</p>
+            `;
+            document.body.appendChild(buildInfo);
+        });
+    </script>
+</body>
+</html>

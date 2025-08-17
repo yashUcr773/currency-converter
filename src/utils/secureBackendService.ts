@@ -46,18 +46,6 @@ class SecureBackendService {
     this.apiUrl = BACKEND_BASE_URL;
   }
 
-  // Get auth token from Clerk
-  private async getAuthToken(): Promise<string | null> {
-    try {
-      // This will be called from hook context, not directly
-      // We'll handle auth in the hook wrapper
-      return null;
-    } catch (error) {
-      logger.error('Failed to get auth token:', error);
-      return null;
-    }
-  }
-
   // Generic API call method
   async apiCall<T>(
     endpoint: string,
@@ -195,7 +183,7 @@ export const secureBackendService = new SecureBackendService();
 // Helper functions for specific data types (compatible with existing code)
 export const cloudStorage = {
   // Main app data (exchange rates, pinned currencies)
-  saveMainData: async (userId: string, data: MainStorageData, deviceId?: string) => {
+  saveMainData: async (userId: string, _data: MainStorageData, deviceId?: string) => {
     logger.log('saveMainData called with userId:', userId, 'deviceId:', deviceId);
     // Auth token will be provided by the calling hook
     return false; // This will be overridden by the hook
@@ -208,7 +196,7 @@ export const cloudStorage = {
   },
 
   // User preferences
-  savePreferences: async (userId: string, data: UserPreferences, deviceId?: string) => {
+  savePreferences: async (userId: string, _data: UserPreferences, deviceId?: string) => {
     logger.log('savePreferences called with userId:', userId, 'deviceId:', deviceId);
     return false; // This will be overridden by the hook
   },
@@ -219,7 +207,7 @@ export const cloudStorage = {
   },
 
   // Itinerary data
-  saveItinerary: async (userId: string, data: SerializedItineraryItem[], deviceId?: string) => {
+  saveItinerary: async (userId: string, _data: SerializedItineraryItem[], deviceId?: string) => {
     logger.log('saveItinerary called with userId:', userId, 'deviceId:', deviceId);
     return false; // This will be overridden by the hook
   },
@@ -230,7 +218,7 @@ export const cloudStorage = {
   },
 
   // Search data
-  saveSearchData: async (userId: string, data: SearchData, deviceId?: string) => {
+  saveSearchData: async (userId: string, _data: SearchData, deviceId?: string) => {
     logger.log('saveSearchData called with userId:', userId, 'deviceId:', deviceId);
     return false; // This will be overridden by the hook
   },
@@ -241,7 +229,7 @@ export const cloudStorage = {
   },
 
   // Timezone cache
-  saveTimezoneCache: async (userId: string, data: TimezoneCache, deviceId?: string) => {
+  saveTimezoneCache: async (userId: string, _data: TimezoneCache, deviceId?: string) => {
     logger.log('saveTimezoneCache called with userId:', userId, 'deviceId:', deviceId);
     return false; // This will be overridden by the hook
   },

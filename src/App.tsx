@@ -21,7 +21,7 @@ import './App.css';
 
 // Import debug utilities in development
 if (process.env.NODE_ENV === 'development') {
-  import('./utils/storageDebug');
+  import('../dev-tools/storageDebug');
 }
 
 // Lazy load non-critical components

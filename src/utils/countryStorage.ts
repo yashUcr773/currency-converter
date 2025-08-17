@@ -12,6 +12,7 @@ export const saveRecentCountry = (country: string, flag: string, timezoneCount: 
   const existingIndex = existing.findIndex(c => c.name.toLowerCase() === country.toLowerCase());
   
   const countryData: RecentCountry = {
+    id: `country-${country.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
     name: country,
     flag,
     lastUsed: Date.now(),
@@ -52,6 +53,7 @@ export const saveSearchTerm = (term: string, resultCount: number): void => {
   const existingIndex = existing.findIndex(s => s.term.toLowerCase() === term.toLowerCase());
   
   const searchData: SearchHistoryItem = {
+    id: `search-${term.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
     term,
     lastUsed: Date.now(),
     resultCount

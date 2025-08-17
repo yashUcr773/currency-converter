@@ -1,7 +1,7 @@
 // Debug utilities for storage management
 // Use these in browser console for debugging storage issues
 
-import { storageManager } from './storageManager';
+import { storageManager } from '../src/utils/storageManager';
 
 // Add debug utilities to global window object for easy access
 declare global {
