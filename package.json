@@ -2,7 +2,7 @@
   "name": "trip-tools",
   "displayName": "Trip Tools",
   "description": "Every Tool You Need for Every Trip. Professional PWA for currency conversion, timezone management, calculation tools, and travel planning. Supports 150+ currencies, 10+ languages, and works completely offline.",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "private": false,
   "type": "module",
   "keywords": [

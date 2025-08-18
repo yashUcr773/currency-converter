@@ -100,13 +100,6 @@ app.get('/test-sync/:dataType', async (req, res) => {
 
 // Catch-all route: redirect all non-API requests to https://triptools.uk
 app.use((req, res, next) => {
-  if (req.path.startsWith('/api/')) {
-    return res.status(404).json({
-      success: false,
-      error: 'Not found',
-      message: 'Endpoint not found'
-    });
-  }
   // Redirect to external frontend
   return res.redirect(302, 'https://triptools.uk');
 });
