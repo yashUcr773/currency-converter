@@ -17,7 +17,6 @@ const SECURITY_HEADERS = {
 
 // Only add CSP in production
 if (!isDevelopment) {
-  SECURITY_HEADERS['Content-Security-Policy'] = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.accounts.dev https://*.clerk.com; style-src 'self' 'unsafe-inline' https://*.clerk.accounts.dev https://*.clerk.com; img-src 'self' data: https: https://*.clerk.accounts.dev https://*.clerk.com; connect-src 'self' https://api.exchangerate-api.com https://*.clerk.accounts.dev https://*.clerk.com https://clerk.com; font-src 'self' data: https://*.clerk.accounts.dev https://*.clerk.com; frame-src https://*.clerk.accounts.dev https://*.clerk.com; worker-src 'self' blob:;";
 }
 
 // Static assets to cache immediately
