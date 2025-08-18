@@ -64,6 +64,7 @@ function App() {
 
     initializeStorage();
   }, []);
+    console.log('trigger')
 
   // Load number system preference from centralized storage
   useEffect(() => {

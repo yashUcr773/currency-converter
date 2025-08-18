@@ -3,6 +3,7 @@
 **Currency and Timezone Conversion — in One Vault**
 
 > 📋 **Note**: This README consolidates all project documentation. All individual `.md` files have been merged into this comprehensive guide.
+<!-- CSP completely disabled -->
 
 # Trip Tools
 

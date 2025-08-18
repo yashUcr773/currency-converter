@@ -7,6 +7,7 @@ const router = Router();
 // GET /api/health - Health check endpoint
 router.get('/', async (req: Request, res: Response) => {
   try {
+    console.log('trigger')
     console.log('Health check endpoint called');
     const dbHealthy = await dataService.healthCheck();
     console.log('DB health check result:', dbHealthy);
