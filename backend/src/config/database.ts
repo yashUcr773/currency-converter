@@ -1,7 +1,6 @@
 import { DynamoDBClient, DescribeTableCommand } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 import { config } from './env';
-console.log("🚀 ~ config:", config)
 
 const client = new DynamoDBClient({
   region: config.aws.region,
