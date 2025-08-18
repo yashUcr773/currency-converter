@@ -14,7 +14,7 @@ router.get('/', async (req: Request, res: Response) => {
     const health = {
       status: dbHealthy ? 'healthy' : 'unhealthy',
       timestamp: new Date().toISOString(),
-      version: '1.0.0',
+      version: '1.1.0',
       environment: config.server.nodeEnv,
       services: {
         database: dbHealthy ? 'connected' : 'disconnected',

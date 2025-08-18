@@ -55,7 +55,7 @@ app.get('/', (req, res) => {
   res.json({
     success: true,
     message: 'Currency Converter Backend API',
-    version: '1.0.0',
+    version: '1.1.0',
     environment: config.server.nodeEnv,
     endpoints: {
       health: '/api/health',
@@ -97,13 +97,18 @@ app.get('/test-sync/:dataType', async (req, res) => {
   }
 });
 
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    error: 'Not found',
-    message: 'Endpoint not found'
-  });
+
+// Catch-all route: redirect all non-API requests to https://triptools.uk
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({
+      success: false,
+      error: 'Not found',
+      message: 'Endpoint not found'
+    });
+  }
+  // Redirect to external frontend
+  res.redirect(302, 'https://triptools.uk');
 });
 
 // Global error handler
