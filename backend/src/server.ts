@@ -108,7 +108,7 @@ app.use((req, res, next) => {
     });
   }
   // Redirect to external frontend
-  res.redirect(302, 'https://triptools.uk');
+  return res.redirect(302, 'https://triptools.uk');
 });
 
 // Global error handler
