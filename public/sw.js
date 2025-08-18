@@ -15,9 +15,7 @@ const SECURITY_HEADERS = {
   'Referrer-Policy': 'strict-origin-when-cross-origin'
 };
 
-// Only add CSP in production
-if (!isDevelopment) {
-}
+// CSP is fully disabled; no Content Security Policy is set by the service worker.
 
 // Static assets to cache immediately
 const STATIC_ASSETS = [
